@@ -1,10 +1,14 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
+import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphSwing.EditAction;
+import com.marginallyClever.nodeGraphSwing.NodeEditPanel;
+import com.marginallyClever.nodeGraphSwing.NodeFactoryPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class ActionEditNodes extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
@@ -16,8 +20,10 @@ public class ActionEditNodes extends AbstractAction implements EditAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Edit node(s)");
-        throw new RuntimeException("Not implemented");
+        List<Node> nodes = editor.getSelectedNodes();
+        if(nodes.isEmpty()) return;
+        Node firstNode = nodes.get(0);
+        NodeEditPanel.runAsDialog(firstNode,(JFrame)SwingUtilities.getWindowAncestor(editor));
     }
 
     @Override

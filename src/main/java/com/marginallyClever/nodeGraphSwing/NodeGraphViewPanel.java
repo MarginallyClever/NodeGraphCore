@@ -193,18 +193,20 @@ public class NodeGraphViewPanel extends JPanel {
 
         FontRenderContext frc = new FontRenderContext(null, false, false);
         TextLayout layout = new TextLayout(str,g.getFont(),frc);
-        Rectangle2D nameR = layout.getBounds();
+        FontMetrics metrics = g.getFontMetrics();
+        int h = metrics.getHeight();
+        int w = metrics.stringWidth(str);
 
         int x,y;
         switch(alignH) {
             default: x = (int)box.getMinX(); break;
-            case ALIGN_RIGHT: x = (int)( box.getMaxX() - nameR.getWidth() ); break;
-            case ALIGN_CENTER: x = (int)( box.getMinX() + (box.getWidth() - nameR.getWidth() )/2); break;
+            case ALIGN_RIGHT: x = (int)( box.getMaxX() - w ); break;
+            case ALIGN_CENTER: x = (int)( box.getMinX() + (box.getWidth() - w )/2); break;
         }
         switch(alignV) {
-            default: y = (int)( box.getMinY() + nameR.getHeight() ); break;
+            default: y = (int)( box.getMinY() + h ); break;
             case ALIGN_BOTTOM: y = (int)( box.getMaxY() ); break;
-            case ALIGN_CENTER: y = (int)( box.getMinY() + (box.getHeight() + nameR.getHeight() )/2); break;
+            case ALIGN_CENTER: y = (int)( box.getMinY() + (box.getHeight() + h )/2); break;
         }
         layout.draw((Graphics2D)g,x,y);
     }
