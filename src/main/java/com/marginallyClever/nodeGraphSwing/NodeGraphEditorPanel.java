@@ -361,8 +361,8 @@ public class NodeGraphEditorPanel extends JPanel {
             } else {
                 NodeVariable<?> vIn = connectionBeingCreated.getInVariable();
                 NodeVariable<?> vOut = connectionBeingCreated.getOutVariable();
-                String nameIn = (vIn==null) ? "null" : vIn.getTypeClass();
-                String nameOut = (vOut==null) ? "null" : vOut.getTypeClass();
+                String nameIn = (vIn==null) ? "null" : vIn.getTypeName();
+                String nameOut = (vOut==null) ? "null" : vOut.getTypeName();
                 System.out.println("Invalid types "+nameOut+", "+nameIn+".");
             }
             // if any of the tests failed, restart.

@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
+import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,17 +29,17 @@ public class ActionLoadGraph extends AbstractAction {
     }
 
     private NodeGraph loadModelFromFile(String absolutePath) {
-        NodeGraph newModel = new NodeGraph();
+        NodeGraph newModel;
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath)))) {
             StringBuilder responseStrBuilder = new StringBuilder();
             String inputStr;
             while ((inputStr = reader.readLine()) != null)
                 responseStrBuilder.append(inputStr);
-            JSONObject modelAsJSON = new JSONObject(responseStrBuilder.toString());
-            newModel.parseJSON(modelAsJSON);
+            newModel = JSONHelper.getDefaultGson().fromJson(responseStrBuilder.toString(), NodeGraph.class);
         } catch(IOException e) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e.getLocalizedMessage());
             e.printStackTrace();
+            newModel = new NodeGraph();
         }
         return newModel;
     }

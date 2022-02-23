@@ -1,5 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
+import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
@@ -35,7 +36,7 @@ public class NodeEditPanel extends JPanel {
 
     private void addTextField(NodeVariable<?> variable,GridBagConstraints c) {
         c.gridx=0;  this.add(new JLabel(variable.getName()),c);
-        c.gridx=1;  this.add(new JLabel(variable.getTypeClass()),c);
+        c.gridx=1;  this.add(new JLabel(variable.getTypeName()),c);
         JTextField textField = new JTextField(variable.getValue().toString());
         c.gridx=2;  this.add(textField,c);
         c.gridy++;
@@ -79,9 +80,7 @@ public class NodeEditPanel extends JPanel {
     }
 
     private static Node deepCopy(Node subject) {
-        Node newNode = subject.create();
-        newNode.parseJSON(subject.toJSON());
-        return newNode;
+        return JSONHelper.deepCopy(subject);
     }
 
     public static void main(String[] args) {

@@ -1,16 +1,16 @@
 package com.marginallyClever.nodeGraphCore;
 
+import com.google.gson.JsonElement;
 import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
 import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Multiply;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Subtract;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +31,7 @@ public class TestNodeGraphCore {
 
     @Test
     public void testSaveEmptyGraph() {
-        assertEquals("{\"nodes\":[],\"nodeConnections\":[]}",model.toJSON().toString());
+        assertEquals("{\"nodes\":[],\"connections\":[]}",JSONHelper.getDefaultGson().toJson(model).replaceAll("\\s+",""));
     }
 
     @Test
@@ -93,7 +93,11 @@ public class TestNodeGraphCore {
     public void testNodesAreNotEqual() {
         Node nodeA = new Add();
         Node nodeB = new Subtract();
-        assertThrows(JSONException.class,()->nodeB.parseJSON(nodeA.toJSON()));
+
+        String asJsonA = JSONHelper.getDefaultGson().toJson(nodeA);
+        String asJsonB = JSONHelper.getDefaultGson().toJson(nodeB);
+
+        assertNotEquals(asJsonA, asJsonB);
         assertNotEquals(nodeA.toString(), nodeB.toString());
     }
 
@@ -101,8 +105,10 @@ public class TestNodeGraphCore {
     public void testAllNodesToJSONAndBack() {
         for(String s : NodeFactory.getNames()) {
             Node a = NodeFactory.createNode(s);
-            Node b = NodeFactory.createNode(s);
-            b.parseJSON(a.toJSON());
+
+            JsonElement element = JSONHelper.getDefaultGson().toJsonTree(a);
+            Node b = JSONHelper.getDefaultGson().fromJson(element, Node.class);
+
             assertEquals(a.toString(),b.toString());
         }
     }
@@ -110,10 +116,8 @@ public class TestNodeGraphCore {
     @Test
     public void testModelToJSONAndBack() {
         testAddTwoConstants();
-
-        JSONObject a = model.toJSON();
-        NodeGraph modelB = new NodeGraph();
-        modelB.parseJSON(a);
+        JsonElement a = JSONHelper.getDefaultGson().toJsonTree(model);
+        NodeGraph modelB = JSONHelper.getDefaultGson().fromJson(a, NodeGraph.class);
         assertEquals(model.toString(),modelB.toString());
     }
 
@@ -129,21 +133,24 @@ public class TestNodeGraphCore {
         NodeVariable<?> a = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instA,false,false);
         NodeVariable<?> b = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instB,false,false);
 
-        JSONObject obj = a.toJSON();
-        b.parseJSON(obj);
+        JSONHelper.deserializeNodeVariable(b, JSONHelper.serializeNodeVariable(a));
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
     }
 
     @Test
     public void testNodeVariablesToJSONAndBack() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        /* removed: it's not possible to serialize back to abstract classes
         testNodeVariableToJSONAndBack(Object.class, new Object(),new Object());
-        testNodeVariableToJSONAndBack(String.class, "hello",new String());
         testNodeVariableToJSONAndBack(Number.class, 1.2,0.0);
-        testNodeVariableToJSONAndBack(Number.class, 1,0);
+         */
+        testNodeVariableToJSONAndBack(Rectangle.class, new Rectangle(),new Rectangle());
+        testNodeVariableToJSONAndBack(String.class, "hello",new String());
+        testNodeVariableToJSONAndBack(Double.class, 1.2D,0.0D);
+        testNodeVariableToJSONAndBack(Integer.class, 1,0);
     }
 
-        @Test
+    @Test
     public void testAddTwoModelsTogether() {
         testAddTwoConstants();
 

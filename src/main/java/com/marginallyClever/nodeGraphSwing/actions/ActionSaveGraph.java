@@ -1,5 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
+import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ public class ActionSaveGraph extends AbstractAction {
 
     private void saveModelToFile(String absolutePath) {
         try(BufferedWriter w = new BufferedWriter(new FileWriter(absolutePath))) {
-            w.write(editor.getGraph().toJSON().toString());
+            w.write(JSONHelper.getDefaultGson().toJson(editor.getGraph()));
         } catch(Exception e) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e.getLocalizedMessage());
             e.printStackTrace();

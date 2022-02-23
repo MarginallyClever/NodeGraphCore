@@ -1,10 +1,8 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.NodeFactory;
+import com.google.gson.annotations.JsonAdapter;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.marginallyClever.nodeGraphCore.json.NodeGraphJsonAdapter;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +13,7 @@ import java.util.List;
 /**
  * {@link NodeGraph} contains the {@link Node}s, and {@link NodeConnection}s
  */
+@JsonAdapter(NodeGraphJsonAdapter.class)
 public class NodeGraph {
     private final List<Node> nodes = new ArrayList<>();
     private final List<NodeConnection> connections = new ArrayList<>();
@@ -135,56 +134,6 @@ public class NodeGraph {
         return null;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jo = new JSONObject();
-        jo.put("nodes",getAllNodesAsJSON());
-        jo.put("nodeConnections",getAllNodeConnectionsAsJSON());
-        return jo;
-    }
-
-    public void parseJSON(JSONObject jo) throws JSONException {
-        clear();
-        parseAllNodesFromJSON(jo.getJSONArray("nodes"));
-        parseAllNodeConnectionsFromJSON(jo.getJSONArray("nodeConnections"));
-        bumpUpIndexableID();
-    }
-
-    private void parseAllNodesFromJSON(JSONArray arr) throws JSONException {
-        for (Object element : arr) {
-            JSONObject o = (JSONObject)element;
-            Node n = NodeFactory.createNode(o.getString("name"));
-            n.parseJSON(o);
-            add(n);
-        }
-    }
-
-    private void parseAllNodeConnectionsFromJSON(JSONArray arr) throws JSONException {
-        for (Object o : arr) {
-            NodeConnection c = new NodeConnection();
-            parseOneConnectionFromJSON(c, (JSONObject)o);
-            add(c);
-        }
-    }
-
-    /**
-     * {@link NodeConnection} must be parsed in the {@link NodeGraph} because only here can we access the list of
-     * nodes to find the one with a matching {@code getUniqueName()}.
-     * @param c the connection to parse into.
-     * @param jo the JSON to parse.
-     */
-    private void parseOneConnectionFromJSON(NodeConnection c, JSONObject jo) {
-        if(jo.has("inNode")) {
-            Node n = findNodeWithUniqueName(jo.getString("inNode"));
-            int i = jo.getInt("inVariableIndex");
-            c.setInput(n,i);
-        }
-        if(jo.has("outNode")) {
-            Node n = findNodeWithUniqueName(jo.getString("outNode"));
-            int i = jo.getInt("outVariableIndex");
-            c.setOutput(n,i);
-        }
-    }
-
     public Node findNodeWithUniqueName(String uniqueName) {
         for(Node n : nodes) {
             if(n.getUniqueName().equals(uniqueName)) return n;
@@ -197,28 +146,12 @@ public class NodeGraph {
      * then the static unique ID will be wrong.  This method bumps the first available unique ID up to the largest value
      * found.  Then the next attempt to create a unique item will be safe.
      */
-    private void bumpUpIndexableID() {
+    public void bumpUpIndexableID() { //TODO THIS SHOULDN'T BE PUBLIC!
         int id=0;
         for(Node n : nodes) {
             id = Math.max(id, n.getUniqueID());
         }
         Node.setUniqueIDSource(id);
-    }
-
-    private JSONArray getAllNodesAsJSON() {
-        JSONArray a = new JSONArray();
-        for (Node n : nodes) {
-            a.put(n.toJSON());
-        }
-        return a;
-    }
-
-    private JSONArray getAllNodeConnectionsAsJSON() {
-        JSONArray a = new JSONArray();
-        for (NodeConnection c : connections) {
-            a.put(c.toJSON());
-        }
-        return a;
     }
 
     /**
@@ -241,13 +174,10 @@ public class NodeGraph {
 
     /**
      * Returns a deep copy of this {@link NodeGraph} by using the JSON serialization methods.
-     * <blockquote><pre>newInstance.parseJSON(this.toJSON());</pre></blockquote>
-     * @return a deep copy of this {@link NodeGraph}
+     * @return the {@link NodeGraph} copy
      */
     public NodeGraph deepCopy() {
-        NodeGraph copy = new NodeGraph();
-        copy.parseJSON(toJSON());
-        return copy;
+        return JSONHelper.deepCopy(this);
     }
 
     /**

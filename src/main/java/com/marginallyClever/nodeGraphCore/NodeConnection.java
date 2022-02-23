@@ -1,8 +1,5 @@
 package com.marginallyClever.nodeGraphCore;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.awt.*;
 import java.util.Objects;
 
@@ -112,19 +109,6 @@ public class NodeConnection {
                 '}';
     }
 
-    public JSONObject toJSON() throws JSONException {
-        JSONObject jo = new JSONObject();
-        if(inNode!=null) {
-            jo.put("inNode",inNode.getUniqueName());
-            jo.put("inVariableIndex",inVariableIndex);
-        }
-        if(outNode!=null) {
-            jo.put("outNode", outNode.getUniqueName());
-            jo.put("outVariableIndex", outVariableIndex);
-        }
-        return jo;
-    }
-
     // the in position of this {@link NodeConnection} is the out position of a {@link NodeVariable}
     public Point getInPosition() {
         return inNode.getOutPosition(inVariableIndex);
@@ -165,6 +149,14 @@ public class NodeConnection {
     @Override
     public int hashCode() {
         return Objects.hash(inNode, inVariableIndex, outNode, outVariableIndex);
+    }
+
+    public int getInVariableIndex() {
+        return inVariableIndex;
+    }
+
+    public int getOutVariableIndex() {
+        return outVariableIndex;
     }
 
     public NodeVariable<?> getInVariable() {

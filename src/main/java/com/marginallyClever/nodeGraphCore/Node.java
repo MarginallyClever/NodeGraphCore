@@ -1,9 +1,7 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.JSONHelper;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.annotations.JsonAdapter;
+import com.marginallyClever.nodeGraphCore.json.NodeJsonAdapter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.List;
  * {@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
  * The operator is defined by extending the {@link Node} class and defining the {@code update()} method.
  */
+@JsonAdapter(NodeJsonAdapter.class)
 public abstract class Node {
     public static final int TITLE_HEIGHT = 25;
 
@@ -21,14 +20,16 @@ public abstract class Node {
 
     private String name;
     private String label;
-    private final List<NodeVariable<?>> variables = new ArrayList<>();
-    private final Rectangle rectangle = new Rectangle();
+    private Rectangle rectangle;
+    private final List<NodeVariable<?>> variables;
 
     public Node(String name) {
         super();
-        uniqueID = ++uniqueIDSource;
+        this.uniqueID = ++uniqueIDSource;
         this.name = name;
-        rectangle.setBounds(0,0,150,50);
+        this.label = "";
+        this.rectangle = new Rectangle(0,0,150,50);
+        this.variables = new ArrayList<>();
     }
 
     /**
@@ -54,16 +55,28 @@ public abstract class Node {
         return uniqueID;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<NodeVariable<?>> getVariables() {
+        return variables;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getUniqueName() {
         return uniqueID+"-"+name;
-    }
-
-    public Rectangle getRectangle() {
-        return rectangle;
     }
 
     /**
@@ -171,52 +184,6 @@ public abstract class Node {
         return y;
     }
 
-    public JSONObject toJSON() throws JSONException {
-        JSONObject jo = new JSONObject();
-        jo.put("name",name);
-        jo.put("uniqueID",uniqueID);
-        jo.put("label", label);
-        jo.put("rectangle", JSONHelper.rectangleToJSON(rectangle));
-        jo.put("variables", getAllVariablesAsJSON());
-        return jo;
-    }
-
-    private JSONArray getAllVariablesAsJSON() {
-        JSONArray vars = new JSONArray();
-        for(NodeVariable<?> v : variables) {
-            vars.put(v.toJSON());
-        }
-        return vars;
-    }
-
-    public void parseJSON(JSONObject jo) throws JSONException {
-        String joName = jo.getString("name");
-        if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
-
-        uniqueID = jo.getInt("uniqueID");
-        if(jo.has("label")) {
-            String s = jo.getString("label");
-            if(!s.equals("null")) label = s;
-        }
-        rectangle.setBounds(JSONHelper.rectangleFromJSON(jo.getJSONObject("rectangle")));
-        parseAllVariablesFromJSON(jo.getJSONArray("variables"));
-    }
-
-    private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {
-        guaranteeSameNumberOfVariables(vars);
-        for(int i=0;i<vars.length();++i) {
-            variables.get(i).parseJSON(vars.getJSONObject(i));
-        }
-    }
-
-    private void guaranteeSameNumberOfVariables(JSONArray vars) throws JSONException {
-        if(vars.length() != variables.size()) {
-            int a = variables.size();
-            int b = vars.length();
-            throw new JSONException("JSON bad number of node variables.  Expected "+a+" found "+b);
-        }
-    }
-
     public String getLabel() {
         return label;
     }
@@ -238,4 +205,6 @@ public abstract class Node {
         rectangle.x += dx;
         rectangle.y += dy;
     }
+
+
 }
