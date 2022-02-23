@@ -42,6 +42,16 @@
         </developer>
     </developers>
 
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>github</id>
+            <name>GitHub MarginallyClever Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/MarginallyClever/NodeGraph</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
@@ -187,7 +197,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minimum.maven.version>3.6.1</minimum.maven.version>
+        <minimum.maven.version>3.8.1</minimum.maven.version>
         <minimum.java.version>15</minimum.java.version>
         <maven-dependency-plugin.ignoreNonCompile>true</maven-dependency-plugin.ignoreNonCompile>
         <maven.compiler.source>${minimum.java.version}</maven.compiler.source>
