@@ -7,13 +7,34 @@
     <groupId>org.marginallyClever</groupId>
     <artifactId>NodeGraphCore</artifactId>
     <version>1.0.0</version>
+    <name>NodeGraphCore</name>
+    <description>Java Node Graph system for Data flow programming.</description>
+    <url>https://github.com/marginallyClever/NodeGraphCore</url>
+
+    <issueManagement>
+        <url>https://github.com/MarginallyClever/NodeGraphCore/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>GPLv3</name>
+            <url>https://opensource.org/licenses/GPL-3.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/MarginallyClever/NodeGraphCore</url>
+        <connection>scm:git:git@github.com:MarginallyClever/NodeGraphCore.git</connection>
+    </scm>
 
     <developers>
         <developer>
             <name>Dan Royer</name>
             <organization>Marginally Clever Robots, Ltd.</organization>
             <email>dan@marginallyclever.com</email>
-            <organizationUrl>http://marginallyclever.com</organizationUrl>
+            <organizationUrl>https://marginallyclever.com</organizationUrl>
             <timezone>GMT-8</timezone>
             <roles>
                 <role>owner</role>
