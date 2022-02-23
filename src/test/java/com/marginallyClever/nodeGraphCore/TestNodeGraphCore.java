@@ -159,9 +159,12 @@ public class TestNodeGraphCore {
         int a0index = modelB.indexOfNode(Add.class);
         int a1index = modelB.indexOfNode(Add.class,a0index+1);
         assertNotEquals(a0index,a1index);
+
         Node a0 = modelB.getNodes().get(a0index);
         Node a1 = modelB.getNodes().get(a1index);
         assertNotEquals(a0,a1);
+        assertNotEquals(a0.getUniqueID(),a1.getUniqueID());
+
         modelB.add(new NodeConnection(a0,2,m,0));
         modelB.add(new NodeConnection(a1,2,m,1));
         modelB.update();

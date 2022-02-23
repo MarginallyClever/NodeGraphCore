@@ -6,7 +6,7 @@
 
     <groupId>org.marginallyClever</groupId>
     <artifactId>NodeGraphCore</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <developers>
         <developer>
@@ -20,6 +20,7 @@
             </roles>
         </developer>
     </developers>
+
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
@@ -33,6 +34,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
