@@ -1,9 +1,5 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.JSONHelper;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.awt.*;
 
 /**
@@ -15,15 +11,15 @@ public class NodeVariable<T> {
     public static final int DEFAULT_WIDTH = 150;
     public static final int DEFAULT_HEIGHT = 20;
 
-    private T value;
-    private final Class<T> type;
+    protected T value;
+    protected final Class<T> type;
 
-    private String name;
-    private boolean hasInput;
-    private boolean hasOutput;
+    protected String name;
+    protected boolean hasInput;
+    protected boolean hasOutput;
 
-    private boolean isDirty;
-    private final Rectangle rectangle = new Rectangle();
+    protected boolean isDirty;
+    protected final Rectangle rectangle = new Rectangle();
 
     private NodeVariable(String _name,Class<T> type,T defaultValue,boolean _hasInput,boolean _hasOutput) {
         super();
@@ -64,7 +60,11 @@ public class NodeVariable<T> {
         }
     }
 
-    public String getTypeClass() {
+    public Class<T> getTypeClass() {
+        return type;
+    }
+
+    public String getTypeName() {
         return type.getSimpleName();
     }
 
@@ -95,27 +95,6 @@ public class NodeVariable<T> {
                 '}';
     }
 
-    public JSONObject toJSON() throws JSONException {
-        JSONObject jo = new JSONObject();
-        jo.put("value",value);
-        jo.put("name",name);
-        jo.put("hasInput",hasInput);
-        jo.put("hasOutput",hasOutput);
-        jo.put("rectangle", JSONHelper.rectangleToJSON(rectangle));
-        jo.put("isDirty",isDirty);
-        return jo;
-    }
-
-    @SuppressWarnings("unchecked")
-    public void parseJSON(JSONObject jo) throws JSONException, ClassCastException {
-        value = (jo.has("value") ? (T)jo.get("value") : null);
-        name = jo.getString("name");
-        hasInput = jo.getBoolean("hasInput");
-        hasOutput = jo.getBoolean("hasOutput");
-        rectangle.setBounds(JSONHelper.rectangleFromJSON(jo.getJSONObject("rectangle")));
-        isDirty = jo.getBoolean("isDirty");
-    }
-
     public boolean getHasOutput() {
         return hasOutput;
     }
@@ -131,4 +110,7 @@ public class NodeVariable<T> {
     public Point getOutPosition() {
         return new Point((int)rectangle.getMaxX(), rectangle.y+rectangle.height/2);
     }
+
+
+
 }
