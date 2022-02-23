@@ -1,8 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyclever.convenience.Bezier;
-import com.marginallyclever.convenience.Point2D;
-import com.marginallyclever.nodeBasedEditor.PrintWithGraphics;
+import com.marginallyClever.nodeGraphCore.PrintWithGraphics;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;

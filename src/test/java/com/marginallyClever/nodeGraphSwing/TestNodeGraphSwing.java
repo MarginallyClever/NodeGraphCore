@@ -29,12 +29,4 @@ public class TestNodeGraphSwing {
     public void beforeEach() {
         model.clear();
     }
-
-    @Test
-    public void testNodeVariablesToJSONAndBack() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Turtle t = new Turtle();
-        t.jumpTo(10,20);
-        t.moveTo(30,40);
-        testNodeVariableToJSONAndBack(Turtle.class, t,new Turtle());
-    }
 }

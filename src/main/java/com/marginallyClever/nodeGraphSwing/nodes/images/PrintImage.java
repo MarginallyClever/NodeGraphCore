@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.nodes.images;
 
-import com.marginallyclever.nodeBasedEditor.PrintWithGraphics;
+import com.marginallyClever.nodeGraphCore.PrintWithGraphics;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
 

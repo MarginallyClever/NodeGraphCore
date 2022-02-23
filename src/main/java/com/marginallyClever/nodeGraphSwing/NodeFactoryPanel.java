@@ -1,9 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyclever.convenience.CommandLineOptions;
-import com.marginallyclever.nodeBasedEditor.NodeFactory;
+import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyclever.util.PreferencesHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,9 +41,6 @@ public class NodeFactoryPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        PreferencesHelper.start();
-        CommandLineOptions.setFromMain(args);
-
         JFrame frame = new JFrame(NodeFactoryPanel.class.getSimpleName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

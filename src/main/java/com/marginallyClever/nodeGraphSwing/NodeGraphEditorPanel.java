@@ -1,8 +1,5 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyclever.convenience.CommandLineOptions;
-import com.marginallyclever.makelangelo.Translator;
-import com.marginallyclever.nodeBasedEditor.NodeFactory;
 import com.marginallyClever.nodeGraphCore.*;
 import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
 import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
@@ -11,7 +8,6 @@ import com.marginallyClever.nodeGraphSwing.actions.*;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 import com.marginallyClever.nodeGraphSwing.nodes.turtle.LoadTurtle;
-import com.marginallyclever.util.PreferencesHelper;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -454,10 +450,6 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        PreferencesHelper.start();
-        CommandLineOptions.setFromMain(args);
-        Translator.start();
-
         NodeFactory.registerBuiltInNodes();
         SwingNodeFactory.registerSwingNodes();
 
