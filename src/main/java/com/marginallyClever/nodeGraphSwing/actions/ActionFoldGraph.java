@@ -3,12 +3,13 @@ package com.marginallyClever.nodeGraphSwing.actions;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphCore.Subgraph;
+import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class ActionFoldGraph extends AbstractAction {
+public class ActionFoldGraph extends AbstractAction implements EditAction {
     private NodeGraphEditorPanel editor;
     private ActionCutGraph actionCutGraph;
 
@@ -28,5 +29,10 @@ public class ActionFoldGraph extends AbstractAction {
         n.setPosition(editor.getPopupPoint());
 
         editor.setCopiedGraph(preserveCopyBehaviour);
+    }
+
+    @Override
+    public void updateEnableStatus() {
+        setEnabled(!editor.getSelectedNodes().isEmpty());
     }
 }

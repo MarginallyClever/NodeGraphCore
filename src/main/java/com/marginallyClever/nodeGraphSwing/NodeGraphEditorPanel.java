@@ -1,12 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
-import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
-import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 import com.marginallyClever.nodeGraphSwing.actions.*;
-import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
-import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -46,24 +41,7 @@ public class NodeGraphEditorPanel extends JPanel {
     private final JToolBar toolBar = new JToolBar();
     private final JPopupMenu popupBar = new JPopupMenu();
 
-    private final ActionNewGraph actionNewGraph = new ActionNewGraph("New",this);
-    private final ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",this);
-    private final ActionLoadGraph actionLoadGraph = new ActionLoadGraph("Load",this);
-    private final ActionUpdateGraph actionUpdateGraph = new ActionUpdateGraph("Update",this);
-
-    private final ActionPrintGraph actionPrintGraph = new ActionPrintGraph("Print",this);
-    private final ActionStraightenGraph actionStraightenGraph = new ActionStraightenGraph("Straighten",this);
-
-    private final ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
-    private final ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
-    private final ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
-    private final ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
-
-    private final ActionAddNode actionAddNode = new ActionAddNode("Add",this);
-    private final ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
-    private final ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
-    private final ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
-    private final ActionUnfoldGraph actionUnfoldGraph = new ActionUnfoldGraph("Unfold",this);
+    private final ArrayList<AbstractAction> actions = new ArrayList<>();
 
     private final NodeConnection connectionBeingCreated = new NodeConnection();
 
@@ -92,8 +70,7 @@ public class NodeGraphEditorPanel extends JPanel {
         this.add(new JScrollPane(paintArea),BorderLayout.CENTER);
 
         setupToolBar();
-        setupPopopBar();
-        setupAccelerators();
+        setupPopupBar();
 
         attachMouseAdapter();
         setupPaintArea();
@@ -178,6 +155,27 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     private void setupToolBar() {
+        ActionNewGraph actionNewGraph = new ActionNewGraph("New",this);
+        ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",this);
+        ActionLoadGraph actionLoadGraph = new ActionLoadGraph("Load",this);
+        ActionUpdateGraph actionUpdateGraph = new ActionUpdateGraph("Update",this);
+
+        ActionPrintGraph actionPrintGraph = new ActionPrintGraph("Print",this);
+        ActionStraightenGraph actionStraightenGraph = new ActionStraightenGraph("Straighten",this);
+
+        actions.add(actionNewGraph);
+        actions.add(actionSaveGraph);
+        actions.add(actionLoadGraph);
+        actions.add(actionUpdateGraph);
+        actions.add(actionPrintGraph);
+        actions.add(actionStraightenGraph);
+
+        actionNewGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
+        actionSaveGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
+        actionLoadGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
+        actionPrintGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
+        actionUpdateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
+
         toolBar.add(actionNewGraph);
         toolBar.add(actionLoadGraph);
         toolBar.add(actionSaveGraph);
@@ -187,7 +185,39 @@ public class NodeGraphEditorPanel extends JPanel {
         toolBar.add(actionStraightenGraph);
     }
 
-    private void setupPopopBar() {
+    private void setupPopupBar() {
+        ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
+        ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
+        ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
+        ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
+
+        ActionAddNode actionAddNode = new ActionAddNode("Add",this);
+        ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
+        ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
+        ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
+        ActionUnfoldGraph actionUnfoldGraph = new ActionUnfoldGraph("Unfold",this);
+
+        actions.add(actionCopyGraph);
+        actions.add(actionPasteGraph);
+        actions.add(actionDeleteGraph);
+        actions.add(actionCutGraph);
+
+        actions.add(actionAddNode);
+        actions.add(actionEditNodes);
+        actions.add(actionForciblyUpdateNodes);
+        actions.add(actionFoldGraph);
+        actions.add(actionUnfoldGraph);
+
+        actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
+        actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
+        actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, KeyEvent.CTRL_DOWN_MASK));
+        actionCutGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
+
+        actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        actionEditNodes.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
+        actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
+        actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
+
         popupBar.add(actionAddNode);
         popupBar.add(actionEditNodes);
         popupBar.add(actionForciblyUpdateNodes);
@@ -199,25 +229,6 @@ public class NodeGraphEditorPanel extends JPanel {
         popupBar.add(actionPasteGraph);
         popupBar.addSeparator();
         popupBar.add(actionDeleteGraph);
-    }
-
-    private void setupAccelerators() {
-        actionNewGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
-        actionSaveGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
-        actionLoadGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
-        actionPrintGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-        actionUpdateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
-
-        actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
-        actionEditNodes.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
-        actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
-        actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
-
-        actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
-        actionCutGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
-        actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-
-        actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, KeyEvent.CTRL_DOWN_MASK));
     }
 
     public void update() {
@@ -391,16 +402,13 @@ public class NodeGraphEditorPanel extends JPanel {
         return selectedNodes;
     }
 
+    // All Actions have the tools to check for themselves if they are active.
     private void updateActionEnableStatus() {
-        boolean notEmpty = !selectedNodes.isEmpty();
-
-        // TODO All Actions have the tools to check for themselves if they are active.
-        actionDeleteGraph.setEnabled(notEmpty);
-        actionEditNodes.setEnabled(notEmpty);
-        actionCopyGraph.setEnabled(notEmpty);
-        actionPasteGraph.setEnabled(!copiedGraph.isEmpty());
-        actionFoldGraph.setEnabled(selectedNodes.size()>1);
-        actionUnfoldGraph.setEnabled(notEmpty); // TODO more checks here?
+        for(AbstractAction a : actions) {
+            if(a instanceof EditAction) {
+                ((EditAction)a).updateEnableStatus();
+            }
+        }
     }
 
     /**

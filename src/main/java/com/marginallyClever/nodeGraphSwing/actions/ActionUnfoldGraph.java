@@ -3,6 +3,7 @@ package com.marginallyClever.nodeGraphSwing.actions;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphCore.Subgraph;
+import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionUnfoldGraph extends AbstractAction {
+public class ActionUnfoldGraph extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 
     public ActionUnfoldGraph(String name, NodeGraphEditorPanel editor) {
@@ -57,5 +58,10 @@ public class ActionUnfoldGraph extends AbstractAction {
         for(Node n : nodeGraph.getNodes()) {
             n.moveRelative(dx,dy);
         }
+    }
+
+    @Override
+    public void updateEnableStatus() {
+        setEnabled(!editor.getSelectedNodes().isEmpty());
     }
 }
