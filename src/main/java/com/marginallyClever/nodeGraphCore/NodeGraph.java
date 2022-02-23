@@ -185,9 +185,9 @@ public class NodeGraph {
         }
     }
 
-    private Node findNodeWithUniqueName(String name) {
+    public Node findNodeWithUniqueName(String uniqueName) {
         for(Node n : nodes) {
-            if(n.getUniqueName().equals(name)) return n;
+            if(n.getUniqueName().equals(uniqueName)) return n;
         }
         return null;
     }
