@@ -29,18 +29,17 @@ jobs:
       timeout-minutes: 15
       run: mvn --batch-mode --update-snapshots package
 
-    - name: Prepare universal package
+    - name: Prepare nightly package
       shell: bash
       run: |
         mkdir -p target/universal-package &&
-        cp src/main/package/avrdude.* src/main/package/firmware.hex src/main/package/*.bat src/main/package/start* src/main/package/thankyou.* target/universal-package/ &&
         cp CONTRIBUTING.md LICENSE README.md target/universal-package/ &&
-        cp target/NodeGraphCore-*-with-dependencies.jar target/universal-package/ &&
+        cp target/NodeGraphCore-*.jar target/universal-package/ &&
         cd target/universal-package/ &&
         7z a -tzip NodeGraphCore.zip . &&
         mv NodeGraphCore.zip ../..
 
-    - name: Deploy universal release
+    - name: Deploy nightly release
       if: github.repository == 'MarginallyClever/NodeGraphCore' && github.ref == 'refs/heads/main'
       uses: WebFreak001/deploy-nightly@v1.1.0
       env:
