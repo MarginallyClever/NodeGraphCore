@@ -9,7 +9,6 @@ env:
 on:
   push:
     branches:
-      - master
       - main
   pull_request:
 
@@ -28,7 +27,7 @@ jobs:
     # from https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
     - name: Build and Test with Maven
       timeout-minutes: 15
-      run: ./mvnw -B test
+      run: mvn --batch-mode --update-snapshots verify
 
     - name: Package with Maven
       run: ./mvnw -B clean package -DskipTests
@@ -45,7 +44,7 @@ jobs:
         mv NodeGraphCore.zip ../..
 
     - name: Deploy universal release
-      if: github.repository == 'MarginallyClever/NodeGraphCore' && github.ref == 'refs/heads/master'
+      if: github.repository == 'MarginallyClever/NodeGraphCore' && github.ref == 'refs/heads/main'
       uses: WebFreak001/deploy-nightly@v1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
