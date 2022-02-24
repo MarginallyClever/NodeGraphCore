@@ -4,6 +4,9 @@ A pure Java implementation of Node based [data flow programming](https://en.wiki
 
 ![img](preview-for-github.png)
 
+Data-flow programming is aesthetically pleasing, greatly reduces the chance of syntax error, and empowering for people
+that are not fluent in the archaic syntax of text-only languages.
+
 ### Features
 
 - Parallel operation: Nodes are not directed or forced to run.  There is little danger of large networks overflowing the stack. 
