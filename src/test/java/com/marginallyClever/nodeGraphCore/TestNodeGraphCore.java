@@ -19,7 +19,7 @@ public class TestNodeGraphCore {
     private static NodeGraph model;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         model = new NodeGraph();
         NodeFactory.registerBuiltInNodes();
     }
