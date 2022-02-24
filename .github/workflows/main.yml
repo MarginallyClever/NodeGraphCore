@@ -1,0 +1,92 @@
+name: Java CI with Maven
+
+env:
+  # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases
+  # in your browser and copy the full "upload_url" value including the {?name,label} part
+  UPLOAD_URL: https://uploads.github.com/repos/MarginallyClever/NodeGraphCore/releases/60280644/assets{?name,label}
+  RELEASE_ID: 60280644 # same as above (id can just be taken out the upload_url, it's used to find old releases)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
+
+    # from https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+    - name: Build and Test with Maven
+      timeout-minutes: 15
+      run: ./mvnw -B test
+
+    - name: Package with Maven
+      run: ./mvnw -B clean package -DskipTests
+
+    - name: Prepare universal package
+      shell: bash
+      run: |
+        mkdir -p target/universal-package &&
+        cp src/main/package/avrdude.* src/main/package/firmware.hex src/main/package/*.bat src/main/package/start* src/main/package/thankyou.* target/universal-package/ &&
+        cp CONTRIBUTING.md LICENSE README.md target/universal-package/ &&
+        cp target/NodeGraphCore-*-with-dependencies.jar target/universal-package/ &&
+        cd target/universal-package/ &&
+        7z a -tzip NodeGraphCore.zip . &&
+        mv NodeGraphCore.zip ../..
+
+    - name: Deploy universal release
+      if: github.repository == 'MarginallyClever/NodeGraphCore' && github.ref == 'refs/heads/master'
+      uses: WebFreak001/deploy-nightly@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+      with:
+        upload_url: ${{ env.UPLOAD_URL }}
+        release_id: ${{ env.RELEASE_ID }}{
+        asset_path: NodeGraphCore.zip # path to archive to upload
+        asset_name: NodeGraphCore-nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: application/zip # required by GitHub API
+        max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
+
+    - name: Upload artifact for package
+      uses: actions/upload-artifact@v2
+      with:
+        name: jar
+        retention-days: 1
+        path: |
+          src/main/package/jpackage*
+          src/main/package/logo*
+          LICENSE
+          target/package/*
+
+  package:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: jar
+
+    - name: Upload artifact for testing purpose
+#      if: github.repository == 'MarginallyClever/NodeGraphCore' || github.ref != 'refs/heads/master'
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.BINARY }}
+        retention-days: 2
+        path: ${{ env.BINARY }}
