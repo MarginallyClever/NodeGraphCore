@@ -56,38 +56,3 @@ jobs:
         asset_name: NodeGraphCore-nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
         asset_content_type: application/zip # required by GitHub API
         max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
-
-    - name: Upload artifact for package
-      uses: actions/upload-artifact@v2
-      with:
-        name: jar
-        retention-days: 1
-        path: |
-          src/main/package/jpackage*
-          src/main/package/logo*
-          LICENSE
-          target/package/*
-
-  package:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-    steps:
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: jar
-
-    - name: Upload artifact for testing purpose
-#      if: github.repository == 'MarginallyClever/NodeGraphCore' || github.ref != 'refs/heads/master'
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.BINARY }}
-        retention-days: 2
-        path: ${{ env.BINARY }}
