@@ -46,7 +46,7 @@
         <repository>
             <uniqueVersion>false</uniqueVersion>
             <id>github</id>
-            <name>GitHub MarginallyClever Apache Maven Packages</name>
+            <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/MarginallyClever/NodeGraph</url>
             <layout>default</layout>
         </repository>
