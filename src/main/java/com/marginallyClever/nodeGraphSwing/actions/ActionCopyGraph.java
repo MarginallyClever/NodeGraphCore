@@ -17,8 +17,16 @@ import java.util.List;
  * @since 2022-02-21
  */
 public class ActionCopyGraph extends AbstractAction implements EditAction {
+    /**
+     * The editor being affected.
+     */
     private final NodeGraphEditorPanel editor;
 
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     */
     public ActionCopyGraph(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;

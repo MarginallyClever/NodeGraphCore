@@ -19,6 +19,9 @@ public class LoadImage extends Node {
     private final NodeVariable<Number> width = NodeVariable.newInstance("width",Number.class,0,false,true);
     private final NodeVariable<Number> height = NodeVariable.newInstance("height",Number.class,0,false,true);
 
+    /**
+     * Constructor for subclasses to call.
+     */
     public LoadImage() {
         super("LoadImage");
         addVariable(filename);
@@ -27,6 +30,10 @@ public class LoadImage extends Node {
         addVariable(height);
     }
 
+    /**
+     * Constructor that sets a starting value
+     * @param filename the starting value.
+     */
     public LoadImage(String filename) {
         this();
         this.filename.setValue(filename);

@@ -15,9 +15,21 @@ import java.awt.event.ActionEvent;
  * @since 2022-02-21
  */
 public class ActionFoldGraph extends AbstractAction implements EditAction {
+    /**
+     * The editor being affected.
+     */
     private NodeGraphEditorPanel editor;
+    /**
+     * The cut action on which this action depends.
+     */
     private ActionCutGraph actionCutGraph;
 
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     * @param actionCutGraph the cut action to use with this Action.
+     */
     public ActionFoldGraph(String name, NodeGraphEditorPanel editor, ActionCutGraph actionCutGraph) {
         super(name);
         this.editor = editor;

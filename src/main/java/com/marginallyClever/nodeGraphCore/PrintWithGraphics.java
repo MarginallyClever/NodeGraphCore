@@ -7,5 +7,9 @@ package com.marginallyClever.nodeGraphCore;
  * @since 2022-02-01
  */
 public interface PrintWithGraphics {
+    /**
+     * Called when the implementing class should paint.
+     * @param g the {@link java.awt.Graphics} context.
+     */
     void print(java.awt.Graphics g);
 }

@@ -12,14 +12,23 @@ import java.util.List;
 
 /**
  * {@link NodeGraph} contains the {@link Node}s, and {@link NodeConnection}s
+ * @author Dan Royer
+ * @since 2022-02-01
  */
 @JsonAdapter(NodeGraphJsonAdapter.class)
 public class NodeGraph {
+    /**
+     * The list of all {@link Node} in this graph.
+     */
     private final List<Node> nodes = new ArrayList<>();
+
+    /**
+     * The list of all {@link NodeConnection} in this graph.
+     */
     private final List<NodeConnection> connections = new ArrayList<>();
 
     /**
-     * Default constructor.  Creates an empty {@link NodeGraph}.
+     * Constructor for subclasses to call.  Creates an empty {@link NodeGraph}.
      */
     public NodeGraph() {
         super();
@@ -84,6 +93,10 @@ public class NodeGraph {
         return connection;
     }
 
+    /**
+     * Remove one {@link NodeConnection} from this graph.
+     * @param c the item to remove.
+     */
     public void remove(NodeConnection c) {
         connections.remove(c);
     }
@@ -151,6 +164,11 @@ public class NodeGraph {
         return null;
     }
 
+    /**
+     * Returns the Node that matches the unique name, or null.
+     * @param uniqueName the string to match.
+     * @return the Node that matches the unique name, or null.
+     */
     public Node findNodeWithUniqueName(String uniqueName) {
         for(Node n : nodes) {
             if(n.getUniqueName().equals(uniqueName)) return n;
@@ -236,16 +254,25 @@ public class NodeGraph {
         return i;
     }
 
-    public List<Node> getNodesInRectangle(Rectangle2D selectionArea) {
-        if(selectionArea==null) throw new InvalidParameterException("selectionArea cannot be null.");
+    /**
+     * Returns a {@link List} of all {@link Node}s that intersect the given rectangle
+     * @param searchArea the search area
+     * @return a {@link List} of all {@link Node}s that intersect the given rectangle
+     */
+    public List<Node> getNodesInRectangle(Rectangle2D searchArea) {
+        if(searchArea==null) throw new InvalidParameterException("selectionArea cannot be null.");
         ArrayList<Node> found = new ArrayList<>();
         for(Node n : nodes) {
             Rectangle r = n.getRectangle();
-            if(selectionArea.intersects(r)) found.add(n);
+            if(searchArea.intersects(r)) found.add(n);
         }
         return found;
     }
 
+    /**
+     * Returns true if the node list is empty.
+     * @return true if the node list is empty.
+     */
     public boolean isEmpty() {
         return nodes.isEmpty();
     }

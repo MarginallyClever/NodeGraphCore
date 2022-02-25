@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * {@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
  * The operator is defined by extending the {@link Node} class and defining the {@code update()} method.
+ * @author Dan Royer
+ * @since 2022-02-01
  */
 @JsonAdapter(NodeJsonAdapter.class)
 public abstract class Node {
@@ -33,7 +35,13 @@ public abstract class Node {
 
     private final List<NodeVariable<?>> variables;
 
-    public Node(String name) {
+    /**
+     * Default constructor
+     * @param name the name of the class of this type of Node, for serialization and user selection.
+     *             Developers of derived classes should not change this name after it is in production
+     *             - it will break serialization.
+     */
+    protected Node(String name) {
         super();
         this.uniqueID = ++uniqueIDSource;
         this.name = name;
@@ -49,42 +57,75 @@ public abstract class Node {
      */
     public abstract Node create();
 
+    /**
+     * Adjust the UniqueIDSource, the global number used to guarantee unique names for all classes.
+     * Be very careful messing with this number!  It is exposed here for folding, unfolding, and serialization.
+     * @param index the new value.
+     */
     public static void setUniqueIDSource(int index) {
         uniqueIDSource=index;
     }
 
+    /**
+     * Returns the current uniqueIDSource.
+     * @return the current uniqueIDSource.
+     */
     public static int getUniqueIDSource() {
         return uniqueIDSource;
     }
 
-    public void setUniqueID(int i) {
-        uniqueID=i;
+    /**
+     * Sets the unique ID of this Node.
+     * @param id the new ID value.
+     */
+    public void setUniqueID(int id) {
+        uniqueID=id;
     }
 
+    /**
+     * Returns the unique ID of this Node.
+     * @return the unique ID of this Node.
+     */
     public int getUniqueID() {
         return uniqueID;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Returns the list of variables in this node.
+     * @return the list of variables in this node.
+     */
     public List<NodeVariable<?>> getVariables() {
         return variables;
     }
 
+    /**
+     * Sets the bounding rectangle for this node.
+     * @param rectangle the new bounds.
+     */
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
 
+    /**
+     * Returns the bounding rectangle for this node.
+     * @return the bounding rectangle for this node.
+     */
     public Rectangle getRectangle() {
         return rectangle;
     }
 
+    /**
+     * Returns the name of this node.
+     * @return the name of this node.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the unique name of this node, a combination of unique ID and name.
+     * @return the unique name of this node, a combination of unique ID and name.
+     */
     public String getUniqueName() {
         return uniqueID+"-"+name;
     }
@@ -104,6 +145,9 @@ public abstract class Node {
         update();
     }
 
+    /**
+     * Recalculate the bounds of this node.
+     */
     public void updateBounds() {
         int w=(int)rectangle.getWidth();
         int h=Node.TITLE_HEIGHT;
@@ -119,6 +163,7 @@ public abstract class Node {
         rectangle.width=w;
         rectangle.height=h;
     }
+
     /**
      * Check if any variables are dirty.
      * @return true if any variables are dirty.
@@ -139,24 +184,45 @@ public abstract class Node {
         }
     }
 
+    /**
+     * Set all outputs to not dirty.
+     */
     public void cleanAllOutputs() {
         for(NodeVariable<?> v : variables) {
             if(v.getHasOutput()) v.setIsDirty(false);
         }
     }
 
-    public void addVariable(NodeVariable v) {
+    /**
+     * Add a {@link NodeVariable} to this node.
+     * @param v the new {@link NodeVariable}
+     */
+    protected void addVariable(NodeVariable v) {
         variables.add(v);
     }
 
-    public void removeVariable(NodeVariable v) {
+    /**
+     * Remove a {@link NodeVariable} from this node.
+     * @param v the old {@link NodeVariable}
+     */
+    protected void removeVariable(NodeVariable v) {
         variables.remove(v);
     }
 
+    /**
+     * Returns the number of variables in this node.
+     * @return the number of variables in this node.
+     */
     public int getNumVariables() {
         return variables.size();
     }
 
+    /**
+     * Get the i-th {@link NodeVariable} in this node.
+     * @param index the index.
+     * @return the i-th {@link NodeVariable} in this node.
+     * @throws IndexOutOfBoundsException when an invalid index is requested.
+     */
     public NodeVariable<?> getVariable(int index) throws IndexOutOfBoundsException {
         return variables.get(index);
     }
@@ -172,12 +238,22 @@ public abstract class Node {
                 '}';
     }
 
+    /**
+     * Returns the center of the input connection point of the requested {@link NodeVariable}.
+     * @param index the requested index
+     * @return the center of the input connection point of the requested {@link NodeVariable}.
+     */
     public Point getInPosition(int index) {
         Rectangle r = getRectangle();
         Point p = new Point(r.x,r.y+(int)getPointHeight(index));
         return p;
     }
 
+    /**
+     * Returns the center of the output connection point of the requested {@link NodeVariable}.
+     * @param index the requested index
+     * @return the center of the output connection point of the requested {@link NodeVariable}.
+     */
     public Point getOutPosition(int index) {
         Rectangle r = getRectangle();
         Point p = new Point(r.x+r.width,r.y+(int)getPointHeight(index));
@@ -194,10 +270,18 @@ public abstract class Node {
         return y;
     }
 
+    /**
+     * Returns the label (nickname) of this node.
+     * @return the label (nickname) of this node.
+     */
     public String getLabel() {
         return label;
     }
 
+    /**
+     * Sets the label for this node.
+     * @param str the new label.
+     */
     public void setLabel(String str) {
         label=str;
     }
@@ -211,10 +295,13 @@ public abstract class Node {
         rectangle.y=point.y;
     }
 
+    /**
+     * Move this node some relative cartesian value.
+     * @param dx the x axis amount.
+     * @param dy the y axis amount.
+     */
     public void moveRelative(int dx, int dy) {
         rectangle.x += dx;
         rectangle.y += dy;
     }
-
-
 }

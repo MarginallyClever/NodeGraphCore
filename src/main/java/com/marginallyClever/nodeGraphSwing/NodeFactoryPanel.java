@@ -15,15 +15,29 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 2022-02-11
  */
 public class NodeFactoryPanel extends JPanel {
+    /**
+     * the list of names from the {@link NodeFactory}.
+     */
     private final JComboBox<String> names = new JComboBox<>(NodeFactory.getNames());
+    /**
+     * The button that initiates the add action.
+     */
     private final JButton confirmButton = new JButton("Add");
 
+    /**
+     * Constructor for subclasses to call.
+     */
     public NodeFactoryPanel() {
         super(new BorderLayout());
         this.add(names,BorderLayout.CENTER);
         this.add(confirmButton,BorderLayout.SOUTH);
     }
 
+    /**
+     * Runs the panel as a dialog.
+     * @param frame the parent frame.
+     * @return the node created, or null.
+     */
     public static Node runAsDialog(Frame frame) {
         JDialog dialog = new JDialog(frame,"Add Node", Dialog.ModalityType.DOCUMENT_MODAL);
 
@@ -47,6 +61,10 @@ public class NodeFactoryPanel extends JPanel {
         return result.get();
     }
 
+    /**
+     * main entry point.  Good for independent test.
+     * @param args command line arguments.
+     */
     public static void main(String[] args) {
         BuiltInNodeRegistry.registerNodes();
         SwingNodeRegistry.registerNodes();

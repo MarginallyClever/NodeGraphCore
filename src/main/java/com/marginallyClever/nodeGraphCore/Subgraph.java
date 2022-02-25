@@ -24,12 +24,22 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         }
     }
 
+    /**
+     * exposed inputs and outputs from the subgraph contents.
+     */
     private ArrayList<VariablePair> pairs = new ArrayList<>();
 
+    /**
+     * Constructor for subclasses to call.
+     */
     public Subgraph() {
         super("SubGraph");
     }
 
+    /**
+     * Constructor for subclasses to call.
+     * @param graph the contents of this subgraph.
+     */
     public Subgraph(NodeGraph graph) {
         this();
         setGraph(graph);
@@ -58,6 +68,10 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         this.updateBounds();
     }
 
+    /**
+     * Find all {@link SupergraphOutput} of a node and remember them for later.
+     * @param n the node to scan
+     */
     private void extractSupergraphOutputs(Node n) {
         if(n instanceof SupergraphOutput) {
             System.out.println("SupergraphOutput "+n.getUniqueName());
@@ -71,6 +85,10 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         }
     }
 
+    /**
+     * Find all {@link SupergraphInput} of a node and remember them for later.
+     * @param n the node to scan
+     */
     private void extractSupergraphInputs(Node n) {
         if(n instanceof SupergraphInput) {
             System.out.println("SupergraphInput "+n.getUniqueName());
@@ -84,6 +102,12 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         }
     }
 
+    /**
+     * Sort variables so that inputs are first in a node, then by name alphabetically
+     * @param a pair a
+     * @param b pair b
+     * @return the sorting test result
+     */
     private int sortVariables(VariablePair a, VariablePair b) {
         // all input first
         int aIn = (a.subVariable.getHasInput())?1:0;
@@ -93,11 +117,19 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         return a.subVariable.getName().compareTo(b.subVariable.getName());
     }
 
+    /**
+     * Create and store a supergraph/subgraph variable pair.
+     * @param v subgraph variable.
+     */
     private void addToPairs(NodeVariable<?> v) {
         VariablePair p = new VariablePair(v);
         pairs.add(p);
     }
 
+    /**
+     * Returns the {@link NodeGraph} within this {@link Subgraph}
+     * @return the {@link NodeGraph} within this {@link Subgraph}
+     */
     public NodeGraph getGraph() {
         return graph;
     }

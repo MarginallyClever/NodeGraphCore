@@ -20,7 +20,7 @@ public class NodeConnection {
     private int outVariableIndex=-1;
 
     /**
-     * public default constructor.
+     * public Constructor for subclasses to call.
      */
     public NodeConnection() {
         super();

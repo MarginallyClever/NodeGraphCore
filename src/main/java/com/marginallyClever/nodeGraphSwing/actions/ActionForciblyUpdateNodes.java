@@ -14,8 +14,16 @@ import java.awt.event.ActionEvent;
  * @since 2022-02-21
  */
 public class ActionForciblyUpdateNodes extends AbstractAction implements EditAction {
+    /**
+     * The editor being affected.
+     */
     private final NodeGraphEditorPanel editor;
 
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     */
     public ActionForciblyUpdateNodes(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;

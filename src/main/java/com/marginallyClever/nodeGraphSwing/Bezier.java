@@ -18,7 +18,18 @@ public class Bezier {
     
 	private double x0,x1,x2,x3;
 	private double y0,y1,y2,y3;
-    
+
+    /**
+     * Default constructor that takes four control points.
+     * @param x0 control point 1
+     * @param y0 control point 1
+     * @param x1 control point 2
+     * @param y1 control point 2
+     * @param x2 control point 3
+     * @param y2 control point 3
+     * @param x3 control point 4
+     * @param y3 control point 4
+     */
 	public Bezier(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
 		this.x0=x0;
 		this.y0=y0;
@@ -29,9 +40,15 @@ public class Bezier {
 		this.x3=x3;
 		this.y3=y3;
 	}
-	
-	// Based on https://github.com/pelson/antigrain/blob/master/agg-2.4/src/agg_curves.cpp
-	// and https://github.com/mattdesl/adaptive-bezier-curve
+
+
+    /**
+     * Returns a list of points along the curve.
+     * Based on <a href='https://github.com/pelson/antigrain/blob/master/agg-2.4/src/agg_curves.cpp'>pelson/antigrain</a>
+     * and <a href='https://github.com/mattdesl/adaptive-bezier-curve'>mattdesl/adaptive-bezier-curve</a>.
+     * @param distanceTolerance the allowed tolerance.
+     * @return a list of points along the curve.
+     */
 	public List<Point2D> generateCurvePoints(double distanceTolerance) {
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		points.add(new Point2D(x0,y0));
@@ -39,7 +56,21 @@ public class Bezier {
 		points.add(new Point2D(x3,y3));
 		return points;
 	}
-	
+
+    /**
+     * Recursively subdivide the curve based on distance tolerance
+     * @param x1 control point 1
+     * @param y1 control point 1
+     * @param x2 control point 2
+     * @param y2 control point 2
+     * @param x3 control point 3
+     * @param y3 control point 3
+     * @param x4 control point 4
+     * @param y4 control point 4
+     * @param points where to store the generated points
+     * @param distanceTolerance the allowed tolerance.
+     * @param level to prevent infinite recursion.
+     */
 	private void recursive(double x1,double y1,double x2,double y2,double x3,double y3,double x4,double y4,ArrayList<Point2D> points, double distanceTolerance,int level) {
         if(level > recursionLimit) 
             return;
@@ -168,7 +199,11 @@ public class Bezier {
         recursive(x1, y1, x12, y12, x123, y123, x1234, y1234, points, distanceTolerance, level + 1);
         recursive(x1234, y1234, x234, y234, x34, y34, x4, y4, points, distanceTolerance, level + 1);
 	}
-	
+
+    /**
+     * Returns a list of points along the curve.
+     * @return a list of points along the curve.
+     */
 	protected ArrayList<Point2D> generateCurvePointsOld() {
 		ArrayList<Point2D> list = new ArrayList<Point2D>();
 		list.add(new Point2D(x0,y0));
@@ -204,8 +239,12 @@ public class Bezier {
 		
 		return list;
 	}
-	
-	// for some value t=[0...1]
+
+    /**
+     * Returns the x value of the curve at t.
+     * @param t some value t=[0...1]
+     * @return the x value of the curve at t.
+     */
 	double getXAt(double t) {
         double a = Math.pow((1.0 - t), 3.0);
         double b = 3.0 * t * Math.pow((1.0 - t), 2.0);
@@ -215,7 +254,11 @@ public class Bezier {
         return a * x0 + b * x1 + c * x2 + d * x3;
 	}
 
-	// for some value t=[0...1]
+    /**
+     * Returns the y value of the curve at t.
+     * @param t some value t=[0...1]
+     * @return the y value of the curve at t.
+     */
 	double getYAt(double t) {
         double a = Math.pow((1.0 - t), 3.0);
         double b = 3.0 * t * Math.pow((1.0 - t), 2.0);
@@ -225,6 +268,14 @@ public class Bezier {
         return a * y0 + b * y1 + c * y2 + d * y3;
 	}
 
+    /**
+     * linear interpolation equivalent to
+     * <pre>(b-a) * fraction + a</pre>
+     * @param a the starting position
+     * @param b the ending position
+     * @param fraction some value assumed to be between 0....1, inclusive.
+     * @return the interpolated position.
+     */
 	protected double lerp(double a,double b,double fraction) {
 		return ( b - a ) * fraction + a;
 	}

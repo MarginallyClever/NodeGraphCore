@@ -30,7 +30,7 @@ public class NodeEditPanel extends JPanel {
     private final ArrayList<JTextField> fields = new ArrayList<>();
 
     /**
-     * The default constructor.
+     * The Constructor for subclasses to call.
      * @param node the {@link Node} to edit.
      */
     public NodeEditPanel(Node node) {
@@ -53,6 +53,11 @@ public class NodeEditPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds one variable to the panel as a label/text field pair.
+     * @param variable the {@link NodeVariable} to add.
+     * @param c {@link GridBagConstraints} for placement.
+     */
     private void addTextField(NodeVariable<?> variable,GridBagConstraints c) {
         c.gridx=0;  this.add(new JLabel(variable.getName()),c);
         c.gridx=1;  this.add(new JLabel(variable.getTypeName()),c);
@@ -62,6 +67,10 @@ public class NodeEditPanel extends JPanel {
         fields.add(textField);
     }
 
+    /**
+     * Adds the node 'label' field to the edit panel.
+     * @param c {@link GridBagConstraints} for placement.
+     */
     private void addLabelField(GridBagConstraints c) {
         c.gridx=0;
         this.add(new JLabel("Label"),c);
@@ -71,6 +80,12 @@ public class NodeEditPanel extends JPanel {
         c.gridy++;
     }
 
+    /**
+     * Adds one read-only label/value pair to the edit panel.
+     * @param c {@link GridBagConstraints} for placement.
+     * @param name the label
+     * @param value the value
+     */
     private void addReadOnlyField(GridBagConstraints c,String name,String value) {
         c.gridx=0;
         this.add(new JLabel(name),c);
@@ -93,14 +108,27 @@ public class NodeEditPanel extends JPanel {
         }
     }
 
+    /**
+     * Returns the value of the label field
+     * @return the value of the label field
+     */
     private String getLabel() {
         return labelField.getText();
     }
 
+    /**
+     * Performs a deep copy of the subject
+     * @param subject the node to copy.
+     * @return the copy.
+     */
     private static Node deepCopy(Node subject) {
         return JSONHelper.deepCopy(subject);
     }
 
+    /**
+     * main entry point.  Good for independent test.
+     * @param args command line arguments.
+     */
     public static void main(String[] args) {
         // a test case
         Node node = new Add();

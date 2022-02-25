@@ -10,7 +10,7 @@ public class Point2D {
 	public double x,y;
 
 	/**
-	 * Default constructor.
+	 * Constructor for subclasses to call.
 	 */
 	public Point2D() {}
 

@@ -23,11 +23,17 @@ public class TestNodeGraphSwing {
         SwingNodeRegistry.registerNodes();
     }
 
+    /**
+     * Reset
+     */
     @BeforeEach
     public void beforeEach() {
         model.clear();
     }
 
+    /**
+     * Make sure all nodes introduced in this package can be created.
+     */
     @Test
     public void testFactoryCreatesAllSwingTypes() {
         assertNotEquals(0,NodeFactory.getNames().length);

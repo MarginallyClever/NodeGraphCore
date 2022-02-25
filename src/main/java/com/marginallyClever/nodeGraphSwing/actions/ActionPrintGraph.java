@@ -19,10 +19,22 @@ import java.io.IOException;
  * @since 2022-02-21
  */
 public class ActionPrintGraph extends AbstractAction {
-    public static final String SAVE_PATH = "saved.png";
-
+    /**
+     * The editor being affected.
+     */
     private final NodeGraphEditorPanel editor;
 
+    /**
+     * The default save file.
+     */
+    public static final String SAVE_PATH = "saved.png";
+
+
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     */
     public ActionPrintGraph(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;

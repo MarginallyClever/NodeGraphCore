@@ -3,10 +3,15 @@ package com.marginallyClever.nodeGraphCore;
 import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
 import com.marginallyClever.nodeGraphCore.builtInNodes.LoadString;
 import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
+import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalAnd;
+import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalNot;
+import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalOr;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.*;
 
 /**
- *
+ * Registers built-in {@link Node}s to the {@link NodeFactory}.
+ * @author Dan Royer
+ * @since 2022-02-01
  */
 public class BuiltInNodeRegistry {
     /**
@@ -28,5 +33,9 @@ public class BuiltInNodeRegistry {
         NodeFactory.registerNode(new Max());
 
         NodeFactory.registerNode(new LoadString());
+
+        NodeFactory.registerNode(new LogicalOr());
+        NodeFactory.registerNode(new LogicalAnd());
+        NodeFactory.registerNode(new LogicalNot());
     }
 }

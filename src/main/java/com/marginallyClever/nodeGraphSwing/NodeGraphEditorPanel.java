@@ -122,6 +122,10 @@ public class NodeGraphEditorPanel extends JPanel {
         updateActionEnableStatus();
     }
 
+    /**
+     * Sets up the editor as a {@link NodeGraphViewListener} so that it can add editor-specific decorations to the
+     * painted nodes.
+     */
     private void setupPaintArea() {
         paintArea.addViewListener((g,e)->{
             highlightSelectedNodes(g);
@@ -135,12 +139,20 @@ public class NodeGraphEditorPanel extends JPanel {
         paintArea.repaint();
     }
 
+    /**
+     * Paints the cursor to the panel for reference.
+     * @param g the {@link Graphics} context
+     */
     private void paintCursor(Graphics g) {
         int r=5;
         g.setColor(Color.YELLOW);
         g.drawArc(mousePreviousPosition.x-r,mousePreviousPosition.y-r,r*2,r*2,0,360);
     }
 
+    /**
+     * Paints Node boundaries in a highlighted color.
+     * @param g the {@link Graphics} context
+     */
     private void highlightSelectedNodes(Graphics g) {
         if(selectedNodes.isEmpty()) return;
 
@@ -150,8 +162,11 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
+    /**
+     * Paints a connection as it is being made
+     * @param g the {@link Graphics} context
+     */
     private void paintConnectionBeingMade(Graphics g) {
-        // draw a connection as it is being made
         if(connectionBeingCreated.isInputValid() || connectionBeingCreated.isOutputValid()) {
             g.setColor(Color.RED);
             setLineWidth(g,3);
@@ -172,7 +187,10 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
-    // draw the connection point under the cursor
+    /**
+     * Paints the connection point under the cursor
+     * @param g the {@link Graphics} context
+     */
     private void highlightNearbyConnectionPoint(Graphics g) {
         if(lastConnectionPoint !=null) {
             g.setColor(CONNECTION_POINT_COLOR_SELECTED);
@@ -182,6 +200,10 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
+    /**
+     * Paints the rectangle selection area.
+     * @param g the {@link Graphics} context
+     */
     private void paintSelectionArea(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
         Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
@@ -192,11 +214,19 @@ public class NodeGraphEditorPanel extends JPanel {
         g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth(),(int)r.getHeight());
     }
 
+    /**
+     * Sets the Graphics context line width.
+     * @param g the {@link Graphics} context
+     * @param r thew new line width.
+     */
     private void setLineWidth(Graphics g,float r) {
         Graphics2D g2 = (Graphics2D)g;
         g2.setStroke(new BasicStroke(r));
     }
 
+    /**
+     * Populates the toolBar with actions and assigns accelerator keys.
+     */
     private void setupToolBar() {
         ActionNewGraph actionNewGraph = new ActionNewGraph("New",this);
         ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",this);
@@ -228,6 +258,9 @@ public class NodeGraphEditorPanel extends JPanel {
         toolBar.add(actionStraightenGraph);
     }
 
+    /**
+     * Populates the popupBar with actions and assigns accelerator keys.
+     */
     private void setupPopupBar() {
         ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
         ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
@@ -274,6 +307,9 @@ public class NodeGraphEditorPanel extends JPanel {
         popupBar.add(actionDeleteGraph);
     }
 
+    /**
+     * Updates the model and repaints the panel.
+     */
     public void update() {
         try {
             model.update();
@@ -283,6 +319,9 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
+    /**
+     * Attaches the mouse adapter
+     */
     private void attachMouseAdapter() {
         paintArea.addMouseMotionListener(new MouseAdapter() {
             @Override
@@ -354,23 +393,41 @@ public class NodeGraphEditorPanel extends JPanel {
         });
     }
 
+    /**
+     * Move all selected nodes some relative cartesian amount.
+     * @param dx the x axis amount.
+     * @param dy the y axis amount.
+     */
     private void moveSelectedNodes(int dx, int dy) {
         for(Node n : selectedNodes) {
             n.moveRelative(dx,dy);
         }
     }
 
+    /**
+     * What to do when the rectangle selection begins.
+     * @param point the first corner of the rectangle selection area.
+     */
     private void beginSelectionArea(Point point) {
         selectionOn=true;
         selectionAreaStart.x=point.x;
         selectionAreaStart.y=point.y;
     }
 
+    /**
+     * What to do when the rectangle selection ends.
+     * @param point the second corner of the rectangle selection area.
+     */
     private void endSelectionArea(Point point) {
         selectionOn=false;
         setSelectedNodes(model.getNodesInRectangle(getSelectionArea(point)));
     }
 
+    /**
+     * Returns the rectangle formed by the first selection point and this new point.
+     * @param point the second point of the selection area.
+     * @return the rectangle formed by the first selection point and this new point.
+     */
     private Rectangle2D getSelectionArea(Point point) {
         double x1 = Math.min(point.x, selectionAreaStart.x);
         double x2 = Math.max(point.x, selectionAreaStart.x);
@@ -379,6 +436,9 @@ public class NodeGraphEditorPanel extends JPanel {
         return new Rectangle2D.Double(x1,y1,x2-x1,y2-y1);
     }
 
+    /**
+     * What to do when a user clicks on a connection point.
+     */
     private void onClickConnectionPoint() {
         if(lastConnectionPoint == null) {
             connectionBeingCreated.disconnectAll();
@@ -414,6 +474,10 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
+    /**
+     * Searches for a nearby {@link NodeVariable} connection point and, if found, remembers it.
+     * @param p the center of the search area.
+     */
     private void selectOneNearbyConnectionPoint(Point p) {
         NodeConnectionPointInfo info = model.getFirstNearbyConnection(p,NEARBY_CONNECTION_DISTANCE_MAX);
         setLastConnectionPoint(info);
@@ -428,12 +492,20 @@ public class NodeGraphEditorPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Sets the list of selected nodes to one item.
+     * @param n the new selected node.
+     */
     public void setSelectedNode(Node n) {
         ArrayList<Node> nodes = new ArrayList<>();
         if(n!=null) nodes.add(n);
         setSelectedNodes(nodes);
     }
 
+    /**
+     * Sets the list of selected nodes.
+     * @param list the new list of selected nodes.
+     */
     public void setSelectedNodes(List<Node> list) {
         selectedNodes.clear();
         if (list != null) selectedNodes.addAll(list);
@@ -441,11 +513,17 @@ public class NodeGraphEditorPanel extends JPanel {
         paintArea.repaint();
     }
 
+    /**
+     * Returns all selected nodes.
+     * @return all selected nodes.
+     */
     public List<Node> getSelectedNodes() {
         return selectedNodes;
     }
 
-    // All Actions have the tools to check for themselves if they are active.
+    /**
+     * All Actions have the tools to check for themselves if they are active.
+     */
     private void updateActionEnableStatus() {
         for(AbstractAction a : actions) {
             if(a instanceof EditAction) {
@@ -471,22 +549,39 @@ public class NodeGraphEditorPanel extends JPanel {
         return null;
     }
 
+    /**
+     * Returns the graph being edited.
+     * @return the graph being edited.
+     */
     public NodeGraph getGraph() {
         return model;
     }
 
+    /**
+     * Returns the cursor location when the popup began.
+     * @return the cursor location when the popup began.
+     */
     public Point getPopupPoint() {
         return popupPoint;
     }
 
-    public NodeGraph getCopiedGraph() {
-        return copiedGraph;
-    }
-
+    /**
+     * Store a copy of some part of the graph for later.
+     * @param graph the graph to set as copied.
+     */
     public void setCopiedGraph(NodeGraph graph) {
         copiedGraph.clear();
         copiedGraph.add(graph);
     }
+
+    /**
+     * Returns the stored graph marked as copied.
+     * @return the stored graph marked as copied.
+     */
+    public NodeGraph getCopiedGraph() {
+        return copiedGraph;
+    }
+
 
     /**
      * Clears the internal graph and resets everything.
@@ -499,6 +594,10 @@ public class NodeGraphEditorPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Main entry point.  Good for independent test.
+     * @param args command line arguments.
+     */
     public static void main(String[] args) {
         BuiltInNodeRegistry.registerNodes();
         SwingNodeRegistry.registerNodes();

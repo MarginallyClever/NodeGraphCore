@@ -11,9 +11,21 @@ import java.awt.event.ActionEvent;
  * @since 2022-02-21
  */
 public class ActionCutGraph extends AbstractAction implements EditAction {
+    /**
+     * The delete action on which this action depends.
+     */
     private final ActionDeleteGraph actionDeleteGraph;
+    /**
+     * The copy action on which this action depends.
+     */
     private final ActionCopyGraph actionCopyGraph;
 
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param actionDeleteGraph the delete action to use
+     * @param actionCopyGraph the copy action to use
+     */
     public ActionCutGraph(String name, ActionDeleteGraph actionDeleteGraph, ActionCopyGraph actionCopyGraph) {
         super(name);
         this.actionDeleteGraph = actionDeleteGraph;

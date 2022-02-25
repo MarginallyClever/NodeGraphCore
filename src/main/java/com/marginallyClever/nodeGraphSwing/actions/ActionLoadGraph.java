@@ -17,9 +17,21 @@ import java.io.InputStreamReader;
  * @since 2022-02-21
  */
 public class ActionLoadGraph extends AbstractAction {
+    /**
+     * The editor being affected.
+     */
     private final NodeGraphEditorPanel editor;
+
+    /**
+     * The file chooser remembers the last path.
+     */
     private final JFileChooser fc = new JFileChooser();
 
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     */
     public ActionLoadGraph(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;

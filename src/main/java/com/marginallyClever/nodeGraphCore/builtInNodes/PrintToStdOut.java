@@ -3,17 +3,29 @@ package com.marginallyClever.nodeGraphCore.builtInNodes;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
 
+/**
+ * sends A as a string to <pre>System.out.println()</pre>.
+ * @author Dan Royer
+ * @since 2022-02-01
+ */
 public class PrintToStdOut extends Node {
     private final NodeVariable<Object> a = NodeVariable.newInstance("A",Object.class,null,true,false);
 
+    /**
+     * Constructor for subclasses to call.
+     */
     public PrintToStdOut() {
         super("PrintToStdOut");
         addVariable(a);
     }
 
-    public PrintToStdOut(Object obj) {
+    /**
+     * Constructor that sets a starting value
+     * @param startingValue the starting value.
+     */
+    public PrintToStdOut(Object startingValue) {
         this();
-        this.a.setValue(obj);
+        this.a.setValue(startingValue);
     }
 
     @Override

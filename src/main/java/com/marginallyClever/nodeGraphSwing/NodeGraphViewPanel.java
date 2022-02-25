@@ -251,6 +251,7 @@ public class NodeGraphViewPanel extends JPanel {
      * Returns the adjusted inner bounds of a {@link Node}.
      * Nodes have a left and right margin useful for printing labels and values without overlapping the {@link NodeConnection} points.
      * these edges form an inner bound.  Given a {@link NodeVariable#getRectangle()}, this
+     * @param r the outer bounsd of the node.
      * @return the adjusted inner bounds of a {@link Node}.
      */
     public Rectangle getNodeInternalBounds(Rectangle r) {

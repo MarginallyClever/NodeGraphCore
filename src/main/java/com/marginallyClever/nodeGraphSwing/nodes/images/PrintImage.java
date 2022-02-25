@@ -17,6 +17,9 @@ public class PrintImage extends Node implements PrintWithGraphics {
     private final NodeVariable<Number> px = NodeVariable.newInstance("X",Number.class,0,true,false);
     private final NodeVariable<Number> py = NodeVariable.newInstance("Y",Number.class,0,true,false);
 
+    /**
+     * Constructor for subclasses to call.
+     */
     public PrintImage() {
         super("PrintImage");
         addVariable(image);
@@ -24,6 +27,12 @@ public class PrintImage extends Node implements PrintWithGraphics {
         addVariable(py);
     }
 
+    /**
+     * Constructor that sets starting values.
+     * @param img the starting value.
+     * @param x the starting value.
+     * @param y the starting value.
+     */
     public PrintImage(BufferedImage img,double x,double y) {
         this();
         this.image.setValue(img);
