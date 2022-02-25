@@ -7,6 +7,11 @@ import com.marginallyClever.nodeGraphCore.NodeVariable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * This {@link Node} can print a {@link BufferedImage} using the {@link Graphics} context.
+ * @author Dan Royer
+ * @since 2022-02-23
+ */
 public class PrintImage extends Node implements PrintWithGraphics {
     private final NodeVariable<BufferedImage> image = NodeVariable.newInstance("image", BufferedImage.class,null,true,false);
     private final NodeVariable<Number> px = NodeVariable.newInstance("X",Number.class,0,true,false);

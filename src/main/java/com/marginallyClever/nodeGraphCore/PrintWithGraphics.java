@@ -1,9 +1,10 @@
 package com.marginallyClever.nodeGraphCore;
 
 /**
- * {@link com.marginallyclever.nodeBasedEditor.model.Node}s with this interface can draw to anything that extends
- * Swing's {@link java.awt.Graphics} class.
+ * {@link Node}s with this interface can draw using the Swing's {@link java.awt.Graphics} context.
  * TODO don't drag Swing into the model!
+ * @author Dan Royer
+ * @since 2022-02-01
  */
 public interface PrintWithGraphics {
     void print(java.awt.Graphics g);

@@ -10,6 +10,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+/**
+ * Copies the editor's selected {@link Node}s and their shared {@link NodeConnection}s to the copy buffer.  The copy
+ * buffer ensures the items so that they can be pasted even after they are deleted.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionCopyGraph extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 

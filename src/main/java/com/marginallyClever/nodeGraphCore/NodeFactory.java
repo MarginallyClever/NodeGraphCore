@@ -1,11 +1,5 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
-import com.marginallyClever.nodeGraphCore.builtInNodes.LoadString;
-import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
-import com.marginallyClever.nodeGraphCore.builtInNodes.math.Random;
-import com.marginallyClever.nodeGraphCore.builtInNodes.math.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,26 +21,6 @@ public class NodeFactory {
         }
     }
 
-    /**
-     * Call this once to register all the built-in nodes that are included in the package.
-     */
-    public static void registerBuiltInNodes() {
-        NodeFactory.registerNode(new LoadNumber());
-        NodeFactory.registerNode(new Random());
-        NodeFactory.registerNode(new Add());
-        NodeFactory.registerNode(new Subtract());
-        NodeFactory.registerNode(new Multiply());
-        NodeFactory.registerNode(new Divide());
-        NodeFactory.registerNode(new PrintToStdOut());
-        NodeFactory.registerNode(new Cos());
-        NodeFactory.registerNode(new Sin());
-        NodeFactory.registerNode(new Tan());
-        NodeFactory.registerNode(new ATan2());
-        NodeFactory.registerNode(new Min());
-        NodeFactory.registerNode(new Max());
-
-        NodeFactory.registerNode(new LoadString());
-    }
     /**
      *
      * @param name The {@link Node} you want.

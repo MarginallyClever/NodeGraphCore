@@ -1,6 +1,7 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
 import com.marginallyClever.nodeGraphCore.JSONHelper;
+import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
@@ -8,6 +9,11 @@ import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
+/**
+ * Launches a "select file to save" dialog and attempts to save the {@link NodeGraph} to disk.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionSaveGraph extends AbstractAction {
     private final NodeGraphEditorPanel editor;
     private final JFileChooser fc = new JFileChooser();

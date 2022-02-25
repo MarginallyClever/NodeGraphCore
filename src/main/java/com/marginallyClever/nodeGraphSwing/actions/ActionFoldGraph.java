@@ -9,6 +9,11 @@ import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Collapses the editor's selected {@link Node}s into a new sub-graph.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionFoldGraph extends AbstractAction implements EditAction {
     private NodeGraphEditorPanel editor;
     private ActionCutGraph actionCutGraph;

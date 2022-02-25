@@ -8,6 +8,10 @@ import com.marginallyClever.nodeGraphCore.JSONHelper;
 import java.awt.*;
 import java.lang.reflect.Type;
 
+/**
+ * @author Ollie
+ * @since 2022-02-23
+ */
 public class NodeJsonAdapter implements JsonSerializer<Node>, JsonDeserializer<Node> {
 
     @Override

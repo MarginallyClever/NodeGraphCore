@@ -2,6 +2,7 @@ package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphCore.Node;
+import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 
@@ -9,11 +10,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Swing UI allowing a user to edit an existing {@link Node}.
+ * @author Dan Royer
+ * @since 2022-02-23
+ */
 public class NodeEditPanel extends JPanel {
+    /**
+     * The {@link Node} being edited.
+     */
     private final Node node;
+    /**
+     * The edit field for the label (nickname) of the {@link Node}.
+     */
     private final JTextField labelField = new JTextField();
+    /**
+     * The fields being edited.
+     */
     private final ArrayList<JTextField> fields = new ArrayList<>();
 
+    /**
+     * The default constructor.
+     * @param node the {@link Node} to edit.
+     */
     public NodeEditPanel(Node node) {
         super();
         this.node=node;
@@ -66,7 +85,6 @@ public class NodeEditPanel extends JPanel {
      * Displays an edit dialog for a given node.  Returns a copy of the node with any alterations, if any.
      * @param subject the node to edit.
      * @param frame the parent frame.
-     * @return a copy of the node with any alterations, if any.
      */
     public static void runAsDialog(Node subject,Frame frame) {
         NodeEditPanel panel = new NodeEditPanel(subject);

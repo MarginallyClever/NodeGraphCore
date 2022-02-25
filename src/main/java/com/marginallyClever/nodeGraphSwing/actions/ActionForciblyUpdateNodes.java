@@ -7,6 +7,12 @@ import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Forces all of the editor's selected {@link Node}s to {@link Node#update()}, regarless of {@link Node#isDirty()}
+ * status.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionForciblyUpdateNodes extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 

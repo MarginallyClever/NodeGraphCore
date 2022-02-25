@@ -18,6 +18,9 @@ public class NodeGraph {
     private final List<Node> nodes = new ArrayList<>();
     private final List<NodeConnection> connections = new ArrayList<>();
 
+    /**
+     * Default constructor.  Creates an empty {@link NodeGraph}.
+     */
     public NodeGraph() {
         super();
     }
@@ -36,17 +39,30 @@ public class NodeGraph {
         for(Node n : nodes) n.cleanAllOutputs();
     }
 
+    /**
+     * @return a {@link List} of all the {@link Node}s within this {@link NodeGraph}.
+     * It is not a copy!  Use with caution.
+     */
     public List<Node> getNodes() {
         return nodes;
     }
 
+    /**
+     * @return a {@link List} of all the {@link NodeConnection}s within this {@link NodeGraph}.
+     * It is not a copy!  Use with caution.
+     */
     public List<NodeConnection> getConnections() {
         return connections;
     }
 
-    public Node add(Node n) {
-        nodes.add(n);
-        return n;
+    /**
+     * Adds a node to this graph.
+     * @param node the subject
+     * @return the same node for convenient method chaining.
+     */
+    public Node add(Node node) {
+        nodes.add(node);
+        return node;
     }
 
     /**
@@ -56,6 +72,20 @@ public class NodeGraph {
     public void remove(Node n) {
         nodes.remove(n);
         removeConnectionsToNode(n);
+    }
+
+    /**
+     * Adds a {@link NodeConnection} without checking if it already exists.
+     * @param connection the item to add.
+     * @return the same connection for convenient method chaining.
+     */
+    public NodeConnection add(NodeConnection connection) {
+        connections.add(connection);
+        return connection;
+    }
+
+    public void remove(NodeConnection c) {
+        connections.remove(c);
     }
 
     /**
@@ -72,22 +102,9 @@ public class NodeGraph {
     }
 
     /**
-     * Adds a {@link NodeConnection} without checking if it already exists.
-     * @param connection the item to add.
-     */
-    public NodeConnection add(NodeConnection connection) {
-        connections.add(connection);
-        return connection;
-    }
-
-    public void remove(NodeConnection c) {
-        connections.remove(c);
-    }
-
-    /**
-     *
-     * @param connection the item to compare against.
-     * @return returns the existing match or null.
+     * Searches this {@link NodeGraph} for an equivalent {@link NodeConnection}.
+     * @param connection the item to match.
+     * @return returns the matching {@link NodeConnection} or null.
      */
     public NodeConnection getMatchingConnection(NodeConnection connection) {
         for(NodeConnection c : connections) {
@@ -124,10 +141,10 @@ public class NodeGraph {
             for(int i = 0; i < n.getNumVariables(); ++i) {
                 NodeVariable<?> v = n.getVariable(i);
                 if(v.getHasInput() && v.getInPosition().distanceSq(point) < rr) {
-                    return new NodeConnectionPointInfo(n,i,NodeVariable.IN);
+                    return new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.IN);
                 }
                 if(v.getHasOutput() && v.getOutPosition().distanceSq(point) < rr) {
-                    return new NodeConnectionPointInfo(n,i,NodeVariable.OUT);
+                    return new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.OUT);
                 }
             }
         }

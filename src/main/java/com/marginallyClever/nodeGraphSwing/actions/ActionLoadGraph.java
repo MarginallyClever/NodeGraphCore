@@ -11,6 +11,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Launches a "select file to open" dialog and attempts to load the {@link NodeGraph} from disk.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionLoadGraph extends AbstractAction {
     private final NodeGraphEditorPanel editor;
     private final JFileChooser fc = new JFileChooser();

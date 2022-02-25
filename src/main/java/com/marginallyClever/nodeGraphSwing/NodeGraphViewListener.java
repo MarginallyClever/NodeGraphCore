@@ -4,6 +4,8 @@ import java.awt.*;
 
 /**
  * Used by any class wanting to add decorations to a {@link NodeGraphViewPanel}.
+ * @author Dan Royer
+ * @since 2022-02-11
  */
 public interface NodeGraphViewListener {
     /**
@@ -12,5 +14,5 @@ public interface NodeGraphViewListener {
      * @param g the graphics context used to paint the panel
      * @param panel the caller
      */
-    public void paint(Graphics g, NodeGraphViewPanel panel);
+    void paint(Graphics g, NodeGraphViewPanel panel);
 }

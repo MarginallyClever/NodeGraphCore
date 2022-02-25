@@ -10,37 +10,98 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * {@link NodeGraphViewPanel} visualizes the contents of a {@link NodeGraph} with Java Swing.
  * It can call on {@link NodeGraphViewListener}s to add additional flavor.
+ * Override this to implement a unique look and feel.
+ * @author Dan Royer
+ * @since 2022-02-11
  */
 public class NodeGraphViewPanel extends JPanel {
+    /**
+     * The default {@link Node} background color.
+     */
     public static final Color NODE_COLOR_BACKGROUND = Color.WHITE;
+    /**
+     * The default {@link Node} border color.
+     */
     public static final Color NODE_COLOR_BORDER = Color.BLACK;
+    /**
+     * The default {@link Node} internal border between {@link NodeVariable}.
+     */
     public static final Color NODE_COLOR_INTERNAL_BORDER = Color.DARK_GRAY;
+    /**
+     * The default {@link JPanel} background color.
+     */
     public static final Color PANEL_COLOR_BACKGROUND = Color.LIGHT_GRAY;
+    /**
+     * The default {@link Node} font color.
+     */
     public static final Color NODE_COLOR_FONT_CLEAN = Color.BLACK;
+    /**
+     * The default {@link Node} font color for variables when <pre>getIsDirty()</pre>. is true.
+     */
     public static final Color NODE_COLOR_FONT_DIRTY = Color.RED;
-
+    /**
+     * The default {@link Node} tile bar font color
+     */
     public static final Color NODE_COLOR_TITLE_FONT = Color.WHITE;
+    /**
+     * The default {@link Node} tile bar background color
+     */
     public static final Color NODE_COLOR_TITLE_BACKGROUND = Color.BLACK;
-
+    /**
+     * The default {@link Node} female connection point color.
+     */
     public static final Color CONNECTION_POINT_COLOR = Color.LIGHT_GRAY;
+    /**
+     * The default {@link Node} male connection point color.
+     */
     public static final Color CONNECTION_COLOR = Color.BLUE;
 
+    /**
+     * The default {@link Node} outer border radius.
+     */
     public static final int CORNER_RADIUS = 5;
+
+    /**
+     * Controls horizontal text alignment within a {@link Node} or {@link NodeVariable}.
+     * See {@link #paintText(Graphics, String, Rectangle, int, int)} for more information.
+     */
     public static final int ALIGN_LEFT=0;
+    /**
+     * Controls horizontal text alignment within a {@link Node} or {@link NodeVariable}.
+     * See {@link #paintText(Graphics, String, Rectangle, int, int)} for more information.
+     */
     public static final int ALIGN_RIGHT=1;
+    /**
+     * Controls horizontal or vertical text alignment within a {@link Node} or {@link NodeVariable}.
+     * See {@link #paintText(Graphics, String, Rectangle, int, int)} for more information.
+     */
     public static final int ALIGN_CENTER=2;
+    /**
+     * Controls vertical text alignment within a {@link Node} or {@link NodeVariable}.
+     * See {@link #paintText(Graphics, String, Rectangle, int, int)} for more information.
+     */
     public static final int ALIGN_TOP=0;
+    /**
+     * Controls vertical text alignment within a {@link Node} or {@link NodeVariable}.
+     * See {@link #paintText(Graphics, String, Rectangle, int, int)} for more information.
+     */
     public static final int ALIGN_BOTTOM=1;
 
+    /**
+     * the {@link NodeGraph} to edit.
+     */
     private final NodeGraph model;
 
+    /**
+     * Constructs one new instance of {@link NodeGraphViewPanel}.
+     * @param model the {@link NodeGraph} model to paint.
+     */
     public NodeGraphViewPanel(NodeGraph model) {
         super();
         this.model=model;
@@ -64,9 +125,13 @@ public class NodeGraphViewPanel extends JPanel {
         g.setColor(CONNECTION_COLOR);
         for(NodeConnection c : model.getConnections()) paintConnection(g,c);
 
-        paintExtras(g);
+        firePaintEvent(g);
     }
 
+    /**
+     * Paint all {@link Node}s that implement the {@link PrintWithGraphics} interface.
+     * @param g the {@link Graphics} context.
+     */
     private void paintNodesInBackground(Graphics g) {
         for(Node n : model.getNodes()) {
             if(n instanceof PrintWithGraphics) {
@@ -75,6 +140,9 @@ public class NodeGraphViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Update the bounds of every node in the model {@link NodeGraph}.
+     */
     public void updatePaintAreaBounds() {
         Rectangle r = this.getBounds();
         for(Node n : model.getNodes()) {
@@ -91,6 +159,11 @@ public class NodeGraphViewPanel extends JPanel {
         //System.out.println("Bounds="+r.toString());
     }
 
+    /**
+     * Paint one {@link Node}
+     * @param g the {@link Graphics} context
+     * @param n the {@link Node} to paint.
+     */
     public void paintNode(Graphics g, Node n) {
         g.setColor(NODE_COLOR_BACKGROUND);
         paintNodeBackground(g,n);
@@ -103,11 +176,21 @@ public class NodeGraphViewPanel extends JPanel {
         paintNodeBorder(g, n);
     }
 
+    /**
+     * Paint the background of one {@link Node}
+     * @param g the {@link Graphics} context
+     * @param n the {@link Node} to paint.
+     */
     public void paintNodeBackground(Graphics g, Node n) {
         Rectangle r = n.getRectangle();
         g.fillRoundRect(r.x, r.y, r.width, r.height, CORNER_RADIUS, CORNER_RADIUS);
     }
 
+    /**
+     * Paint the title bar of one {@link Node}.
+     * @param g the {@link Graphics} context
+     * @param n the {@link Node} to paint.
+     */
     public void paintNodeTitleBar(Graphics g, Node n) {
         Rectangle r = n.getRectangle();
         g.setColor(NODE_COLOR_TITLE_BACKGROUND);
@@ -121,6 +204,11 @@ public class NodeGraphViewPanel extends JPanel {
         paintText(g,n.getName(),box,ALIGN_RIGHT,ALIGN_CENTER);
     }
 
+    /**
+     * Paint all the {@link NodeVariable}s in one {@link Node}.
+     * @param g the {@link Graphics} context
+     * @param n the {@link Node} to paint.
+     */
     private void paintAllNodeVariables(Graphics g, Node n) {
         for(int i=0;i<n.getNumVariables();++i) {
             NodeVariable<?> v = n.getVariable(i);
@@ -128,6 +216,11 @@ public class NodeGraphViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Paint one {@link NodeVariable}.
+     * @param g the {@link Graphics} context
+     * @param v the {@link NodeVariable} to paint.
+     */
     public void paintVariable(Graphics g, NodeVariable<?> v) {
         Rectangle box = v.getRectangle();
         Rectangle insideBox = getNodeInternalBounds(box);
@@ -154,6 +247,12 @@ public class NodeGraphViewPanel extends JPanel {
         paintVariableConnectionPoints(g,v);
     }
 
+    /**
+     * Returns the adjusted inner bounds of a {@link Node}.
+     * Nodes have a left and right margin useful for printing labels and values without overlapping the {@link NodeConnection} points.
+     * these edges form an inner bound.  Given a {@link NodeVariable#getRectangle()}, this
+     * @return the adjusted inner bounds of a {@link Node}.
+     */
     public Rectangle getNodeInternalBounds(Rectangle r) {
         Rectangle r2 = new Rectangle(r);
         int padding = (int)NodeConnection.DEFAULT_RADIUS+4;
@@ -162,11 +261,21 @@ public class NodeGraphViewPanel extends JPanel {
         return r2;
     }
 
+    /**
+     * Paint the outside border of one {@link Node}.
+     * @param g the {@link Graphics} context
+     * @param n the {@link Node} to paint.
+     */
     public void paintNodeBorder(Graphics g,Node n) {
         Rectangle r = n.getRectangle();
         g.drawRoundRect(r.x, r.y, r.width, r.height,CORNER_RADIUS,CORNER_RADIUS);
     }
 
+    /**
+     * Paint the female end of connection points of one {@link NodeVariable}.
+     * @param g the {@link Graphics} context
+     * @param v the {@link NodeVariable} to paint.
+     */
     public void paintVariableConnectionPoints(Graphics g, NodeVariable<?> v) {
         if(v.getHasInput()) {
             Point p = v.getInPosition();
@@ -211,7 +320,12 @@ public class NodeGraphViewPanel extends JPanel {
         layout.draw((Graphics2D)g,x,y);
     }
 
-    public void paintConnection(Graphics g, NodeConnection c) {
+    /**
+     * Paint the male end of connection points at this {@link NodeVariable}.
+     * @param g the {@link Graphics} context
+     * @param c the {@link NodeVariable} to paint.
+     */
+    private void paintConnection(Graphics g, NodeConnection c) {
         Point p0 = c.getInPosition();
         Point p3 = c.getOutPosition();
         paintBezierBetweenTwoPoints(g,p0,p3);
@@ -220,6 +334,11 @@ public class NodeGraphViewPanel extends JPanel {
         if(c.isInputValid()) paintConnectionAtPoint(g,c.getInPosition());
     }
 
+    /**
+     * Paint the male end of one connection point.
+     * @param g the {@link Graphics} context
+     * @param p the center of male end to paint.
+     */
     public void paintConnectionAtPoint(Graphics g,Point p) {
         int radius = (int) NodeConnection.DEFAULT_RADIUS;
         g.fillOval((int) p.x - radius, (int) p.y - radius, radius * 2, radius * 2);
@@ -260,18 +379,28 @@ public class NodeGraphViewPanel extends JPanel {
         g.drawPolyline(x,y,len);
     }
 
-    // listener pattern for painting
+    /**
+     * listener pattern for painting via {@link NodeGraphViewListener#paint(Graphics, NodeGraphViewPanel)}.
+     */
     private final List<NodeGraphViewListener> listeners = new ArrayList<NodeGraphViewListener>();
 
+    /**
+     * {@link NodeGraphViewListener}s register here.
+     * @param p the {@link NodeGraphViewListener} to register.
+     */
     public void addViewListener(NodeGraphViewListener p) {
         listeners.add(p);
     }
 
+    /**
+     * {@link NodeGraphViewListener}s unregister here.
+     * @param p the {@link NodeGraphViewListener} to unregister.
+     */
     public void removeViewListener(NodeGraphViewListener p) {
         listeners.remove(p);
     }
 
-    private void paintExtras(Graphics g) {
+    private void firePaintEvent(Graphics g) {
         for( NodeGraphViewListener p : listeners ) {
             p.paint(g, this);
         }

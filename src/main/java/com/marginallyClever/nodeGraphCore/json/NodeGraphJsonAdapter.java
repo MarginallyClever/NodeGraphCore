@@ -11,6 +11,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Ollie
+ * @since 2022-02-23
+ */
 public class NodeGraphJsonAdapter implements JsonSerializer<NodeGraph>, JsonDeserializer<NodeGraph> {
 
     public static final Type nodeType = TypeToken.getParameterized(ArrayList.class, Node.class).getType();
@@ -21,7 +25,6 @@ public class NodeGraphJsonAdapter implements JsonSerializer<NodeGraph>, JsonDese
 
         JsonElement nodes = context.serialize(nodeGraph.getNodes(), nodeType);
         jsonObject.add("nodes", nodes);
-
         jsonObject.add("connections", JSONHelper.serializeNodeConnections(nodeGraph.getConnections()));
         return jsonObject;
     }

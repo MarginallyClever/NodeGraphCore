@@ -9,6 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Straightens the editor's {@link Node}s by rounding their top-left corner x and y values to the nearest
+ * {@link ActionStraightenGraph#SNAP_SIZE}.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionStraightenGraph extends AbstractAction implements EditAction {
     private final int SNAP_SIZE = 10;
     private final NodeGraphEditorPanel editor;

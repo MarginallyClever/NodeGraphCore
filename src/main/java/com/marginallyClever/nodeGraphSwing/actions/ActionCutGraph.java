@@ -5,6 +5,11 @@ import com.marginallyClever.nodeGraphSwing.EditAction;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Performs an {@link ActionCopyGraph} and then an {@link ActionDeleteGraph}.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionCutGraph extends AbstractAction implements EditAction {
     private final ActionDeleteGraph actionDeleteGraph;
     private final ActionCopyGraph actionCopyGraph;

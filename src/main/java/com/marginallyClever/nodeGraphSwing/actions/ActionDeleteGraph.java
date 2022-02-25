@@ -8,6 +8,11 @@ import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Deletes the editor's selected {@link Node}s and sundry.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionDeleteGraph extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 

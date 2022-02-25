@@ -8,6 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This {@link Node} can load a Swing {@link BufferedImage}.
+ * @author Dan Royer
+ * @since 2022-02-23
+ */
 public class LoadImage extends Node {
     private final NodeVariable<String> filename = NodeVariable.newInstance("filename",String.class,null,true,false);
     private final NodeVariable<BufferedImage> contents = NodeVariable.newInstance("contents", BufferedImage.class, null,false,true);

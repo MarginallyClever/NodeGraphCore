@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 4 point cubic bezier splines
- * Based on https://github.com/pelson/antigrain/blob/master/agg-2.4/src/agg_curves.cpp
- * and https://github.com/mattdesl/adaptive-bezier-curve
+ * 4 point cubic bezier splines.
+ * Based on <a href='https://github.com/pelson/antigrain/blob/master/agg-2.4/src/agg_curves.cpp'>pelson/antigrain</a>
+ * and <a href='https://github.com/mattdesl/adaptive-bezier-curve'>mattdesl/adaptive-bezier-curve</a>.
  * @author Dan Royer
- *
  */
 public class Bezier {
 	private int recursionLimit = 8;

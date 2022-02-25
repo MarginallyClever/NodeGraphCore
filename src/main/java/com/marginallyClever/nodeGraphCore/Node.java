@@ -13,14 +13,24 @@ import java.util.List;
  */
 @JsonAdapter(NodeJsonAdapter.class)
 public abstract class Node {
+    /**
+     * The default height of the title bar.
+     */
     public static final int TITLE_HEIGHT = 25;
 
+    /**
+     * This is used to ensure all {@link Node}s in a
+     */
     private static int uniqueIDSource=0;
+
     private int uniqueID;
 
     private String name;
+
     private String label;
+
     private Rectangle rectangle;
+
     private final List<NodeVariable<?>> variables;
 
     public Node(String name) {
@@ -147,7 +157,7 @@ public abstract class Node {
         return variables.size();
     }
 
-    public NodeVariable<?> getVariable(int index) {
+    public NodeVariable<?> getVariable(int index) throws IndexOutOfBoundsException {
         return variables.get(index);
     }
 

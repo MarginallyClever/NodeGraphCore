@@ -12,6 +12,13 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Uncollapses all the editor's selected items that are {@link Subgraph}s.  The new list of selected items will contain
+ * all the new graph elements plus any old elements that were not {@link Subgraph}s.
+ * Each newly exposed graph is positioned relative to the original {@link Subgraph}.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionUnfoldGraph extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 

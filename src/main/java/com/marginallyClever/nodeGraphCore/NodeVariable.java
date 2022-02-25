@@ -6,9 +6,14 @@ import java.awt.*;
  * {@link NodeVariable}
  */
 public class NodeVariable<T> {
-    public static final int IN=1;
-    public static final int OUT=2;
+    /**
+     * Dimensions used for bounds calculations and intersection tests.
+     */
     public static final int DEFAULT_WIDTH = 150;
+
+    /**
+     * Dimensions used for bounds calculations and intersection tests.
+     */
     public static final int DEFAULT_HEIGHT = 20;
 
     protected T value;
@@ -17,7 +22,6 @@ public class NodeVariable<T> {
     protected String name;
     protected boolean hasInput;
     protected boolean hasOutput;
-
     protected boolean isDirty;
     protected final Rectangle rectangle = new Rectangle();
 
@@ -110,7 +114,4 @@ public class NodeVariable<T> {
     public Point getOutPosition() {
         return new Point((int)rectangle.getMaxX(), rectangle.y+rectangle.height/2);
     }
-
-
-
 }

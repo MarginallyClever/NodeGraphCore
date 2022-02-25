@@ -11,6 +11,7 @@
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="--add-modules org.junit.jupiter.api" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="NodeGraphCore" options="-Xlint:unchecked -Xlint:deprecation" />
     </option>

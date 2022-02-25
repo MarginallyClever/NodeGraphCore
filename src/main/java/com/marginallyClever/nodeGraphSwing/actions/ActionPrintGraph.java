@@ -1,5 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
+import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.imageio.ImageIO;
@@ -10,8 +11,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Uses the {@link NodeGraphEditorPanel#printAll(Graphics)} to generate a {@link BufferedImage} and then saves that to
+ * a default path.
+ * TODO add a file selection dialog?
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionPrintGraph extends AbstractAction {
-    NodeGraphEditorPanel editor;
+    public static final String SAVE_PATH = "saved.png";
+
+    private final NodeGraphEditorPanel editor;
 
     public ActionPrintGraph(String name, NodeGraphEditorPanel editor) {
         super(name);
@@ -31,10 +41,11 @@ public class ActionPrintGraph extends AbstractAction {
         }
  */
         // TODO file selection dialog here
-        File outputfile = new File("saved.png");
+        File outputFile = new File(SAVE_PATH);
+        String extension = SAVE_PATH.substring(SAVE_PATH.lastIndexOf(".")+1);
 
         try {
-            ImageIO.write(awtImage, "png", outputfile);
+            ImageIO.write(awtImage, extension, outputFile);
         } catch (IOException e1) {
             e1.printStackTrace();
         }

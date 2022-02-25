@@ -15,13 +15,18 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test the NodeGraphCore elements.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class TestNodeGraphCore {
     private static NodeGraph model;
 
     @BeforeAll
     public static void beforeAll() {
         model = new NodeGraph();
-        NodeFactory.registerBuiltInNodes();
+        BuiltInNodeRegistry.registerNodes();
     }
 
     @BeforeEach
@@ -127,6 +132,15 @@ public class TestNodeGraphCore {
         model.clear();
         assertEquals(0,model.getNodes().size());
         assertEquals(0,model.getConnections().size());
+    }
+
+    @Test
+    public void testFactoryCreatesAllSwingTypes() {
+        assertNotEquals(0,NodeFactory.getNames().length);
+        for(String s : NodeFactory.getNames()) {
+            System.out.println(s);
+            assertNotNull(NodeFactory.createNode(s));
+        }
     }
 
     private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

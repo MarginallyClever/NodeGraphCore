@@ -19,13 +19,22 @@ import java.util.List;
  * @since 2022-02-01
  */
 public class NodeGraphEditorPanel extends JPanel {
-    // used by save and load actions
+    /**
+     * Used by save and load actions
+      */
     public static final FileNameExtensionFilter FILE_FILTER = new FileNameExtensionFilter("Node Graph","graph");
 
     private static final Color CONNECTION_POINT_COLOR_SELECTED = Color.RED;
     private static final double NEARBY_CONNECTION_DISTANCE_MAX = 20;
 
+    /**
+     * The {@link NodeGraph} to edit.
+     */
     private final NodeGraph model;
+
+    /**
+     * The panel into which the {@link NodeGraph} will be painted.
+     */
     private final NodeGraphViewPanel paintArea;
 
     /**
@@ -38,28 +47,62 @@ public class NodeGraphEditorPanel extends JPanel {
      */
     private final NodeGraph copiedGraph = new NodeGraph();
 
+    /**
+     * The toolBar contains Actions that affect the entire {@link NodeGraph} like Save, Load, New, and Update.
+     */
     private final JToolBar toolBar = new JToolBar();
+
+    /**
+     * The popupBar appears when the user right clicks in the paintArea.  It contains all actions that affect one or
+     * more {@link Node}s within the model.
+     */
     private final JPopupMenu popupBar = new JPopupMenu();
 
+    /**
+     * The list of actions registered in the editor.  This list is used for calls to
+     * {@link #updateActionEnableStatus()}.
+     */
     private final ArrayList<AbstractAction> actions = new ArrayList<>();
 
+    /**
+     * To create a {@link NodeConnection} the user has to select two {@link NodeVariable} connection points.
+     * This is where the first is stored until the user completes the connection or cancels the action.
+     */
     private final NodeConnection connectionBeingCreated = new NodeConnection();
 
+    /**
+     * The last connection point found
+     */
     private NodeConnectionPointInfo lastConnectionPoint = null;
 
-    // true while dragging one or more nodes around.
+    /**
+     * true while dragging one or more nodes around.
+     */
     private boolean dragOn=false;
-    // for tracking relative motion, useful for relative moves like dragging.
+
+    /**
+     * for tracking relative motion, useful for relative moves like dragging.
+     */
     private final Point mousePreviousPosition = new Point();
 
-    // true while drawing a box to select nodes.
+    /**
+     * true while drawing a box to select nodes.
+     */
     private boolean selectionOn=false;
-    // first corner of the bounding area when a user clicks and drags to form a box.
+    /**
+     * first corner of the bounding area when a user clicks and drags to form a box.
+     */
     private final Point selectionAreaStart = new Point();
 
-    // cursor position when the popup menu happened.
+    /**
+     * cursor position when the popup menu happened.
+     */
     private final Point popupPoint = new Point();
 
+    /**
+     * Default constructor
+     * @param model the {@link NodeGraph} to edit.
+     */
     public NodeGraphEditorPanel(NodeGraph model) {
         super(new BorderLayout());
         this.model = model;
@@ -344,7 +387,7 @@ public class NodeGraphEditorPanel extends JPanel {
 
         // check that the end node is not the same as the start node.
         if(!connectionBeingCreated.isConnectedTo(lastConnectionPoint.node)) {
-            if (lastConnectionPoint.flags == NodeVariable.IN) {
+            if (lastConnectionPoint.flags == NodeConnectionPointInfo.IN) {
                 // the output of a connection goes to the input of a node.
                 connectionBeingCreated.setOutput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
             } else {
@@ -457,8 +500,8 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        NodeFactory.registerBuiltInNodes();
-        SwingNodeFactory.registerNodes();
+        BuiltInNodeRegistry.registerNodes();
+        SwingNodeRegistry.registerNodes();
 
         NodeGraph model = new NodeGraph();
         NodeGraphEditorPanel panel = new NodeGraphEditorPanel(model);

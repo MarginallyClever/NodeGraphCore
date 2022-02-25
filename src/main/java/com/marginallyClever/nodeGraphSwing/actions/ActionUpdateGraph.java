@@ -6,10 +6,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Updates all dirty nodes in the graph
+ * Updates all dirty {@link com.marginallyClever.nodeGraphCore.Node}s in the editor's graph.
  */
 public class ActionUpdateGraph extends AbstractAction {
-    NodeGraphEditorPanel editor;
+    private final NodeGraphEditorPanel editor;
 
     public ActionUpdateGraph(String name, NodeGraphEditorPanel editor) {
         super(name);

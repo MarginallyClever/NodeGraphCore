@@ -10,6 +10,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+/**
+ * Launches the "edit node" dialog.
+ * @author Dan Royer
+ * @since 2022-02-21
+ */
 public class ActionEditNodes extends AbstractAction implements EditAction {
     private final NodeGraphEditorPanel editor;
 

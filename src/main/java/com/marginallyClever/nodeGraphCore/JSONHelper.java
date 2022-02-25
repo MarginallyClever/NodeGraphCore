@@ -9,19 +9,31 @@ import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
+/**
+ * Convenience methods for serializing and de-serializing objects in this package.
+ * @author Ollie
+ * @since 2022-02-01
+ */
 public class JSONHelper {
-
     private static GsonBuilder builder;
     private static Gson gson;
 
-    public static Gson getDefaultGson(){
-        if(gson == null){
+    /**
+     * Returns the default {@link Gson}.
+     * @return the default {@link Gson}.
+     */
+    public static Gson getDefaultGson() {
+        if(gson == null) {
             gson = getDefaultGsonBuilder().create();
         }
         return gson;
     }
 
-    public static GsonBuilder getDefaultGsonBuilder(){
+    /**
+     * Returns the default {@link GsonBuilder}.
+     * @return the default {@link GsonBuilder}.
+     */
+    public static GsonBuilder getDefaultGsonBuilder() {
         if(builder == null){
             builder = new GsonBuilder();
             builder.setPrettyPrinting();
@@ -30,7 +42,11 @@ public class JSONHelper {
         return builder;
     }
 
-    public static void registerTypeAdapters(GsonBuilder builder){
+    /**
+     * Registers the NodeGraph classes with a {@link GsonBuilder}.
+     * @param builder the {@link GsonBuilder}.
+     */
+    public static void registerTypeAdapters(GsonBuilder builder) {
         builder.registerTypeAdapter(NodeGraph.class, new NodeGraphJsonAdapter());
         builder.registerTypeHierarchyAdapter(Node.class, new NodeJsonAdapter());
     }
@@ -189,6 +205,7 @@ public class JSONHelper {
     public static void deserializeNodeVariable(NodeVariable<?> variable, JsonElement jsonElement){
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         variable.setValue(getDefaultGson().fromJson(jsonObject.get("value"), variable.getTypeClass())); //important: set the value first, otherwise isDirty will be overwritten
+
         variable.name = jsonObject.get("name").getAsString();
         variable.hasInput = jsonObject.get("hasInput").getAsBoolean();
         variable.hasOutput = jsonObject.get("hasOutput").getAsBoolean();
