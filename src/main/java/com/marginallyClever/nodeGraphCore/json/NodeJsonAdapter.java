@@ -33,7 +33,7 @@ public class NodeJsonAdapter implements JsonSerializer<Node>, JsonDeserializer<N
         Node node = NodeFactory.createNode(name);
         if(node != null){
             node.setUniqueID(jsonObject.get("uniqueID").getAsInt());
-            node.setLabel(jsonObject.get("label").getAsString());
+            node.setLabel(jsonObject.has("label") ? jsonObject.get("label").getAsString() : "");
             node.setRectangle(context.deserialize(jsonObject.get("bounds"), Rectangle.class));
             JSONHelper.deserializeNodeVariables(node.getVariables(), jsonObject.get("variables"));
             return node;
