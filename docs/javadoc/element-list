@@ -1,0 +1,9 @@
+module:com.marginallyClever.NodeGraphCore
+com.marginallyClever.nodeGraphCore
+com.marginallyClever.nodeGraphCore.builtInNodes
+com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators
+com.marginallyClever.nodeGraphCore.builtInNodes.math
+com.marginallyClever.nodeGraphCore.json
+com.marginallyClever.nodeGraphSwing
+com.marginallyClever.nodeGraphSwing.actions
+com.marginallyClever.nodeGraphSwing.nodes.images
