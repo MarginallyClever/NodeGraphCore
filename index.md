@@ -1,37 +1,32 @@
-## Welcome to GitHub Pages
+# Node Graph and Editor
 
-You can use the [editor on GitHub](https://github.com/MarginallyClever/NodeGraphCore/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+A pure Java implementation of Node based [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![img](preview-for-github.png)
 
-### Markdown
+Data-flow programming is aesthetically pleasing, greatly reduces the chance of syntax error, and empowering for people
+that are not fluent in the archaic syntax of text-only languages.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Features
 
-```markdown
-Syntax highlighted code block
+- Parallel operation: Nodes are not directed or forced to run.  There is little danger of large networks overflowing the stack. 
+- Foldable: Collapse a subgraph down to a single node with Fold and reverse with Unfold
+- Convenient: Built in nodes for basic math and reporting.
+- Tested: Unit tests for everything!  If it can be tested, we shall!
+- A sample editor has been provided in Java Swing.  The main executable class is `com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel`.
+- While running the Swing editor you can also access Swing-only nodes like `LoadImage` and `PrintImage`.  PrintImage will appear in the background of the node editor panel. 
 
-# Header 1
-## Header 2
-### Header 3
+### Discuss
 
-- Bulleted
-- List
+Join [the Discord channel](https://discord.gg/Q5TZFmB) and make new friends.
 
-1. Numbered
-2. List
+### Based on work by
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/MarginallyClever/NodeGraphCore/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- https://nodes.io/story/
+- https://github.com/janbijster/cobble
+- https://github.com/kenk42292/shoyu
+- https://github.com/paceholder/nodeeditor
+- https://github.com/miho/VWorkflows
+- Unity
+- Blender
+- and others
