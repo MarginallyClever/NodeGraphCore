@@ -165,12 +165,12 @@ public abstract class Node {
     }
 
     /**
-     * Check if any variables are dirty.
-     * @return true if any variables are dirty.
+     * Returns true if any input variables variables are dirty.
+     * @return true if any input variables are dirty.
      */
     public boolean isDirty() {
         for(NodeVariable<?> v : variables) {
-            if (v.getIsDirty()) return true;
+            if(v.getHasInput() && v.getIsDirty()) return true;
         }
         return false;
     }

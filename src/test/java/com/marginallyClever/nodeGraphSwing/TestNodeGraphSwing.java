@@ -17,9 +17,11 @@ public class TestNodeGraphSwing {
     private static NodeGraph model;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         model = new NodeGraph();
-        BuiltInNodeRegistry.registerNodes();
+        try {
+            BuiltInNodeRegistry.registerNodes();
+        } catch (IllegalArgumentException e) {}
         SwingNodeRegistry.registerNodes();
     }
 

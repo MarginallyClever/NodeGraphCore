@@ -178,7 +178,7 @@ public class TestNodeGraphCore {
     public void testModelClears() {
         testAddTwoConstants();
         nodeGraph.clear();
-        assertEquals(new NodeGraph(),nodeGraph);
+        assertEquals((new NodeGraph()).toString(),nodeGraph.toString());
     }
 
     /**
