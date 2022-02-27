@@ -19,7 +19,8 @@ that are not fluent in the archaic syntax of text-only languages.
 ### Use it, Discuss it, Love it.
 
 - Please see the [Javadoc with the full API for Core and Swing](https://marginallyclever.github.io/NodeGraphCore/javadoc).
-- Please see guide for [how to Contibute](https://github.com/MarginallyClever/NodeGraphCore/blob/main/CONTRIBUTING.md)
+- Please see guide for [how to Contribute](https://github.com/MarginallyClever/NodeGraphCore/blob/main/CONTRIBUTING.md)
+- The [Official webpage](https://marginallyclever.github.io/NodeGraphCore/)!
 - Join [the Discord channel](https://discord.gg/Q5TZFmB) and make new friends.
 
 ### Based on work by
@@ -29,6 +30,7 @@ that are not fluent in the archaic syntax of text-only languages.
 - https://github.com/kenk42292/shoyu
 - https://github.com/paceholder/nodeeditor
 - https://github.com/miho/VWorkflows
+- https://nodered.org/
 - Unity
 - Blender
 - and others
