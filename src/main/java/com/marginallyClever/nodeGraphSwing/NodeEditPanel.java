@@ -105,7 +105,17 @@ public class NodeEditPanel extends JPanel {
         NodeEditPanel panel = new NodeEditPanel(subject);
         if(JOptionPane.showConfirmDialog(frame,panel,"Edit "+subject.getName(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
             subject.setLabel(panel.getLabel());
+
+            for(int i=0;i<subject.getNumVariables();++i) {
+                NodeVariable<?> v = subject.getVariable(i);
+                panel.readTextField(i,subject.getVariable(i));
+            }
         }
+    }
+
+    private void readTextField(int index,NodeVariable<?> variable) {
+        JTextField f = fields.get(index);
+        variable.setValue(f.getText());
     }
 
     /**
