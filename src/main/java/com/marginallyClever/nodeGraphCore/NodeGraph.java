@@ -191,14 +191,15 @@ public class NodeGraph {
 
     /**
      * Add all {@link Node}s and {@link NodeConnection}s from one model to this model.
-     * @param b the model to add.
+     * @param nodeGraph the model to add.
      */
-    public void add(NodeGraph b) {
+    public void add(NodeGraph nodeGraph) {
+        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
         assignNewUniqueIDs(0);
-        b.assignNewUniqueIDs(Node.getUniqueIDSource());
+        nodeGraph.assignNewUniqueIDs(Node.getUniqueIDSource());
 
-        nodes.addAll(b.nodes);
-        connections.addAll(b.connections);
+        nodes.addAll(nodeGraph.nodes);
+        connections.addAll(nodeGraph.connections);
 
         bumpUpIndexableID();
     }

@@ -46,11 +46,19 @@ public class ActionSaveGraph extends AbstractAction {
 
     private String addExtensionIfNeeded(String s) {
         int last = s.lastIndexOf(".");
-        if(last != -1) {
-            String[] extensions = NodeGraphEditorPanel.FILE_FILTER.getExtensions();
-            s += "."+extensions[0];
+        String[] extensions = NodeGraphEditorPanel.FILE_FILTER.getExtensions();
+        if(last == -1) {
+            // no extension at all
+            return s + "." + extensions[0];
         }
-        return s;
+
+        String end = s.substring(last,s.length());
+        for(String ext : extensions) {
+            // has valid extension
+            if(end.equals(ext)) return s;
+        }
+        // no matching extension
+        return s + "." + extensions[0];
     }
 
     private void saveModelToFile(String absolutePath) {
