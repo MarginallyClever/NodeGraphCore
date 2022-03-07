@@ -1,9 +1,11 @@
 package com.marginallyClever.nodeGraphSwing;
 
+import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphSwing.nodes.images.Difference;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
+import com.marginallyClever.nodeGraphSwing.nodes.images.ScaleImage;
 
 /**
  * This registry adds Swing {@link com.marginallyClever.nodeGraphCore.Node}s to the user's menu via the
@@ -19,5 +21,6 @@ public class SwingNodeRegistry {
         NodeFactory.registerNode(new LoadImage());
         NodeFactory.registerNode(new PrintImage());
         NodeFactory.registerNode(new Difference());
+        NodeFactory.registerNode(new ScaleImage());
     }
 }
