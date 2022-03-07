@@ -1,6 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.NodeFactory;
+import com.marginallyClever.nodeGraphSwing.nodes.images.Difference;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 
@@ -17,5 +18,6 @@ public class SwingNodeRegistry {
     public static void registerNodes() {
         NodeFactory.registerNode(new LoadImage());
         NodeFactory.registerNode(new PrintImage());
+        NodeFactory.registerNode(new Difference());
     }
 }
