@@ -39,7 +39,7 @@ public class NodeFactory {
     }
 
     /**
-     *
+     * Returns an array containing the unique names of every {@link Node} registered.
      * @return an array containing the unique names of every {@link Node} registered.
      */
     public static String [] getNames() {
