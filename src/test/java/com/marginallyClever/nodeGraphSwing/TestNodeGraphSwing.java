@@ -1,6 +1,8 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
+import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
+import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,5 +45,17 @@ public class TestNodeGraphSwing {
             System.out.println(s);
             assertNotNull(NodeFactory.createNode(s));
         }
+    }
+
+    @Test
+    public void testImages() {
+        LoadImage img2 = new LoadImage("doesNotExist.png");
+        img2.update();
+
+        LoadImage img = new LoadImage("src/test/resources/test.png");
+        img.update();
+
+        PrintImage printer = new PrintImage();
+        NodeConnection c = new NodeConnection(img,0,printer,0);
     }
 }
