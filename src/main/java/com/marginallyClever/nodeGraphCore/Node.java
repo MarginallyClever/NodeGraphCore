@@ -1,5 +1,6 @@
 package com.marginallyClever.nodeGraphCore;
 
+import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -310,7 +311,8 @@ public abstract class Node {
         jo.put("name",name);
         jo.put("uniqueID",uniqueID);
         jo.put("label", label);
-        jo.put("rectangle", JSONHelper.rectangleToJSON(rectangle));
+        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
         return jo;
     }
@@ -332,7 +334,8 @@ public abstract class Node {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
         }
-        rectangle.setBounds(JSONHelper.rectangleFromJSON(jo.getJSONObject("rectangle")));
+        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         parseAllVariablesFromJSON(jo.getJSONArray("variables"));
     }
 

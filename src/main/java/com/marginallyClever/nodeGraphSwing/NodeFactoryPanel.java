@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphCore.BuiltInNodeRegistry;
+import com.marginallyClever.nodeGraphCore.BuiltInRegistry;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.Node;
 
@@ -66,8 +66,8 @@ public class NodeFactoryPanel extends JPanel {
      * @param args command line arguments.
      */
     public static void main(String[] args) {
-        BuiltInNodeRegistry.registerNodes();
-        SwingNodeRegistry.registerNodes();
+        BuiltInRegistry.register();
+        SwingRegistry.register();
         JFrame frame = new JFrame(NodeFactoryPanel.class.getSimpleName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

@@ -1,8 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 

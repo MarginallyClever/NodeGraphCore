@@ -22,9 +22,9 @@ public class TestNodeGraphSwing {
     public static void beforeAll() {
         model = new NodeGraph();
         try {
-            BuiltInNodeRegistry.registerNodes();
+            BuiltInRegistry.register();
         } catch (IllegalArgumentException e) {}
-        SwingNodeRegistry.registerNodes();
+        SwingRegistry.register();
     }
 
     /**

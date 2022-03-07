@@ -599,8 +599,8 @@ public class NodeGraphEditorPanel extends JPanel {
      * @param args command line arguments.
      */
     public static void main(String[] args) {
-        BuiltInNodeRegistry.registerNodes();
-        SwingNodeRegistry.registerNodes();
+        BuiltInRegistry.register();
+        SwingRegistry.register();
 
         NodeGraph model = new NodeGraph();
         NodeGraphEditorPanel panel = new NodeGraphEditorPanel(model);

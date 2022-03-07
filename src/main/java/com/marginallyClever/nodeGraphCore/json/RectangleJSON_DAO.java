@@ -1,16 +1,19 @@
-package com.marginallyClever.nodeGraphCore;
+package com.marginallyClever.nodeGraphCore.json;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 /**
  * Convenience methods for serializing and de-serializing objects in this package.
- * @author Ollie
+ * @author Dan Royer
  * @since 2022-02-01
  */
-public class JSONHelper {
-    public static JSONObject rectangleToJSON(Rectangle rectangle) {
+public class RectangleJSON_DAO implements JSON_DAO<Rectangle> {
+    @Override
+    public Object toJSON(Object value) throws JSONException {
+        Rectangle rectangle = (Rectangle)value;
         JSONObject r = new JSONObject();
         r.put("x",rectangle.x);
         r.put("y",rectangle.y);
@@ -19,8 +22,10 @@ public class JSONHelper {
         return r;
     }
 
-    public static Rectangle rectangleFromJSON(JSONObject r) {
+    @Override
+    public Rectangle fromJSON(Object object) throws JSONException {
         Rectangle rect = new Rectangle();
+        JSONObject r = (JSONObject)object;
         rect.x = r.getInt("x");
         rect.y = r.getInt("y");
         rect.width = r.getInt("width");

@@ -7,17 +7,21 @@ import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalA
 import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalNot;
 import com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators.LogicalOr;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.*;
+import com.marginallyClever.nodeGraphCore.json.*;
+
+import java.awt.*;
 
 /**
  * Registers built-in {@link Node}s to the {@link NodeFactory}.
+ * Registers built-in types with the JSON DAO factory.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class BuiltInNodeRegistry {
+public class BuiltInRegistry {
     /**
-     * Call this once to register all the built-in nodes that are included in the package.
+     * Perform the registration.
      */
-    public static void registerNodes() {
+    public static void register() {
         NodeFactory.registerNode(new LoadNumber());
         NodeFactory.registerNode(new Random());
         NodeFactory.registerNode(new Add());
@@ -37,5 +41,11 @@ public class BuiltInNodeRegistry {
         NodeFactory.registerNode(new LogicalOr());
         NodeFactory.registerNode(new LogicalAnd());
         NodeFactory.registerNode(new LogicalNot());
+
+        JSON_DAO_Factory.registerNode(Rectangle.class, new RectangleJSON_DAO());
+        JSON_DAO_Factory.registerNode(String.class, new StringJSON_DAO());
+        JSON_DAO_Factory.registerNode(Number.class, new NumberJSON_DAO());
+        JSON_DAO_Factory.registerNode(Boolean.class, new BooleanJSON_DAO());
+        JSON_DAO_Factory.registerNode(Object.class, new ObjectJSON_DAO());
     }
 }

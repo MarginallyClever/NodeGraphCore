@@ -6,7 +6,7 @@
  * com.marginallyClever.nodeGraphCore.Subgraph}.
  *
  * Nodes are exposed to editing and serialization tools by registering themselves to the NodeFactory.  See {@link
- * com.marginallyClever.nodeGraphCore.BuiltInNodeRegistry} for examples which include {@link
+ * com.marginallyClever.nodeGraphCore.BuiltInRegistry} for examples which include {@link
  * com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut}, boolean logical operators, and basic math functions.
  */
 package com.marginallyClever.nodeGraphCore;

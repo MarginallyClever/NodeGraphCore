@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +29,7 @@ public class TestNodeGraphCore {
     @BeforeAll
     public static void beforeAll() {
         nodeGraph = new NodeGraph();
-        BuiltInNodeRegistry.registerNodes();
+        BuiltInRegistry.register();
     }
 
     /**
@@ -215,8 +214,8 @@ public class TestNodeGraphCore {
          */
         testNodeVariableToJSONAndBack(Rectangle.class, new Rectangle(),new Rectangle());
         testNodeVariableToJSONAndBack(String.class, "hello",new String());
-        testNodeVariableToJSONAndBack(Double.class, 1.2D,0.0D);
-        testNodeVariableToJSONAndBack(Integer.class, 1,0);
+        testNodeVariableToJSONAndBack(Number.class, 1.2D,0.0D);
+        testNodeVariableToJSONAndBack(Number.class, 1,0);
     }
 
     /**
