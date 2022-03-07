@@ -1,11 +1,12 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.google.gson.JsonElement;
 import com.marginallyClever.nodeGraphCore.builtInNodes.LoadNumber;
 import com.marginallyClever.nodeGraphCore.builtInNodes.PrintToStdOut;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Multiply;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Subtract;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testSaveEmptyGraph() {
-        assertEquals("{\"nodes\":[],\"connections\":[]}",JSONHelper.getDefaultGson().toJson(nodeGraph).replaceAll("\\s+",""));
+        assertEquals("{\"nodes\":[],\"connections\":[]}",nodeGraph.toJSON().toString().replaceAll("\\s+",""));
     }
 
     /**
@@ -130,14 +131,9 @@ public class TestNodeGraphCore {
         Node nodeA = nodeGraph.add(new Add());
         Node nodeB = new Subtract();
 
-        String asJsonA = JSONHelper.getDefaultGson().toJson(nodeA);
-        String asJsonB = JSONHelper.getDefaultGson().toJson(nodeB);
-
-        assertNotEquals(asJsonA, asJsonB);
+        assertThrows(JSONException.class,()->nodeB.parseJSON(nodeA.toJSON()));
         assertNotEquals(nodeA.toString(), nodeB.toString());
-
         Node nodeC = nodeGraph.add(new Add());
-        String asJsonC = JSONHelper.getDefaultGson().toJson(nodeC);
         assertNotEquals(nodeA.toString(), nodeC.toString());
     }
 
@@ -152,10 +148,9 @@ public class TestNodeGraphCore {
             System.out.println(s);
             Node a = NodeFactory.createNode(s);
             assertNotNull(a);
-
-            JsonElement element = JSONHelper.getDefaultGson().toJsonTree(a);
-            Node b = JSONHelper.getDefaultGson().fromJson(element, Node.class);
-
+            Node b = NodeFactory.createNode(s);
+            assertNotNull(b);
+            b.parseJSON(a.toJSON());
             assertEquals(a.toString(),b.toString());
         }
     }
@@ -166,8 +161,9 @@ public class TestNodeGraphCore {
     @Test
     public void testModelToJSONAndBack() {
         testAddTwoConstants();
-        JsonElement a = JSONHelper.getDefaultGson().toJsonTree(nodeGraph);
-        NodeGraph modelB = JSONHelper.getDefaultGson().fromJson(a, NodeGraph.class);
+        JSONObject a = nodeGraph.toJSON();
+        NodeGraph modelB = new NodeGraph();
+        modelB.parseJSON(a);
         assertEquals(nodeGraph.toString(),modelB.toString());
     }
 
@@ -195,16 +191,14 @@ public class TestNodeGraphCore {
      * @param instA
      * @param instB
      * @param <T>
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
+     * @throws Exception
      */
-    private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws Exception {
         NodeVariable<?> a = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instA,false,false);
         NodeVariable<?> b = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instB,false,false);
 
-        JSONHelper.deserializeNodeVariable(b, JSONHelper.serializeNodeVariable(a));
+        JSONObject obj = a.toJSON();
+        b.parseJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
     }
