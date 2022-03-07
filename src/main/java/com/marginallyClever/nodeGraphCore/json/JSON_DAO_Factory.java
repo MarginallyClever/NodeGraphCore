@@ -1,9 +1,7 @@
 package com.marginallyClever.nodeGraphCore.json;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +20,7 @@ public class JSON_DAO_Factory {
      * @param aClass one instance of the class.
      * @throws IllegalArgumentException if two {@link JSON_DAO} are registered with the same class.
      */
-    public static void registerNode(Class aClass, JSON_DAO<?> dao) throws IllegalArgumentException {
+    public static void registerDAO(Class aClass, JSON_DAO<?> dao) throws IllegalArgumentException {
         if(daoRegistry.containsKey(aClass)) {
             throw new IllegalArgumentException("A node is already registered with the name "+aClass.getName());
         }

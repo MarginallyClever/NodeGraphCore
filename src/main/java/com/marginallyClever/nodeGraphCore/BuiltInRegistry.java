@@ -42,10 +42,10 @@ public class BuiltInRegistry {
         NodeFactory.registerNode(new LogicalAnd());
         NodeFactory.registerNode(new LogicalNot());
 
-        JSON_DAO_Factory.registerNode(Rectangle.class, new RectangleJSON_DAO());
-        JSON_DAO_Factory.registerNode(String.class, new StringJSON_DAO());
-        JSON_DAO_Factory.registerNode(Number.class, new NumberJSON_DAO());
-        JSON_DAO_Factory.registerNode(Boolean.class, new BooleanJSON_DAO());
-        JSON_DAO_Factory.registerNode(Object.class, new ObjectJSON_DAO());
+        JSON_DAO_Factory.registerDAO(Rectangle.class, new RectangleJSON_DAO());
+        JSON_DAO_Factory.registerDAO(String.class, new StringJSON_DAO());
+        JSON_DAO_Factory.registerDAO(Number.class, new NumberJSON_DAO());
+        JSON_DAO_Factory.registerDAO(Boolean.class, new BooleanJSON_DAO());
+        JSON_DAO_Factory.registerDAO(Object.class, new ObjectJSON_DAO());
     }
 }
