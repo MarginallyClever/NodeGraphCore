@@ -1,4 +1,4 @@
-package com.marginallyClever.nodeGraphCore.json;
+package com.marginallyClever.nodeGraphCore;
 
 import org.json.JSONException;
 

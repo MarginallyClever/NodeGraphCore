@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.NodeFactory;
-import com.marginallyClever.nodeGraphCore.json.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
 import com.marginallyClever.nodeGraphSwing.nodes.images.*;
 import com.marginallyClever.nodeGraphSwing.nodes.images.blend.BlendDifference;
 import com.marginallyClever.nodeGraphSwing.nodes.images.blend.BlendMultiply;
