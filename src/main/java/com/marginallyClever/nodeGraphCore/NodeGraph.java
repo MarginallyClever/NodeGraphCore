@@ -1,8 +1,9 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
-import com.marginallyClever.nodeGraphCore.json.NodeGraphJsonAdapter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -15,7 +16,6 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-02-01
  */
-@JsonAdapter(NodeGraphJsonAdapter.class)
 public class NodeGraph {
     /**
      * The list of all {@link Node} in this graph.
@@ -213,7 +213,9 @@ public class NodeGraph {
      * @return the {@link NodeGraph} copy
      */
     public NodeGraph deepCopy() {
-        return JSONHelper.deepCopy(this);
+        NodeGraph copy = new NodeGraph();
+        copy.parseJSON(toJSON());
+        return copy;
     }
 
     /**
@@ -312,4 +314,71 @@ public class NodeGraph {
         }
         return r;
     }
+
+    public JSONObject toJSON() {
+        JSONObject jo = new JSONObject();
+        jo.put("nodes",getAllNodesAsJSON());
+        jo.put("connections",getAllNodeConnectionsAsJSON());
+        return jo;
+    }
+
+    public void parseJSON(JSONObject jo) throws JSONException {
+        clear();
+        parseAllNodesFromJSON(jo.getJSONArray("nodes"));
+        parseAllNodeConnectionsFromJSON(jo.getJSONArray("connections"));
+        bumpUpIndexableID();
+    }
+
+    private void parseAllNodesFromJSON(JSONArray arr) throws JSONException {
+        for (Object element : arr) {
+            JSONObject o = (JSONObject)element;
+            Node n = NodeFactory.createNode(o.getString("name"));
+            n.parseJSON(o);
+            add(n);
+        }
+    }
+
+    private void parseAllNodeConnectionsFromJSON(JSONArray arr) throws JSONException {
+        for (Object o : arr) {
+            NodeConnection c = new NodeConnection();
+            parseOneConnectionFromJSON(c, (JSONObject)o);
+            add(c);
+        }
+    }
+
+    /**
+     * {@link NodeConnection} must be parsed in the {@link NodeGraph} because only here can we access the list of
+     * nodes to find the one with a matching {@code getUniqueName()}.
+     * @param c the connection to parse into.
+     * @param jo the JSON to parse.
+     */
+    private void parseOneConnectionFromJSON(NodeConnection c, JSONObject jo) {
+        if(jo.has("inNode")) {
+            Node n = findNodeWithUniqueName(jo.getString("inNode"));
+            int i = jo.getInt("inVariableIndex");
+            c.setInput(n,i);
+        }
+        if(jo.has("outNode")) {
+            Node n = findNodeWithUniqueName(jo.getString("outNode"));
+            int i = jo.getInt("outVariableIndex");
+            c.setOutput(n,i);
+        }
+    }
+
+    private JSONArray getAllNodesAsJSON() {
+        JSONArray a = new JSONArray();
+        for (Node n : nodes) {
+            a.put(n.toJSON());
+        }
+        return a;
+    }
+
+    private JSONArray getAllNodeConnectionsAsJSON() {
+        JSONArray a = new JSONArray();
+        for (NodeConnection c : connections) {
+            a.put(c.toJSON());
+        }
+        return a;
+    }
+
 }

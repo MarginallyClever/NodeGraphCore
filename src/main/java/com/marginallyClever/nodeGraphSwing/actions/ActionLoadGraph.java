@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
-import com.marginallyClever.nodeGraphCore.JSONHelper;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -41,23 +41,25 @@ public class ActionLoadGraph extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         fc.setFileFilter(NodeGraphEditorPanel.FILE_FILTER);
         if (fc.showOpenDialog(SwingUtilities.getWindowAncestor(editor)) == JFileChooser.APPROVE_OPTION) {
-            editor.getGraph().add(loadModelFromFile(fc.getSelectedFile().getAbsolutePath()));
+            try {
+                editor.getGraph().add(loadGraphFromFile(fc.getSelectedFile().getAbsolutePath()));
+                editor.repaint();
+            } catch(IOException e1) {
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e1.getLocalizedMessage());
+                e1.printStackTrace();
+            }
         }
     }
 
-    private NodeGraph loadModelFromFile(String absolutePath) {
-        NodeGraph newModel;
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath)))) {
-            StringBuilder responseStrBuilder = new StringBuilder();
-            String inputStr;
-            while ((inputStr = reader.readLine()) != null)
-                responseStrBuilder.append(inputStr);
-            newModel = JSONHelper.getDefaultGson().fromJson(responseStrBuilder.toString(), NodeGraph.class);
-        } catch(IOException e) {
-            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e.getLocalizedMessage());
-            e.printStackTrace();
-            newModel = new NodeGraph();
+    private NodeGraph loadGraphFromFile(String absolutePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath)));
+        StringBuilder responseStrBuilder = new StringBuilder();
+        String inputStr;
+        while ((inputStr = reader.readLine()) != null) {
+            responseStrBuilder.append(inputStr);
         }
+        NodeGraph newModel = new NodeGraph();
+        newModel.parseJSON(new JSONObject(responseStrBuilder.toString()));
         return newModel;
     }
 }

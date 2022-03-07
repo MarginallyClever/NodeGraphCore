@@ -1,7 +1,8 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.marginallyClever.nodeGraphCore.json.NodeJsonAdapter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-02-01
  */
-@JsonAdapter(NodeJsonAdapter.class)
 public abstract class Node {
     /**
      * The default height of the title bar.
@@ -303,5 +303,51 @@ public abstract class Node {
     public void moveRelative(int dx, int dy) {
         rectangle.x += dx;
         rectangle.y += dy;
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("name",name);
+        jo.put("uniqueID",uniqueID);
+        jo.put("label", label);
+        jo.put("rectangle", JSONHelper.rectangleToJSON(rectangle));
+        jo.put("variables", getAllVariablesAsJSON());
+        return jo;
+    }
+
+    private JSONArray getAllVariablesAsJSON() {
+        JSONArray vars = new JSONArray();
+        for(NodeVariable<?> v : variables) {
+            vars.put(v.toJSON());
+        }
+        return vars;
+    }
+
+    public void parseJSON(JSONObject jo) throws JSONException {
+        String joName = jo.getString("name");
+        if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
+
+        uniqueID = jo.getInt("uniqueID");
+        if(jo.has("label")) {
+            String s = jo.getString("label");
+            if(!s.equals("null")) label = s;
+        }
+        rectangle.setBounds(JSONHelper.rectangleFromJSON(jo.getJSONObject("rectangle")));
+        parseAllVariablesFromJSON(jo.getJSONArray("variables"));
+    }
+
+    private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {
+        guaranteeSameNumberOfVariables(vars);
+        for(int i=0;i<vars.length();++i) {
+            variables.get(i).parseJSON(vars.getJSONObject(i));
+        }
+    }
+
+    private void guaranteeSameNumberOfVariables(JSONArray vars) throws JSONException {
+        if(vars.length() != variables.size()) {
+            int a = variables.size();
+            int b = vars.length();
+            throw new JSONException("JSON bad number of node variables.  Expected "+a+" found "+b);
+        }
     }
 }

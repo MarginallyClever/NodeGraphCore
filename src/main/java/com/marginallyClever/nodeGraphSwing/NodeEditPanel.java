@@ -127,15 +127,6 @@ public class NodeEditPanel extends JPanel {
     }
 
     /**
-     * Performs a deep copy of the subject
-     * @param subject the node to copy.
-     * @return the copy.
-     */
-    private static Node deepCopy(Node subject) {
-        return JSONHelper.deepCopy(subject);
-    }
-
-    /**
      * main entry point.  Good for independent test.
      * @param args command line arguments.
      */

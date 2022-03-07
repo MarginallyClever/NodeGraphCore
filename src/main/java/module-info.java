@@ -7,7 +7,7 @@
  */
 module com.marginallyClever.NodeGraphCore {
     requires java.desktop;
-    requires com.google.gson;
+    requires org.json;
 
     exports com.marginallyClever.nodeGraphCore;
     exports com.marginallyClever.nodeGraphSwing;

@@ -1,5 +1,8 @@
 package com.marginallyClever.nodeGraphCore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.awt.*;
 import java.util.Objects;
 
@@ -247,4 +250,18 @@ public class NodeConnection {
     public NodeVariable<?> getOutVariable() {
         return (outNode==null) ? null : outNode.getVariable(outVariableIndex);
     }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject jo = new JSONObject();
+        if(inNode!=null) {
+            jo.put("inNode",inNode.getUniqueName());
+            jo.put("inVariableIndex",inVariableIndex);
+        }
+        if(outNode!=null) {
+            jo.put("outNode", outNode.getUniqueName());
+            jo.put("outVariableIndex", outVariableIndex);
+        }
+        return jo;
+    }
+
 }

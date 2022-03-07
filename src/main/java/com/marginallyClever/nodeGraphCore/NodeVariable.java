@@ -1,5 +1,8 @@
 package com.marginallyClever.nodeGraphCore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.awt.*;
 
 /**
@@ -212,5 +215,26 @@ public class NodeVariable<T> {
      */
     public Point getOutPosition() {
         return new Point((int)rectangle.getMaxX(), rectangle.y+rectangle.height/2);
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("value",value);
+        jo.put("name",name);
+        jo.put("hasInput",hasInput);
+        jo.put("hasOutput",hasOutput);
+        jo.put("rectangle", JSONHelper.rectangleToJSON(rectangle));
+        jo.put("isDirty",isDirty);
+        return jo;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void parseJSON(JSONObject jo) throws JSONException, ClassCastException {
+        value = (jo.has("value") ? (T)jo.get("value") : null);
+        name = jo.getString("name");
+        hasInput = jo.getBoolean("hasInput");
+        hasOutput = jo.getBoolean("hasOutput");
+        rectangle.setBounds(JSONHelper.rectangleFromJSON(jo.getJSONObject("rectangle")));
+        isDirty = jo.getBoolean("isDirty");
     }
 }

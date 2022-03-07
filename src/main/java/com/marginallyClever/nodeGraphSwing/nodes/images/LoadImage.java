@@ -47,13 +47,20 @@ public class LoadImage extends Node {
     @Override
     public void update() {
         try {
-            BufferedImage image = ImageIO.read(new File(filename.getValue()));
-            contents.setValue(image);
-            width.setValue(image.getWidth());
-            height.setValue(image.getHeight());
-            cleanAllInputs();
+            String filenameValue = filename.getValue();
+            if(filenameValue!=null && !filenameValue.isEmpty()) {
+                File f = new File(filenameValue);
+                if (f.exists()) {
+                    BufferedImage image = ImageIO.read(f);
+                    contents.setValue(image);
+                    width.setValue(image.getWidth());
+                    height.setValue(image.getHeight());
+                    cleanAllInputs();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        cleanAllInputs();
     }
 }

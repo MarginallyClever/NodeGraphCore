@@ -44,26 +44,26 @@ public class ActionSaveGraph extends AbstractAction {
         }
     }
 
-    private String addExtensionIfNeeded(String s) {
-        int last = s.lastIndexOf(".");
+    public String addExtensionIfNeeded(String filename) {
+        int last = filename.lastIndexOf(".");
         String[] extensions = NodeGraphEditorPanel.FILE_FILTER.getExtensions();
         if(last == -1) {
             // no extension at all
-            return s + "." + extensions[0];
+            return filename + "." + extensions[0];
         }
 
-        String end = s.substring(last,s.length());
+        String end = filename.substring(last+1,filename.length());
         for(String ext : extensions) {
             // has valid extension
-            if(end.equals(ext)) return s;
+            if(end.equals(ext)) return filename;
         }
         // no matching extension
-        return s + "." + extensions[0];
+        return filename + "." + extensions[0];
     }
 
     private void saveModelToFile(String absolutePath) {
         try(BufferedWriter w = new BufferedWriter(new FileWriter(absolutePath))) {
-            w.write(JSONHelper.getDefaultGson().toJson(editor.getGraph()));
+            w.write(editor.getGraph().toJSON().toString());
         } catch(Exception e) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e.getLocalizedMessage());
             e.printStackTrace();
