@@ -460,7 +460,10 @@ public class NodeGraphEditorPanel extends JPanel {
             if(connectionBeingCreated.isValidDataType()) {
                 NodeConnection match = model.getMatchingConnection(connectionBeingCreated);
                 if(match!=null) model.remove(match);
-                else model.add(new NodeConnection(connectionBeingCreated));
+                else {
+                    model.removeAllConnectionsInto(connectionBeingCreated.getOutVariable());
+                    model.add(new NodeConnection(connectionBeingCreated));
+                }
             } else {
                 NodeVariable<?> vIn = connectionBeingCreated.getInVariable();
                 NodeVariable<?> vOut = connectionBeingCreated.getOutVariable();

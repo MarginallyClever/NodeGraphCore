@@ -204,6 +204,20 @@ public class NodeGraph {
         bumpUpIndexableID();
     }
 
+    /**
+     * Find and remove any {@link NodeConnection} that connects to the input side of a given {@link NodeVariable}.
+     * @param outVariable the {@link NodeVariable} with an input to be isolated.
+     */
+    public void removeAllConnectionsInto(NodeVariable<?> outVariable) {
+        ArrayList<NodeConnection> toDestroy = new ArrayList<>();
+
+        for(NodeConnection c : connections) {
+            if(c.getOutVariable() == outVariable) toDestroy.add(c);
+        }
+
+        connections.removeAll(toDestroy);
+    }
+
     private void assignNewUniqueIDs(int startingIndex) {
         for(Node n : nodes) n.setUniqueID(++startingIndex);
     }
@@ -224,7 +238,7 @@ public class NodeGraph {
      * @param c the class to match.
      * @return the index within the list of nodes of the first occurrence of class c, or -1.
      */
-    public int indexOfNode(Class<Add> c) {
+    public int indexOfNode(Class c) {
         return indexOfNode(c,0);
     }
 
@@ -380,5 +394,4 @@ public class NodeGraph {
         }
         return a;
     }
-
 }
