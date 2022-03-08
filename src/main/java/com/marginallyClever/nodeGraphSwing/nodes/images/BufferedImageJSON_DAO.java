@@ -14,6 +14,7 @@ public class BufferedImageJSON_DAO implements JSON_DAO<BufferedImage> {
         v.put("width",image.getWidth());
         v.put("height",image.getHeight());
         v.put("type",image.getType());
+        // for a complete snapshot, capture all the instance details, too.
         return v;
     }
 
@@ -23,6 +24,7 @@ public class BufferedImageJSON_DAO implements JSON_DAO<BufferedImage> {
         int w = v.getInt("width");
         int h = v.getInt("height");
         int type = v.getInt("type");
+        // for a complete snapshot, restore all the instance details, too.
         return new BufferedImage(w,h,type);
     }
 }
