@@ -29,7 +29,9 @@ public class TestNodeGraphCore {
     @BeforeAll
     public static void beforeAll() {
         nodeGraph = new NodeGraph();
-        BuiltInRegistry.register();
+        try {
+            BuiltInRegistry.register();
+        } catch (IllegalArgumentException e) {}
     }
 
     /**
