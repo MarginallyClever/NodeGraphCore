@@ -1,14 +1,15 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
+import com.marginallyClever.nodeGraphSwing.actions.ActionSaveGraph;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test the NodeGraphSwing elements.
@@ -23,8 +24,8 @@ public class TestNodeGraphSwing {
         model = new NodeGraph();
         try {
             BuiltInRegistry.register();
+            SwingRegistry.register();
         } catch (IllegalArgumentException e) {}
-        SwingRegistry.register();
     }
 
     /**
@@ -57,5 +58,12 @@ public class TestNodeGraphSwing {
 
         PrintImage printer = new PrintImage();
         NodeConnection c = new NodeConnection(img,0,printer,0);
+    }
+
+    @Test
+    public void testAddExtension() {
+        ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",null);
+        assertEquals("test.graph",actionSaveGraph.addExtensionIfNeeded("test"));
+        assertEquals("test.graph",actionSaveGraph.addExtensionIfNeeded("test.graph"));
     }
 }

@@ -20,8 +20,8 @@ public class TestJSON_DAO {
     public static void beforeAll() {
         try {
             BuiltInRegistry.register();
+            SwingRegistry.register();
         } catch (IllegalArgumentException e) {}
-        SwingRegistry.register();
     }
 
     private boolean bufferedImagesEqual(BufferedImage img1, BufferedImage img2) {
