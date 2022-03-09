@@ -103,13 +103,9 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testFactoryFailsOnBadRequests() {
-        assertThrows(IllegalArgumentException.class, ()->{
-            NodeFactory.createNode("");
-        });
+        assertThrows(IllegalArgumentException.class, ()-> NodeFactory.createNode(""));
 
-        assertThrows(IllegalArgumentException.class, ()->{
-            NodeFactory.createNode(null);
-        });
+        assertThrows(IllegalArgumentException.class, ()-> NodeFactory.createNode(null));
     }
 
     /**

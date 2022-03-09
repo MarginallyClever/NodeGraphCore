@@ -11,7 +11,7 @@ import java.util.Set;
  * @since 2022-02-01
  */
 public class NodeFactory {
-    private static Map<String,Node> nodeRegistry = new HashMap<>();
+    private static final Map<String,Node> nodeRegistry = new HashMap<>();
 
     /**
      * Does not allow nodes to be registered more than once.

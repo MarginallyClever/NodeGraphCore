@@ -28,7 +28,7 @@ public abstract class Node {
 
     private int uniqueID;
 
-    private String name;
+    private final String name;
 
     private String label;
 
@@ -154,7 +154,7 @@ public abstract class Node {
         int h=Node.TITLE_HEIGHT;
         int y=getRectangle().y;
         int x=getRectangle().x;
-        for(NodeVariable v : variables) {
+        for(NodeVariable<?> v : variables) {
             Rectangle r = v.getRectangle();
             r.y=h+y;
             r.x=x;
@@ -198,7 +198,7 @@ public abstract class Node {
      * Add a {@link NodeVariable} to this node.
      * @param v the new {@link NodeVariable}
      */
-    protected void addVariable(NodeVariable v) {
+    protected void addVariable(NodeVariable<?> v) {
         variables.add(v);
     }
 
@@ -206,7 +206,7 @@ public abstract class Node {
      * Remove a {@link NodeVariable} from this node.
      * @param v the old {@link NodeVariable}
      */
-    protected void removeVariable(NodeVariable v) {
+    protected void removeVariable(NodeVariable<?> v) {
         variables.remove(v);
     }
 
@@ -246,8 +246,7 @@ public abstract class Node {
      */
     public Point getInPosition(int index) {
         Rectangle r = getRectangle();
-        Point p = new Point(r.x,r.y+(int)getPointHeight(index));
-        return p;
+        return new Point(r.x,r.y+(int)getPointHeight(index));
     }
 
     /**
@@ -257,12 +256,11 @@ public abstract class Node {
      */
     public Point getOutPosition(int index) {
         Rectangle r = getRectangle();
-        Point p = new Point(r.x+r.width,r.y+(int)getPointHeight(index));
-        return p;
+        return new Point(r.x+r.width,r.y+(int)getPointHeight(index));
     }
 
     private double getPointHeight(int index) {
-        float y = TITLE_HEIGHT;
+        double y = TITLE_HEIGHT;
         Rectangle inr = getRectangle();
         for(int i=0;i<index;++i) {
             y += getVariable(i).getRectangle().height;

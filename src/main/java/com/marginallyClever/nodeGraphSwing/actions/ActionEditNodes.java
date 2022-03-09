@@ -3,7 +3,6 @@ package com.marginallyClever.nodeGraphSwing.actions;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeEditPanel;
-import com.marginallyClever.nodeGraphSwing.NodeFactoryPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;

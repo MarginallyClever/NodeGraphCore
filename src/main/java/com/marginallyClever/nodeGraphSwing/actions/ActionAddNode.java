@@ -18,7 +18,7 @@ public class ActionAddNode extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private NodeGraphEditorPanel editor;
+    private final NodeGraphEditorPanel editor;
 
     /**
      * Constructor for subclasses to call.

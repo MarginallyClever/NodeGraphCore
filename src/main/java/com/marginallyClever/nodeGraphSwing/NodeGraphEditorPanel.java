@@ -86,7 +86,7 @@ public class NodeGraphEditorPanel extends JPanel {
     /**
      * Remembers the state of the keys for selection actions
      */
-    private KeyStateMemory keyStateMemory = new KeyStateMemory();
+    private final KeyStateMemory keyStateMemory = new KeyStateMemory();
 
     /**
      * true while drawing a box to select nodes.
@@ -408,8 +408,8 @@ public class NodeGraphEditorPanel extends JPanel {
 
     /**
      * Move all selected nodes some relative cartesian amount.
-     * @param dx the x axis amount.
-     * @param dy the y axis amount.
+     * @param dx the x-axis amount.
+     * @param dy the y-axis amount.
      */
     private void moveSelectedNodes(int dx, int dy) {
         for(Node n : selectedNodes) {
@@ -438,7 +438,7 @@ public class NodeGraphEditorPanel extends JPanel {
             setSelectedNodes(nodesInSelectionArea);
         } else {
             List<Node> already = getSelectedNodes();
-            List<Node> overlap = new ArrayList<Node>(nodesInSelectionArea);
+            List<Node> overlap = new ArrayList<>(nodesInSelectionArea);
             overlap.retainAll(already);
             nodesInSelectionArea.removeAll(overlap);
             if(!overlap.isEmpty()) {

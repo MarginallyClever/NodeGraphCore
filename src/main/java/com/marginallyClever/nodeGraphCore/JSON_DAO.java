@@ -1,6 +1,5 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.NodeVariable;
 import org.json.JSONException;
 import org.json.JSONObject;
 

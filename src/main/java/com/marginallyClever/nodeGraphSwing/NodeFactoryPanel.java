@@ -41,7 +41,7 @@ public class NodeFactoryPanel extends JPanel {
     public static Node runAsDialog(Frame frame) {
         JDialog dialog = new JDialog(frame,"Add Node", Dialog.ModalityType.DOCUMENT_MODAL);
 
-        final AtomicReference<Node> result = new AtomicReference<Node>();
+        final AtomicReference<Node> result = new AtomicReference<>();
 
         final NodeFactoryPanel panel = new NodeFactoryPanel();
         panel.confirmButton.addActionListener((e)->{

@@ -238,7 +238,7 @@ public class NodeGraph {
      * @param c the class to match.
      * @return the index within the list of nodes of the first occurrence of class c, or -1.
      */
-    public int indexOfNode(Class c) {
+    public int indexOfNode(Class<?> c) {
         return indexOfNode(c,0);
     }
 
@@ -250,7 +250,7 @@ public class NodeGraph {
      * @param fromIndex the index to start the search from.
      * @return the index within the list of nodes of the first occurrence of class c, or -1.
      */
-    public int indexOfNode(Class<Add> c, int fromIndex) {
+    public int indexOfNode(Class<?> c, int fromIndex) {
         for(int i=fromIndex;i<nodes.size();++i) {
             if(c.isInstance(nodes.get(i))) return i;
         }

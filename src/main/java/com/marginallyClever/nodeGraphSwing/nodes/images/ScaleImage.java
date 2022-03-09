@@ -2,9 +2,7 @@ package com.marginallyClever.nodeGraphSwing.nodes.images;
 
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
-import com.marginallyClever.nodeGraphCore.PrintWithGraphics;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;

@@ -1,6 +1,5 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
-import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.imageio.ImageIO;

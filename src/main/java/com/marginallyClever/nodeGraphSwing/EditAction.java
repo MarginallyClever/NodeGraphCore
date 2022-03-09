@@ -1,7 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * {@link AbstractAction}s in the {@link NodeGraphEditorPanel} implement this interface to update their own

@@ -282,12 +282,12 @@ public class NodeGraphViewPanel extends JPanel {
         if(v.getHasInput()) {
             Point p = v.getInPosition();
             int radius = (int)NodeConnection.DEFAULT_RADIUS+2;
-            g.drawOval((int)p.x-radius,(int)p.y-radius,radius*2,radius*2);
+            g.drawOval(p.x-radius,p.y-radius,radius*2,radius*2);
         }
         if(v.getHasOutput()) {
             Point p = v.getOutPosition();
             int radius = (int)NodeConnection.DEFAULT_RADIUS+2;
-            g.drawOval((int)p.x-radius,(int)p.y-radius,radius*2,radius*2);
+            g.drawOval(p.x-radius,p.y-radius,radius*2,radius*2);
         }
     }
 
@@ -343,7 +343,7 @@ public class NodeGraphViewPanel extends JPanel {
      */
     public void paintConnectionAtPoint(Graphics g,Point p) {
         int radius = (int) NodeConnection.DEFAULT_RADIUS;
-        g.fillOval((int) p.x - radius, (int) p.y - radius, radius * 2, radius * 2);
+        g.fillOval( p.x - radius, p.y - radius, radius * 2, radius * 2);
     }
 
     /**
@@ -356,7 +356,7 @@ public class NodeGraphViewPanel extends JPanel {
         Point p1 = new Point(p0);
         Point p2 = new Point(p3);
 
-        double d=Math.abs(p3.x-p1.x)/2;
+        int d=Math.abs(p3.x-p1.x)/2;
         p1.x+=d;
         p2.x-=d;
 
@@ -384,7 +384,7 @@ public class NodeGraphViewPanel extends JPanel {
     /**
      * listener pattern for painting via {@link NodeGraphViewListener#paint(Graphics, NodeGraphViewPanel)}.
      */
-    private final List<NodeGraphViewListener> listeners = new ArrayList<NodeGraphViewListener>();
+    private final List<NodeGraphViewListener> listeners = new ArrayList<>();
 
     /**
      * {@link NodeGraphViewListener}s register here.

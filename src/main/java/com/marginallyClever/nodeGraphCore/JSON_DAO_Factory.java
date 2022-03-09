@@ -13,14 +13,14 @@ import java.util.Map;
  * @since 2022-03-07
  */
 public class JSON_DAO_Factory {
-    private static Map<Class, JSON_DAO<?>> daoRegistry = new HashMap<>();
+    private static final Map<Class<?>, JSON_DAO<?>> daoRegistry = new HashMap<>();
 
     /**
      * Does not allow {@link JSON_DAO} to be registered more than once.
      * @param aClass one instance of the class.
      * @throws IllegalArgumentException if two {@link JSON_DAO} are registered with the same class.
      */
-    public static void registerDAO(Class aClass, JSON_DAO<?> dao) throws IllegalArgumentException {
+    public static void registerDAO(Class<?> aClass, JSON_DAO<?> dao) throws IllegalArgumentException {
         if(daoRegistry.containsKey(aClass)) {
             throw new IllegalArgumentException("A node is already registered with the name "+aClass.getName());
         }
@@ -34,7 +34,7 @@ public class JSON_DAO_Factory {
      * @return a value converted to JSON
      * @throws JSONException
      */
-    public static Object toJSON(Class aClass,Object object) throws JSONException {
+    public static Object toJSON(Class<?> aClass,Object object) throws JSONException {
         return daoRegistry.get(aClass).toJSON(object);
     }
 
@@ -45,7 +45,7 @@ public class JSON_DAO_Factory {
      * @return a value converted from JSON
      * @throws JSONException
      */
-    public static Object fromJSON(Class aClass,Object object) throws JSONException {
+    public static Object fromJSON(Class<?> aClass,Object object) throws JSONException {
         return daoRegistry.get(aClass).fromJSON(object);
     }
 }

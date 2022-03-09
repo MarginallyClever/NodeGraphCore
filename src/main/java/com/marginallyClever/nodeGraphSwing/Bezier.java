@@ -50,7 +50,7 @@ public class Bezier {
      * @return a list of points along the curve.
      */
 	public List<Point2D> generateCurvePoints(double distanceTolerance) {
-		ArrayList<Point2D> points = new ArrayList<Point2D>();
+		ArrayList<Point2D> points = new ArrayList<>();
 		points.add(new Point2D(x0,y0));
 		recursive(x0,y0,x1,y1,x2,y2,x3,y3,points,distanceTolerance*distanceTolerance,0);
 		points.add(new Point2D(x3,y3));
@@ -205,7 +205,7 @@ public class Bezier {
      * @return a list of points along the curve.
      */
 	protected ArrayList<Point2D> generateCurvePointsOld() {
-		ArrayList<Point2D> list = new ArrayList<Point2D>();
+		ArrayList<Point2D> list = new ArrayList<>();
 		list.add(new Point2D(x0,y0));
 		
 		double steps=25;
@@ -214,18 +214,17 @@ public class Bezier {
 			/*
 			// first method
 			double xa = lerp(x0,x1,j);
-			double ya = lerp(y0,y1,j);
 			double xb = lerp(x1,x2,j);
-			double yb = lerp(y1,y2,j);
 			double xc = lerp(x2,x3,j);
-			double yc = lerp(y2,y3,j);
-			
 			double xab = lerp(xa,xb,j);
-			double yab = lerp(ya,yb,j);
 			double xbc = lerp(xb,xc,j);
-			double ybc = lerp(yb,yc,j);
-			
 			double xabc = lerp(xab,xbc,j);
+
+			double ya = lerp(y0,y1,j);
+			double yb = lerp(y1,y2,j);
+			double yc = lerp(y2,y3,j);
+			double yab = lerp(ya,yb,j);
+			double ybc = lerp(yb,yc,j);
 			double yabc = lerp(yab,ybc,j);
 			/*/
 			// second method

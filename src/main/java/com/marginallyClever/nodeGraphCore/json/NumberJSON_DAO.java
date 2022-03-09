@@ -11,13 +11,11 @@ import org.json.JSONException;
 public class NumberJSON_DAO implements JSON_DAO<Number> {
     @Override
     public Object toJSON(Object value) throws JSONException {
-        Number s = (Number)value;
-        return s;
+        return value;
     }
 
     @Override
     public Number fromJSON(Object object) throws JSONException {
-        Number s = (Number)object;
-        return s;
+        return (Number)object;
     }
 }

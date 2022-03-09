@@ -1,8 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * Remembers the state of important keys.

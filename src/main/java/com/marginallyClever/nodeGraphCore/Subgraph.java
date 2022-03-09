@@ -18,7 +18,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         public NodeVariable<?> superVariable;
         public NodeVariable<?> subVariable;
 
-        public VariablePair(NodeVariable subVariable) {
+        public VariablePair(NodeVariable<?> subVariable) {
             this.superVariable = subVariable.createInverse();
             this.subVariable = subVariable;
         }
@@ -27,7 +27,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     /**
      * exposed inputs and outputs from the subgraph contents.
      */
-    private ArrayList<VariablePair> pairs = new ArrayList<>();
+    private final ArrayList<VariablePair> pairs = new ArrayList<>();
 
     /**
      * Constructor for subclasses to call.
@@ -60,7 +60,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         }
 
         // sort and add the pairs.
-        Collections.sort(pairs,(a, b)->sortVariables(a,b));
+        pairs.sort(this::sortVariables);
         for(VariablePair p : pairs) {
             this.addVariable(p.superVariable);
         }

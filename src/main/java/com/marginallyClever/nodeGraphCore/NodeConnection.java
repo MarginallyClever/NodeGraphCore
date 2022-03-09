@@ -185,7 +185,7 @@ public class NodeConnection {
      * @return true if this {@link NodeConnection} is attached at either end to a given {@link Node}.
      */
     public boolean isConnectedTo(Node node) {
-        return (node==inNode || node==outNode);
+        return node==inNode || node==outNode;
     }
 
     /**

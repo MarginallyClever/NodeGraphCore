@@ -18,11 +18,11 @@ public class ActionFoldGraph extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
-    private NodeGraphEditorPanel editor;
+    private final NodeGraphEditorPanel editor;
     /**
      * The cut action on which this action depends.
      */
-    private ActionCutGraph actionCutGraph;
+    private final ActionCutGraph actionCutGraph;
 
     /**
      * Constructor for subclasses to call.

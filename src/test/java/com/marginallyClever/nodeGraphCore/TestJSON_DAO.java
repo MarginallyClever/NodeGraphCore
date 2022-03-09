@@ -2,7 +2,6 @@ package com.marginallyClever.nodeGraphCore;
 
 import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
 import com.marginallyClever.nodeGraphCore.json.StringJSON_DAO;
-import com.marginallyClever.nodeGraphSwing.SwingRegistry;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

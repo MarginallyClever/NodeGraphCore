@@ -11,13 +11,11 @@ import org.json.JSONException;
 public class StringJSON_DAO implements JSON_DAO<String> {
     @Override
     public Object toJSON(Object value) throws JSONException {
-        String s = (String)value;
-        return s;
+        return value;
     }
 
     @Override
     public String fromJSON(Object object) throws JSONException {
-        String s = (String)object;
-        return s;
+        return (String)object;
     }
 }

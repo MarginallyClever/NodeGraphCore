@@ -11,13 +11,11 @@ import org.json.JSONException;
 public class BooleanJSON_DAO implements JSON_DAO<Boolean> {
     @Override
     public Object toJSON(Object value) throws JSONException {
-        Boolean s = (Boolean)value;
-        return s;
+        return (Boolean)value;
     }
 
     @Override
     public Boolean fromJSON(Object object) throws JSONException {
-        Boolean s = (Boolean)object;
-        return s;
+        return (Boolean)object;
     }
 }
