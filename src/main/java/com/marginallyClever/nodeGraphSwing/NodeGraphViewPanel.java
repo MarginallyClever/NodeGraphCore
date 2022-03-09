@@ -106,6 +106,7 @@ public class NodeGraphViewPanel extends JPanel {
         super();
         this.model=model;
         this.setBackground(PANEL_COLOR_BACKGROUND);
+        this.setFocusable(true);
     }
 
     @Override

@@ -6,9 +6,7 @@ import com.marginallyClever.nodeGraphSwing.actions.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +84,11 @@ public class NodeGraphEditorPanel extends JPanel {
     private final Point mousePreviousPosition = new Point();
 
     /**
+     * Remembers the state of the keys for selection actions
+     */
+    private KeyStateMemory keyStateMemory = new KeyStateMemory();
+
+    /**
      * true while drawing a box to select nodes.
      */
     private boolean selectionOn=false;
@@ -116,6 +119,7 @@ public class NodeGraphEditorPanel extends JPanel {
         setupPopupBar();
 
         attachMouseAdapter();
+        attachKeyboardAdapter();
         setupPaintArea();
 
         setSelectedNodes(null);
@@ -209,7 +213,8 @@ public class NodeGraphEditorPanel extends JPanel {
         Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
                 2, new float[]{3}, 0);
         g2d.setStroke(dashed);
-        g2d.setColor(Color.MAGENTA);
+
+        g2d.setColor(keyStateMemory.isShiftKeyDown() ? Color.YELLOW : Color.MAGENTA);
         Rectangle2D r = getSelectionArea(mousePreviousPosition);
         g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth(),(int)r.getHeight());
     }
@@ -393,6 +398,14 @@ public class NodeGraphEditorPanel extends JPanel {
         });
     }
 
+    private void attachKeyboardAdapter() {
+        paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK,false),"press");
+        paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0,true),"release");
+
+        paintArea.getActionMap().put("press",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,false));
+        paintArea.getActionMap().put("release",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,true));
+    }
+
     /**
      * Move all selected nodes some relative cartesian amount.
      * @param dx the x axis amount.
@@ -420,7 +433,20 @@ public class NodeGraphEditorPanel extends JPanel {
      */
     private void endSelectionArea(Point point) {
         selectionOn=false;
-        setSelectedNodes(model.getNodesInRectangle(getSelectionArea(point)));
+        List<Node> nodesInSelectionArea = model.getNodesInRectangle(getSelectionArea(point));
+        if(!keyStateMemory.isShiftKeyDown()) {
+            setSelectedNodes(nodesInSelectionArea);
+        } else {
+            List<Node> already = getSelectedNodes();
+            List<Node> overlap = new ArrayList<Node>(nodesInSelectionArea);
+            overlap.retainAll(already);
+            nodesInSelectionArea.removeAll(overlap);
+            if(!overlap.isEmpty()) {
+                already.removeAll(overlap);
+            }
+            already.addAll(nodesInSelectionArea);
+        }
+        repaint();
     }
 
     /**
@@ -454,6 +480,7 @@ public class NodeGraphEditorPanel extends JPanel {
                 //the output of a node goes to the input of a connection.
                 connectionBeingCreated.setInput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
             }
+            repaint();
         }
 
         if(connectionBeingCreated.isInputValid() && connectionBeingCreated.isOutputValid() ) {
