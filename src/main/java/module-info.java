@@ -12,4 +12,5 @@ module com.marginallyClever.NodeGraphCore {
     exports com.marginallyClever.nodeGraphCore;
     exports com.marginallyClever.nodeGraphSwing;
     exports com.marginallyClever.nodeGraphCore.json;
+    exports com.marginallyClever.nodeGraphSwing.modalTools;
 }

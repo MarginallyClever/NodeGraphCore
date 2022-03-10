@@ -329,6 +329,15 @@ public class NodeGraph {
         return r;
     }
 
+    /**
+     * update bounds of all nodes in this graph.
+     */
+    public void updateBounds() {
+        for(Node n : nodes) {
+            n.updateBounds();
+        }
+    }
+
     public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("nodes",getAllNodesAsJSON());
@@ -393,5 +402,22 @@ public class NodeGraph {
             a.put(c.toJSON());
         }
         return a;
+    }
+
+    /**
+     * Return the last {@link Node} at the given point, which will be the top-most visible.
+     * @param point the search location.
+     * @return the last {@link Node} at the given point
+     */
+    public Node getNodeAt(Point point) {
+        List<Node> list = getNodes();
+        // reverse iterator because last node is top-most.
+        for (int i = list.size(); i-- > 0; ) {
+            Node n = list.get(i);
+            if(n.getRectangle().contains(point)) {
+                return n;
+            }
+        }
+        return null;
     }
 }

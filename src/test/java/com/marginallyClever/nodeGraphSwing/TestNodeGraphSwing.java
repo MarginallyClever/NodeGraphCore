@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphSwing.actions.ActionSaveGraph;
+import com.marginallyClever.nodeGraphSwing.editActions.ActionSaveGraph;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 import org.junit.jupiter.api.BeforeAll;

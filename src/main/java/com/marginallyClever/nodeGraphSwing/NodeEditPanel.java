@@ -43,11 +43,23 @@ public class NodeEditPanel extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
 
         addReadOnlyField(c,"Type",node.getName());
+        c.gridy++;
         addReadOnlyField(c,"ID",Integer.toString(node.getUniqueID()));
+        c.gridy++;
         addLabelField(c);
+        c.gridy++;
 
         for(int i=0;i<node.getNumVariables();++i) {
-            addTextField(node.getVariable(i),c);
+            addVariableField(node.getVariable(i),c);
+            c.gridy++;
+        }
+    }
+
+    private void addVariableField(NodeVariable<?> variable,GridBagConstraints c) {
+        if(variable.getValue() instanceof Number || variable.getValue() instanceof String) {
+            addTextField(variable,c);
+        } else {
+            addReadOnlyField(c,variable.getName(),variable.getTypeName());
         }
     }
 
@@ -57,12 +69,15 @@ public class NodeEditPanel extends JPanel {
      * @param c {@link GridBagConstraints} for placement.
      */
     private void addTextField(NodeVariable<?> variable,GridBagConstraints c) {
-        c.gridx=0;  this.add(new JLabel(variable.getName()),c);
-        c.gridx=1;  this.add(new JLabel(variable.getTypeName()),c);
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx=0;
+        this.add(new JLabel(variable.getName()),c);
+
         JTextField textField = new JTextField(variable.getValue().toString());
-        c.gridx=2;  this.add(textField,c);
-        c.gridy++;
         fields.add(textField);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx=1;
+        this.add(textField,c);
     }
 
     /**
@@ -70,12 +85,14 @@ public class NodeEditPanel extends JPanel {
      * @param c {@link GridBagConstraints} for placement.
      */
     private void addLabelField(GridBagConstraints c) {
+        c.anchor = GridBagConstraints.LINE_START;
         c.gridx=0;
         this.add(new JLabel("Label"),c);
+
+        c.anchor = GridBagConstraints.LINE_END;
         c.gridx=1;
-        this.add(labelField,c);
         labelField.setText(node.getLabel());
-        c.gridy++;
+        this.add(labelField,c);
     }
 
     /**
@@ -85,13 +102,15 @@ public class NodeEditPanel extends JPanel {
      * @param value the value
      */
     private void addReadOnlyField(GridBagConstraints c,String name,String value) {
+        c.anchor = GridBagConstraints.LINE_START;
         c.gridx=0;
         this.add(new JLabel(name),c);
+
+        c.anchor = GridBagConstraints.LINE_END;
         c.gridx=1;
         JLabel v = new JLabel(value);
         v.setEnabled(false);
         this.add(v,c);
-        c.gridy++;
     }
 
     /**
@@ -103,17 +122,34 @@ public class NodeEditPanel extends JPanel {
         NodeEditPanel panel = new NodeEditPanel(subject);
         if(JOptionPane.showConfirmDialog(frame,panel,"Edit "+subject.getName(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
             subject.setLabel(panel.getLabel());
+            readAllFields(subject,panel);
+        }
+    }
 
-            for(int i=0;i<subject.getNumVariables();++i) {
-                NodeVariable<?> v = subject.getVariable(i);
-                panel.readTextField(i,subject.getVariable(i));
+    private static void readAllFields(Node subject,NodeEditPanel panel) {
+        int j=0;
+        for(int i=0;i<subject.getNumVariables();++i) {
+            NodeVariable<?> v = subject.getVariable(i);
+            if(v.getValue() instanceof Number || v.getValue() instanceof String) {
+                panel.readTextField(j++, subject.getVariable(i));
             }
         }
     }
 
     private void readTextField(int index,NodeVariable<?> variable) {
         JTextField f = fields.get(index);
-        variable.setValue(f.getText());
+        if(f==null) {
+            // TODO ???
+            return;
+        }
+
+        if(variable.getValue() instanceof Number) {
+            variable.setValue(Double.parseDouble(f.getText()));
+        } else if(variable.getValue() instanceof String) {
+            variable.setValue(f.getText());
+        } else {
+            // TODO ???
+        }
     }
 
     /**

@@ -407,4 +407,14 @@ public class NodeGraphViewPanel extends JPanel {
             p.paint(g, this);
         }
     }
+
+    /**
+     * Sets the Graphics context line width.
+     * @param g the {@link Graphics} context
+     * @param r thew new line width.
+     */
+    public void setLineWidth(Graphics g,float r) {
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setStroke(new BasicStroke(r));
+    }
 }

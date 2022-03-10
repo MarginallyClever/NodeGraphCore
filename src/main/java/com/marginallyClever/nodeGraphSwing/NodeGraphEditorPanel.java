@@ -1,13 +1,15 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphSwing.actions.*;
+import com.marginallyClever.nodeGraphSwing.editActions.*;
+import com.marginallyClever.nodeGraphSwing.modalTools.ConnectionEditTool;
+import com.marginallyClever.nodeGraphSwing.modalTools.NodeMoveTool;
+import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +24,10 @@ public class NodeGraphEditorPanel extends JPanel {
       */
     public static final FileNameExtensionFilter FILE_FILTER = new FileNameExtensionFilter("Node Graph","graph");
 
-    private static final Color CONNECTION_POINT_COLOR_SELECTED = Color.RED;
-    private static final double NEARBY_CONNECTION_DISTANCE_MAX = 20;
-
     /**
      * The {@link NodeGraph} to edit.
      */
-    private final NodeGraph model;
+    public final NodeGraph model;
 
     /**
      * The panel into which the {@link NodeGraph} will be painted.
@@ -46,7 +45,7 @@ public class NodeGraphEditorPanel extends JPanel {
     private final NodeGraph copiedGraph = new NodeGraph();
 
     /**
-     * The toolBar contains Actions that affect the entire {@link NodeGraph} like Save, Load, New, and Update.
+     * The toolBar is where the user can switch between tools.
      */
     private final JToolBar toolBar = new JToolBar();
 
@@ -63,39 +62,14 @@ public class NodeGraphEditorPanel extends JPanel {
     private final ArrayList<AbstractAction> actions = new ArrayList<>();
 
     /**
-     * To create a {@link NodeConnection} the user has to select two {@link NodeVariable} connection points.
-     * This is where the first is stored until the user completes the connection or cancels the action.
+     * The list of modal tools, only one of which can be active at any time.
      */
-    private final NodeConnection connectionBeingCreated = new NodeConnection();
+    private final ArrayList<ModalTool> tools = new ArrayList<>();
 
     /**
-     * The last connection point found
+     * The active tool from the list of tools.
      */
-    private NodeConnectionPointInfo lastConnectionPoint = null;
-
-    /**
-     * true while dragging one or more nodes around.
-     */
-    private boolean dragOn=false;
-
-    /**
-     * for tracking relative motion, useful for relative moves like dragging.
-     */
-    private final Point mousePreviousPosition = new Point();
-
-    /**
-     * Remembers the state of the keys for selection actions
-     */
-    private final KeyStateMemory keyStateMemory = new KeyStateMemory();
-
-    /**
-     * true while drawing a box to select nodes.
-     */
-    private boolean selectionOn=false;
-    /**
-     * first corner of the bounding area when a user clicks and drags to form a box.
-     */
-    private final Point selectionAreaStart = new Point();
+    private ModalTool activeTool;
 
     /**
      * cursor position when the popup menu happened.
@@ -115,12 +89,14 @@ public class NodeGraphEditorPanel extends JPanel {
         this.add(toolBar,BorderLayout.NORTH);
         this.add(new JScrollPane(paintArea),BorderLayout.CENTER);
 
-        setupToolBar();
-        setupPopupBar();
+        setupTools();
+        setupPaintArea();
 
         attachMouseAdapter();
-        attachKeyboardAdapter();
-        setupPaintArea();
+
+        setupMenuBar();
+        setupToolBar();
+        setupPopupBar();
 
         setSelectedNodes(null);
         updateActionEnableStatus();
@@ -133,24 +109,10 @@ public class NodeGraphEditorPanel extends JPanel {
     private void setupPaintArea() {
         paintArea.addViewListener((g,e)->{
             highlightSelectedNodes(g);
-            paintConnectionBeingMade(g);
-            highlightNearbyConnectionPoint(g);
-
-            if(selectionOn) paintSelectionArea(g);
-            paintCursor(g);
+            activeTool.paint(g);
         });
         paintArea.updatePaintAreaBounds();
         paintArea.repaint();
-    }
-
-    /**
-     * Paints the cursor to the panel for reference.
-     * @param g the {@link Graphics} context
-     */
-    private void paintCursor(Graphics g) {
-        int r=5;
-        g.setColor(Color.YELLOW);
-        g.drawArc(mousePreviousPosition.x-r,mousePreviousPosition.y-r,r*2,r*2,0,360);
     }
 
     /**
@@ -166,73 +128,41 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
-    /**
-     * Paints a connection as it is being made
-     * @param g the {@link Graphics} context
-     */
-    private void paintConnectionBeingMade(Graphics g) {
-        if(connectionBeingCreated.isInputValid() || connectionBeingCreated.isOutputValid()) {
-            g.setColor(Color.RED);
-            setLineWidth(g,3);
+    public void setupMenuBar() {
+        JFrame topFrame = (JFrame)SwingUtilities.getWindowAncestor(this);
+        if(topFrame==null) return;
 
-            Point a,b;
-            if(connectionBeingCreated.isInputValid()) {
-                a = connectionBeingCreated.getInPosition();
-                b = mousePreviousPosition;
-                paintArea.paintConnectionAtPoint(g,a);
-            } else {
-                a = mousePreviousPosition;
-                b = connectionBeingCreated.getOutPosition();
-                paintArea.paintConnectionAtPoint(g,b);
-            }
-            paintArea.paintBezierBetweenTwoPoints(g,a,b);
+        JMenuBar menuBar = new JMenuBar();
+        topFrame.setJMenuBar(menuBar);
 
-            setLineWidth(g,1);
+        menuBar.add(setupGraphMenu());
+        menuBar.add(setupNodeMenu());
+    }
+
+    private void setupTools() {
+        RectangleSelectTool rectangleSelectTool = new RectangleSelectTool(this);
+        NodeMoveTool moveTool = new NodeMoveTool(this);
+        ConnectionEditTool connectionEditTool = new ConnectionEditTool(this);
+        tools.add(rectangleSelectTool);
+        tools.add(moveTool);
+        tools.add(connectionEditTool);
+
+        swapTool(tools.get(0));
+    }
+
+    private void setupToolBar() {
+        for(ModalTool t : tools) {
+            toolBar.add(new JButton(new ActionSwapTools(this, t)));
         }
     }
 
-    /**
-     * Paints the connection point under the cursor
-     * @param g the {@link Graphics} context
-     */
-    private void highlightNearbyConnectionPoint(Graphics g) {
-        if(lastConnectionPoint !=null) {
-            g.setColor(CONNECTION_POINT_COLOR_SELECTED);
-            setLineWidth(g,2);
-            paintArea.paintVariableConnectionPoints(g,lastConnectionPoint.getVariable());
-            setLineWidth(g,1);
-        }
-    }
-
-    /**
-     * Paints the rectangle selection area.
-     * @param g the {@link Graphics} context
-     */
-    private void paintSelectionArea(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-        Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
-                2, new float[]{3}, 0);
-        g2d.setStroke(dashed);
-
-        g2d.setColor(keyStateMemory.isShiftKeyDown() ? Color.YELLOW : Color.MAGENTA);
-        Rectangle2D r = getSelectionArea(mousePreviousPosition);
-        g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth(),(int)r.getHeight());
-    }
-
-    /**
-     * Sets the Graphics context line width.
-     * @param g the {@link Graphics} context
-     * @param r thew new line width.
-     */
-    private void setLineWidth(Graphics g,float r) {
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setStroke(new BasicStroke(r));
-    }
+    private void setupPopupBar() {}
 
     /**
      * Populates the toolBar with actions and assigns accelerator keys.
      */
-    private void setupToolBar() {
+    private JMenu setupGraphMenu() {
+        JMenu menu = new JMenu("Graph");
         ActionNewGraph actionNewGraph = new ActionNewGraph("New",this);
         ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",this);
         ActionLoadGraph actionLoadGraph = new ActionLoadGraph("Load",this);
@@ -254,19 +184,22 @@ public class NodeGraphEditorPanel extends JPanel {
         actionPrintGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         actionUpdateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
 
-        toolBar.add(actionNewGraph);
-        toolBar.add(actionLoadGraph);
-        toolBar.add(actionSaveGraph);
-        toolBar.add(actionUpdateGraph);
-        toolBar.addSeparator();
-        toolBar.add(actionPrintGraph);
-        toolBar.add(actionStraightenGraph);
+        menu.add(actionNewGraph);
+        menu.add(actionLoadGraph);
+        menu.add(actionSaveGraph);
+        menu.add(actionUpdateGraph);
+        menu.addSeparator();
+        menu.add(actionPrintGraph);
+        menu.add(actionStraightenGraph);
+
+        return menu;
     }
 
     /**
      * Populates the popupBar with actions and assigns accelerator keys.
      */
-    private void setupPopupBar() {
+    private JMenu setupNodeMenu() {
+        JMenu menu = new JMenu("Node");
         ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
         ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
         ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
@@ -290,8 +223,8 @@ public class NodeGraphEditorPanel extends JPanel {
         actions.add(actionUnfoldGraph);
 
         actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
-        actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-        actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, KeyEvent.CTRL_DOWN_MASK));
+        actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
+        actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         actionCutGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
 
         actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
@@ -299,17 +232,19 @@ public class NodeGraphEditorPanel extends JPanel {
         actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
         actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
 
-        popupBar.add(actionAddNode);
-        popupBar.add(actionEditNodes);
-        popupBar.add(actionForciblyUpdateNodes);
-        popupBar.add(actionFoldGraph);
-        popupBar.add(actionUnfoldGraph);
-        popupBar.addSeparator();
-        popupBar.add(actionCopyGraph);
-        popupBar.add(actionCutGraph);
-        popupBar.add(actionPasteGraph);
-        popupBar.addSeparator();
-        popupBar.add(actionDeleteGraph);
+        menu.add(actionAddNode);
+        menu.add(actionEditNodes);
+        menu.add(actionForciblyUpdateNodes);
+        menu.add(actionFoldGraph);
+        menu.add(actionUnfoldGraph);
+        menu.addSeparator();
+        menu.add(actionCopyGraph);
+        menu.add(actionCutGraph);
+        menu.add(actionPasteGraph);
+        menu.addSeparator();
+        menu.add(actionDeleteGraph);
+
+        return menu;
     }
 
     /**
@@ -324,69 +259,39 @@ public class NodeGraphEditorPanel extends JPanel {
         }
     }
 
+    public void swapTool(ModalTool tool) {
+        deactivateCurrentTool();
+        activeTool = tool;
+        activateCurrentTool();
+    }
+
+    private void deactivateCurrentTool() {
+        if(activeTool !=null) {
+            activeTool.detachKeyboardAdapter();
+            activeTool.detachMouseAdapter();
+        }
+    }
+
+    private void activateCurrentTool() {
+        if(activeTool !=null) {
+            activeTool.attachKeyboardAdapter();
+            activeTool.attachMouseAdapter();
+        }
+    }
+
     /**
      * Attaches the mouse adapter
      */
     private void attachMouseAdapter() {
-        paintArea.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if(dragOn) {
-                    int dx = e.getX() - mousePreviousPosition.x;
-                    int dy = e.getY() - mousePreviousPosition.y;
-                    moveSelectedNodes(dx, dy);
-                    paintArea.repaint();
-                }
-                if(selectionOn)
-                    paintArea.repaint();
-
-                mousePreviousPosition.setLocation(e.getX(), e.getY());
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                Point p = e.getPoint();
-                selectOneNearbyConnectionPoint(new Point(p.x,p.y));
-                mousePreviousPosition.setLocation(e.getX(), e.getY());
-                if(selectionOn)
-                    paintArea.repaint();
-            }
-        });
-
         paintArea.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                onClickConnectionPoint();
-                if(lastConnectionPoint == null) {
-                    setSelectedNode(getNodeAt(e.getPoint()));
-                }
-            }
-
             @Override
             public void mousePressed(MouseEvent e) {
                 maybeShowPopup(e);
-
-                // clicking a connection point takes precedence
-                if(lastConnectionPoint == null) {
-                    // if user presses down on an already selected item then user is dragging selected nodes
-                    Node n = getNodeAt(e.getPoint());
-                    if(n!=null) {
-                        if(!selectedNodes.contains(n)) {
-                            setSelectedNode(n);
-                        }
-                        dragOn=true;
-                    } else {
-                        // nothing under point, start new selection.
-                        beginSelectionArea(e.getPoint());
-                    }
-                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 maybeShowPopup(e);
-                if(dragOn) dragOn=false;
-                else if(selectionOn) endSelectionArea(e.getPoint());
             }
 
             private void maybeShowPopup(MouseEvent e) {
@@ -398,128 +303,15 @@ public class NodeGraphEditorPanel extends JPanel {
         });
     }
 
-    private void attachKeyboardAdapter() {
-        paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK,false),"press");
-        paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0,true),"release");
-
-        paintArea.getActionMap().put("press",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,false));
-        paintArea.getActionMap().put("release",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,true));
-    }
-
     /**
      * Move all selected nodes some relative cartesian amount.
      * @param dx the x-axis amount.
      * @param dy the y-axis amount.
      */
-    private void moveSelectedNodes(int dx, int dy) {
+    public void moveSelectedNodes(int dx, int dy) {
         for(Node n : selectedNodes) {
             n.moveRelative(dx,dy);
         }
-    }
-
-    /**
-     * What to do when the rectangle selection begins.
-     * @param point the first corner of the rectangle selection area.
-     */
-    private void beginSelectionArea(Point point) {
-        selectionOn=true;
-        selectionAreaStart.x=point.x;
-        selectionAreaStart.y=point.y;
-    }
-
-    /**
-     * What to do when the rectangle selection ends.
-     * @param point the second corner of the rectangle selection area.
-     */
-    private void endSelectionArea(Point point) {
-        selectionOn=false;
-        List<Node> nodesInSelectionArea = model.getNodesInRectangle(getSelectionArea(point));
-        if(!keyStateMemory.isShiftKeyDown()) {
-            setSelectedNodes(nodesInSelectionArea);
-        } else {
-            List<Node> already = getSelectedNodes();
-            List<Node> overlap = new ArrayList<>(nodesInSelectionArea);
-            overlap.retainAll(already);
-            nodesInSelectionArea.removeAll(overlap);
-            if(!overlap.isEmpty()) {
-                already.removeAll(overlap);
-            }
-            already.addAll(nodesInSelectionArea);
-        }
-        repaint();
-    }
-
-    /**
-     * Returns the rectangle formed by the first selection point and this new point.
-     * @param point the second point of the selection area.
-     * @return the rectangle formed by the first selection point and this new point.
-     */
-    private Rectangle2D getSelectionArea(Point point) {
-        double x1 = Math.min(point.x, selectionAreaStart.x);
-        double x2 = Math.max(point.x, selectionAreaStart.x);
-        double y1 = Math.min(point.y, selectionAreaStart.y);
-        double y2 = Math.max(point.y, selectionAreaStart.y);
-        return new Rectangle2D.Double(x1,y1,x2-x1,y2-y1);
-    }
-
-    /**
-     * What to do when a user clicks on a connection point.
-     */
-    private void onClickConnectionPoint() {
-        if(lastConnectionPoint == null) {
-            connectionBeingCreated.disconnectAll();
-            return;
-        }
-
-        // check that the end node is not the same as the start node.
-        if(!connectionBeingCreated.isConnectedTo(lastConnectionPoint.node)) {
-            if (lastConnectionPoint.flags == NodeConnectionPointInfo.IN) {
-                // the output of a connection goes to the input of a node.
-                connectionBeingCreated.setOutput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
-            } else {
-                //the output of a node goes to the input of a connection.
-                connectionBeingCreated.setInput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
-            }
-            repaint();
-        }
-
-        if(connectionBeingCreated.isInputValid() && connectionBeingCreated.isOutputValid() ) {
-            if(connectionBeingCreated.isValidDataType()) {
-                NodeConnection match = model.getMatchingConnection(connectionBeingCreated);
-                if(match!=null) model.remove(match);
-                else {
-                    model.removeAllConnectionsInto(connectionBeingCreated.getOutVariable());
-                    model.add(new NodeConnection(connectionBeingCreated));
-                }
-            } else {
-                NodeVariable<?> vIn = connectionBeingCreated.getInVariable();
-                NodeVariable<?> vOut = connectionBeingCreated.getOutVariable();
-                String nameIn = (vIn==null) ? "null" : vIn.getTypeName();
-                String nameOut = (vOut==null) ? "null" : vOut.getTypeName();
-                System.out.println("Invalid types "+nameOut+", "+nameIn+".");
-            }
-            // if any of the tests failed, restart.
-            connectionBeingCreated.disconnectAll();
-            repaint();
-        }
-    }
-
-    /**
-     * Searches for a nearby {@link NodeVariable} connection point and, if found, remembers it.
-     * @param p the center of the search area.
-     */
-    private void selectOneNearbyConnectionPoint(Point p) {
-        NodeConnectionPointInfo info = model.getFirstNearbyConnection(p,NEARBY_CONNECTION_DISTANCE_MAX);
-        setLastConnectionPoint(info);
-    }
-
-    /**
-     * Remembers a connection point as described by a {@link NodeConnectionPointInfo}.
-     * @param info the {@link NodeConnectionPointInfo}
-     */
-    private void setLastConnectionPoint(NodeConnectionPointInfo info) {
-        lastConnectionPoint = info;
-        repaint();
     }
 
     /**
@@ -563,23 +355,6 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     /**
-     * Return the last {@link Node} at the given point, which will be the top-most visible.
-     * @param point the search location.
-     * @return the last {@link Node} at the given point
-     */
-    private Node getNodeAt(Point point) {
-        List<Node> list = model.getNodes();
-        // reverse iterator because last node is top-most.
-        for (int i = list.size(); i-- > 0; ) {
-            Node n = list.get(i);
-            if(n.getRectangle().contains(point)) {
-                return n;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Returns the graph being edited.
      * @return the graph being edited.
      */
@@ -612,14 +387,13 @@ public class NodeGraphEditorPanel extends JPanel {
         return copiedGraph;
     }
 
-
     /**
      * Clears the internal graph and resets everything.
      */
     public void clear() {
         model.clear();
         Node.setUniqueIDSource(0);
-        connectionBeingCreated.disconnectAll();
+        activeTool.restart();
         setSelectedNode(null);
         repaint();
     }
@@ -641,6 +415,11 @@ public class NodeGraphEditorPanel extends JPanel {
         frame.setSize(new Dimension(1200,800));
         frame.setLocationRelativeTo(null);
         frame.add(panel);
+        panel.setupMenuBar();
         frame.setVisible(true);
+    }
+
+    public NodeGraphViewPanel getPaintArea() {
+        return paintArea;
     }
 }
