@@ -1,4 +1,4 @@
-package com.marginallyClever.nodeGraphSwing.actions;
+package com.marginallyClever.nodeGraphSwing.editActions;
 
 import com.marginallyClever.nodeGraphSwing.KeyStateMemory;
 

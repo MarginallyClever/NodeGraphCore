@@ -1,6 +1,6 @@
-package com.marginallyClever.nodeGraphSwing.actions;
+package com.marginallyClever.nodeGraphSwing.editActions;
 
-import com.marginallyClever.nodeGraphCore.NodeGraph;
+import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
@@ -8,12 +8,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Duplicates the editor's copy buffer, inserts the contents into the editor's current {@link NodeGraph}, and sets the
- * new content as the editor's selected items.
+ * Forces all of the editor's selected {@link Node}s to {@link Node#update()}, regarless of {@link Node#isDirty()}
+ * status.
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionPasteGraph extends AbstractAction implements EditAction {
+public class ActionForciblyUpdateNodes extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -24,20 +24,20 @@ public class ActionPasteGraph extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionPasteGraph(String name, NodeGraphEditorPanel editor) {
+    public ActionForciblyUpdateNodes(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        NodeGraph modelC = editor.getCopiedGraph().deepCopy();
-        editor.getGraph().add(modelC);
-        editor.setSelectedNodes(modelC.getNodes());
+        for(Node n : editor.getSelectedNodes()) {
+            n.update();
+        }
     }
 
     @Override
     public void updateEnableStatus() {
-        setEnabled(!editor.getCopiedGraph().isEmpty());
+        setEnabled(!editor.getSelectedNodes().isEmpty());
     }
 }
