@@ -5,5 +5,5 @@ com.marginallyClever.nodeGraphCore.builtInNodes.logicalOperators
 com.marginallyClever.nodeGraphCore.builtInNodes.math
 com.marginallyClever.nodeGraphCore.json
 com.marginallyClever.nodeGraphSwing
-com.marginallyClever.nodeGraphSwing.actions
+com.marginallyClever.nodeGraphSwing.editActions
 com.marginallyClever.nodeGraphSwing.nodes.images
