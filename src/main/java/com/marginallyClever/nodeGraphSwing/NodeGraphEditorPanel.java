@@ -213,6 +213,8 @@ public class NodeGraphEditorPanel extends JPanel {
 
         ActionPrintGraph actionPrintGraph = new ActionPrintGraph("Print",this);
         ActionStraightenGraph actionStraightenGraph = new ActionStraightenGraph("Straighten",this);
+        ActionSelectAll actionSelectAll = new ActionSelectAll("Select all",this);
+        ActionInvertSelection actionInvertSelection = new ActionInvertSelection("Invert selection",this);
 
         actions.add(actionNewGraph);
         actions.add(actionSaveGraph);
@@ -220,12 +222,16 @@ public class NodeGraphEditorPanel extends JPanel {
         actions.add(actionUpdateGraph);
         actions.add(actionPrintGraph);
         actions.add(actionStraightenGraph);
+        actions.add(actionSelectAll);
+        actions.add(actionInvertSelection);
 
         actionNewGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         actionSaveGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         actionLoadGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         actionPrintGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         actionUpdateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
+        actionSelectAll.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        actionInvertSelection.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK));
 
         menu.add(actionNewGraph);
         menu.add(actionLoadGraph);
@@ -234,6 +240,9 @@ public class NodeGraphEditorPanel extends JPanel {
         menu.addSeparator();
         menu.add(actionPrintGraph);
         menu.add(actionStraightenGraph);
+        menu.addSeparator();
+        menu.add(actionSelectAll);
+        menu.add(actionInvertSelection);
 
         return menu;
     }
@@ -272,10 +281,10 @@ public class NodeGraphEditorPanel extends JPanel {
         actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         actionCutGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
 
-        actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
         actionEditNodes.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
-        actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
-        actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
+        actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_BRACELEFT, KeyEvent.CTRL_DOWN_MASK));
+        actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_BRACERIGHT, KeyEvent.CTRL_DOWN_MASK));
         actionIsolateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
 
         menu.add(actionAddNode);

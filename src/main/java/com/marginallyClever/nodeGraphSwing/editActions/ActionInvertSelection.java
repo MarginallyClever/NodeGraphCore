@@ -1,0 +1,40 @@
+package com.marginallyClever.nodeGraphSwing.editActions;
+
+import com.marginallyClever.nodeGraphCore.Node;
+import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Invert the selection.
+ */
+public class ActionInvertSelection extends AbstractAction {
+    /**
+     * The editor being affected.
+     */
+    private final NodeGraphEditorPanel editor;
+
+    /**
+     * Constructor for subclasses to call.
+     * @param name the name of this action visible on buttons and menu items.
+     * @param editor the editor affected by this Action.
+     */
+    public ActionInvertSelection(String name, NodeGraphEditorPanel editor) {
+        super(name);
+        this.editor = editor;
+    }
+
+    /**
+     * Updates the model and repaints the panel.
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        List<Node> difference = new ArrayList<>(editor.getGraph().getNodes());
+        difference.removeAll(editor.getSelectedNodes());
+        editor.setSelectedNodes(difference);
+        editor.repaint();
+    }
+}
