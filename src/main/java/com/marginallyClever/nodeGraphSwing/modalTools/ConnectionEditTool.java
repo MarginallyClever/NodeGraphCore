@@ -8,7 +8,9 @@ import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -45,6 +47,10 @@ public class ConnectionEditTool extends ModalTool {
         return "Connect";
     }
 
+    public KeyStroke getAcceleratorKey() {
+        return KeyStroke.getKeyStroke(KeyEvent.VK_C,0);
+    }
+
     @Override
     public void paint(Graphics g) {
         paintConnectionBeingMade(g);
@@ -58,6 +64,13 @@ public class ConnectionEditTool extends ModalTool {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        Rectangle r = connectionBeingCreated.getBounds();
+        r.add(e.getPoint());
+        r.add(mousePreviousPosition);
+
+        r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
+        editor.repaint(r);
+
         mousePreviousPosition.setLocation(e.getX(), e.getY());
         selectOneNearbyConnectionPoint(e.getPoint());
     }
@@ -76,8 +89,19 @@ public class ConnectionEditTool extends ModalTool {
      * @param info the {@link NodeConnectionPointInfo}
      */
     private void setLastConnectionPoint(NodeConnectionPointInfo info) {
+        if(info!=lastConnectionPoint && lastConnectionPoint!=null) {
+            repaintConnectionPoint(lastConnectionPoint.getPoint());
+        }
+
         lastConnectionPoint = info;
-        editor.repaint();
+
+        if(info!=null) repaintConnectionPoint(info.getPoint());
+    }
+
+    private void repaintConnectionPoint(Point p) {
+        Rectangle r = new Rectangle(p);
+        r.grow((int) NEARBY_CONNECTION_DISTANCE_MAX, (int) NEARBY_CONNECTION_DISTANCE_MAX);
+        editor.repaint(r);
     }
 
     /**
@@ -138,7 +162,10 @@ public class ConnectionEditTool extends ModalTool {
                 //the output of a node goes to the input of a connection.
                 connectionBeingCreated.setInput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
             }
-            editor.repaint();
+
+            Rectangle r = connectionBeingCreated.getBounds();
+            r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
+            editor.repaint(r);
         }
 
         if(connectionBeingCreated.isInputValid() && connectionBeingCreated.isOutputValid() ) {
@@ -151,15 +178,19 @@ public class ConnectionEditTool extends ModalTool {
                     graph.add(new NodeConnection(connectionBeingCreated));
                 }
             } else {
+                // if any of the tests failed
                 NodeVariable<?> vIn = connectionBeingCreated.getInVariable();
                 NodeVariable<?> vOut = connectionBeingCreated.getOutVariable();
                 String nameIn = (vIn==null) ? "null" : vIn.getTypeName();
                 String nameOut = (vOut==null) ? "null" : vOut.getTypeName();
                 System.out.println("Invalid types "+nameOut+", "+nameIn+".");
             }
-            // if any of the tests failed, restart.
+
+            Rectangle r = connectionBeingCreated.getBounds();
+            r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
+            editor.repaint(r);
+            // either way, restart.
             connectionBeingCreated.disconnectAll();
-            editor.repaint();
         }
     }
 
@@ -172,15 +203,18 @@ public class ConnectionEditTool extends ModalTool {
     }
 
     @Override
-    public void attachKeyboardAdapter() {
-        super.attachKeyboardAdapter();
-    }
-
-    @Override
     public void attachMouseAdapter() {
         super.attachMouseAdapter();
         NodeGraphViewPanel paintArea = editor.getPaintArea();
         paintArea.addMouseMotionListener(this);
         paintArea.addMouseListener(this);
+    }
+
+    @Override
+    public void detachMouseAdapter() {
+        super.detachMouseAdapter();
+        NodeGraphViewPanel paintArea = editor.getPaintArea();
+        paintArea.removeMouseMotionListener(this);
+        paintArea.removeMouseListener(this);
     }
 }
