@@ -233,8 +233,13 @@ public class NodeGraphViewPanel extends JPanel {
         // value
         Object vObj = v.getValue();
         if(vObj != null) {
-            String val = vObj.toString();
+            String val;
             int MAX_CHARS = 10;
+            if(vObj instanceof String || vObj instanceof Number) {
+                val = vObj.toString();
+            } else {
+                val = v.getTypeName();
+            }
             if (val.length() > MAX_CHARS) val = val.substring(0, MAX_CHARS) + "...";
             paintText(g, val, insideBox, ALIGN_RIGHT, ALIGN_CENTER);
         }
@@ -327,7 +332,7 @@ public class NodeGraphViewPanel extends JPanel {
      * @param g the {@link Graphics} context
      * @param c the {@link NodeVariable} to paint.
      */
-    private void paintConnection(Graphics g, NodeConnection c) {
+    public void paintConnection(Graphics g, NodeConnection c) {
         Point p0 = c.getInPosition();
         Point p3 = c.getOutPosition();
         paintBezierBetweenTwoPoints(g,p0,p3);
