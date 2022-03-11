@@ -26,6 +26,7 @@ public class SwingRegistry {
         NodeFactory.registerNode(new BlendDifference());
         NodeFactory.registerNode(new BlendMultiply());
         NodeFactory.registerNode(new BlendScreen());
+        NodeFactory.registerNode(new SplitToCMYK());
 
         JSON_DAO_Factory.registerDAO(BufferedImage.class,new BufferedImageJSON_DAO());
     }
