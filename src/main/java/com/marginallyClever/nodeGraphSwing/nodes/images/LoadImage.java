@@ -61,6 +61,5 @@ public class LoadImage extends Node {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        cleanAllInputs();
     }
 }
