@@ -26,6 +26,10 @@ public class NodeGraphEditorPanel extends JPanel {
      * Used by save and load actions
       */
     public static final FileNameExtensionFilter FILE_FILTER = new FileNameExtensionFilter("Node Graph","graph");
+    private static final Color COLOR_SELECTED_NODE = Color.GREEN;
+    private static final Color COLOR_CONNECTION_EXTERNAL_INBOUND = Color.decode("#FFFF00");
+    private static final Color COLOR_CONNECTION_INTERNAL = Color.decode("#FF00FF");
+    private static final Color COLOR_CONNECTION_EXTERNAL_OUTBOUND = Color.decode("#00FFFF");
 
     /**
      * The {@link NodeGraph} to edit.
@@ -131,7 +135,7 @@ public class NodeGraphEditorPanel extends JPanel {
         ArrayList<NodeConnection> in = new ArrayList<>();
         ArrayList<NodeConnection> out = new ArrayList<>();
 
-        g.setColor(Color.GREEN);
+        g.setColor(COLOR_SELECTED_NODE);
         for( Node n : selectedNodes) {
             paintArea.paintNodeBorder(g, n);
 
@@ -145,15 +149,15 @@ public class NodeGraphEditorPanel extends JPanel {
         in.removeAll(both);
         out.removeAll(both);
 
-        g.setColor(Color.decode("#ffff00"));
+        g.setColor(COLOR_CONNECTION_EXTERNAL_INBOUND);
         for( NodeConnection c : in ) {
             paintArea.paintConnection(g,c);
         }
-        g.setColor(Color.decode("#ff00ff"));
+        g.setColor(COLOR_CONNECTION_INTERNAL);
         for( NodeConnection c : both ) {
             paintArea.paintConnection(g,c);
         }
-        g.setColor(Color.decode("#00ffff"));
+        g.setColor(COLOR_CONNECTION_EXTERNAL_OUTBOUND);
         for( NodeConnection c : out ) {
             paintArea.paintConnection(g,c);
         }
@@ -260,7 +264,7 @@ public class NodeGraphEditorPanel extends JPanel {
         ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
         ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
         ActionUnfoldGraph actionUnfoldGraph = new ActionUnfoldGraph("Unfold",this);
-        ActionIsolateGraph actionIsolateGraph = new ActionIsolateGraph("Isolate",this);
+        IsolateGraphAction actionIsolateGraph = new IsolateGraphAction("Isolate",this);
         ActionSelectAll actionSelectAll = new ActionSelectAll("Select all",this);
         ActionInvertSelection actionInvertSelection = new ActionInvertSelection("Invert selection",this);
 

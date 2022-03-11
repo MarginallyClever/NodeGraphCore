@@ -16,7 +16,7 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-03-10
  */
-public class ActionIsolateGraph extends AbstractAction implements EditAction {
+public class IsolateGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -27,28 +27,14 @@ public class ActionIsolateGraph extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionIsolateGraph(String name, NodeGraphEditorPanel editor) {
+    public IsolateGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        NodeGraph graph = editor.getGraph();
-
-        List<Node> selectedNodes = editor.getSelectedNodes();
-        List<NodeConnection> toSever = graph.getExteriorConnections(selectedNodes);
-        graph.getConnections().removeAll(toSever);
-
-        repaintAsNeeded(toSever);
-    }
-
-    private void repaintAsNeeded(List<NodeConnection> toSever) {
-        if(!toSever.isEmpty()) {
-            Rectangle r = new Rectangle(toSever.get(0).getBounds());
-            for(NodeConnection c : toSever) r.add(c.getBounds());
-            editor.repaint(r);
-        }
+        editor.addEdit(new IsolateGraphEdit(editor,editor.getSelectedNodes()));
     }
 
     @Override
