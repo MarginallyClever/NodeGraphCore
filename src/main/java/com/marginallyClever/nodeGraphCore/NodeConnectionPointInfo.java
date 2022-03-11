@@ -1,5 +1,7 @@
 package com.marginallyClever.nodeGraphCore;
 
+import java.awt.*;
+
 /**
  * {@link NodeConnectionPointInfo} makes it easier to query connection points of a {@link NodeVariable} within a
  * {@link Node}.  A use case is for remembering a new {@link NodeConnection}'s starting point as it is being created.
@@ -55,5 +57,10 @@ public class NodeConnectionPointInfo {
      */
     public NodeVariable<?> getVariable() {
         return node.getVariable(nodeVariableIndex);
+    }
+
+    public Point getPoint() {
+        NodeVariable<?> v = getVariable();
+        return (flags == IN) ? v.getInPosition() : v.getOutPosition();
     }
 }
