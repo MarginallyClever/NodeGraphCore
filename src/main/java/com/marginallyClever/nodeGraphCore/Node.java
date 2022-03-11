@@ -351,4 +351,10 @@ public abstract class Node {
             throw new JSONException("JSON bad number of node variables.  Expected "+a+" found "+b);
         }
     }
+
+    public void setAllDirty() {
+        for(NodeVariable<?> v : variables) {
+            v.setIsDirty(true);
+        }
+    }
 }
