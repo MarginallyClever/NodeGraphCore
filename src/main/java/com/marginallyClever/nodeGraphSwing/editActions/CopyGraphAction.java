@@ -8,7 +8,6 @@ import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,26 +39,9 @@ public class CopyGraphAction extends AbstractAction implements EditAction {
         NodeGraph modelB = new NodeGraph();
         List<Node> selectedNodes = editor.getSelectedNodes();
         for(Node n : selectedNodes) modelB.add(n);
-        List<NodeConnection> selectedConnections = getConnectionsBetweenTheseNodes(graph,selectedNodes);
+        List<NodeConnection> selectedConnections = graph.getInteriorConnections(selectedNodes);
         for(NodeConnection c : selectedConnections) modelB.add(c);
         editor.setCopiedGraph(modelB.deepCopy());
-    }
-
-    /**
-     * Returns all {@link NodeConnection}s that are only connected between the given set of nodes.
-     * @param selectedNodes the set of nodes to check
-     * @return all {@link NodeConnection}s that are only connected between the given set of nodes.
-     */
-    private List<NodeConnection> getConnectionsBetweenTheseNodes(NodeGraph graph,List<Node> selectedNodes) {
-        List<NodeConnection> list = new ArrayList<>();
-        if(selectedNodes.size()<2) return list;
-
-        for(NodeConnection c : graph.getConnections()) {
-            if(selectedNodes.contains(c.getOutNode()) && selectedNodes.contains(c.getInNode())) {
-                list.add(c);
-            }
-        }
-        return list;
     }
 
     @Override
