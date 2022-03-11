@@ -8,6 +8,7 @@ import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class NodeGraphEditorPanel extends JPanel {
      * Store copied nodes in this buffer.  Could be a user-space file instead.
      */
     private final NodeGraph copiedGraph = new NodeGraph();
+
+    private final UndoManager undoManager = new UndoManager();
 
     /**
      * The toolBar is where the user can switch between tools.
@@ -190,12 +193,7 @@ public class NodeGraphEditorPanel extends JPanel {
 
         JMenuItem showToolBar = new JCheckBoxMenuItem("Show tool bar");
         menu.add(showToolBar);
-        showToolBar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toolBar.setVisible(showToolBar.isSelected());
-            }
-        });
+        showToolBar.addActionListener(e -> toolBar.setVisible(showToolBar.isSelected()));
         showToolBar.setSelected(true);
 
         return menu;
@@ -213,8 +211,6 @@ public class NodeGraphEditorPanel extends JPanel {
 
         ActionPrintGraph actionPrintGraph = new ActionPrintGraph("Print",this);
         ActionStraightenGraph actionStraightenGraph = new ActionStraightenGraph("Straighten",this);
-        ActionSelectAll actionSelectAll = new ActionSelectAll("Select all",this);
-        ActionInvertSelection actionInvertSelection = new ActionInvertSelection("Invert selection",this);
 
         actions.add(actionNewGraph);
         actions.add(actionSaveGraph);
@@ -222,16 +218,12 @@ public class NodeGraphEditorPanel extends JPanel {
         actions.add(actionUpdateGraph);
         actions.add(actionPrintGraph);
         actions.add(actionStraightenGraph);
-        actions.add(actionSelectAll);
-        actions.add(actionInvertSelection);
 
         actionNewGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         actionSaveGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         actionLoadGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         actionPrintGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         actionUpdateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
-        actionSelectAll.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
-        actionInvertSelection.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK));
 
         menu.add(actionNewGraph);
         menu.add(actionLoadGraph);
@@ -241,8 +233,6 @@ public class NodeGraphEditorPanel extends JPanel {
         menu.add(actionPrintGraph);
         menu.add(actionStraightenGraph);
         menu.addSeparator();
-        menu.add(actionSelectAll);
-        menu.add(actionInvertSelection);
 
         return menu;
     }
@@ -252,41 +242,61 @@ public class NodeGraphEditorPanel extends JPanel {
      */
     private JMenu setupNodeMenu() {
         JMenu menu = new JMenu("Node");
+        ActionUndo actionUndo = new ActionUndo(undoManager);
+        ActionRedo actionRedo = new ActionRedo(undoManager);
+        actionUndo.setActionRedo(actionRedo);
+        actionRedo.setActionUndo(actionUndo);
+
         ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
         ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
         ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
         ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
-
         ActionAddNode actionAddNode = new ActionAddNode("Add",this);
         ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
         ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
         ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
         ActionUnfoldGraph actionUnfoldGraph = new ActionUnfoldGraph("Unfold",this);
         ActionIsolateGraph actionIsolateGraph = new ActionIsolateGraph("Isolate",this);
+        ActionSelectAll actionSelectAll = new ActionSelectAll("Select all",this);
+        ActionInvertSelection actionInvertSelection = new ActionInvertSelection("Invert selection",this);
 
+        actions.add(actionUndo);
+        actions.add(actionRedo);
         actions.add(actionCopyGraph);
         actions.add(actionPasteGraph);
         actions.add(actionDeleteGraph);
         actions.add(actionCutGraph);
-
         actions.add(actionAddNode);
         actions.add(actionEditNodes);
         actions.add(actionForciblyUpdateNodes);
         actions.add(actionFoldGraph);
         actions.add(actionUnfoldGraph);
         actions.add(actionIsolateGraph);
+        actions.add(actionSelectAll);
+        actions.add(actionInvertSelection);
 
         actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
         actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
         actionDeleteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         actionCutGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
-
         actionAddNode.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
         actionEditNodes.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
         actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_BRACELEFT, KeyEvent.CTRL_DOWN_MASK));
         actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_BRACERIGHT, KeyEvent.CTRL_DOWN_MASK));
         actionIsolateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
+        actionSelectAll.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        actionInvertSelection.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK));
 
+        menu.add(actionUndo);
+        menu.add(actionRedo);
+        menu.addSeparator();
+        menu.add(actionSelectAll);
+        menu.add(actionInvertSelection);
+        menu.add(actionCopyGraph);
+        menu.add(actionCutGraph);
+        menu.add(actionPasteGraph);
+        menu.add(actionDeleteGraph);
+        menu.addSeparator();
         menu.add(actionAddNode);
         menu.add(actionEditNodes);
         menu.add(actionForciblyUpdateNodes);
@@ -294,12 +304,6 @@ public class NodeGraphEditorPanel extends JPanel {
         menu.add(actionFoldGraph);
         menu.add(actionUnfoldGraph);
         menu.add(actionIsolateGraph);
-        menu.addSeparator();
-        menu.add(actionCopyGraph);
-        menu.add(actionCutGraph);
-        menu.add(actionPasteGraph);
-        menu.addSeparator();
-        menu.add(actionDeleteGraph);
 
         popupBar.add(actionAddNode);
         popupBar.add(actionEditNodes);
@@ -465,6 +469,7 @@ public class NodeGraphEditorPanel extends JPanel {
     public static void main(String[] args) {
         BuiltInRegistry.register();
         SwingRegistry.register();
+        setSystemLookAndFeel();
 
         NodeGraph model = new NodeGraph();
         NodeGraphEditorPanel panel = new NodeGraphEditorPanel(model);
