@@ -264,4 +264,16 @@ public class NodeConnection {
         return jo;
     }
 
+    public Rectangle getBounds() {
+        Rectangle r = new Rectangle();
+        if(inNode!=null) {
+            r.setLocation(getInPosition());
+            if(outNode!=null) {
+                r.add(getOutPosition());
+            }
+        } else if(outNode!=null) {
+            r.setLocation(getOutPosition());
+        }
+        return r;
+    }
 }
