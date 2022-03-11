@@ -9,7 +9,6 @@ import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class ActionIsolateGraph extends AbstractAction implements EditAction {
         NodeGraph graph = editor.getGraph();
 
         List<Node> selectedNodes = editor.getSelectedNodes();
-        List<NodeConnection> toSever = getOutsideConnections(graph,selectedNodes);
+        List<NodeConnection> toSever = graph.getExteriorConnections(selectedNodes);
         graph.getConnections().removeAll(toSever);
 
         repaintAsNeeded(toSever);
@@ -50,30 +49,6 @@ public class ActionIsolateGraph extends AbstractAction implements EditAction {
             for(NodeConnection c : toSever) r.add(c.getBounds());
             editor.repaint(r);
         }
-    }
-
-    /**
-     * Returns a list of connections in the given {@link NodeGraph} that connect to the selected {@link Node}s and unselected {@link Node}s.
-     * @param graph the {@link NodeGraph} containing selected nodes
-     * @param selectedNodes the subset of {@link Node}s.
-     * @return a list of connections in the given {@link NodeGraph} that connect to the selected {@link Node}s and unselected {@link Node}s.
-     */
-    private List<NodeConnection> getOutsideConnections(NodeGraph graph, List<Node> selectedNodes) {
-        ArrayList<NodeConnection> found = new ArrayList<>();
-
-        for(NodeConnection c : graph.getConnections()) {
-            int hits=0;
-            for(Node n : selectedNodes) {
-                if(c.isConnectedTo(n)) {
-                    hits++;
-                    if(hits==2) break;
-                }
-            }
-            if(hits==1) {
-                found.add(c);
-            }
-        }
-        return found;
     }
 
     @Override

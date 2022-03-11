@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Performs an {@link ActionCopyGraph} and then an {@link ActionDeleteGraph}.
+ * Performs an {@link ActionCopyGraph} and then an {@link DeleteGraphAction}.
  * @author Dan Royer
  * @since 2022-02-21
  */
@@ -14,7 +14,7 @@ public class ActionCutGraph extends AbstractAction implements EditAction {
     /**
      * The delete action on which this action depends.
      */
-    private final ActionDeleteGraph actionDeleteGraph;
+    private final DeleteGraphAction actionDeleteGraph;
     /**
      * The copy action on which this action depends.
      */
@@ -26,7 +26,7 @@ public class ActionCutGraph extends AbstractAction implements EditAction {
      * @param actionDeleteGraph the delete action to use
      * @param actionCopyGraph the copy action to use
      */
-    public ActionCutGraph(String name, ActionDeleteGraph actionDeleteGraph, ActionCopyGraph actionCopyGraph) {
+    public ActionCutGraph(String name, DeleteGraphAction actionDeleteGraph, ActionCopyGraph actionCopyGraph) {
         super(name);
         this.actionDeleteGraph = actionDeleteGraph;
         this.actionCopyGraph = actionCopyGraph;

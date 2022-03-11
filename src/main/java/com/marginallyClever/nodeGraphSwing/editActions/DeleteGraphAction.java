@@ -1,7 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.editActions;
 
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
@@ -13,7 +12,7 @@ import java.awt.event.ActionEvent;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionDeleteGraph extends AbstractAction implements EditAction {
+public class DeleteGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -24,16 +23,14 @@ public class ActionDeleteGraph extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionDeleteGraph(String name, NodeGraphEditorPanel editor) {
+    public DeleteGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        NodeGraph g = editor.getGraph();
-        for(Node n : editor.getSelectedNodes()) g.remove(n);
-        editor.setSelectedNodes(null);
+        editor.addEdit(new DeleteGraphEdit(editor,editor.getSelectedNodes()));
     }
 
     @Override

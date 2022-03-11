@@ -253,7 +253,7 @@ public class NodeGraphEditorPanel extends JPanel {
 
         ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
         ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
-        ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
+        DeleteGraphAction actionDeleteGraph = new DeleteGraphAction("Delete",this);
         ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
         AddNodeAction actionAddNode = new AddNodeAction("Add",this);
         ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
@@ -476,7 +476,9 @@ public class NodeGraphEditorPanel extends JPanel {
     private static void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("System look and feel could not be set.");
+        }
     }
 
     public void addEdit(UndoableEdit undoableEdit) {

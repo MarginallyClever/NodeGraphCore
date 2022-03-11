@@ -1,12 +1,10 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.builtInNodes.math.Add;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -406,5 +404,47 @@ public class NodeGraph {
         for(Node n : nodes) {
             n.setAllDirty();
         }
+    }
+
+    /**
+     * Returns a list of connections that connect to the selected {@link Node}s and unselected {@link Node}s.
+     * @param selectedNodes the set of {@link Node}s.
+     * @return a list of connections that connect to the selected {@link Node}s and unselected {@link Node}s.
+     */
+    public List<NodeConnection> getExteriorConnections(List<Node> selectedNodes) {
+        return getConnectionsCounted(selectedNodes,1);
+    }
+
+    /**
+     * Returns a list of connections that connect between the selected {@link Node}s.
+     * @param selectedNodes the set of {@link Node}s.
+     * @return a list of connections that connect between the selected {@link Node}s.
+     */
+    public List<NodeConnection> getInteriorConnections(List<Node> selectedNodes) {
+        return getConnectionsCounted(selectedNodes,2);
+    }
+
+    /**
+     * Returns a list of connections that have exactly <code>count</code> connections to the selected {@link Node}s.
+     * @param selectedNodes the set of {@link Node}s.
+     * @param count the number of connections to match.
+     * @return a list of connections that have exactly <code>count</code> connections to the selected {@link Node}s.
+     */
+    private List<NodeConnection> getConnectionsCounted(List<Node> selectedNodes,int count) {
+        ArrayList<NodeConnection> found = new ArrayList<>();
+
+        for(NodeConnection c : getConnections()) {
+            int hits=0;
+            for(Node n : selectedNodes) {
+                if(c.isConnectedTo(n)) {
+                    hits++;
+                    if(hits==2) break;
+                }
+            }
+            if(hits==count) {
+                found.add(c);
+            }
+        }
+        return found;
     }
 }
