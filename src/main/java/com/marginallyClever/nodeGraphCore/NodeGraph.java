@@ -100,6 +100,28 @@ public class NodeGraph {
     }
 
     /**
+     * Add all {@link Node}s and {@link NodeConnection}s from one model to this model.
+     * @param nodeGraph the model to add.
+     */
+    public void add(NodeGraph nodeGraph) {
+        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
+        assignNewUniqueIDs(0);
+        nodeGraph.assignNewUniqueIDs(Node.getUniqueIDSource());
+
+        nodes.addAll(nodeGraph.nodes);
+        connections.addAll(nodeGraph.connections);
+
+        bumpUpIndexableID();
+    }
+
+    public void remove(NodeGraph nodeGraph) {
+        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
+        nodes.removeAll(nodeGraph.nodes);
+        connections.removeAll(nodeGraph.connections);
+    }
+
+
+    /**
      * Remove all {@link NodeConnection}s from the model associated with a given {@link Node}
      * @param n the subject from which all connections should be removed.
      */
@@ -185,21 +207,6 @@ public class NodeGraph {
             id = Math.max(id, n.getUniqueID());
         }
         Node.setUniqueIDSource(id);
-    }
-
-    /**
-     * Add all {@link Node}s and {@link NodeConnection}s from one model to this model.
-     * @param nodeGraph the model to add.
-     */
-    public void add(NodeGraph nodeGraph) {
-        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
-        assignNewUniqueIDs(0);
-        nodeGraph.assignNewUniqueIDs(Node.getUniqueIDSource());
-
-        nodes.addAll(nodeGraph.nodes);
-        connections.addAll(nodeGraph.connections);
-
-        bumpUpIndexableID();
     }
 
     /**

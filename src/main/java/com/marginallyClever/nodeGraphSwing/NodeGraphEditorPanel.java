@@ -255,8 +255,8 @@ public class NodeGraphEditorPanel extends JPanel {
         actionUndo.setActionRedo(actionRedo);
         actionRedo.setActionUndo(actionUndo);
 
-        ActionCopyGraph actionCopyGraph = new ActionCopyGraph("Copy",this);
-        ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
+        CopyGraphAction actionCopyGraph = new CopyGraphAction("Copy",this);
+        PasteGraphAction actionPasteGraph = new PasteGraphAction("Paste",this);
         DeleteGraphAction actionDeleteGraph = new DeleteGraphAction("Delete",this);
         ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
         AddNodeAction actionAddNode = new AddNodeAction("Add",this);

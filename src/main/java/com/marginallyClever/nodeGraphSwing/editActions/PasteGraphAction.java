@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionPasteGraph extends AbstractAction implements EditAction {
+public class PasteGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -25,20 +25,14 @@ public class ActionPasteGraph extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionPasteGraph(String name, NodeGraphEditorPanel editor) {
+    public PasteGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        NodeGraph modelC = editor.getCopiedGraph().deepCopy();
-        editor.getGraph().add(modelC);
-        editor.setSelectedNodes(modelC.getNodes());
-        modelC.updateBounds();
-        Rectangle r = modelC.getBounds();
-        Point m = editor.getMousePosition();
-        editor.moveSelectedNodes(m.x-r.x,m.y-r.y);
+        editor.addEdit(new PasteGraphEdit(editor,editor.getCopiedGraph()));
     }
 
     @Override
