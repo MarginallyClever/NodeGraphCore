@@ -276,12 +276,11 @@ public class NodeGraph {
      * @param searchArea the search area
      * @return a {@link List} of all {@link Node}s that intersect the given rectangle
      */
-    public List<Node> getNodesInRectangle(Rectangle2D searchArea) {
+    public List<Node> getNodesInRectangle(Rectangle searchArea) {
         if(searchArea==null) throw new InvalidParameterException("selectionArea cannot be null.");
         ArrayList<Node> found = new ArrayList<>();
         for(Node n : nodes) {
-            Rectangle r = n.getRectangle();
-            if(searchArea.intersects(r)) found.add(n);
+            if(searchArea.intersects(n.getRectangle())) found.add(n);
         }
         return found;
     }
@@ -292,24 +291,6 @@ public class NodeGraph {
      */
     public boolean isEmpty() {
         return nodes.isEmpty();
-    }
-
-    /**
-     * Returns all {@link NodeConnection}s that are only connected between the given set of nodes.
-     * @param selectedNodes the set of nodes to check
-     * @return all {@link NodeConnection}s that are only connected between the given set of nodes.
-     */
-    public List<NodeConnection> getConnectionsBetweenTheseNodes(List<Node> selectedNodes) {
-        List<NodeConnection> list = new ArrayList<>();
-        if(selectedNodes.size()<2) return list;
-
-        for(NodeConnection c : connections) {
-            if(selectedNodes.contains(c.getOutNode()) &&
-                selectedNodes.contains(c.getInNode())) {
-                list.add(c);
-            }
-        }
-        return list;
     }
 
     /**
@@ -419,5 +400,11 @@ public class NodeGraph {
             }
         }
         return null;
+    }
+
+    public void setAllDirty() {
+        for(Node n : nodes) {
+            n.setAllDirty();
+        }
     }
 }
