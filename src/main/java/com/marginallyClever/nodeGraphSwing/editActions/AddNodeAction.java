@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionAddNode extends AbstractAction {
+public class AddNodeAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -25,7 +25,7 @@ public class ActionAddNode extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionAddNode(String name, NodeGraphEditorPanel editor) {
+    public AddNodeAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
@@ -35,9 +35,7 @@ public class ActionAddNode extends AbstractAction {
         Node n = NodeFactoryPanel.runAsDialog((JFrame)SwingUtilities.getWindowAncestor(editor));
         if(n!=null) {
             n.setPosition(editor.getPopupPoint());
-            editor.getGraph().add(n);
-            editor.setSelectedNode(n);
-            editor.repaint(n.getRectangle());
+            editor.addEdit(new AddNodeEdit(editor,n));
         }
     }
 }

@@ -7,8 +7,10 @@ import com.marginallyClever.nodeGraphSwing.modalTools.NodeMoveTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
 
 import javax.swing.*;
+import javax.swing.event.UndoableEditEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -46,6 +48,9 @@ public class NodeGraphEditorPanel extends JPanel {
     private final NodeGraph copiedGraph = new NodeGraph();
 
     private final UndoManager undoManager = new UndoManager();
+    private final ActionUndo actionUndo = new ActionUndo(undoManager);
+    private final ActionRedo actionRedo = new ActionRedo(undoManager);
+    private final UndoHandler undoHandler = new UndoHandler(undoManager,actionUndo,actionRedo);
 
     /**
      * The toolBar is where the user can switch between tools.
@@ -242,8 +247,7 @@ public class NodeGraphEditorPanel extends JPanel {
      */
     private JMenu setupNodeMenu() {
         JMenu menu = new JMenu("Node");
-        ActionUndo actionUndo = new ActionUndo(undoManager);
-        ActionRedo actionRedo = new ActionRedo(undoManager);
+
         actionUndo.setActionRedo(actionRedo);
         actionRedo.setActionUndo(actionUndo);
 
@@ -251,7 +255,7 @@ public class NodeGraphEditorPanel extends JPanel {
         ActionPasteGraph actionPasteGraph = new ActionPasteGraph("Paste",this);
         ActionDeleteGraph actionDeleteGraph = new ActionDeleteGraph("Delete",this);
         ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
-        ActionAddNode actionAddNode = new ActionAddNode("Add",this);
+        AddNodeAction actionAddNode = new AddNodeAction("Add",this);
         ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
         ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
         ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
@@ -274,6 +278,9 @@ public class NodeGraphEditorPanel extends JPanel {
         actions.add(actionIsolateGraph);
         actions.add(actionSelectAll);
         actions.add(actionInvertSelection);
+
+        actionUndo.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK));
+        actionRedo.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK));
 
         actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
         actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
@@ -399,7 +406,8 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     /**
-     * Returns all selected nodes.
+     * Returns all selected nodes.  To change the selected nodes do not edit this list.  Instead,
+     * call {@link NodeGraphEditorPanel#setSelectedNodes(List)} or {@link #setSelectedNode(Node)}.
      * @return all selected nodes.
      */
     public List<Node> getSelectedNodes() {
@@ -469,6 +477,10 @@ public class NodeGraphEditorPanel extends JPanel {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
+    }
+
+    public void addEdit(UndoableEdit undoableEdit) {
+        undoHandler.undoableEditHappened(new UndoableEditEvent(this,undoableEdit));
     }
 
     /**
