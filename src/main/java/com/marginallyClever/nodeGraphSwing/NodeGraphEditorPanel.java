@@ -95,8 +95,6 @@ public class NodeGraphEditorPanel extends JPanel {
         attachMouseAdapter();
 
         setupMenuBar();
-        setupToolBar();
-        setupPopupBar();
 
         setSelectedNodes(null);
         updateActionEnableStatus();
@@ -122,9 +120,34 @@ public class NodeGraphEditorPanel extends JPanel {
     private void highlightSelectedNodes(Graphics g) {
         if(selectedNodes.isEmpty()) return;
 
+        ArrayList<NodeConnection> in = new ArrayList<>();
+        ArrayList<NodeConnection> out = new ArrayList<>();
+
         g.setColor(Color.GREEN);
         for( Node n : selectedNodes) {
             paintArea.paintNodeBorder(g, n);
+
+            for( NodeConnection c : model.getConnections() ) {
+                if(c.getOutNode()==n) in.add(c);
+                if(c.getInNode()==n) out.add(c);
+            }
+        }
+        ArrayList<NodeConnection> both = new ArrayList<>(in);
+        both.retainAll(out);
+        in.removeAll(both);
+        out.removeAll(both);
+
+        g.setColor(Color.decode("#ffff00"));
+        for( NodeConnection c : in ) {
+            paintArea.paintConnection(g,c);
+        }
+        g.setColor(Color.decode("#ff00ff"));
+        for( NodeConnection c : both ) {
+            paintArea.paintConnection(g,c);
+        }
+        g.setColor(Color.decode("#00ffff"));
+        for( NodeConnection c : out ) {
+            paintArea.paintConnection(g,c);
         }
     }
 
@@ -137,6 +160,7 @@ public class NodeGraphEditorPanel extends JPanel {
 
         menuBar.add(setupGraphMenu());
         menuBar.add(setupNodeMenu());
+        menuBar.add(setupToolMenu());
     }
 
     private void setupTools() {
@@ -150,13 +174,32 @@ public class NodeGraphEditorPanel extends JPanel {
         swapTool(tools.get(0));
     }
 
-    private void setupToolBar() {
-        for(ModalTool t : tools) {
-            toolBar.add(new JButton(new ActionSwapTools(this, t)));
-        }
-    }
+    private JMenu setupToolMenu() {
+        JMenu menu = new JMenu("Tools");
 
-    private void setupPopupBar() {}
+        for(ModalTool tool : tools) {
+            AbstractAction swapAction = new ActionSwapTools(this, tool);
+            swapAction.putValue(Action.ACCELERATOR_KEY,tool.getAcceleratorKey());
+            JButton button = new JButton(swapAction);
+            button.setMnemonic(tool.getAcceleratorKey().getKeyCode());
+            toolBar.add(button);
+            menu.add(swapAction);
+        }
+
+        menu.addSeparator();
+
+        JMenuItem showToolBar = new JCheckBoxMenuItem("Show tool bar");
+        menu.add(showToolBar);
+        showToolBar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toolBar.setVisible(showToolBar.isSelected());
+            }
+        });
+        showToolBar.setSelected(true);
+
+        return menu;
+    }
 
     /**
      * Populates the toolBar with actions and assigns accelerator keys.
@@ -196,7 +239,7 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     /**
-     * Populates the popupBar with actions and assigns accelerator keys.
+     * Populates the popupBar and the node menu with actions and assigns accelerator keys.
      */
     private JMenu setupNodeMenu() {
         JMenu menu = new JMenu("Node");
@@ -210,6 +253,7 @@ public class NodeGraphEditorPanel extends JPanel {
         ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
         ActionFoldGraph actionFoldGraph = new ActionFoldGraph("Fold",this, actionCutGraph);
         ActionUnfoldGraph actionUnfoldGraph = new ActionUnfoldGraph("Unfold",this);
+        ActionIsolateGraph actionIsolateGraph = new ActionIsolateGraph("Isolate",this);
 
         actions.add(actionCopyGraph);
         actions.add(actionPasteGraph);
@@ -221,6 +265,7 @@ public class NodeGraphEditorPanel extends JPanel {
         actions.add(actionForciblyUpdateNodes);
         actions.add(actionFoldGraph);
         actions.add(actionUnfoldGraph);
+        actions.add(actionIsolateGraph);
 
         actionCopyGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
         actionPasteGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
@@ -231,12 +276,15 @@ public class NodeGraphEditorPanel extends JPanel {
         actionEditNodes.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
         actionFoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
         actionUnfoldGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
+        actionIsolateGraph.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
 
         menu.add(actionAddNode);
         menu.add(actionEditNodes);
         menu.add(actionForciblyUpdateNodes);
+        menu.addSeparator();
         menu.add(actionFoldGraph);
         menu.add(actionUnfoldGraph);
+        menu.add(actionIsolateGraph);
         menu.addSeparator();
         menu.add(actionCopyGraph);
         menu.add(actionCutGraph);
@@ -244,20 +292,23 @@ public class NodeGraphEditorPanel extends JPanel {
         menu.addSeparator();
         menu.add(actionDeleteGraph);
 
+        popupBar.add(actionAddNode);
+        popupBar.add(actionEditNodes);
+        popupBar.add(actionForciblyUpdateNodes);
+        popupBar.addSeparator();
+        popupBar.add(actionFoldGraph);
+        popupBar.add(actionUnfoldGraph);
+        popupBar.add(actionIsolateGraph);
+        popupBar.addSeparator();
+        popupBar.add(actionCopyGraph);
+        popupBar.add(actionCutGraph);
+        popupBar.add(actionPasteGraph);
+        popupBar.addSeparator();
+        popupBar.add(actionDeleteGraph);
+
         return menu;
     }
 
-    /**
-     * Updates the model and repaints the panel.
-     */
-    public void update() {
-        try {
-            model.update();
-            paintArea.repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public void swapTool(ModalTool tool) {
         deactivateCurrentTool();
@@ -266,14 +317,14 @@ public class NodeGraphEditorPanel extends JPanel {
     }
 
     private void deactivateCurrentTool() {
-        if(activeTool !=null) {
+        if(activeTool != null) {
             activeTool.detachKeyboardAdapter();
             activeTool.detachMouseAdapter();
         }
     }
 
     private void activateCurrentTool() {
-        if(activeTool !=null) {
+        if(activeTool != null) {
             activeTool.attachKeyboardAdapter();
             activeTool.attachMouseAdapter();
         }
@@ -417,6 +468,12 @@ public class NodeGraphEditorPanel extends JPanel {
         frame.add(panel);
         panel.setupMenuBar();
         frame.setVisible(true);
+    }
+
+    private static void setSystemLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
     }
 
     public NodeGraphViewPanel getPaintArea() {
