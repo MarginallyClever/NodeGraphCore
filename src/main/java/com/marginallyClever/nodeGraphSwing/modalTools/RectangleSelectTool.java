@@ -21,6 +21,8 @@ import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 public class RectangleSelectTool extends ModalTool {
     private final NodeGraphEditorPanel editor;
 
+    private static final int STROKE_WIDTH=2;
+
     /**
      * true while drawing a box to select nodes.
      */
@@ -51,6 +53,10 @@ public class RectangleSelectTool extends ModalTool {
         return "Select";
     }
 
+    public KeyStroke getAcceleratorKey() {
+        return KeyStroke.getKeyStroke(KeyEvent.VK_S,0);
+    }
+
     @Override
     public void attachMouseAdapter() {
         super.attachMouseAdapter();
@@ -63,8 +69,8 @@ public class RectangleSelectTool extends ModalTool {
     public void detachMouseAdapter() {
         super.detachMouseAdapter();
         NodeGraphViewPanel paintArea = editor.getPaintArea();
-        paintArea.addMouseMotionListener(null);
-        paintArea.addMouseListener(null);
+        paintArea.removeMouseMotionListener(this);
+        paintArea.removeMouseListener(this);
     }
 
     @Override
@@ -98,43 +104,41 @@ public class RectangleSelectTool extends ModalTool {
      */
     private void paintSelectionArea(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
-        Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+        Stroke dashed = new BasicStroke(STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
                 2, new float[]{3}, 0);
         g2d.setStroke(dashed);
 
         g2d.setColor(keyStateMemory.isShiftKeyDown() ? Color.YELLOW : Color.MAGENTA);
         Rectangle2D r = getSelectionArea(mousePreviousPosition);
-        g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth(),(int)r.getHeight());
+        g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth()-STROKE_WIDTH,(int)r.getHeight()-STROKE_WIDTH);
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        editor.setSelectedNode(editor.model.getNodeAt(e.getPoint()));
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        Rectangle r = getRepaintArea(e.getPoint());
         mousePreviousPosition.setLocation(e.getX(), e.getY());
-        if(selectionOn) editor.repaint();
+        if(selectionOn) editor.repaint(r);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        Rectangle r = getRepaintArea(e.getPoint());
         mousePreviousPosition.setLocation(e.getX(), e.getY());
-        if(selectionOn) editor.repaint();
+        if(selectionOn) editor.repaint(r);
+    }
+
+    private Rectangle getRepaintArea(Point p) {
+        Rectangle r = getSelectionArea(p);
+        r.add(new Rectangle(mousePreviousPosition,new Dimension(1,1)));
+        return r;
     }
 
     public void mousePressed(MouseEvent e) {
-        // if user presses down on an already selected item then user is dragging selected nodes
-        Node n = editor.getGraph().getNodeAt(e.getPoint());
-        if(n!=null) {
-            if(!editor.getSelectedNodes().contains(n)) {
-                editor.setSelectedNode(n);
-            }
-        } else {
-            // nothing under point, start new selection.
-            beginSelectionArea(e.getPoint());
-        }
+        // nothing under point, start new selection.
+        beginSelectionArea(e.getPoint());
     }
 
     @Override
@@ -158,18 +162,22 @@ public class RectangleSelectTool extends ModalTool {
      */
     private void endSelectionArea(Point point) {
         selectionOn=false;
-        java.util.List<Node> nodesInSelectionArea = editor.getGraph().getNodesInRectangle(getSelectionArea(point));
+        Rectangle selectionArea = getSelectionArea(point);
+        java.util.List<Node> nodesInSelectionArea = editor.getGraph().getNodesInRectangle(selectionArea);
         if(!keyStateMemory.isShiftKeyDown()) {
             editor.setSelectedNodes(nodesInSelectionArea);
         } else {
-            java.util.List<Node> already = editor.getSelectedNodes();
-            List<Node> overlap = new ArrayList<>(nodesInSelectionArea);
-            overlap.retainAll(already);
-            nodesInSelectionArea.removeAll(overlap);
-            if(!overlap.isEmpty()) {
-                already.removeAll(overlap);
-            }
+            List<Node> already = new ArrayList<>(editor.getSelectedNodes());
+            List<Node> intersection = new ArrayList<>(nodesInSelectionArea);
+            // get the intersection of previous and newly selected nodes.
+            intersection.retainAll(already);
+            // remove the intersecting bit
+            nodesInSelectionArea.removeAll(intersection);
+            already.removeAll(intersection);
+            // keep whatever is left
             already.addAll(nodesInSelectionArea);
+
+            editor.setSelectedNodes(already);
         }
         editor.repaint();
     }
@@ -179,11 +187,9 @@ public class RectangleSelectTool extends ModalTool {
      * @param point the second point of the selection area.
      * @return the rectangle formed by the first selection point and this new point.
      */
-    private Rectangle2D getSelectionArea(Point point) {
-        double x1 = Math.min(point.x, selectionAreaStart.x);
-        double x2 = Math.max(point.x, selectionAreaStart.x);
-        double y1 = Math.min(point.y, selectionAreaStart.y);
-        double y2 = Math.max(point.y, selectionAreaStart.y);
-        return new Rectangle2D.Double(x1,y1,x2-x1,y2-y1);
+    private Rectangle getSelectionArea(Point point) {
+        Rectangle r = new Rectangle(point);
+        r.add(new Rectangle(selectionAreaStart, new Dimension(1, 1)));
+        return r;
     }
 }

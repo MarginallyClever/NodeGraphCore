@@ -42,7 +42,8 @@ public class ActionLoadGraph extends AbstractAction {
         fc.setFileFilter(NodeGraphEditorPanel.FILE_FILTER);
         if (fc.showOpenDialog(SwingUtilities.getWindowAncestor(editor)) == JFileChooser.APPROVE_OPTION) {
             try {
-                editor.getGraph().add(loadGraphFromFile(fc.getSelectedFile().getAbsolutePath()));
+                NodeGraph graph = loadGraphFromFile(fc.getSelectedFile().getAbsolutePath());
+                editor.getGraph().add(graph);
                 editor.repaint();
             } catch(IOException e1) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e1.getLocalizedMessage());
@@ -59,7 +60,13 @@ public class ActionLoadGraph extends AbstractAction {
             responseStrBuilder.append(inputStr);
         }
         NodeGraph newModel = new NodeGraph();
-        newModel.parseJSON(new JSONObject(responseStrBuilder.toString()));
+        try {
+            newModel.parseJSON(new JSONObject(responseStrBuilder.toString()));
+        } catch(IllegalArgumentException e1) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e1.getLocalizedMessage());
+        }
+        newModel.setAllDirty();
+
         return newModel;
     }
 }

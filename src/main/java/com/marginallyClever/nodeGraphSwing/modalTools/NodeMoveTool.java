@@ -4,7 +4,9 @@ import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class NodeMoveTool extends ModalTool {
@@ -26,11 +28,18 @@ public class NodeMoveTool extends ModalTool {
     }
 
     @Override
-    public void paint(Graphics g) {}
+    public void paint(Graphics g) {
+        // TODO draw rectangle around selected nodes?
+        // TODO draw start of drag point to current point?
+    }
 
     @Override
     public String getName() {
         return "Move";
+    }
+
+    public KeyStroke getAcceleratorKey() {
+        return KeyStroke.getKeyStroke(KeyEvent.VK_M,0);
     }
 
     @Override
@@ -45,8 +54,8 @@ public class NodeMoveTool extends ModalTool {
     public void detachMouseAdapter() {
         super.detachMouseAdapter();
         NodeGraphViewPanel paintArea = editor.getPaintArea();
-        paintArea.addMouseMotionListener(null);
-        paintArea.addMouseListener(null);
+        paintArea.removeMouseMotionListener(this);
+        paintArea.removeMouseListener(this);
     }
 
     @Override

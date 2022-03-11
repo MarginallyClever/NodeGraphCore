@@ -24,8 +24,16 @@ public class ActionUpdateGraph extends AbstractAction {
         this.editor = editor;
     }
 
+    /**
+     * Updates the model and repaints the panel.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        editor.update();
+        try {
+            editor.getGraph().update();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        editor.repaint();
     }
 }

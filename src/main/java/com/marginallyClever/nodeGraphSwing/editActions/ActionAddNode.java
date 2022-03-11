@@ -37,7 +37,7 @@ public class ActionAddNode extends AbstractAction {
             n.setPosition(editor.getPopupPoint());
             editor.getGraph().add(n);
             editor.setSelectedNode(n);
-            editor.repaint();
+            editor.repaint(n.getRectangle());
         }
     }
 }

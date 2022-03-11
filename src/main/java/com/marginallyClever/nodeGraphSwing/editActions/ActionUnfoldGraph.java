@@ -77,6 +77,13 @@ public class ActionUnfoldGraph extends AbstractAction implements EditAction {
 
     @Override
     public void updateEnableStatus() {
-        setEnabled(!editor.getSelectedNodes().isEmpty());
+        List<Node> list = editor.getSelectedNodes();
+        for(Node n : list) {
+            if(n instanceof Subgraph) {
+                setEnabled(true);
+                return;
+            }
+        }
+        setEnabled(false);
     }
 }
