@@ -17,7 +17,7 @@ import java.io.IOException;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionPrintGraph extends AbstractAction {
+public class PrintGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -34,7 +34,7 @@ public class ActionPrintGraph extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionPrintGraph(String name, NodeGraphEditorPanel editor) {
+    public PrintGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }

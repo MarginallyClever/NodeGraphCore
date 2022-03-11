@@ -1,4 +1,4 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
@@ -10,14 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddNodeEdit extends AbstractUndoableEdit {
+    private final String name;
     private final NodeGraphEditorPanel editor;
     private final Node node;
 
-    public AddNodeEdit(NodeGraphEditorPanel editor, Node node) {
+    public AddNodeEdit(String name,NodeGraphEditorPanel editor, Node node) {
         super();
+        this.name = name;
         this.editor = editor;
         this.node = node;
         doIt();
+    }
+
+    @Override
+    public String getPresentationName() {
+        return name;
     }
 
     public void doIt() {

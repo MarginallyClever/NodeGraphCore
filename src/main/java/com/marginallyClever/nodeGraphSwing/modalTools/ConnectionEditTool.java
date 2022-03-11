@@ -7,6 +7,8 @@ import com.marginallyClever.nodeGraphCore.NodeVariable;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.AddConnectionEdit;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.RemoveConnectionEdit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,9 +39,15 @@ public class ConnectionEditTool extends ModalTool {
      */
     private NodeConnectionPointInfo lastConnectionPoint = null;
 
+    private final String addName;
+    private final String removeName;
 
-    public ConnectionEditTool(NodeGraphEditorPanel editor) {
+
+    public ConnectionEditTool(NodeGraphEditorPanel editor,String addName,String removeName) {
+        super();
         this.editor=editor;
+        this.addName = addName;
+        this.removeName = removeName;
     }
 
     @Override
@@ -172,10 +180,10 @@ public class ConnectionEditTool extends ModalTool {
             if(connectionBeingCreated.isValidDataType()) {
                 NodeGraph graph = editor.getGraph();
                 NodeConnection match = graph.getMatchingConnection(connectionBeingCreated);
-                if(match!=null) graph.remove(match);
-                else {
-                    graph.removeAllConnectionsInto(connectionBeingCreated.getOutVariable());
-                    graph.add(new NodeConnection(connectionBeingCreated));
+                if(match!=null) {
+                    editor.addEdit(new RemoveConnectionEdit(removeName,editor,match));
+                } else {
+                    editor.addEdit(new AddConnectionEdit(addName,editor,new NodeConnection(connectionBeingCreated)));
                 }
             } else {
                 // if any of the tests failed

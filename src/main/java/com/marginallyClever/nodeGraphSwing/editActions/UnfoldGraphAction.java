@@ -19,7 +19,7 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionUnfoldGraph extends AbstractAction implements EditAction {
+public class UnfoldGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -30,7 +30,7 @@ public class ActionUnfoldGraph extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionUnfoldGraph(String name, NodeGraphEditorPanel editor) {
+    public UnfoldGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }

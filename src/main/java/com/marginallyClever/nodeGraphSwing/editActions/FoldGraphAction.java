@@ -5,6 +5,7 @@ import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphCore.Subgraph;
 import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.CutGraphAction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,7 @@ import java.awt.event.ActionEvent;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionFoldGraph extends AbstractAction implements EditAction {
+public class FoldGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -22,25 +23,25 @@ public class ActionFoldGraph extends AbstractAction implements EditAction {
     /**
      * The cut action on which this action depends.
      */
-    private final ActionCutGraph actionCutGraph;
+    private final CutGraphAction cutGraphAction;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
-     * @param actionCutGraph the cut action to use with this Action.
+     * @param CutGraphAction the cut action to use with this Action.
      */
-    public ActionFoldGraph(String name, NodeGraphEditorPanel editor, ActionCutGraph actionCutGraph) {
+    public FoldGraphAction(String name, NodeGraphEditorPanel editor, CutGraphAction CutGraphAction) {
         super(name);
         this.editor = editor;
-        this.actionCutGraph = actionCutGraph;
+        this.cutGraphAction = CutGraphAction;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         NodeGraph preserveCopyBehaviour = editor.getCopiedGraph().deepCopy();
 
-        actionCutGraph.actionPerformed(e);
+        cutGraphAction.actionPerformed(e);
         NodeGraph justCut = editor.getCopiedGraph().deepCopy();
         Node n = editor.getGraph().add(new Subgraph(justCut));
         n.setPosition(editor.getPopupPoint());

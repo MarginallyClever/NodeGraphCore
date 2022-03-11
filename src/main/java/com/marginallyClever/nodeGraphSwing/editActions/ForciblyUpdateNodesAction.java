@@ -1,20 +1,19 @@
 package com.marginallyClever.nodeGraphSwing.editActions;
 
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeFactoryPanel;
+import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Launches the "Add Node" dialog.  If the user clicks "Ok" then the selected {@link Node} type is added to the
- * current editor {@link NodeGraph}.
+ * Forces all of the editor's selected {@link Node}s to {@link Node#update()}, regarless of {@link Node#isDirty()}
+ * status.
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class AddNodeAction extends AbstractAction {
+public class ForciblyUpdateNodesAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -25,17 +24,20 @@ public class AddNodeAction extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public AddNodeAction(String name, NodeGraphEditorPanel editor) {
+    public ForciblyUpdateNodesAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Node n = NodeFactoryPanel.runAsDialog((JFrame)SwingUtilities.getWindowAncestor(editor));
-        if(n!=null) {
-            n.setPosition(editor.getPopupPoint());
-            editor.addEdit(new AddNodeEdit(editor,n));
+        for(Node n : editor.getSelectedNodes()) {
+            n.update();
         }
+    }
+
+    @Override
+    public void updateEnableStatus() {
+        setEnabled(!editor.getSelectedNodes().isEmpty());
     }
 }

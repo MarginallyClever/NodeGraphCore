@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 /**
  * Select all the {@link com.marginallyClever.nodeGraphCore.Node}s in the {@link com.marginallyClever.nodeGraphCore.NodeGraph}.
  */
-public class ActionSelectAll extends AbstractAction {
+public class SelectAllAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -19,7 +19,7 @@ public class ActionSelectAll extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionSelectAll(String name, NodeGraphEditorPanel editor) {
+    public SelectAllAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }

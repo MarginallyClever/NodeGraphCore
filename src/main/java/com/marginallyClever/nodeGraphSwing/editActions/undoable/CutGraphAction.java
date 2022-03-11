@@ -1,6 +1,8 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphSwing.EditAction;
+import com.marginallyClever.nodeGraphSwing.editActions.CopyGraphAction;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.DeleteGraphAction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeConnection;
@@ -13,14 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsolateGraphEdit extends AbstractUndoableEdit {
+    private final String name;
     private final NodeGraphEditorPanel editor;
     private final List<NodeConnection> connections = new ArrayList<>();
 
-    public IsolateGraphEdit(NodeGraphEditorPanel editor, List<Node> selectedNodes) {
+    public IsolateGraphEdit(String name,NodeGraphEditorPanel editor, List<Node> selectedNodes) {
         super();
+        this.name = name;
         this.editor = editor;
         connections.addAll(editor.getGraph().getExteriorConnections(selectedNodes));
         doIt();
+    }
+
+    @Override
+    public String getPresentationName() {
+        return name;
     }
 
     private void doIt() {

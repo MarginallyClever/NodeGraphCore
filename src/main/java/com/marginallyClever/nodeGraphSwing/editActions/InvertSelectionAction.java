@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Invert the selection.
  */
-public class ActionInvertSelection extends AbstractAction {
+public class InvertSelectionAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -22,7 +22,7 @@ public class ActionInvertSelection extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionInvertSelection(String name, NodeGraphEditorPanel editor) {
+    public InvertSelectionAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }

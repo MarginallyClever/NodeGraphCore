@@ -5,11 +5,11 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 
-public class ActionUndo extends AbstractAction {
+public class UndoAction extends AbstractAction {
     private final UndoManager undoManager;
-    private ActionRedo actionRedo;
+    private RedoAction actionRedo;
 
-    public ActionUndo(UndoManager undoManager) {
+    public UndoAction(UndoManager undoManager) {
         super("Undo");
         setEnabled(false);
         this.undoManager = undoManager;
@@ -28,7 +28,7 @@ public class ActionUndo extends AbstractAction {
         actionRedo.update();
     }
 
-    protected void update() {
+    public void update() {
         if (undoManager.canUndo()) {
             setEnabled(true);
             putValue(Action.NAME, undoManager.getUndoPresentationName());
@@ -38,7 +38,7 @@ public class ActionUndo extends AbstractAction {
         }
     }
 
-    public void setActionRedo(ActionRedo actionRedo) {
+    public void setActionRedo(RedoAction actionRedo) {
         this.actionRedo = actionRedo;
     }
 }

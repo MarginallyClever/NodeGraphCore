@@ -1,7 +1,9 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.PasteGraphAction;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.PasteGraphEdit;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -16,7 +18,7 @@ import java.io.InputStreamReader;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionLoadGraph extends AbstractAction {
+public class LoadGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -32,7 +34,7 @@ public class ActionLoadGraph extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionLoadGraph(String name, NodeGraphEditorPanel editor) {
+    public LoadGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
@@ -43,8 +45,7 @@ public class ActionLoadGraph extends AbstractAction {
         if (fc.showOpenDialog(SwingUtilities.getWindowAncestor(editor)) == JFileChooser.APPROVE_OPTION) {
             try {
                 NodeGraph graph = loadGraphFromFile(fc.getSelectedFile().getAbsolutePath());
-                editor.getGraph().add(graph);
-                editor.repaint();
+                editor.addEdit(new PasteGraphEdit((String)this.getValue(Action.NAME),editor,graph));
             } catch(IOException e1) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor),e1.getLocalizedMessage());
                 e1.printStackTrace();

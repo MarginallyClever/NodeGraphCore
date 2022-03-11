@@ -1,4 +1,4 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
@@ -11,16 +11,23 @@ import javax.swing.undo.UndoableEdit;
 import java.awt.*;
 
 public class PasteGraphEdit extends AbstractUndoableEdit {
+    private final String name;
     private final NodeGraphEditorPanel editor;
     private final NodeGraph copiedGraph;
     private final Point m;
 
-    public PasteGraphEdit(NodeGraphEditorPanel editor, NodeGraph graph) {
+    public PasteGraphEdit(String name,NodeGraphEditorPanel editor, NodeGraph graph) {
         super();
+        this.name = name;
         this.editor = editor;
         this.copiedGraph = graph.deepCopy();
         this.m = editor.getMousePosition();
         doIt();
+    }
+
+    @Override
+    public String getPresentationName() {
+        return name;
     }
 
     private void doIt() {

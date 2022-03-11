@@ -1,16 +1,21 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.modalTools;
 
 import com.marginallyClever.nodeGraphSwing.KeyStateMemory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class ActionKeyStateMemory extends AbstractAction {
+/**
+ * Remembers the state of a key for other actions, such as "is shift being held down?" for selection tools.
+ * @author Dan Royer
+ * @since 2022-03-08
+ */
+public class RememberKeyStateAction extends AbstractAction {
     private final KeyStateMemory memory;
     private final boolean onRelease;
     private final int keyCode;
 
-    public ActionKeyStateMemory(KeyStateMemory memory,int keyCode, boolean onRelease) {
+    public RememberKeyStateAction(KeyStateMemory memory, int keyCode, boolean onRelease) {
         super();
         this.memory=memory;
         this.onRelease = onRelease;

@@ -214,13 +214,17 @@ public class NodeGraph {
      * @param outVariable the {@link NodeVariable} with an input to be isolated.
      */
     public void removeAllConnectionsInto(NodeVariable<?> outVariable) {
-        ArrayList<NodeConnection> toDestroy = new ArrayList<>();
+        connections.removeAll(getAllConnectionsInto(outVariable));
+    }
+
+    public List<NodeConnection> getAllConnectionsInto(NodeVariable<?> outVariable) {
+        ArrayList<NodeConnection> list = new ArrayList<>();
 
         for(NodeConnection c : connections) {
-            if(c.getOutVariable() == outVariable) toDestroy.add(c);
+            if(c.getOutVariable() == outVariable) list.add(c);
         }
 
-        connections.removeAll(toDestroy);
+        return list;
     }
 
     private void assignNewUniqueIDs(int startingIndex) {

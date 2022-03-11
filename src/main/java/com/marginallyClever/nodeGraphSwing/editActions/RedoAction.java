@@ -2,15 +2,14 @@ package com.marginallyClever.nodeGraphSwing.editActions;
 
 import javax.swing.*;
 import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 
-public class ActionRedo extends AbstractAction {
+public class RedoAction extends AbstractAction {
     private final UndoManager undoManager;
-    private ActionUndo actionUndo;
+    private UndoAction actionUndo;
 
-    public ActionRedo(UndoManager undoManager) {
+    public RedoAction(UndoManager undoManager) {
         super("Redo");
         setEnabled(false);
         this.undoManager = undoManager;
@@ -29,7 +28,7 @@ public class ActionRedo extends AbstractAction {
         actionUndo.update();
     }
 
-    protected void update() {
+    public void update() {
         if (undoManager.canRedo()) {
             setEnabled(true);
             putValue(Action.NAME, undoManager.getRedoPresentationName());
@@ -39,7 +38,7 @@ public class ActionRedo extends AbstractAction {
         }
     }
 
-    public void setActionUndo(ActionUndo actionUndo) {
+    public void setActionUndo(UndoAction actionUndo) {
         this.actionUndo = actionUndo;
     }
 }

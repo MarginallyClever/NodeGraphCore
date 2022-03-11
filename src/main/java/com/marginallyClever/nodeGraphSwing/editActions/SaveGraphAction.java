@@ -13,7 +13,7 @@ import java.io.FileWriter;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionSaveGraph extends AbstractAction {
+public class SaveGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -29,7 +29,7 @@ public class ActionSaveGraph extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionSaveGraph(String name, NodeGraphEditorPanel editor) {
+    public SaveGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
@@ -51,7 +51,7 @@ public class ActionSaveGraph extends AbstractAction {
             return filename + "." + extensions[0];
         }
 
-        String end = filename.substring(last+1,filename.length());
+        String end = filename.substring(last+1);
         for(String ext : extensions) {
             // has valid extension
             if(end.equals(ext)) return filename;

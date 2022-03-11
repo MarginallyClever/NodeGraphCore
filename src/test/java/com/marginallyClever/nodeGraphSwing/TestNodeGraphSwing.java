@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphSwing.editActions.ActionSaveGraph;
+import com.marginallyClever.nodeGraphSwing.editActions.SaveGraphAction;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +24,9 @@ public class TestNodeGraphSwing {
         try {
             BuiltInRegistry.register();
             SwingRegistry.register();
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+            System.out.println("Some elements may have failed to register. "+e.getStackTrace());
+        }
     }
 
     /**
@@ -61,7 +63,7 @@ public class TestNodeGraphSwing {
 
     @Test
     public void testAddExtension() {
-        ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",null);
+        SaveGraphAction actionSaveGraph = new SaveGraphAction("Save",null);
         assertEquals("test.graph",actionSaveGraph.addExtensionIfNeeded("test"));
         assertEquals("test.graph",actionSaveGraph.addExtensionIfNeeded("test.graph"));
     }

@@ -88,8 +88,8 @@ public class RectangleSelectTool extends ModalTool {
         paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK,false),"press");
         paintArea.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0,true),"release");
 
-        paintArea.getActionMap().put("press",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,false));
-        paintArea.getActionMap().put("release",new ActionKeyStateMemory(keyStateMemory, KeyEvent.VK_SHIFT,true));
+        paintArea.getActionMap().put("press",new RememberKeyStateAction(keyStateMemory, KeyEvent.VK_SHIFT,false));
+        paintArea.getActionMap().put("release",new RememberKeyStateAction(keyStateMemory, KeyEvent.VK_SHIFT,true));
     }
 
     @Override

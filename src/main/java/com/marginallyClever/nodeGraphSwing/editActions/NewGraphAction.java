@@ -1,18 +1,16 @@
 package com.marginallyClever.nodeGraphSwing.editActions;
 
-import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Deletes the editor's selected {@link Node}s and sundry.
+ * Clears the editor's current {@link com.marginallyClever.nodeGraphCore.NodeGraph}.
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class DeleteGraphAction extends AbstractAction implements EditAction {
+public class NewGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -23,18 +21,13 @@ public class DeleteGraphAction extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public DeleteGraphAction(String name, NodeGraphEditorPanel editor) {
+    public NewGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        editor.addEdit(new DeleteGraphEdit(editor,editor.getSelectedNodes()));
-    }
-
-    @Override
-    public void updateEnableStatus() {
-        setEnabled(!editor.getSelectedNodes().isEmpty());
+        editor.clear();
     }
 }

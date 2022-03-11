@@ -1,20 +1,19 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
-import com.marginallyClever.nodeGraphCore.Node;
+import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.EditAction;
-import com.marginallyClever.nodeGraphSwing.NodeEditPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 /**
- * Launches the "edit node" dialog.
+ * Duplicates the editor's copy buffer, inserts the contents into the editor's current {@link NodeGraph}, and sets the
+ * new content as the editor's selected items.
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionEditNodes extends AbstractAction implements EditAction {
+public class PasteGraphAction extends AbstractAction implements EditAction {
     /**
      * The editor being affected.
      */
@@ -25,22 +24,18 @@ public class ActionEditNodes extends AbstractAction implements EditAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionEditNodes(String name, NodeGraphEditorPanel editor) {
+    public PasteGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        List<Node> nodes = editor.getSelectedNodes();
-        if(nodes.isEmpty()) return;
-        Node firstNode = nodes.get(0);
-        NodeEditPanel.runAsDialog(firstNode,(JFrame)SwingUtilities.getWindowAncestor(editor));
-        editor.repaint(firstNode.getRectangle());
+        editor.addEdit(new PasteGraphEdit((String)this.getValue(Action.NAME),editor,editor.getCopiedGraph()));
     }
 
     @Override
     public void updateEnableStatus() {
-        setEnabled(!editor.getSelectedNodes().isEmpty());
+        setEnabled(!editor.getCopiedGraph().isEmpty());
     }
 }

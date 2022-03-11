@@ -3,6 +3,7 @@ package com.marginallyClever.nodeGraphSwing.modalTools;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
+import com.marginallyClever.nodeGraphSwing.editActions.undoable.MoveNodesEdit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,11 @@ public class NodeMoveTool extends ModalTool {
      * for tracking relative motion, useful for relative moves like dragging.
      */
     private final Point mousePreviousPosition = new Point();
+
+    /**
+     * for tracking total motion, useful for undoable edit.
+     */
+    private final Point mouseStartPosition = new Point();
 
     public NodeMoveTool(NodeGraphEditorPanel editor) {
         super();
@@ -76,11 +82,19 @@ public class NodeMoveTool extends ModalTool {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(!dragOn) dragOn=true;
+        if(!dragOn) {
+            dragOn=true;
+            mouseStartPosition.setLocation(e.getX(),e.getY());
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(dragOn) dragOn=false;
+        if(dragOn) {
+            dragOn=false;
+            int dx = e.getX() - mouseStartPosition.x;
+            int dy = e.getY() - mouseStartPosition.y;
+            editor.addEdit(new MoveNodesEdit(getName(),editor,dx,dy));
+        }
     }
 }

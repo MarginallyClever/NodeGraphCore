@@ -1,15 +1,12 @@
-package com.marginallyClever.nodeGraphSwing.editActions;
+package com.marginallyClever.nodeGraphSwing.editActions.undoable;
 
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.EditAction;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 /**
  * Disconnects the selected {@link Node}s from any non-selected {@link Node}s of a {@link NodeGraph}.
@@ -34,7 +31,7 @@ public class IsolateGraphAction extends AbstractAction implements EditAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        editor.addEdit(new IsolateGraphEdit(editor,editor.getSelectedNodes()));
+        editor.addEdit(new IsolateGraphEdit((String)this.getValue(Action.NAME),editor,editor.getSelectedNodes()));
     }
 
     @Override
