@@ -12,7 +12,10 @@ import java.util.List;
 
 /**
  * Copies the editor's selected {@link Node}s and their shared {@link NodeConnection}s to the copy buffer.  The copy
- * buffer ensures the items so that they can be pasted even after they are deleted.
+ * buffer ensures the items so that they can be pasted even after they are deleted.<br/>
+ * <br/>
+ * It cannot be undone.  It does not affect the {@link NodeGraph}.  Furthermore, this lets the user undo several
+ * commands, copy something, redo back to where they were, and then paste the copy.
  * @author Dan Royer
  * @since 2022-02-21
  */

@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Updates all dirty {@link com.marginallyClever.nodeGraphCore.Node}s in the editor's graph.
+ * Updates all dirty {@link com.marginallyClever.nodeGraphCore.Node}s in the editor's graph.  It cannot be undone.
  */
-public class ActionUpdateGraph extends AbstractAction {
+public class UpdateGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
@@ -19,7 +19,7 @@ public class ActionUpdateGraph extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ActionUpdateGraph(String name, NodeGraphEditorPanel editor) {
+    public UpdateGraphAction(String name, NodeGraphEditorPanel editor) {
         super(name);
         this.editor = editor;
     }

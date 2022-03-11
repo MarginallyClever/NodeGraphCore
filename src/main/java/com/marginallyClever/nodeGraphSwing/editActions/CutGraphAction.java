@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class ActionCutGraph extends AbstractAction implements EditAction {
+public class CutGraphAction extends AbstractAction implements EditAction {
     /**
      * The delete action on which this action depends.
      */
@@ -26,7 +26,7 @@ public class ActionCutGraph extends AbstractAction implements EditAction {
      * @param actionDeleteGraph the delete action to use
      * @param actionCopyGraph the copy action to use
      */
-    public ActionCutGraph(String name, DeleteGraphAction actionDeleteGraph, CopyGraphAction actionCopyGraph) {
+    public CutGraphAction(String name, DeleteGraphAction actionDeleteGraph, CopyGraphAction actionCopyGraph) {
         super(name);
         this.actionDeleteGraph = actionDeleteGraph;
         this.actionCopyGraph = actionCopyGraph;

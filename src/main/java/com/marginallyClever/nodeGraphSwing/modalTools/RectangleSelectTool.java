@@ -5,7 +5,6 @@ import com.marginallyClever.nodeGraphSwing.KeyStateMemory;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
-import com.marginallyClever.nodeGraphSwing.editActions.ActionKeyStateMemory;
 
 import javax.swing.*;
 import java.awt.*;

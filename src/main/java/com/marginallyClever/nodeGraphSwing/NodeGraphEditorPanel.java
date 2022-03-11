@@ -216,7 +216,7 @@ public class NodeGraphEditorPanel extends JPanel {
         ActionNewGraph actionNewGraph = new ActionNewGraph("New",this);
         ActionSaveGraph actionSaveGraph = new ActionSaveGraph("Save",this);
         ActionLoadGraph actionLoadGraph = new ActionLoadGraph("Load",this);
-        ActionUpdateGraph actionUpdateGraph = new ActionUpdateGraph("Update",this);
+        UpdateGraphAction actionUpdateGraph = new UpdateGraphAction("Update",this);
 
         ActionPrintGraph actionPrintGraph = new ActionPrintGraph("Print",this);
         ActionStraightenGraph actionStraightenGraph = new ActionStraightenGraph("Straighten",this);
@@ -258,7 +258,7 @@ public class NodeGraphEditorPanel extends JPanel {
         CopyGraphAction actionCopyGraph = new CopyGraphAction("Copy",this);
         PasteGraphAction actionPasteGraph = new PasteGraphAction("Paste",this);
         DeleteGraphAction actionDeleteGraph = new DeleteGraphAction("Delete",this);
-        ActionCutGraph actionCutGraph = new ActionCutGraph("Cut", actionDeleteGraph, actionCopyGraph);
+        CutGraphAction actionCutGraph = new CutGraphAction("Cut", actionDeleteGraph, actionCopyGraph);
         AddNodeAction actionAddNode = new AddNodeAction("Add",this);
         ActionEditNodes actionEditNodes = new ActionEditNodes("Edit",this);
         ActionForciblyUpdateNodes actionForciblyUpdateNodes = new ActionForciblyUpdateNodes("Force update",this);
