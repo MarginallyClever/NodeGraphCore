@@ -322,7 +322,6 @@ public class NodeGraphEditorPanel extends JPanel {
         return menu;
     }
 
-
     public void swapTool(ModalTool tool) {
         deactivateCurrentTool();
         activeTool = tool;
@@ -462,6 +461,16 @@ public class NodeGraphEditorPanel extends JPanel {
         repaint();
     }
 
+    public NodeGraphViewPanel getPaintArea() {
+        return paintArea;
+    }
+
+    private static void setSystemLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
+    }
+
     /**
      * Main entry point.  Good for independent test.
      * @param args command line arguments.
@@ -482,15 +491,5 @@ public class NodeGraphEditorPanel extends JPanel {
         frame.add(panel);
         panel.setupMenuBar();
         frame.setVisible(true);
-    }
-
-    private static void setSystemLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
-    }
-
-    public NodeGraphViewPanel getPaintArea() {
-        return paintArea;
     }
 }
