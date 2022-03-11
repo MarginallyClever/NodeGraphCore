@@ -1,5 +1,6 @@
 package com.marginallyClever.nodeGraphSwing;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
@@ -16,4 +17,12 @@ public abstract class ModalTool extends MouseAdapter {
     public void restart() {}
 
     public abstract String getName();
+
+    /**
+     * Returns the {@link KeyStroke} associated with activating this tool
+     * @return the {@link KeyStroke} associated with activating this tool
+     */
+    public KeyStroke getAcceleratorKey() {
+        return null;
+    }
 }
