@@ -6,7 +6,7 @@
 
     <groupId>com.marginallyClever</groupId>
     <artifactId>NodeGraphCore</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <name>NodeGraphCore</name>
     <description>Java Node Graph system for Data flow programming.</description>
     <url>https://github.com/MarginallyClever/NodeGraphCore</url>
@@ -89,7 +89,6 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.1</version>
             </plugin>
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -104,6 +103,34 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <SplashScreen-Image>splash.png</SplashScreen-Image>
+                        </manifestEntries>
+                        <manifest>
+                            <mainClass>com.marginallyClever.nodeGraphSwing.Donatello</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/assembly/application.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- this is used for inheritance merges -->
+                        <phase>package</phase>
+                        <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
@@ -115,7 +142,6 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
             </plugin>
-
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.9.1</version>

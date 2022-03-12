@@ -485,7 +485,7 @@ public class NodeGraphEditorPanel extends JPanel {
         return paintArea;
     }
 
-    private static void setSystemLookAndFeel() {
+    public static void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -506,8 +506,7 @@ public class NodeGraphEditorPanel extends JPanel {
         SwingRegistry.register();
         setSystemLookAndFeel();
 
-        NodeGraph model = new NodeGraph();
-        NodeGraphEditorPanel panel = new NodeGraphEditorPanel(model);
+        NodeGraphEditorPanel panel = new NodeGraphEditorPanel(new NodeGraph());
 
         JFrame frame = new JFrame("Node Graph Editor");
         frame.setLocationRelativeTo(null);
