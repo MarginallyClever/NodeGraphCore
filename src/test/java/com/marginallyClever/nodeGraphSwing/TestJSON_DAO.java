@@ -45,7 +45,7 @@ public class TestJSON_DAO {
     @Test
     public void testBufferedImageDAO() {
         BufferedImageJSON_DAO dao = new BufferedImageJSON_DAO();
-        BufferedImage r1 = new BufferedImage(2,3,BufferedImage.TYPE_INT_RGB);
+        BufferedImage r1 = new BufferedImage(2,3,BufferedImage.TYPE_INT_ARGB);
         BufferedImage r2=dao.fromJSON(dao.toJSON(r1));
         assert(bufferedImagesEqual(r1,r2));
     }

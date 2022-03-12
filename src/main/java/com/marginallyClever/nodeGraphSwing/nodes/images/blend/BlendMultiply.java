@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
  * @since 2022-02-23
  */
 public class BlendMultiply extends Node {
-    private final NodeVariable<BufferedImage> a = NodeVariable.newInstance("a", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),true,false);
-    private final NodeVariable<BufferedImage> b = NodeVariable.newInstance("b", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),true,false);
-    private final NodeVariable<BufferedImage> output = NodeVariable.newInstance("output", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),false,true);
+    private final NodeVariable<BufferedImage> a = NodeVariable.newInstance("a", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),true,false);
+    private final NodeVariable<BufferedImage> b = NodeVariable.newInstance("b", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),true,false);
+    private final NodeVariable<BufferedImage> output = NodeVariable.newInstance("output", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),false,true);
 
     /**
      * Constructor for subclasses to call.
@@ -48,7 +48,7 @@ public class BlendMultiply extends Node {
 
         int w = (int)Math.min(A.getWidth(),B.getWidth());
         int h = (int)Math.min(A.getHeight(),B.getHeight());
-        BufferedImage C = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
+        BufferedImage C = new BufferedImage(w,h,A.getType());
 
         for(int y=0;y<h;++y) {
             for(int x=0;x<w;++x) {

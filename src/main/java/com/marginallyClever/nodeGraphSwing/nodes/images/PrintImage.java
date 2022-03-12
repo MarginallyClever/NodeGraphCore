@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * @since 2022-02-23
  */
 public class PrintImage extends Node implements PrintWithGraphics {
-    private final NodeVariable<BufferedImage> image = NodeVariable.newInstance("image", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),true,false);
+    private final NodeVariable<BufferedImage> image = NodeVariable.newInstance("image", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),true,false);
     private final NodeVariable<Number> px = NodeVariable.newInstance("X",Number.class,0,true,false);
     private final NodeVariable<Number> py = NodeVariable.newInstance("Y",Number.class,0,true,false);
 

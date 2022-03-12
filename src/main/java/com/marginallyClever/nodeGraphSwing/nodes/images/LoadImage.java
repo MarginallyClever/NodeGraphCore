@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class LoadImage extends Node {
     private final NodeVariable<String> filename = NodeVariable.newInstance("filename",String.class,null,true,false);
-    private final NodeVariable<BufferedImage> contents = NodeVariable.newInstance("contents", BufferedImage.class, new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),false,true);
+    private final NodeVariable<BufferedImage> contents = NodeVariable.newInstance("contents", BufferedImage.class, new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),false,true);
     private final NodeVariable<Number> width = NodeVariable.newInstance("width",Number.class,0,false,true);
     private final NodeVariable<Number> height = NodeVariable.newInstance("height",Number.class,0,false,true);
 

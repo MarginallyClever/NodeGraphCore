@@ -41,7 +41,7 @@ public class PrintGraphAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BufferedImage awtImage = new BufferedImage(editor.getWidth(), editor.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage awtImage = new BufferedImage(editor.getWidth(), editor.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics g = awtImage.getGraphics();
         editor.printAll(g);
 /*

@@ -13,10 +13,10 @@ import java.awt.image.BufferedImage;
  * @since 2022-02-23
  */
 public class ScaleImage extends Node {
-    private final NodeVariable<BufferedImage> image = NodeVariable.newInstance("image", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),true,false);
+    private final NodeVariable<BufferedImage> image = NodeVariable.newInstance("image", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),true,false);
     private final NodeVariable<Number> width = NodeVariable.newInstance("width",Number.class,256,true,false);
     private final NodeVariable<Number> height = NodeVariable.newInstance("height",Number.class,256,true,false);
-    private final NodeVariable<BufferedImage> output = NodeVariable.newInstance("output", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB),false,true);
+    private final NodeVariable<BufferedImage> output = NodeVariable.newInstance("output", BufferedImage.class,new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB),false,true);
 
     /**
      * Constructor for subclasses to call.
