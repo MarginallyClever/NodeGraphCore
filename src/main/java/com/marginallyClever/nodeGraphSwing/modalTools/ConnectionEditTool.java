@@ -7,13 +7,12 @@ import com.marginallyClever.nodeGraphCore.NodeVariable;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
-import com.marginallyClever.nodeGraphSwing.editActions.undoable.AddConnectionEdit;
-import com.marginallyClever.nodeGraphSwing.editActions.undoable.RemoveConnectionEdit;
+import com.marginallyClever.nodeGraphSwing.edits.AddConnectionEdit;
+import com.marginallyClever.nodeGraphSwing.edits.RemoveConnectionEdit;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ConnectionEditTool extends ModalTool {

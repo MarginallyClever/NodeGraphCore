@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphSwing.editActions.RedoAction;
-import com.marginallyClever.nodeGraphSwing.editActions.UndoAction;
+import com.marginallyClever.nodeGraphSwing.actions.RedoAction;
+import com.marginallyClever.nodeGraphSwing.actions.UndoAction;
 
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;

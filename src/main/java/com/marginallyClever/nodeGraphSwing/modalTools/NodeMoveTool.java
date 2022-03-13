@@ -3,7 +3,7 @@ package com.marginallyClever.nodeGraphSwing.modalTools;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
 import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
-import com.marginallyClever.nodeGraphSwing.editActions.undoable.MoveNodesEdit;
+import com.marginallyClever.nodeGraphSwing.edits.MoveNodesEdit;
 
 import javax.swing.*;
 import java.awt.*;
