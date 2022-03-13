@@ -1,7 +1,9 @@
 package com.marginallyClever.nodeGraphSwing;
 
+import com.marginallyClever.nodeGraphCore.DAORegistry;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.NodeRegistry;
 import com.marginallyClever.nodeGraphSwing.nodes.images.*;
 import com.marginallyClever.nodeGraphSwing.nodes.images.blend.BlendDifference;
 import com.marginallyClever.nodeGraphSwing.nodes.images.blend.BlendMultiply;
@@ -15,11 +17,11 @@ import java.awt.image.BufferedImage;
  * @author Dan Royer
  * @since 2022-02-11
  */
-public class SwingRegistry {
+public class SwingRegistry implements NodeRegistry, DAORegistry {
     /**
      * Perform the registration.
      */
-    public static void register() {
+    public void registerNodes() {
         NodeFactory.registerNode(new LoadImage());
         NodeFactory.registerNode(new PrintImage());
         NodeFactory.registerNode(new ScaleImage());
@@ -27,7 +29,13 @@ public class SwingRegistry {
         NodeFactory.registerNode(new BlendMultiply());
         NodeFactory.registerNode(new BlendScreen());
         NodeFactory.registerNode(new SplitToCMYK());
+    }
 
+    /**
+     * Perform the registration.
+     */
+    @Override
+    public void registerDAO() {
         JSON_DAO_Factory.registerDAO(BufferedImage.class,new BufferedImageJSON_DAO());
     }
 }

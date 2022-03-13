@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 /**
  * Maintains a map of Classes and their {@link JSON_DAO}.
@@ -14,6 +15,13 @@ import java.util.Map;
  */
 public class JSON_DAO_Factory {
     private static final Map<Class<?>, JSON_DAO<?>> daoRegistry = new HashMap<>();
+
+    public static void loadRegistries() {
+        ServiceLoader<DAORegistry> loader = ServiceLoader.load(DAORegistry.class);
+        for(DAORegistry registry : loader) {
+            registry.registerDAO();
+        }
+    }
 
     /**
      * Does not allow {@link JSON_DAO} to be registered more than once.
@@ -47,5 +55,12 @@ public class JSON_DAO_Factory {
      */
     public static Object fromJSON(Class<?> aClass,Object object) throws JSONException {
         return daoRegistry.get(aClass).fromJSON(object);
+    }
+
+    /**
+     * unregisters all DAO.
+     */
+    public static void clear() {
+        daoRegistry.clear();
     }
 }

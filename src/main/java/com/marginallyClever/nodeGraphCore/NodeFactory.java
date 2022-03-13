@@ -2,6 +2,7 @@ package com.marginallyClever.nodeGraphCore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 /**
@@ -45,5 +46,19 @@ public class NodeFactory {
     public static String [] getNames() {
         Set<String> list = nodeRegistry.keySet();
         return list.stream().sorted().toArray(String[]::new);
+    }
+
+    /**
+     * Unregisters everything.
+     */
+    public static void clear() {
+        nodeRegistry.clear();
+    }
+
+    public static void loadRegistries() {
+        ServiceLoader<NodeRegistry> loader = ServiceLoader.load(NodeRegistry.class);
+        for(NodeRegistry registry : loader) {
+            registry.registerNodes();
+        }
     }
 }

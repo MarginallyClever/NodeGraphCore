@@ -7,6 +7,7 @@ import com.marginallyClever.nodeGraphCore.builtInNodes.math.Multiply;
 import com.marginallyClever.nodeGraphCore.builtInNodes.math.Subtract;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,19 +22,20 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 2022-02-21
  */
 public class TestNodeGraphCore {
-    private static NodeGraph nodeGraph;
+    private static NodeGraph nodeGraph = new NodeGraph();
 
-    /**
-     * setup the {@link NodeGraph} to use.
-     */
     @BeforeAll
     public static void beforeAll() {
-        nodeGraph = new NodeGraph();
-        try {
-            BuiltInRegistry.register();
-        } catch (IllegalArgumentException e) {}
+        BuiltInRegistry r = new BuiltInRegistry();
+        r.registerNodes();
+        r.registerDAO();
     }
 
+    @AfterAll
+    public static void afterAll() {
+        NodeFactory.clear();
+        JSON_DAO_Factory.clear();
+    }
     /**
      * clear the graph.
      */

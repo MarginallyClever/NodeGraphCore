@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphSwing.editActions.*;
-import com.marginallyClever.nodeGraphSwing.editActions.undoable.*;
+import com.marginallyClever.nodeGraphSwing.actions.*;
+import com.marginallyClever.nodeGraphSwing.actions.undoable.*;
 import com.marginallyClever.nodeGraphSwing.modalTools.ConnectionEditTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.NodeMoveTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
@@ -431,8 +431,8 @@ public class NodeGraphEditorPanel extends JPanel {
      */
     private void updateActionEnableStatus() {
         for(AbstractAction a : actions) {
-            if(a instanceof EditAction) {
-                ((EditAction)a).updateEnableStatus();
+            if(a instanceof EditorAction) {
+                ((EditorAction)a).updateEnableStatus();
             }
         }
     }
@@ -502,13 +502,14 @@ public class NodeGraphEditorPanel extends JPanel {
      * @param args command line arguments.
      */
     public static void main(String[] args) {
-        BuiltInRegistry.register();
-        SwingRegistry.register();
-        setSystemLookAndFeel();
+        NodeFactory.loadRegistries();
+        JSON_DAO_Factory.loadRegistries();
+
+        NodeGraphEditorPanel.setSystemLookAndFeel();
 
         NodeGraphEditorPanel panel = new NodeGraphEditorPanel(new NodeGraph());
 
-        JFrame frame = new JFrame("Node Graph Editor");
+        JFrame frame = new JFrame("Node Graph Editor Panel");
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(1200,800));

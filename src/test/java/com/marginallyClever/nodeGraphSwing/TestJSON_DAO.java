@@ -1,7 +1,9 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphCore.BuiltInRegistry;
+import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphSwing.nodes.images.BufferedImageJSON_DAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +18,14 @@ import java.awt.image.BufferedImage;
 public class TestJSON_DAO {
     @BeforeAll
     public static void beforeAll() {
-        try {
-            BuiltInRegistry.register();
-            SwingRegistry.register();
-        } catch (IllegalArgumentException e) {}
+        NodeFactory.loadRegistries();
+        JSON_DAO_Factory.loadRegistries();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        NodeFactory.clear();
+        JSON_DAO_Factory.clear();
     }
 
     private boolean bufferedImagesEqual(BufferedImage img1, BufferedImage img2) {

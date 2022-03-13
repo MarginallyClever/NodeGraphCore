@@ -9,7 +9,19 @@ module com.marginallyClever.NodeGraphCore {
     requires java.desktop;
     requires org.json;
 
+    uses com.marginallyClever.nodeGraphCore.NodeRegistry;
+    provides com.marginallyClever.nodeGraphCore.NodeRegistry with
+            com.marginallyClever.nodeGraphCore.BuiltInRegistry,
+            com.marginallyClever.nodeGraphSwing.SwingRegistry;
+
+    uses com.marginallyClever.nodeGraphCore.DAORegistry;
+    provides com.marginallyClever.nodeGraphCore.DAORegistry with
+            com.marginallyClever.nodeGraphCore.BuiltInRegistry,
+            com.marginallyClever.nodeGraphSwing.SwingRegistry;
+
     exports com.marginallyClever.nodeGraphCore;
-    exports com.marginallyClever.nodeGraphSwing;
     exports com.marginallyClever.nodeGraphCore.json;
+
+    exports com.marginallyClever.nodeGraphSwing;
+    exports com.marginallyClever.nodeGraphSwing.actions;
 }

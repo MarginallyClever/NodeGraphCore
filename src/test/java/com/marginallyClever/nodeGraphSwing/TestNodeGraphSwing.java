@@ -1,9 +1,10 @@
 package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.*;
-import com.marginallyClever.nodeGraphSwing.editActions.SaveGraphAction;
+import com.marginallyClever.nodeGraphSwing.actions.SaveGraphAction;
 import com.marginallyClever.nodeGraphSwing.nodes.images.LoadImage;
 import com.marginallyClever.nodeGraphSwing.nodes.images.PrintImage;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,17 +17,19 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 2022-02-21
  */
 public class TestNodeGraphSwing {
-    private static NodeGraph model;
+    private static NodeGraph model = new NodeGraph();
 
     @BeforeAll
     public static void beforeAll() {
-        model = new NodeGraph();
-        try {
-            BuiltInRegistry.register();
-            SwingRegistry.register();
-        } catch (IllegalArgumentException e) {
-            System.out.println("Some elements may have failed to register. "+e.getStackTrace());
-        }
+        SwingRegistry r = new SwingRegistry();
+        r.registerNodes();
+        r.registerDAO();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        NodeFactory.clear();
+        JSON_DAO_Factory.clear();
     }
 
     /**

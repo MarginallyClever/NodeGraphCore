@@ -2,6 +2,7 @@ package com.marginallyClever.nodeGraphCore;
 
 import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
 import com.marginallyClever.nodeGraphCore.json.StringJSON_DAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestJSON_DAO {
     @BeforeAll
     public static void beforeAll() {
-        try {
-            BuiltInRegistry.register();
-        } catch (IllegalArgumentException e) {}
+        NodeFactory.loadRegistries();
+        JSON_DAO_Factory.loadRegistries();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        NodeFactory.clear();
+        JSON_DAO_Factory.clear();
     }
 
     /**

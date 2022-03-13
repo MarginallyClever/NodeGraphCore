@@ -17,11 +17,11 @@ import java.awt.*;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class BuiltInRegistry {
+public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     /**
      * Perform the registration.
      */
-    public static void register() {
+    public void registerNodes() {
         NodeFactory.registerNode(new LoadNumber());
         NodeFactory.registerNode(new Random());
         NodeFactory.registerNode(new Add());
@@ -41,7 +41,13 @@ public class BuiltInRegistry {
         NodeFactory.registerNode(new LogicalOr());
         NodeFactory.registerNode(new LogicalAnd());
         NodeFactory.registerNode(new LogicalNot());
+    }
 
+    /**
+     * Perform the registration.
+     */
+    @Override
+    public void registerDAO() {
         JSON_DAO_Factory.registerDAO(Rectangle.class, new RectangleJSON_DAO());
         JSON_DAO_Factory.registerDAO(String.class, new StringJSON_DAO());
         JSON_DAO_Factory.registerDAO(Number.class, new NumberJSON_DAO());

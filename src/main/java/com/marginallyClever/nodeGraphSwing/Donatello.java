@@ -1,6 +1,7 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphCore.BuiltInRegistry;
+import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 
 import javax.swing.*;
@@ -13,12 +14,12 @@ import java.awt.*;
  */
 public class Donatello {
     public static void main(String[] args) {
-        BuiltInRegistry.register();
-        SwingRegistry.register();
+        NodeFactory.loadRegistries();
+        JSON_DAO_Factory.loadRegistries();
 
-        NodeGraph model = new NodeGraph();
-        NodeGraphEditorPanel panel = new NodeGraphEditorPanel(model);
-        panel.setSystemLookAndFeel();
+        NodeGraphEditorPanel.setSystemLookAndFeel();
+
+        NodeGraphEditorPanel panel = new NodeGraphEditorPanel(new NodeGraph());
 
         JFrame frame = new JFrame("Donatello");
         frame.setLocationRelativeTo(null);
