@@ -31,6 +31,7 @@ that are not fluent in the archaic syntax of text-only languages.
 - https://github.com/paceholder/nodeeditor
 - https://github.com/miho/VWorkflows
 - https://nodered.org/
+- Maya
 - Unity
 - Blender
 - and others

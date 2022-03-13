@@ -47,7 +47,7 @@
             <uniqueVersion>false</uniqueVersion>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/MarginallyClever/NodeGraph</url>
+            <url>https://maven.pkg.github.com/MarginallyClever/NodeGraphCore</url>
             <layout>default</layout>
         </repository>
     </distributionManagement>
