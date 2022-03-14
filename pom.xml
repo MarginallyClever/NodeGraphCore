@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.marginallyClever</groupId>
-    <artifactId>NodeGraphCore</artifactId>
+    <groupId>com.marginallyclever</groupId>
+    <artifactId>nodegraphcore</artifactId>
     <version>1.0.7</version>
     <name>NodeGraphCore</name>
     <description>Java Node Graph system for Data flow programming.</description>
@@ -46,7 +46,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/coliss86/NodeGraphCore</url>
+            <url>https://maven.pkg.github.com/coliss86/nodegraphcore</url>
         </repository>
     </distributionManagement>
 
