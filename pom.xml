@@ -44,11 +44,9 @@
 
     <distributionManagement>
         <repository>
-            <uniqueVersion>false</uniqueVersion>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/MarginallyClever/NodeGraphCore</url>
-            <layout>default</layout>
+            <url>https://maven.pkg.github.com/coliss86/NodeGraphCore</url>
         </repository>
     </distributionManagement>
 
