@@ -1,5 +1,10 @@
 package com.marginallyClever.nodeGraphCore;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -17,13 +22,11 @@ public class NodeFactory {
     /**
      * Does not allow nodes to be registered more than once.
      * @param n one instance of the node.
-     * @throws IllegalArgumentException if two nodes are registered with the same name.
      */
-    public static void registerNode(Node n) throws IllegalArgumentException {
-        if(nodeRegistry.containsKey(n.getName())) {
-            throw new IllegalArgumentException("A node is already registered with the name "+n.getName());
+    public static void registerNode(Node n) {
+        if(!nodeRegistry.containsKey(n.getName())) {
+            nodeRegistry.put(n.getName(), n);
         }
-        nodeRegistry.put(n.getName(),n);
     }
 
     /**
@@ -56,8 +59,13 @@ public class NodeFactory {
     }
 
     public static void loadRegistries() {
-        ServiceLoader<NodeRegistry> loader = ServiceLoader.load(NodeRegistry.class);
-        for(NodeRegistry registry : loader) {
+        ServiceLoaderHelper helper = new ServiceLoaderHelper();
+        loadRegistries(helper.getExtensionClassLoader());
+    }
+
+    public static void loadRegistries(ClassLoader classLoader) {
+        ServiceLoader<NodeRegistry> serviceLoader = ServiceLoader.load(NodeRegistry.class, classLoader);
+        for (NodeRegistry registry : serviceLoader) {
             registry.registerNodes();
         }
     }
