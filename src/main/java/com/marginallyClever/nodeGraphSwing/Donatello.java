@@ -203,8 +203,13 @@ public class Donatello extends JPanel {
     private JMenu setupHelpMenu() {
         JMenu menu = new JMenu("Help");
 
-        menu.add(new BrowseURLAction("Check for updates","https://github.com/MarginallyClever/NodeGraphCore/releases"));
-        menu.add(new BrowseURLAction("I have a problem...","https://github.com/MarginallyClever/NodeGraphCore/issues"));
+        BrowseURLAction update = new BrowseURLAction("Check for updates","https://github.com/MarginallyClever/NodeGraphCore/releases");
+        BrowseURLAction problem = new BrowseURLAction("I have a problem...","https://github.com/MarginallyClever/NodeGraphCore/issues");
+        update.putValue(Action.SMALL_ICON, new UnicodeIcon("📰"));
+        problem.putValue(Action.SMALL_ICON, new UnicodeIcon("☏"));
+
+        menu.add(update);
+        menu.add(problem);
         menu.add(new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues"));
         menu.add(new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy"));
         menu.add(new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE"));
@@ -248,6 +253,10 @@ public class Donatello extends JPanel {
         UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
         PrintGraphAction printGraphAction = new PrintGraphAction("Print",this);
         StraightenGraphAction straightenGraphAction = new StraightenGraphAction("Straighten",this);
+
+        newGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🌱"));
+        printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖨️"));
+        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🔃"));
 
         actions.add(newGraphAction);
         actions.add(saveGraphAction);
@@ -294,6 +303,10 @@ public class Donatello extends JPanel {
         IsolateGraphAction isolateGraphAction = new IsolateGraphAction("Isolate",this);
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
+
+        cutGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✂"));
+        addNodeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
+        deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🚫"));
 
         actions.add(undoAction);
         actions.add(redoAction);
