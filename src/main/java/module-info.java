@@ -5,7 +5,7 @@
  * NodeGraphSwing contains Swing-based {@link com.marginallyClever.nodeGraphCore.Node}s and all Swing-based tools for
  * editing {@link com.marginallyClever.nodeGraphCore.NodeGraph}s.
  */
-module com.marginallyClever.NodeGraphCore {
+module com.marginallyClever.nodeGraphCore {
     requires java.desktop;
     requires org.json;
 
