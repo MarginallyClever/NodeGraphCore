@@ -1,9 +1,9 @@
 package com.marginallyClever.nodeGraphSwing.modalTools;
 
 import com.marginallyClever.nodeGraphCore.Node;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.KeyStateMemory;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ import java.util.List;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 public class RectangleSelectTool extends ModalTool {
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     private static final int STROKE_WIDTH=2;
 
@@ -42,7 +42,7 @@ public class RectangleSelectTool extends ModalTool {
      */
     private final KeyStateMemory keyStateMemory = new KeyStateMemory();
 
-    public RectangleSelectTool(NodeGraphEditorPanel editor) {
+    public RectangleSelectTool(Donatello editor) {
         super();
         this.editor=editor;
     }

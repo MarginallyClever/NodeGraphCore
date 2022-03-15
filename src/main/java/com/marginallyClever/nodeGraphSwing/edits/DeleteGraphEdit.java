@@ -3,9 +3,8 @@ package com.marginallyClever.nodeGraphSwing.edits;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
-import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import java.util.ArrayList;
@@ -13,12 +12,12 @@ import java.util.List;
 
 public class DeleteGraphEdit extends SignificantUndoableEdit {
     private final String name;
-    protected final NodeGraphEditorPanel editor;
+    protected final Donatello editor;
     private final List<Node> nodes = new ArrayList<>();
     private final List<NodeConnection> interiorConnections = new ArrayList<>();
     private final List<NodeConnection> exteriorConnections = new ArrayList<>();
 
-    public DeleteGraphEdit(String name,NodeGraphEditorPanel editor, List<Node> selectedNodes) {
+    public DeleteGraphEdit(String name, Donatello editor, List<Node> selectedNodes) {
         super();
         this.name = name;
         this.editor = editor;

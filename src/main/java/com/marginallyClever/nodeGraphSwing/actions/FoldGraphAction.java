@@ -3,7 +3,7 @@ package com.marginallyClever.nodeGraphSwing.actions;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphCore.Subgraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.actions.undoable.CutGraphAction;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class FoldGraphAction extends AbstractAction implements EditorAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
     /**
      * The cut action on which this action depends.
      */
@@ -30,7 +30,7 @@ public class FoldGraphAction extends AbstractAction implements EditorAction {
      * @param editor the editor affected by this Action.
      * @param CutGraphAction the cut action to use with this Action.
      */
-    public FoldGraphAction(String name, NodeGraphEditorPanel editor, CutGraphAction CutGraphAction) {
+    public FoldGraphAction(String name, Donatello editor, CutGraphAction CutGraphAction) {
         super(name);
         this.editor = editor;
         this.cutGraphAction = CutGraphAction;

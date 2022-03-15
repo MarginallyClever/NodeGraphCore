@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Uses the {@link NodeGraphEditorPanel#printAll(Graphics)} to generate a {@link BufferedImage} and then saves that to
+ * Uses the {@link Donatello#printAll(Graphics)} to generate a {@link BufferedImage} and then saves that to
  * a default path.
  * TODO add a file selection dialog?
  * @author Dan Royer
@@ -21,7 +21,7 @@ public class PrintGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * The default save file.
@@ -34,7 +34,7 @@ public class PrintGraphAction extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public PrintGraphAction(String name, NodeGraphEditorPanel editor) {
+    public PrintGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }

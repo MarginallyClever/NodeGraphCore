@@ -4,8 +4,8 @@ import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeConnectionPointInfo;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphCore.NodeVariable;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.ModalTool;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
 import com.marginallyClever.nodeGraphSwing.edits.AddConnectionEdit;
 import com.marginallyClever.nodeGraphSwing.edits.RemoveConnectionEdit;
@@ -20,7 +20,7 @@ public class ConnectionEditTool extends ModalTool {
     private static final Color CONNECTION_BEING_EDITED = Color.RED;
     private static final double NEARBY_CONNECTION_DISTANCE_MAX = 20;
 
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * for tracking relative motion, useful for relative moves like dragging.
@@ -42,7 +42,7 @@ public class ConnectionEditTool extends ModalTool {
     private final String removeName;
 
 
-    public ConnectionEditTool(NodeGraphEditorPanel editor,String addName,String removeName) {
+    public ConnectionEditTool(Donatello editor, String addName, String removeName) {
         super();
         this.editor=editor;
         this.addName = addName;

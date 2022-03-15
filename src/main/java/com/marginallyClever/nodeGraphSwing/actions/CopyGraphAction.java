@@ -3,7 +3,7 @@ package com.marginallyClever.nodeGraphSwing.actions;
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,14 +22,14 @@ public class CopyGraphAction extends AbstractAction implements EditorAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public CopyGraphAction(String name, NodeGraphEditorPanel editor) {
+    public CopyGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }

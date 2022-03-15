@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing.modalTools;
 
 import com.marginallyClever.nodeGraphSwing.ModalTool;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel;
 import com.marginallyClever.nodeGraphSwing.edits.MoveNodesEdit;
 
@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class NodeMoveTool extends ModalTool {
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * true while dragging one or more nodes around.
@@ -28,7 +28,7 @@ public class NodeMoveTool extends ModalTool {
      */
     private final Point mouseStartPosition = new Point();
 
-    public NodeMoveTool(NodeGraphEditorPanel editor) {
+    public NodeMoveTool(Donatello editor) {
         super();
         this.editor = editor;
     }

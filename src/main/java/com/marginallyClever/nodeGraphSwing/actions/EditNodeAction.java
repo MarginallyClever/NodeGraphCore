@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
 import com.marginallyClever.nodeGraphCore.Node;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.NodeEditPanel;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,14 +17,14 @@ public class EditNodeAction extends AbstractAction implements EditorAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public EditNodeAction(String name, NodeGraphEditorPanel editor) {
+    public EditNodeAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }

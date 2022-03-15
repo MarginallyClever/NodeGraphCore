@@ -2,9 +2,8 @@ package com.marginallyClever.nodeGraphSwing.edits;
 
 import com.marginallyClever.nodeGraphCore.NodeConnection;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
-import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import java.util.List;
@@ -16,11 +15,11 @@ import java.util.List;
  */
 public class AddConnectionEdit extends SignificantUndoableEdit {
     private final String name;
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
     private final NodeConnection connection;
     private final List<NodeConnection> connectionsInto;
 
-    public AddConnectionEdit(String name, NodeGraphEditorPanel editor, NodeConnection connection) {
+    public AddConnectionEdit(String name, Donatello editor, NodeConnection connection) {
         super();
         this.name = name;
         this.editor = editor;

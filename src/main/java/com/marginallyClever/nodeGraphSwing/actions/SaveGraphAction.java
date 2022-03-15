@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ public class SaveGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * The file chooser remembers the last path.
@@ -29,14 +29,14 @@ public class SaveGraphAction extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public SaveGraphAction(String name, NodeGraphEditorPanel editor) {
+    public SaveGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        fc.setFileFilter(NodeGraphEditorPanel.FILE_FILTER);
+        fc.setFileFilter(Donatello.FILE_FILTER);
         if (fc.showSaveDialog(SwingUtilities.getWindowAncestor(editor)) == JFileChooser.APPROVE_OPTION) {
             String name = addExtensionIfNeeded(fc.getSelectedFile().getAbsolutePath());
             saveModelToFile(name);
@@ -45,7 +45,7 @@ public class SaveGraphAction extends AbstractAction {
 
     public String addExtensionIfNeeded(String filename) {
         int last = filename.lastIndexOf(".");
-        String[] extensions = NodeGraphEditorPanel.FILE_FILTER.getExtensions();
+        String[] extensions = Donatello.FILE_FILTER.getExtensions();
         if(last == -1) {
             // no extension at all
             return filename + "." + extensions[0];

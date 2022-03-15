@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
 import com.marginallyClever.nodeGraphCore.Node;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,14 +16,14 @@ public class ForciblyUpdateNodesAction extends AbstractAction implements EditorA
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public ForciblyUpdateNodesAction(String name, NodeGraphEditorPanel editor) {
+    public ForciblyUpdateNodesAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }
@@ -31,7 +31,11 @@ public class ForciblyUpdateNodesAction extends AbstractAction implements EditorA
     @Override
     public void actionPerformed(ActionEvent e) {
         for(Node n : editor.getSelectedNodes()) {
-            n.update();
+            try {
+                n.update();
+            } catch(Exception e1) {
+                // TODO report?
+            }
         }
     }
 

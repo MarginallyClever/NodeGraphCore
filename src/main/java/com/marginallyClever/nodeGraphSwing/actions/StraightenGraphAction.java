@@ -2,7 +2,7 @@ package com.marginallyClever.nodeGraphSwing.actions;
 
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class StraightenGraphAction extends AbstractAction implements EditorActio
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * The default snap rounding distance
@@ -30,7 +30,7 @@ public class StraightenGraphAction extends AbstractAction implements EditorActio
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public StraightenGraphAction(String name, NodeGraphEditorPanel editor) {
+    public StraightenGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }

@@ -2,8 +2,8 @@ package com.marginallyClever.nodeGraphSwing.actions.undoable;
 
 import com.marginallyClever.nodeGraphCore.Node;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeFactoryPanel;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.AddNodePanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.edits.AddNodeEdit;
 
 import javax.swing.*;
@@ -19,21 +19,21 @@ public class AddNodeAction extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public AddNodeAction(String name, NodeGraphEditorPanel editor) {
+    public AddNodeAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Node n = NodeFactoryPanel.runAsDialog((JFrame)SwingUtilities.getWindowAncestor(editor));
+        Node n = AddNodePanel.runAsDialog((JFrame)SwingUtilities.getWindowAncestor(editor));
         if(n!=null) {
             n.setPosition(editor.getPopupPoint());
             editor.addEdit(new AddNodeEdit((String)this.getValue(Action.NAME),editor,n));

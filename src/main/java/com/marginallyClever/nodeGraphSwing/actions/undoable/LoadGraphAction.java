@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphSwing.actions.undoable;
 
 import com.marginallyClever.nodeGraphCore.NodeGraph;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.edits.PasteGraphEdit;
 import org.json.JSONObject;
 
@@ -21,7 +21,7 @@ public class LoadGraphAction extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * The file chooser remembers the last path.
@@ -33,14 +33,14 @@ public class LoadGraphAction extends AbstractAction {
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public LoadGraphAction(String name, NodeGraphEditorPanel editor) {
+    public LoadGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        fc.setFileFilter(NodeGraphEditorPanel.FILE_FILTER);
+        fc.setFileFilter(Donatello.FILE_FILTER);
         if (fc.showOpenDialog(SwingUtilities.getWindowAncestor(editor)) == JFileChooser.APPROVE_OPTION) {
             try {
                 NodeGraph graph = loadGraphFromFile(fc.getSelectedFile().getAbsolutePath());

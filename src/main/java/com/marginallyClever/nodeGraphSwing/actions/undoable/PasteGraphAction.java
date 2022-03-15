@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing.actions.undoable;
 
 import com.marginallyClever.nodeGraphCore.NodeGraph;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 import com.marginallyClever.nodeGraphSwing.actions.EditorAction;
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
 import com.marginallyClever.nodeGraphSwing.edits.PasteGraphEdit;
 
 import javax.swing.*;
@@ -18,14 +18,14 @@ public class PasteGraphAction extends AbstractAction implements EditorAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public PasteGraphAction(String name, NodeGraphEditorPanel editor) {
+    public PasteGraphAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }

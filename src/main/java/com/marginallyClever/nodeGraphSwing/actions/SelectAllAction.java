@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphSwing.actions;
 
-import com.marginallyClever.nodeGraphSwing.NodeGraphEditorPanel;
+import com.marginallyClever.nodeGraphSwing.Donatello;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,14 +12,14 @@ public class SelectAllAction extends AbstractAction {
     /**
      * The editor being affected.
      */
-    private final NodeGraphEditorPanel editor;
+    private final Donatello editor;
 
     /**
      * Constructor for subclasses to call.
      * @param name the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
-    public SelectAllAction(String name, NodeGraphEditorPanel editor) {
+    public SelectAllAction(String name, Donatello editor) {
         super(name);
         this.editor = editor;
     }
