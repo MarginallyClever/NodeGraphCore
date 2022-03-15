@@ -1,8 +1,8 @@
 package com.marginallyClever.nodeGraphSwing;
 
-import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.DAO4JSONFactory;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
-import com.marginallyClever.nodeGraphSwing.nodes.images.BufferedImageJSON_DAO;
+import com.marginallyClever.nodeGraphSwing.nodes.images.BufferedImage_DAO4JSON;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,17 +15,17 @@ import java.awt.image.BufferedImage;
  * @author Dan Royer
  * @since 2022-03-07
  */
-public class TestJSON_DAO {
+public class Test_DAO4JSON {
     @BeforeAll
     public static void beforeAll() {
         NodeFactory.loadRegistries();
-        JSON_DAO_Factory.loadRegistries();
+        DAO4JSONFactory.loadRegistries();
     }
 
     @AfterAll
     public static void afterAll() {
         NodeFactory.clear();
-        JSON_DAO_Factory.clear();
+        DAO4JSONFactory.clear();
     }
 
     private boolean bufferedImagesEqual(BufferedImage img1, BufferedImage img2) {
@@ -50,7 +50,7 @@ public class TestJSON_DAO {
      */
     @Test
     public void testBufferedImageDAO() {
-        BufferedImageJSON_DAO dao = new BufferedImageJSON_DAO();
+        BufferedImage_DAO4JSON dao = new BufferedImage_DAO4JSON();
         BufferedImage r1 = new BufferedImage(2,3,BufferedImage.TYPE_INT_ARGB);
         BufferedImage r2=dao.fromJSON(dao.toJSON(r1));
         assert(bufferedImagesEqual(r1,r2));

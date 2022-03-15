@@ -2,7 +2,7 @@ package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.DAORegistry;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
-import com.marginallyClever.nodeGraphCore.JSON_DAO_Factory;
+import com.marginallyClever.nodeGraphCore.DAO4JSONFactory;
 import com.marginallyClever.nodeGraphCore.NodeRegistry;
 import com.marginallyClever.nodeGraphSwing.nodes.images.*;
 import com.marginallyClever.nodeGraphSwing.nodes.images.blend.BlendDifference;
@@ -36,6 +36,6 @@ public class SwingRegistry implements NodeRegistry, DAORegistry {
      */
     @Override
     public void registerDAO() {
-        JSON_DAO_Factory.registerDAO(BufferedImage.class,new BufferedImageJSON_DAO());
+        DAO4JSONFactory.registerDAO(BufferedImage.class,new BufferedImage_DAO4JSON());
     }
 }

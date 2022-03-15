@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphCore;
 
 /**
- * NodeRegistry is a Service that can load {@link JSON_DAO}s into the local {@link JSON_DAO_Factory}.
+ * NodeRegistry is a Service that can load {@link DAO4JSON}s into the local {@link DAO4JSONFactory}.
  * It should be declared in the <b>module-info.java</b> as
  * <pre>
  * provides com.marginallyClever.nodeGraphCore.DAORegistry

@@ -34,7 +34,7 @@ public class TestNodeGraphCore {
     @AfterAll
     public static void afterAll() {
         NodeFactory.clear();
-        JSON_DAO_Factory.clear();
+        DAO4JSONFactory.clear();
     }
     /**
      * clear the graph.
@@ -56,7 +56,7 @@ public class TestNodeGraphCore {
      * confirm {@link Add#update()} works as expected and sets itself to not dirty
      */
     @Test
-    public void testAdd() {
+    public void testAdd() throws Exception {
         Node add = nodeGraph.add(new Add());
         add.getVariable(0).setValue(1);
         add.getVariable(1).setValue(2);
@@ -177,11 +177,13 @@ public class TestNodeGraphCore {
     }
 
     /**
-     * confirm registering an already registered node throws an exception.
+     * confirm registering an already registered node does not throw an exception and does not double-register.
      */
     @Test
     public void testFactoryWontRegisterTwoNodesWithSameName() {
-        assertThrows(IllegalArgumentException.class,()->NodeFactory.registerNode(new Add()));
+        int before = NodeFactory.getNames().length;
+        NodeFactory.registerNode(new Add());
+        assertEquals(before,NodeFactory.getNames().length);
     }
 
     /**

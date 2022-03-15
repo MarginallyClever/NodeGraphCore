@@ -1,12 +1,12 @@
 package com.marginallyClever.nodeGraphSwing.nodes.images;
 
-import com.marginallyClever.nodeGraphCore.JSON_DAO;
+import com.marginallyClever.nodeGraphCore.DAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
 
-public class BufferedImageJSON_DAO implements JSON_DAO<BufferedImage> {
+public class BufferedImage_DAO4JSON implements DAO4JSON<BufferedImage> {
     @Override
     public Object toJSON(Object value) throws JSONException {
         BufferedImage image = (BufferedImage)value;

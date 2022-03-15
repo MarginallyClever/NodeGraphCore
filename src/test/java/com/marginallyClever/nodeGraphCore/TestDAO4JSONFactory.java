@@ -7,10 +7,10 @@ import java.util.ServiceLoader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestJSON_DAO_Factory {
+public class TestDAO4JSONFactory {
     @AfterAll
     public static void afterAll() {
-        JSON_DAO_Factory.clear();
+        DAO4JSONFactory.clear();
     }
 
     @Test

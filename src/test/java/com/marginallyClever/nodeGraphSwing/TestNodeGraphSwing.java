@@ -29,7 +29,7 @@ public class TestNodeGraphSwing {
     @AfterAll
     public static void afterAll() {
         NodeFactory.clear();
-        JSON_DAO_Factory.clear();
+        DAO4JSONFactory.clear();
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphCore.json;
 
-import com.marginallyClever.nodeGraphCore.JSON_DAO;
+import com.marginallyClever.nodeGraphCore.DAO4JSON;
 import org.json.JSONException;
 
 /**
@@ -8,14 +8,14 @@ import org.json.JSONException;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class BooleanJSON_DAO implements JSON_DAO<Boolean> {
+public class ObjectDAO4JSON implements DAO4JSON<Object> {
     @Override
     public Object toJSON(Object value) throws JSONException {
-        return (Boolean)value;
+        return value;
     }
 
     @Override
-    public Boolean fromJSON(Object object) throws JSONException {
-        return (Boolean)object;
+    public Object fromJSON(Object object) throws JSONException {
+        return object;
     }
 }

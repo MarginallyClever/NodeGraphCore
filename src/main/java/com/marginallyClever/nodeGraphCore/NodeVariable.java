@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
+import com.marginallyClever.nodeGraphCore.json.RectangleDAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -220,11 +220,11 @@ public class NodeVariable<T> {
 
     public JSONObject toJSON() throws JSONException {
         JSONObject jo = new JSONObject();
-        jo.put("value", JSON_DAO_Factory.toJSON(this.type,value));
+        jo.put("value", DAO4JSONFactory.toJSON(this.type,value));
         jo.put("name",name);
         jo.put("hasInput",hasInput);
         jo.put("hasOutput",hasOutput);
-        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("isDirty",isDirty);
         return jo;
@@ -232,11 +232,11 @@ public class NodeVariable<T> {
 
     @SuppressWarnings("unchecked")
     public void parseJSON(JSONObject jo) throws JSONException, ClassCastException {
-        value = (jo.has("value") ? (T)JSON_DAO_Factory.fromJSON(this.type,jo.get("value")) : null);
+        value = (jo.has("value") ? (T) DAO4JSONFactory.fromJSON(this.type,jo.get("value")) : null);
         name = jo.getString("name");
         hasInput = jo.getBoolean("hasInput");
         hasOutput = jo.getBoolean("hasOutput");
-        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         isDirty = jo.getBoolean("isDirty");
     }

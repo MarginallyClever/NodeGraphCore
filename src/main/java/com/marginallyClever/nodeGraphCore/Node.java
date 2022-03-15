@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
+import com.marginallyClever.nodeGraphCore.json.RectangleDAO4JSON;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,13 +135,13 @@ public abstract class Node {
      * Override this method to provide the custom behavior of this node.
      * Runs regardless of dirty inputs or outputs.
      */
-    public abstract void update();
+    public abstract void update() throws Exception;
 
     /**
      * Runs {@link Node#update()} only if the node is considered dirty.  It is up to individual nodes to decide
      * if they are done (no longer dirty)
      */
-    public void updateIfNotDirty() {
+    public void updateIfNotDirty() throws Exception {
         if(!isDirty()) return;
         update();
     }
@@ -309,7 +309,7 @@ public abstract class Node {
         jo.put("name",name);
         jo.put("uniqueID",uniqueID);
         jo.put("label", label);
-        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
         return jo;
@@ -332,7 +332,7 @@ public abstract class Node {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
         }
-        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         parseAllVariablesFromJSON(jo.getJSONArray("variables"));
     }

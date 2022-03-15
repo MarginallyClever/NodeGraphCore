@@ -48,10 +48,10 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
      */
     @Override
     public void registerDAO() {
-        JSON_DAO_Factory.registerDAO(Rectangle.class, new RectangleJSON_DAO());
-        JSON_DAO_Factory.registerDAO(String.class, new StringJSON_DAO());
-        JSON_DAO_Factory.registerDAO(Number.class, new NumberJSON_DAO());
-        JSON_DAO_Factory.registerDAO(Boolean.class, new BooleanJSON_DAO());
-        JSON_DAO_Factory.registerDAO(Object.class, new ObjectJSON_DAO());
+        DAO4JSONFactory.registerDAO(Rectangle.class, new RectangleDAO4JSON());
+        DAO4JSONFactory.registerDAO(String.class, new StringDAO4JSON());
+        DAO4JSONFactory.registerDAO(Number.class, new NumberDAO4JSON());
+        DAO4JSONFactory.registerDAO(Boolean.class, new BooleanDAO4JSON());
+        DAO4JSONFactory.registerDAO(Object.class, new ObjectDAO4JSON());
     }
 }

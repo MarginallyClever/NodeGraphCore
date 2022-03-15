@@ -1,7 +1,7 @@
 package com.marginallyClever.nodeGraphCore;
 
-import com.marginallyClever.nodeGraphCore.json.RectangleJSON_DAO;
-import com.marginallyClever.nodeGraphCore.json.StringJSON_DAO;
+import com.marginallyClever.nodeGraphCore.json.RectangleDAO4JSON;
+import com.marginallyClever.nodeGraphCore.json.StringDAO4JSON;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Dan Royer
  * @since 2022-03-07
  */
-public class TestJSON_DAO {
+public class TestDAO4JSON {
     @BeforeAll
     public static void beforeAll() {
         NodeFactory.loadRegistries();
-        JSON_DAO_Factory.loadRegistries();
+        DAO4JSONFactory.loadRegistries();
     }
 
     @AfterAll
     public static void afterAll() {
         NodeFactory.clear();
-        JSON_DAO_Factory.clear();
+        DAO4JSONFactory.clear();
     }
 
     /**
@@ -33,7 +33,7 @@ public class TestJSON_DAO {
      */
     @Test
     public void testRectangleDAO() {
-        RectangleJSON_DAO dao = new RectangleJSON_DAO();
+        RectangleDAO4JSON dao = new RectangleDAO4JSON();
         Rectangle r1 = new Rectangle(1,2,3,4);
         Rectangle r2=dao.fromJSON(dao.toJSON(r1));
         assertEquals(r1,r2);
@@ -44,7 +44,7 @@ public class TestJSON_DAO {
      */
     @Test
     public void testStringDAO() {
-        StringJSON_DAO dao = new StringJSON_DAO();
+        StringDAO4JSON dao = new StringDAO4JSON();
         String r1 = new String("abcd");
         String r2=dao.fromJSON(dao.toJSON(r1));
         assertEquals(r1,r2);

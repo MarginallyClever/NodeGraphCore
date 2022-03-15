@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphCore.json;
 
-import com.marginallyClever.nodeGraphCore.JSON_DAO;
+import com.marginallyClever.nodeGraphCore.DAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +11,7 @@ import java.awt.Rectangle;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class RectangleJSON_DAO implements JSON_DAO<Rectangle> {
+public class RectangleDAO4JSON implements DAO4JSON<Rectangle> {
     @Override
     public Object toJSON(Object value) throws JSONException {
         Rectangle rectangle = (Rectangle)value;

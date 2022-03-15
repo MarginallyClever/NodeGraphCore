@@ -1,6 +1,6 @@
 package com.marginallyClever.nodeGraphCore.json;
 
-import com.marginallyClever.nodeGraphCore.JSON_DAO;
+import com.marginallyClever.nodeGraphCore.DAO4JSON;
 import org.json.JSONException;
 
 /**
@@ -8,7 +8,7 @@ import org.json.JSONException;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class StringJSON_DAO implements JSON_DAO<String> {
+public class StringDAO4JSON implements DAO4JSON<String> {
     @Override
     public Object toJSON(Object value) throws JSONException {
         return value;
