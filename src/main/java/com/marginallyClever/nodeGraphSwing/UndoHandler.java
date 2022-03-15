@@ -21,7 +21,7 @@ public class UndoHandler implements UndoableEditListener {
 
     @Override
     public void undoableEditHappened(UndoableEditEvent e) {
-        System.out.println(e.getEdit().getPresentationName());
+        System.out.println("Undoable edit "+e.getEdit().getPresentationName());
         undoManager.addEdit(e.getEdit());
         actionUndo.update();
         actionRedo.update();

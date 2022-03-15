@@ -304,9 +304,10 @@ public class Donatello extends JPanel {
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
 
+        editNodesAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✏"));
         cutGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✂"));
         addNodeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
-        deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🚫"));
+        deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗑"));
 
         actions.add(undoAction);
         actions.add(redoAction);
