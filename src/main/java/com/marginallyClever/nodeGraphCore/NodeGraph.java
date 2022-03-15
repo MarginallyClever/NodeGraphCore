@@ -41,7 +41,13 @@ public class NodeGraph {
      * The method does not analyze the directed graph to run nodes in an "intelligent" way.
      */
     public void update() {
-        for(Node n : nodes) n.updateIfNotDirty();
+        for(Node n : nodes) {
+            try {
+                n.updateIfNotDirty();
+            } catch(Exception e) {
+                // TODO fill me
+            }
+        }
         for(NodeConnection c : connections) c.applyIfDirty();
         for(Node n : nodes) n.cleanAllOutputs();
     }
