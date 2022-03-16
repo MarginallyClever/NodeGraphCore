@@ -10,7 +10,7 @@
                 </encoder>
             </appender>
 
-            <logger name="com.marginallyClever.makelangelo.nodeGraphSwing" level="debug" />
+            <logger name="com.marginallyClever.nodeGraphSwing.Donatello" level="debug" />
             <root>
                 <appender-ref ref="STDOUT" />
             </root>
@@ -20,12 +20,12 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${user.home}/.makelangelo/makelangelo.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${user.home}/.makelangelo/makelangelo.%i.log</fileNamePattern>
+            <fileNamePattern>${user.home}/Donatello/donatello.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>1</maxIndex>
         </rollingPolicy>
 
-        <triggeringPolicy class="com.marginallyClever.convenience.log.RollOncePerSessionTriggeringPolicy"/>
+        <triggeringPolicy class="com.marginallyClever.nodeGraphSwing.RollOncePerSessionTriggeringPolicy"/>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
         </encoder>
