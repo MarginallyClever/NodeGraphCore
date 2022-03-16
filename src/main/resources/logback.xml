@@ -27,7 +27,7 @@
 
         <triggeringPolicy class="com.marginallyClever.nodeGraphSwing.RollOncePerSessionTriggeringPolicy"/>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n</pattern>
         </encoder>
     </appender>
 

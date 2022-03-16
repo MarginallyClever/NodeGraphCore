@@ -1,5 +1,8 @@
 package com.marginallyClever.nodeGraphCore;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +20,7 @@ import java.util.Set;
  * @since 2022-03-14
  */
 public class ServiceLoaderHelper {
+    private static final Logger logger = LoggerFactory.getLogger(ServiceLoaderHelper.class);
     private static ClassLoader myLoader=null;
 
     public ClassLoader getExtensionClassLoader() {
@@ -35,14 +39,14 @@ public class ServiceLoaderHelper {
 
     private List<URL> listFilesIn(String extensionPath) {
         String sep = FileSystems.getDefault().getSeparator();
-        System.out.println("extensionPath = "+extensionPath);
+        logger.debug("extension path = {}",extensionPath);
 
         List<URL> list = new ArrayList<>();
 
         Set<String> listOfFiles = FileHelper.listFilesInDirectory(extensionPath);
         for(String fileName : listOfFiles) {
             String pathname = extensionPath + sep + fileName;
-            System.out.println("extension = "+pathname);
+            logger.debug("extension file = {}",pathname);
             try {
                 list.add((new File(pathname).toURI()).toURL());
             } catch (MalformedURLException e) {
