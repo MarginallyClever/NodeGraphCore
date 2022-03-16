@@ -64,9 +64,11 @@ public class NodeVariable<T> {
      * @param startingValue the starting value
      * @param _hasInput does this variable have an input?
      * @param _hasOutput does this variable have an input?
+     * @throws IllegalArgumentException if input and output are true at the same time.
      */
-    private NodeVariable(String _name,Class<T> type,T startingValue,boolean _hasInput,boolean _hasOutput) {
+    private NodeVariable(String _name,Class<T> type,T startingValue,boolean _hasInput,boolean _hasOutput) throws IllegalArgumentException {
         super();
+        if(hasInput && hasOutput) throw new IllegalArgumentException("Cannot be input and output at the same time!");
         this.type = type;
         this.name = _name;
         this.value = startingValue;
