@@ -26,6 +26,7 @@ public class ServiceLoaderHelper {
 
     private void createClassLoader() {
         List<URL> list = new ArrayList<>();
+        FileHelper.createDirectoryIfMissing(FileHelper.getExtensionPath());
         list.addAll(listFilesIn(FileHelper.getExtensionPath()));
         list.addAll(listFilesIn(System.getProperty("user.dir")));
 

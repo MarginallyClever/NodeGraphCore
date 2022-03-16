@@ -79,11 +79,17 @@
             <version>1.2.11</version>
         </dependency>
         <!-- for logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+        <!-- for logging -->
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.0-alpha4</version>
+            <version>1.7.32</version>
         </dependency>
     </dependencies>
 
@@ -278,7 +284,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minimum.maven.version>3.6.1</minimum.maven.version>
+        <minimum.maven.version>3.8.1</minimum.maven.version>
         <minimum.java.version>15</minimum.java.version>
         <maven-dependency-plugin.ignoreNonCompile>true</maven-dependency-plugin.ignoreNonCompile>
         <maven.compiler.source>${minimum.java.version}</maven.compiler.source>

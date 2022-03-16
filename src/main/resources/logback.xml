@@ -18,7 +18,7 @@
     </if>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/.makelangelo/makelangelo.log</file>
+        <file>${user.home}/Donatello/donatello.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>${user.home}/Donatello/donatello.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
@@ -27,7 +27,7 @@
 
         <triggeringPolicy class="com.marginallyClever.nodeGraphSwing.RollOncePerSessionTriggeringPolicy"/>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
