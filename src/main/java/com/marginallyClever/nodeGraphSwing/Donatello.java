@@ -17,12 +17,16 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * {@link Donatello} is a Graphic User Interface to edit a {@link NodeGraph}.
  * @author Dan Royer
  * @since 2022-02-01
  */
 public class Donatello extends JPanel {
+    private static final Logger logger = LoggerFactory.getLogger(Donatello.class);
     /**
      * Used by save and load actions
       */
@@ -522,7 +526,7 @@ public class Donatello extends JPanel {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            System.out.println("System look and feel could not be set.");
+            logger.debug("System look and feel could not be set.");
         }
     }
 

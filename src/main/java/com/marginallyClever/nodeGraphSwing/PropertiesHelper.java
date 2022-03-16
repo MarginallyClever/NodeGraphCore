@@ -2,6 +2,8 @@ package com.marginallyClever.nodeGraphSwing;
 
 import com.marginallyClever.nodeGraphCore.DAO4JSONFactory;
 import com.marginallyClever.nodeGraphCore.NodeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.List;
@@ -12,32 +14,36 @@ import java.util.List;
  * @since 2022-02-01
  */
 public class PropertiesHelper {
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesHelper.class);
+
     public static void showProperties() {
-        System.out.println("------------------------------------------------");
+        logger.debug("------------------------------------------------");
         Properties p = System.getProperties();
         List<String> names = new ArrayList<>(p.stringPropertyNames());
         Collections.sort(names);
         for (String name : names) {
-            System.out.println( name +" = "+ p.get(name));
+            logger.debug("{} = {}", name, p.get(name));
         }
-        System.out.println("------------------------------------------------");
+        logger.debug("------------------------------------------------");
     }
 
     public static void listAllNodes() {
-        String add = "Nodes: ";
+        String sum = "";
+        String add = "";
         for (String n : NodeFactory.getNames()) {
-            System.out.print(add + n);
+            sum += add + n;
             add = ", ";
         }
-        System.out.println(".");
+        logger.debug("Nodes: {}.",sum);
     }
 
     public static void listAllDAO() {
-        String add="DAOs: ";
+        String sum = "";
+        String add = "";
         for(String n : DAO4JSONFactory.getNames()) {
-            System.out.print(add + n);
+            sum += add + n;
             add = ", ";
         }
-        System.out.println(".");
+        logger.debug("DAOs: {}.",sum);
     }
 }

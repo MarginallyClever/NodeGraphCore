@@ -58,23 +58,32 @@
             <artifactId>json</artifactId>
             <version>20201115</version>
         </dependency>
+        <!-- unit testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.0.0-M5</version>
             <scope>test</scope>
         </dependency>
+        <!-- unit testing -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-swing-junit</artifactId>
+            <version>3.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- for logging -->
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.35</version>
+        </dependency>
         <!-- for logging -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
-        </dependency>
-        <!-- for logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version>
+            <version>1.2.11</version>
         </dependency>
     </dependencies>
 
