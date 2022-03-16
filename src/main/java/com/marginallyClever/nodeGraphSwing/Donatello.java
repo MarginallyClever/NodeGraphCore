@@ -6,6 +6,8 @@ import com.marginallyClever.nodeGraphSwing.actions.undoable.*;
 import com.marginallyClever.nodeGraphSwing.modalTools.ConnectionEditTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.NodeMoveTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
@@ -13,12 +15,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link Donatello} is a Graphic User Interface to edit a {@link NodeGraph}.
@@ -207,16 +208,20 @@ public class Donatello extends JPanel {
     private JMenu setupHelpMenu() {
         JMenu menu = new JMenu("Help");
 
+        BrowseURLAction showLog = new BrowseURLAction("Open log file",FileHelper.convertToFileURL(FileHelper.getLogFile()));
         BrowseURLAction update = new BrowseURLAction("Check for updates","https://github.com/MarginallyClever/NodeGraphCore/releases");
         BrowseURLAction problem = new BrowseURLAction("I have a problem...","https://github.com/MarginallyClever/NodeGraphCore/issues");
         update.putValue(Action.SMALL_ICON, new UnicodeIcon("📰"));
         problem.putValue(Action.SMALL_ICON, new UnicodeIcon("☏"));
 
-        menu.add(update);
-        menu.add(problem);
-        menu.add(new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues"));
         menu.add(new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy"));
         menu.add(new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE"));
+        menu.add(update);
+        menu.addSeparator();
+        menu.add(new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues"));
+        menu.add(problem);
+        menu.addSeparator();
+        menu.add(showLog);
 
         return menu;
     }
@@ -225,6 +230,10 @@ public class Donatello extends JPanel {
         JMenu menu = new JMenu("Tools");
 
         ButtonGroup group = new ButtonGroup();
+
+        // TODO select action: ⛶
+        // TODO move action: ✥ or ⬌\r⬍
+        // TODO connect action: 🔌
 
         for(ModalTool tool : tools) {
             AbstractAction swapAction = new SwapToolsAction(this, tool);
@@ -252,15 +261,20 @@ public class Donatello extends JPanel {
     private JMenu setupGraphMenu() {
         JMenu menu = new JMenu("Graph");
         NewGraphAction newGraphAction = new NewGraphAction("New",this);
-        SaveGraphAction saveGraphAction = new SaveGraphAction("Save",this);
         LoadGraphAction loadGraphAction = new LoadGraphAction("Load",this);
-        UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
+        SaveGraphAction saveGraphAction = new SaveGraphAction("Save",this);
         PrintGraphAction printGraphAction = new PrintGraphAction("Print",this);
+        UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
         StraightenGraphAction straightenGraphAction = new StraightenGraphAction("Straighten",this);
 
         newGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🌱"));
-        printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖨️"));
-        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🔃"));
+        loadGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🗁"));
+        saveGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖫"));
+        printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖶"));
+        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
+        straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🧹"));
+
+        //TODO toggleKeepUpdatingAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🔃"));
 
         actions.add(newGraphAction);
         actions.add(saveGraphAction);
@@ -273,7 +287,7 @@ public class Donatello extends JPanel {
         saveGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         loadGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         printGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-        updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
+        updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, 0));
 
         menu.add(newGraphAction);
         menu.add(loadGraphAction);
@@ -308,10 +322,19 @@ public class Donatello extends JPanel {
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
 
-        editNodesAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✏"));
+        undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇤"));
+        redoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇥"));
+
+        copyGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗐"));
+        pasteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📎"));
+        deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗑"));
         cutGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✂"));
         addNodeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
-        deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗑"));
+        editNodesAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✏"));
+        forciblyUpdateNodesAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⏩"));
+        foldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⫏"));
+        unfoldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⟃"));
+        isolateGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("𝄄"));
 
         actions.add(undoAction);
         actions.add(redoAction);
