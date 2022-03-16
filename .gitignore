@@ -1,6 +1,4 @@
 *.class
 target/*
-.idea/*
-.idea/**
-.idea/*.*
+.idea
 NodeGraphCore.iml
