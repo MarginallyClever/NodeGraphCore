@@ -5,6 +5,7 @@ import com.marginallyClever.nodeGraphCore.NodeFactory;
 import com.marginallyClever.nodeGraphCore.NodeGraph;
 import com.marginallyClever.nodeGraphSwing.AddNodePanel;
 import com.marginallyClever.nodeGraphSwing.Donatello;
+import com.marginallyClever.nodeGraphSwing.edits.ReorderEdit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,10 +89,7 @@ public class OrganizeGraphPanel extends JPanel {
                     JList.DropLocation dl = (JList.DropLocation)support.getDropLocation();
                     listModel.add(dl.getIndex(),node);
 
-                    myGraph.getNodes().remove(node);
-                    myGraph.getNodes().add(dl.getIndex(),node);
-
-                    editor.repaint();
+                    editor.addEdit(new ReorderEdit("Reorder",editor,node,dl.getIndex()));
 
                     return true;
                 }
@@ -105,7 +103,8 @@ public class OrganizeGraphPanel extends JPanel {
 
     /**
      * Runs the panel as a dialog.
-     * @param frame the parent frame.
+     * @param title the parent frame.
+     * @param editor the editor that owns this dialog
      */
     public static void runAsDialog(String title,Donatello editor) {
         Frame frame = (JFrame)SwingUtilities.getWindowAncestor(editor);
