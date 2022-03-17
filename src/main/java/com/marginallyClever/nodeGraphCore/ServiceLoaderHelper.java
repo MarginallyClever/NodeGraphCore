@@ -23,6 +23,10 @@ public class ServiceLoaderHelper {
     private static final Logger logger = LoggerFactory.getLogger(ServiceLoaderHelper.class);
     private static ClassLoader myLoader=null;
 
+    public ServiceLoaderHelper() {
+        super();
+    }
+
     public ClassLoader getExtensionClassLoader() {
         if(myLoader==null) createClassLoader();
         return myLoader;
@@ -43,9 +47,8 @@ public class ServiceLoaderHelper {
 
         List<URL> list = new ArrayList<>();
 
-        Set<String> listOfFiles = FileHelper.listFilesInDirectory(extensionPath);
-        for(String fileName : listOfFiles) {
-            String pathname = extensionPath + sep + fileName;
+        List<String> listOfFiles = FileHelper.listFilesInDirectory(extensionPath);
+        for(String pathname : listOfFiles) {
             logger.debug("extension file = {}",pathname);
             try {
                 list.add((new File(pathname).toURI()).toURL());

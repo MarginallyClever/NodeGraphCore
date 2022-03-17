@@ -3,7 +3,10 @@ package com.marginallyClever.nodeGraphSwing;
 import com.marginallyClever.nodeGraphCore.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.ServiceLoader;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClassLoadingTest {
     @Test
@@ -38,5 +41,20 @@ public class ClassLoadingTest {
         }
         System.out.println(".");
         DAO4JSONFactory.clear();
+    }
+
+    @Test
+    public void whoIsMyClassLoader() {
+        ServiceLoaderHelper helper = new ServiceLoaderHelper();
+        ClassLoader classLoader = helper.getExtensionClassLoader();
+        NodeFactory.loadRegistries();
+        if(NodeFactory.knowsAbout("PrintTurtle")) {
+            Node add = NodeFactory.createNode("PrintTurtle");
+            ClassLoader addLoader = add.getClass().getClassLoader();
+            NodeFactory.clear();
+            assertEquals(addLoader, classLoader);
+        } else {
+            System.out.println("Did not thoroughly run this test");
+        }
     }
 }

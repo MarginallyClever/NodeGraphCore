@@ -211,14 +211,21 @@ public class Donatello extends JPanel {
         BrowseURLAction showLog = new BrowseURLAction("Open log file",FileHelper.convertToFileURL(FileHelper.getLogFile()));
         BrowseURLAction update = new BrowseURLAction("Check for updates","https://github.com/MarginallyClever/NodeGraphCore/releases");
         BrowseURLAction problem = new BrowseURLAction("I have a problem...","https://github.com/MarginallyClever/NodeGraphCore/issues");
-        update.putValue(Action.SMALL_ICON, new UnicodeIcon("📰"));
-        problem.putValue(Action.SMALL_ICON, new UnicodeIcon("☏"));
+        BrowseURLAction drink = new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE");
+        BrowseURLAction community = new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy");
+        BrowseURLAction idea = new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues");
 
-        menu.add(new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy"));
-        menu.add(new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE"));
+        community.putValue(Action.SMALL_ICON, new UnicodeIcon("🤝"));
+        drink.putValue(Action.SMALL_ICON, new UnicodeIcon("🍹"));
+        update.putValue(Action.SMALL_ICON, new UnicodeIcon("📰"));
+        idea.putValue(Action.SMALL_ICON, new UnicodeIcon("💭"));
+        problem.putValue(Action.SMALL_ICON, new UnicodeIcon("⚡"));
+
+        menu.add(community);
+        menu.add(drink);
         menu.add(update);
         menu.addSeparator();
-        menu.add(new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues"));
+        menu.add(idea);
         menu.add(problem);
         menu.addSeparator();
         menu.add(showLog);
@@ -266,13 +273,15 @@ public class Donatello extends JPanel {
         PrintGraphAction printGraphAction = new PrintGraphAction("Print",this);
         UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
         StraightenGraphAction straightenGraphAction = new StraightenGraphAction("Straighten",this);
+        OrganizeGraphAction organizeGraphAction = new OrganizeGraphAction("Organize",this);
 
         newGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🌱"));
         loadGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🗁"));
         saveGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖫"));
         printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖶"));
         updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
-        straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🧹"));
+        straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📐"));
+        organizeGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📝"));
 
         //TODO toggleKeepUpdatingAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🔃"));
 
@@ -282,12 +291,14 @@ public class Donatello extends JPanel {
         actions.add(updateGraphAction);
         actions.add(printGraphAction);
         actions.add(straightenGraphAction);
+        actions.add(organizeGraphAction);
 
         newGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         saveGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         loadGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         printGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, 0));
+        organizeGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 
         menu.add(newGraphAction);
         menu.add(loadGraphAction);
@@ -296,6 +307,7 @@ public class Donatello extends JPanel {
         menu.add(updateGraphAction);
         menu.add(printGraphAction);
         menu.add(straightenGraphAction);
+        menu.add(organizeGraphAction);
 
         return menu;
     }
@@ -322,9 +334,8 @@ public class Donatello extends JPanel {
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
 
-        undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇤"));
-        redoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇥"));
-
+        undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("↪"));
+        redoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("↩"));
         copyGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗐"));
         pasteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📎"));
         deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗑"));
@@ -335,6 +346,8 @@ public class Donatello extends JPanel {
         foldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⫏"));
         unfoldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⟃"));
         isolateGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("𝄄"));
+        selectAllAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🌍"));
+        invertSelectionAction.putValue(Action.SMALL_ICON, new UnicodeIcon("☯"));
 
         actions.add(undoAction);
         actions.add(redoAction);

@@ -69,4 +69,16 @@ public class NodeFactory {
             registry.registerNodes();
         }
     }
+
+    /**
+     * Returns true if the nodeName is registered.
+     * @param nodeName the name to find.
+     * @return true if the nodeName is registered.
+     */
+    public static boolean knowsAbout(String nodeName) {
+        for(String s : getNames()) {
+            if(s.equals(nodeName)) return true;
+        }
+        return false;
+    }
 }
