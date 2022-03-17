@@ -34,7 +34,7 @@ jobs:
       run: |
         mkdir -p target/universal-package &&
         cp CONTRIBUTING.md LICENSE README.md target/universal-package/ &&
-        cp target/NodeGraphCore-*.jar target/universal-package/ &&
+        cp target/nodegraphcore-*.jar target/universal-package/ &&
         cd target/universal-package/ &&
         7z a -tzip NodeGraphCore.zip . &&
         mv NodeGraphCore.zip ../..
