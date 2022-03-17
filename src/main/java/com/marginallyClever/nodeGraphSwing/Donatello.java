@@ -6,6 +6,7 @@ import com.marginallyClever.nodeGraphSwing.actions.undoable.*;
 import com.marginallyClever.nodeGraphSwing.modalTools.ConnectionEditTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.NodeMoveTool;
 import com.marginallyClever.nodeGraphSwing.modalTools.RectangleSelectTool;
+import com.marginallyClever.nodeGraphSwing.sort.OrganizeGraphPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -211,14 +212,22 @@ public class Donatello extends JPanel {
         BrowseURLAction showLog = new BrowseURLAction("Open log file",FileHelper.convertToFileURL(FileHelper.getLogFile()));
         BrowseURLAction update = new BrowseURLAction("Check for updates","https://github.com/MarginallyClever/NodeGraphCore/releases");
         BrowseURLAction problem = new BrowseURLAction("I have a problem...","https://github.com/MarginallyClever/NodeGraphCore/issues");
+        BrowseURLAction drink = new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE");
+        BrowseURLAction community = new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy");
+        BrowseURLAction idea = new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues");
+
+        community.putValue(Action.SMALL_ICON, new UnicodeIcon("🤝"));
+        drink.putValue(Action.SMALL_ICON, new UnicodeIcon("🍹"));
         update.putValue(Action.SMALL_ICON, new UnicodeIcon("📰"));
         problem.putValue(Action.SMALL_ICON, new UnicodeIcon("☏"));
+        idea.putValue(Action.SMALL_ICON, new UnicodeIcon("💭"));
+        problem.putValue(Action.SMALL_ICON, new UnicodeIcon("⚡"));
 
-        menu.add(new BrowseURLAction("Join the community","https://discord.gg/TbNHKz6rpy"));
-        menu.add(new BrowseURLAction("Buy me a drink","https://www.paypal.com/donate/?hosted_button_id=Y3VZ66ZFNUWJE"));
+        menu.add(community);
+        menu.add(drink);
         menu.add(update);
         menu.addSeparator();
-        menu.add(new BrowseURLAction("I have an idea!","https://github.com/MarginallyClever/NodeGraphCore/issues"));
+        menu.add(idea);
         menu.add(problem);
         menu.addSeparator();
         menu.add(showLog);
@@ -266,6 +275,7 @@ public class Donatello extends JPanel {
         PrintGraphAction printGraphAction = new PrintGraphAction("Print",this);
         UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
         StraightenGraphAction straightenGraphAction = new StraightenGraphAction("Straighten",this);
+        OrganizeGraphAction organizeGraphAction = new OrganizeGraphAction("Organize",this);
 
         newGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🌱"));
         loadGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🗁"));
@@ -273,6 +283,8 @@ public class Donatello extends JPanel {
         printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖶"));
         updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
         straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🧹"));
+        straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📐"));
+        organizeGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📝"));
 
         //TODO toggleKeepUpdatingAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🔃"));
 
