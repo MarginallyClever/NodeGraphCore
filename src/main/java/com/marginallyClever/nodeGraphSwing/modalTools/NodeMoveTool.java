@@ -85,7 +85,6 @@ public class NodeMoveTool extends ModalTool {
         if(!dragOn) {
             dragOn=true;
             mouseStartPosition.setLocation(e.getX(),e.getY());
-            mousePreviousPosition.setLocation(e.getX(), e.getY());
         }
     }
 

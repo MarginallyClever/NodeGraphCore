@@ -58,7 +58,6 @@ public class AddNodePanel extends JPanel {
         this.add(confirmButton, BorderLayout.SOUTH);
 
         addSearchFeature();
-        searchFor(search.getText());
     }
 
     private void addSearchFeature() {
@@ -87,6 +86,8 @@ public class AddNodePanel extends JPanel {
         });
 
         caseSensitive.addActionListener((e)->searchFor(search.getText()));
+
+        searchFor(search.getText());
     }
 
     /**
