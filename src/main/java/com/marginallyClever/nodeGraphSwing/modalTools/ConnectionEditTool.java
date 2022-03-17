@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 public class ConnectionEditTool extends ModalTool {
     private static final Color CONNECTION_POINT_COLOR_SELECTED = Color.RED;
     private static final Color CONNECTION_BEING_EDITED = Color.RED;
-    private static final double NEARBY_CONNECTION_DISTANCE_MAX = 20;
+    private static final double NEARBY_CONNECTION_DISTANCE_MAX = 10;
 
     private final Donatello editor;
 
@@ -71,12 +71,7 @@ public class ConnectionEditTool extends ModalTool {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        Rectangle r = connectionBeingCreated.getBounds();
-        r.add(e.getPoint());
-        r.add(mousePreviousPosition);
-
-        r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
-        editor.repaint(r);
+        repaintConnectionInProgress(e.getPoint());
 
         mousePreviousPosition.setLocation(e.getX(), e.getY());
         selectOneNearbyConnectionPoint(e.getPoint());
@@ -105,10 +100,18 @@ public class ConnectionEditTool extends ModalTool {
         if(info!=null) repaintConnectionPoint(info.getPoint());
     }
 
+    private void repaintConnectionInProgress(Point point) {
+        Rectangle r = connectionBeingCreated.getBounds();
+        r.add(point);
+        r.add(mousePreviousPosition);
+        r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
+        editor.repaint();
+    }
+
     private void repaintConnectionPoint(Point p) {
         Rectangle r = new Rectangle(p);
         r.grow((int) NEARBY_CONNECTION_DISTANCE_MAX, (int) NEARBY_CONNECTION_DISTANCE_MAX);
-        editor.repaint(r);
+        editor.repaint();
     }
 
     /**
