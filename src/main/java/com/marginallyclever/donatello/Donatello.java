@@ -293,12 +293,14 @@ public class Donatello extends JPanel {
         actions.add(updateGraphAction);
         actions.add(printGraphAction);
         actions.add(straightenGraphAction);
+        actions.add(organizeGraphAction);
 
         newGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         saveGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         loadGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         printGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, 0));
+        organizeGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 
         menu.add(newGraphAction);
         menu.add(loadGraphAction);
@@ -307,6 +309,7 @@ public class Donatello extends JPanel {
         menu.add(updateGraphAction);
         menu.add(printGraphAction);
         menu.add(straightenGraphAction);
+        menu.add(organizeGraphAction);
 
         return menu;
     }
