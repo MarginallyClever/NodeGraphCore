@@ -11,7 +11,6 @@ public class TestFileHelper {
     public void testListingFiles() {
         String testPath = "./doesNotExist";
         assert(!(new File(testPath)).exists());
-        assertThrows(NullPointerException.class,()->FileHelper.listFilesInDirectory(testPath));
         try {
             FileHelper.createDirectoryIfMissing(testPath);
             FileHelper.listFilesInDirectory(testPath);
