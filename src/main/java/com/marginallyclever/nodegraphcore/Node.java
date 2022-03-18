@@ -32,9 +32,9 @@ public abstract class Node {
 
     private String label;
 
-    private Rectangle rectangle;
+    private final Rectangle rectangle = new Rectangle(0,0,150,50);
 
-    private final List<NodeVariable<?>> variables;
+    private final List<NodeVariable<?>> variables = new ArrayList<>();
 
     /**
      * Default constructor
@@ -47,8 +47,6 @@ public abstract class Node {
         this.uniqueID = ++uniqueIDSource;
         this.name = name;
         this.label = "";
-        this.rectangle = new Rectangle(0,0,150,50);
-        this.variables = new ArrayList<>();
     }
 
     /**
@@ -104,7 +102,7 @@ public abstract class Node {
      * @param rectangle the new bounds.
      */
     public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
+        this.rectangle.setBounds(rectangle);
     }
 
     /**
@@ -261,11 +259,10 @@ public abstract class Node {
 
     private double getPointHeight(int index) {
         double y = TITLE_HEIGHT;
-        Rectangle inr = getRectangle();
         for(int i=0;i<index;++i) {
             y += getVariable(i).getRectangle().height;
         }
-        y += getVariable(index).getRectangle().height/2;
+        y += getVariable(index).getRectangle().height/2.0;
         return y;
     }
 
