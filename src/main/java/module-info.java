@@ -1,8 +1,8 @@
 /**
- * NodeGraphCore contains essential elements for describing a {@link com.marginallyclever.nodegraphcore.NodeGraph} for
+ * nodegraphcore contains essential elements for describing a {@link com.marginallyclever.nodegraphcore.NodeGraph} for
  * flow-based programming.<br>
  * <br>
- * NodeGraphSwing contains Swing-based {@link com.marginallyclever.nodegraphcore.Node}s and all Swing-based tools for
+ * donatello contains Swing-based {@link com.marginallyclever.nodegraphcore.Node}s and all Swing-based tools for
  * editing {@link com.marginallyclever.nodegraphcore.NodeGraph}s.
  */
 module com.marginallyclever.nodegraphcore {
