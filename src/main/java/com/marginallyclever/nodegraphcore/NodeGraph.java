@@ -3,6 +3,8 @@ package com.marginallyclever.nodegraphcore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
@@ -15,6 +17,8 @@ import java.util.List;
  * @since 2022-02-01
  */
 public class NodeGraph {
+    private static final Logger logger = LoggerFactory.getLogger(NodeGraph.class);
+
     /**
      * The list of all {@link Node} in this graph.
      */
@@ -45,7 +49,7 @@ public class NodeGraph {
             try {
                 n.updateIfNotDirty();
             } catch(Exception e) {
-                // TODO fill me
+                logger.debug(e.getMessage());
             }
         }
         for(NodeConnection c : connections) c.applyIfDirty();
