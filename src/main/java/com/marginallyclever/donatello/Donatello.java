@@ -586,7 +586,7 @@ public class Donatello extends JPanel {
 
         Donatello panel = new Donatello(new NodeGraph());
 
-        JFrame frame = new JFrame("Node Graph Editor Panel");
+        JFrame frame = new JFrame("Donatello Node Graph Editor");
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(1200,800));
