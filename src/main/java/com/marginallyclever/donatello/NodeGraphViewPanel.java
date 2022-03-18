@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,8 +150,8 @@ public class NodeGraphViewPanel extends JPanel {
                 Point now = new Point(e.getX(),e.getY());
                 if(SwingUtilities.isMiddleMouseButton(e)) {
                     Point delta = new Point(now.x- previousMouse.x,now.y- previousMouse.y);
-                    camera.x += zoom * delta.x;
-                    camera.y += zoom * delta.y;
+                    camera.x -= zoom * delta.x;
+                    camera.y -= zoom * delta.y;
                     repaint();
                 }
                 previousMouse.setLocation(now);
@@ -165,12 +166,16 @@ public class NodeGraphViewPanel extends JPanel {
                 super.mouseMoved(e);
             }
         });
-/*
+
         this.addMouseWheelListener(e -> {
             double notches = e.getWheelRotation() * 0.1;
+
+            Rectangle r = getBounds();
+            int w2 = (int)(r.getWidth()/2.0);
+            int h2 = (int)(r.getHeight()/2.0);
             setZoom(getZoom() - notches);
             repaint();
-        });*/
+        });
     }
 
     @Override
@@ -184,52 +189,57 @@ public class NodeGraphViewPanel extends JPanel {
 
         super.paintComponent(g);
 
-        paintNodesInBackground(g);
+        g2.transform(getTransform());
 
-        Rectangle r = getBounds();
-        int w2 = (int)(r.getWidth()/2.0);
-        int h2 = (int)(r.getHeight()/2.0);
-        AffineTransform tf = new AffineTransform();
-        double dx=camera.x;
-        double dy=camera.y;
-        tf.scale(1.0/zoom, 1.0/zoom);
-        tf.translate(dx*zoom,dy*zoom);
-        g2.transform(tf);
+        paintNodesInBackground(g);
 
         for(Node n : model.getNodes()) paintNode(g2,n);
 
         g2.setColor(CONNECTION_COLOR);
         for(NodeConnection c : model.getConnections()) paintConnection(g2,c);
 
-        int z = (int)(zoom*10);
-        g2.drawOval(-z,-z,z*2,z*2);
-
-        Point transformed = transformMousePoint(previousMouse);
-        g2.translate(transformed.x,transformed.y);
-        g2.setColor(Color.WHITE);
-        g2.drawOval(-z,-z,z*2,z*2);
-        g2.translate(-transformed.x,-transformed.y);
-
-        transformed.setLocation(transformMousePoint(new Point((int)dx,(int)dy)));
-        g2.translate(transformed.x,transformed.y);
-        g2.setColor(Color.ORANGE);
-        g2.drawOval(-z,-z,z*2,z*2);
-        g2.translate(-transformed.x,-transformed.y);
+        //paintCursor(g2);
+        //paintOrigin(g2);
 
         firePaintEvent(g2);
     }
 
-    public Point transformMousePoint(Point point) {
+    private void paintCursor(Graphics2D g2) {
+        g2.setColor(Color.WHITE);
+        int z = (int)(zoom*10);
+        Point transformed = transformMousePoint(previousMouse);
+        g2.translate(transformed.x,transformed.y);
+        g2.drawOval(-z,-z,z*2,z*2);
+        g2.translate(-transformed.x,-transformed.y);
+    }
+
+    private void paintOrigin(Graphics2D g2) {
+        g2.setColor(Color.BLUE);
+        int z = (int)(zoom*10);
+        g2.drawOval(-z,-z,z*2,z*2);
+    }
+
+    AffineTransform getTransform() {
         Rectangle r = getBounds();
         int w2 = (int)(r.getWidth()/2.0);
         int h2 = (int)(r.getHeight()/2.0);
-        AffineTransform tf = new AffineTransform();
-        double dx=camera.x;
-        double dy=camera.y;
-        tf.scale(1.0/zoom, 1.0/zoom);
-        tf.translate(dx,dy);
+        AffineTransform tx = new AffineTransform();
+        double dx=camera.x-w2*zoom;
+        double dy=camera.y-h2*zoom;
+        tx.scale(1.0/zoom, 1.0/zoom);
+        tx.translate(-dx,-dy);
+        return tx;
+    }
+
+    public Point transformMousePoint(Point point) {
+        AffineTransform tf = getTransform();
         java.awt.geom.Point2D from = new java.awt.geom.Point2D.Double(point.x,point.y);
-        java.awt.geom.Point2D to = tf.transform(from,null);
+        java.awt.geom.Point2D to = new java.awt.geom.Point2D.Double();
+        try {
+            tf.inverseTransform(from,to);
+        } catch (NoninvertibleTransformException e) {
+            e.printStackTrace();
+        }
 
         return new Point((int)to.getX(),(int)to.getY());
     }
@@ -262,7 +272,6 @@ public class NodeGraphViewPanel extends JPanel {
         this.setMinimumSize(d);
         this.setMaximumSize(d);
         this.setPreferredSize(d);
-        //System.out.println("Bounds="+r.toString());
     }
 
     /**
