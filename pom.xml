@@ -26,7 +26,7 @@
         <url>https://github.com/MarginallyClever/NodeGraphCore</url>
         <connection>scm:git:https://github.com/MarginallyClever/NodeGraphCore.git</connection>
         <developerConnection>scm:git:https://github.com/MarginallyClever/NodeGraphCore.git</developerConnection>
-        <tag>1.0.11</tag>
+        <tag>1.0.12</tag>
     </scm>
 
     <developers>
