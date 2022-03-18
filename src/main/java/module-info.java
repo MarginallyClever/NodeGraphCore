@@ -9,7 +9,7 @@ module com.marginallyclever.nodegraphcore {
     requires java.desktop;
     requires org.json;
     requires org.slf4j;
-    requires logback.core;
+    requires ch.qos.logback.core;
 
     uses com.marginallyclever.nodegraphcore.NodeRegistry;
     provides com.marginallyclever.nodegraphcore.NodeRegistry with
