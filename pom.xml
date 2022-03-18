@@ -4,7 +4,7 @@
 
     <groupId>com.marginallyclever</groupId>
     <artifactId>nodegraphcore</artifactId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
     <name>NodeGraphCore</name>
     <description>Java node graph system for data flow programming.</description>
     <url>https://github.com/MarginallyClever/NodeGraphCore</url>
@@ -274,7 +274,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
-                        <tagNameFormat>{project.version}</tagNameFormat>
+                        <tagNameFormat>${project.version}</tagNameFormat>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <releaseProfiles>releases</releaseProfiles>
                     </configuration>
