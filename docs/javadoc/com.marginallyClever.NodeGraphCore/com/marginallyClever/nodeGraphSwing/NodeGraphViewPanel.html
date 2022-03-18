@@ -6,7 +6,7 @@
 <title>NodeGraphViewPanel</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2022-02-25">
-<meta name="description" content="declaration: module: com.marginallyClever.NodeGraphCore, package: com.marginallyClever.nodeGraphSwing, class: NodeGraphViewPanel">
+<meta name="description" content="declaration: module: com.marginallyclever.NodeGraphCore, package: com.marginallyclever.donatello, class: NodeGraphViewPanel">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -73,8 +73,8 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../module-summary.html">com.marginallyClever.NodeGraphCore</a></div>
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.marginallyClever.nodeGraphSwing</a></div>
+<div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../module-summary.html">com.marginallyclever.NodeGraphCore</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.marginallyclever.donatello</a></div>
 <h1 title="Class NodeGraphViewPanel" class="title">Class NodeGraphViewPanel</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree">java.lang.Object
@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">java.awt.Container
 <div class="inheritance">javax.swing.JComponent
 <div class="inheritance">javax.swing.JPanel
-<div class="inheritance">com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel</div>
+<div class="inheritance">com.marginallyclever.donatello.NodeGraphViewPanel</div>
 </div>
 </div>
 </div>
@@ -96,8 +96,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">NodeGraphViewPanel</span>
 extends javax.swing.JPanel</pre>
-<div class="block"><a href="NodeGraphViewPanel.html" title="class in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewPanel</code></a> visualizes the contents of a <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a> with Java Swing.
- It can call on <a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a>s to add additional flavor.
+<div class="block"><a href="NodeGraphViewPanel.html" title="class in com.marginallyclever.donatello"><code>NodeGraphViewPanel</code></a> visualizes the contents of a <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a> with Java Swing.
+ It can call on <a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a>s to add additional flavor.
  Override this to implement a unique look and feel.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -145,105 +145,105 @@ extends javax.swing.JPanel</pre>
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#ALIGN_BOTTOM">ALIGN_BOTTOM</a></span></code></th>
 <td class="col-last">
-<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#ALIGN_CENTER">ALIGN_CENTER</a></span></code></th>
 <td class="col-last">
-<div class="block">Controls horizontal or vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Controls horizontal or vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#ALIGN_LEFT">ALIGN_LEFT</a></span></code></th>
 <td class="col-last">
-<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#ALIGN_RIGHT">ALIGN_RIGHT</a></span></code></th>
 <td class="col-last">
-<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#ALIGN_TOP">ALIGN_TOP</a></span></code></th>
 <td class="col-last">
-<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#CONNECTION_COLOR">CONNECTION_COLOR</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> male connection point color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> male connection point color.</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#CONNECTION_POINT_COLOR">CONNECTION_POINT_COLOR</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> female connection point color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> female connection point color.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#CORNER_RADIUS">CORNER_RADIUS</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> outer border radius.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> outer border radius.</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_BACKGROUND">NODE_COLOR_BACKGROUND</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> background color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> background color.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_BORDER">NODE_COLOR_BORDER</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> border color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> border color.</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_FONT_CLEAN">NODE_COLOR_FONT_CLEAN</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> font color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> font color.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_FONT_DIRTY">NODE_COLOR_FONT_DIRTY</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> font color for variables when</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> font color for variables when</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_INTERNAL_BORDER">NODE_COLOR_INTERNAL_BORDER</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> internal border between <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> internal border between <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_TITLE_BACKGROUND">NODE_COLOR_TITLE_BACKGROUND</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> tile bar background color</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> tile bar background color</div>
 </td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.awt.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#NODE_COLOR_TITLE_FONT">NODE_COLOR_TITLE_FONT</a></span></code></th>
 <td class="col-last">
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> tile bar font color</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> tile bar font color</div>
 </td>
 </tr>
 <tr class="row-color">
@@ -282,9 +282,9 @@ extends javax.swing.JPanel</pre>
 </thead>
 <tbody>
 <tr class="alt-color">
-<th class="col-constructor-name" scope="row"><code><span class="member-name-link"><a href="#%3Cinit%3E(com.marginallyClever.nodeGraphCore.NodeGraph)">NodeGraphViewPanel</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;model)</code></th>
+<th class="col-constructor-name" scope="row"><code><span class="member-name-link"><a href="#%3Cinit%3E(com.marginallyClever.nodeGraphCore.NodeGraph)">NodeGraphViewPanel</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;model)</code></th>
 <td class="col-last">
-<div class="block">Constructs one new instance of <a href="NodeGraphViewPanel.html" title="class in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewPanel</code></a>.</div>
+<div class="block">Constructs one new instance of <a href="NodeGraphViewPanel.html" title="class in com.marginallyclever.donatello"><code>NodeGraphViewPanel</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -310,16 +310,16 @@ extends javax.swing.JPanel</pre>
 <tbody>
 <tr class="alt-color" id="i0">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#addViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">addViewListener</a></span>&#8203;(<a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing">NodeGraphViewListener</a>&nbsp;p)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#addViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">addViewListener</a></span>&#8203;(<a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello">NodeGraphViewListener</a>&nbsp;p)</code></th>
 <td class="col-last">
-<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a>s register here.</div>
+<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a>s register here.</div>
 </td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>java.awt.Rectangle</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getNodeInternalBounds(java.awt.Rectangle)">getNodeInternalBounds</a></span>&#8203;(java.awt.Rectangle&nbsp;r)</code></th>
 <td class="col-last">
-<div class="block">Returns the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</div>
+<div class="block">Returns the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i2">
@@ -347,33 +347,33 @@ java.awt.Point&nbsp;p)</code></th>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintNode(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">paintNode</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</code></th>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</code></th>
 <td class="col-last">
-<div class="block">Paint one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a></div>
+<div class="block">Paint one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a></div>
 </td>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintNodeBackground(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">paintNodeBackground</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</code></th>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</code></th>
 <td class="col-last">
-<div class="block">Paint the background of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a></div>
+<div class="block">Paint the background of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a></div>
 </td>
 </tr>
 <tr class="row-color" id="i7">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintNodeBorder(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">paintNodeBorder</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</code></th>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</code></th>
 <td class="col-last">
-<div class="block">Paint the outside border of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</div>
+<div class="block">Paint the outside border of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i8">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintNodeTitleBar(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">paintNodeTitleBar</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</code></th>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</code></th>
 <td class="col-last">
-<div class="block">Paint the title bar of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</div>
+<div class="block">Paint the title bar of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color" id="i9">
@@ -390,31 +390,31 @@ int&nbsp;alignV)</code></th>
 <tr class="alt-color" id="i10">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintVariable(java.awt.Graphics,com.marginallyClever.nodeGraphCore.NodeVariable)">paintVariable</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore">NodeVariable</a>&lt;?&gt;&nbsp;v)</code></th>
+<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore">NodeVariable</a>&lt;?&gt;&nbsp;v)</code></th>
 <td class="col-last">
-<div class="block">Paint one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Paint one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="row-color" id="i11">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#paintVariableConnectionPoints(java.awt.Graphics,com.marginallyClever.nodeGraphCore.NodeVariable)">paintVariableConnectionPoints</a></span>&#8203;(java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore">NodeVariable</a>&lt;?&gt;&nbsp;v)</code></th>
+<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore">NodeVariable</a>&lt;?&gt;&nbsp;v)</code></th>
 <td class="col-last">
-<div class="block">Paint the female end of connection points of one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">Paint the female end of connection points of one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i12">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#removeViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">removeViewListener</a></span>&#8203;(<a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing">NodeGraphViewListener</a>&nbsp;p)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#removeViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">removeViewListener</a></span>&#8203;(<a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello">NodeGraphViewListener</a>&nbsp;p)</code></th>
 <td class="col-last">
-<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a>s unregister here.</div>
+<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a>s unregister here.</div>
 </td>
 </tr>
 <tr class="row-color" id="i13">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#updatePaintAreaBounds()">updatePaintAreaBounds</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Update the bounds of every node in the model <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a>.</div>
+<div class="block">Update the bounds of every node in the model <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -451,21 +451,21 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="NODE_COLOR_BACKGROUND">
 <h3>NODE_COLOR_BACKGROUND</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_BACKGROUND</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> background color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> background color.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="NODE_COLOR_BORDER">
 <h3>NODE_COLOR_BORDER</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_BORDER</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> border color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> border color.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="NODE_COLOR_INTERNAL_BORDER">
 <h3>NODE_COLOR_INTERNAL_BORDER</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_INTERNAL_BORDER</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> internal border between <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> internal border between <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 </section>
 </li>
 <li>
@@ -479,49 +479,49 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="NODE_COLOR_FONT_CLEAN">
 <h3>NODE_COLOR_FONT_CLEAN</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_FONT_CLEAN</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> font color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> font color.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="NODE_COLOR_FONT_DIRTY">
 <h3>NODE_COLOR_FONT_DIRTY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_FONT_DIRTY</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> font color for variables when <pre>getIsDirty()</pre>. is true.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> font color for variables when <pre>getIsDirty()</pre>. is true.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="NODE_COLOR_TITLE_FONT">
 <h3>NODE_COLOR_TITLE_FONT</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_TITLE_FONT</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> tile bar font color</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> tile bar font color</div>
 </section>
 </li>
 <li>
 <section class="detail" id="NODE_COLOR_TITLE_BACKGROUND">
 <h3>NODE_COLOR_TITLE_BACKGROUND</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">NODE_COLOR_TITLE_BACKGROUND</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> tile bar background color</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> tile bar background color</div>
 </section>
 </li>
 <li>
 <section class="detail" id="CONNECTION_POINT_COLOR">
 <h3>CONNECTION_POINT_COLOR</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">CONNECTION_POINT_COLOR</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> female connection point color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> female connection point color.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="CONNECTION_COLOR">
 <h3>CONNECTION_COLOR</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.awt.Color</span>&nbsp;<span class="member-name">CONNECTION_COLOR</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> male connection point color.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> male connection point color.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="CORNER_RADIUS">
 <h3>CORNER_RADIUS</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">CORNER_RADIUS</span></div>
-<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> outer border radius.</div>
+<div class="block">The default <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> outer border radius.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.marginallyClever.nodeGraphSwing.NodeGraphViewPanel.CORNER_RADIUS">Constant Field Values</a></dd>
@@ -532,7 +532,7 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="ALIGN_LEFT">
 <h3>ALIGN_LEFT</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">ALIGN_LEFT</span></div>
-<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.
+<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.
  See <a href="#paintText(java.awt.Graphics,java.lang.String,java.awt.Rectangle,int,int)"><code>paintText(Graphics, String, Rectangle, int, int)</code></a> for more information.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -544,7 +544,7 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="ALIGN_RIGHT">
 <h3>ALIGN_RIGHT</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">ALIGN_RIGHT</span></div>
-<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.
+<div class="block">Controls horizontal text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.
  See <a href="#paintText(java.awt.Graphics,java.lang.String,java.awt.Rectangle,int,int)"><code>paintText(Graphics, String, Rectangle, int, int)</code></a> for more information.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -556,7 +556,7 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="ALIGN_CENTER">
 <h3>ALIGN_CENTER</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">ALIGN_CENTER</span></div>
-<div class="block">Controls horizontal or vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.
+<div class="block">Controls horizontal or vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.
  See <a href="#paintText(java.awt.Graphics,java.lang.String,java.awt.Rectangle,int,int)"><code>paintText(Graphics, String, Rectangle, int, int)</code></a> for more information.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -568,7 +568,7 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="ALIGN_TOP">
 <h3>ALIGN_TOP</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">ALIGN_TOP</span></div>
-<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.
+<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.
  See <a href="#paintText(java.awt.Graphics,java.lang.String,java.awt.Rectangle,int,int)"><code>paintText(Graphics, String, Rectangle, int, int)</code></a> for more information.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -580,7 +580,7 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="ALIGN_BOTTOM">
 <h3>ALIGN_BOTTOM</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">ALIGN_BOTTOM</span></div>
-<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.
+<div class="block">Controls vertical text alignment within a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> or <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.
  See <a href="#paintText(java.awt.Graphics,java.lang.String,java.awt.Rectangle,int,int)"><code>paintText(Graphics, String, Rectangle, int, int)</code></a> for more information.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -599,11 +599,11 @@ int&nbsp;alignV)</code></th>
 <li>
 <section class="detail" id="&lt;init&gt;(com.marginallyClever.nodeGraphCore.NodeGraph)">
 <h3>NodeGraphViewPanel</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">NodeGraphViewPanel</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;model)</span></div>
-<div class="block">Constructs one new instance of <a href="NodeGraphViewPanel.html" title="class in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewPanel</code></a>.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">NodeGraphViewPanel</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;model)</span></div>
+<div class="block">Constructs one new instance of <a href="NodeGraphViewPanel.html" title="class in com.marginallyclever.donatello"><code>NodeGraphViewPanel</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>model</code> - the <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a> model to paint.</dd>
+<dd><code>model</code> - the <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a> model to paint.</dd>
 </dl>
 </section>
 </li>
@@ -629,19 +629,19 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="updatePaintAreaBounds()">
 <h3>updatePaintAreaBounds</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">updatePaintAreaBounds</span>()</div>
-<div class="block">Update the bounds of every node in the model <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a>.</div>
+<div class="block">Update the bounds of every node in the model <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a>.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="paintNode(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">
 <h3>paintNode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintNode</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</span></div>
-<div class="block">Paint one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a></div>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</span></div>
+<div class="block">Paint one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> to paint.</dd>
+<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -649,12 +649,12 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="paintNodeBackground(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">
 <h3>paintNodeBackground</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintNodeBackground</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</span></div>
-<div class="block">Paint the background of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a></div>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</span></div>
+<div class="block">Paint the background of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> to paint.</dd>
+<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -662,12 +662,12 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="paintNodeTitleBar(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">
 <h3>paintNodeTitleBar</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintNodeTitleBar</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</span></div>
-<div class="block">Paint the title bar of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</div>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</span></div>
+<div class="block">Paint the title bar of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> to paint.</dd>
+<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -675,12 +675,12 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="paintVariable(java.awt.Graphics,com.marginallyClever.nodeGraphCore.NodeVariable)">
 <h3>paintVariable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintVariable</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore">NodeVariable</a>&lt;?&gt;&nbsp;v)</span></div>
-<div class="block">Paint one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore">NodeVariable</a>&lt;?&gt;&nbsp;v)</span></div>
+<div class="block">Paint one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>v</code> - the <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a> to paint.</dd>
+<dd><code>v</code> - the <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -688,14 +688,14 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="getNodeInternalBounds(java.awt.Rectangle)">
 <h3>getNodeInternalBounds</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.awt.Rectangle</span>&nbsp;<span class="member-name">getNodeInternalBounds</span>&#8203;(<span class="parameters">java.awt.Rectangle&nbsp;r)</span></div>
-<div class="block">Returns the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.
- Nodes have a left and right margin useful for printing labels and values without overlapping the <a href="../nodeGraphCore/NodeConnection.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeConnection</code></a> points.
+<div class="block">Returns the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.
+ Nodes have a left and right margin useful for printing labels and values without overlapping the <a href="../nodeGraphCore/NodeConnection.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeConnection</code></a> points.
  these edges form an inner bound.  Given a <a href="../nodeGraphCore/NodeVariable.html#getRectangle()"><code>NodeVariable.getRectangle()</code></a>, this</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>r</code> - the outer bounsd of the node.</dd>
 <dt>Returns:</dt>
-<dd>the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</dd>
+<dd>the adjusted inner bounds of a <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</dd>
 </dl>
 </section>
 </li>
@@ -703,12 +703,12 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="paintNodeBorder(java.awt.Graphics,com.marginallyClever.nodeGraphCore.Node)">
 <h3>paintNodeBorder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintNodeBorder</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</span></div>
-<div class="block">Paint the outside border of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a>.</div>
+<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</span></div>
+<div class="block">Paint the outside border of one <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore"><code>Node</code></a> to paint.</dd>
+<dd><code>n</code> - the <a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore"><code>Node</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -716,12 +716,12 @@ int&nbsp;alignV)</code></th>
 <section class="detail" id="paintVariableConnectionPoints(java.awt.Graphics,com.marginallyClever.nodeGraphCore.NodeVariable)">
 <h3>paintVariableConnectionPoints</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">paintVariableConnectionPoints</span>&#8203;(<span class="parameters">java.awt.Graphics&nbsp;g,
-<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore">NodeVariable</a>&lt;?&gt;&nbsp;v)</span></div>
-<div class="block">Paint the female end of connection points of one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a>.</div>
+<a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore">NodeVariable</a>&lt;?&gt;&nbsp;v)</span></div>
+<div class="block">Paint the female end of connection points of one <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the <code>Graphics</code> context</dd>
-<dd><code>v</code> - the <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeVariable</code></a> to paint.</dd>
+<dd><code>v</code> - the <a href="../nodeGraphCore/NodeVariable.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeVariable</code></a> to paint.</dd>
 </dl>
 </section>
 </li>
@@ -775,22 +775,22 @@ java.awt.Point&nbsp;p3)</span></div>
 <li>
 <section class="detail" id="addViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">
 <h3>addViewListener</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">addViewListener</span>&#8203;(<span class="parameters"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing">NodeGraphViewListener</a>&nbsp;p)</span></div>
-<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a>s register here.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">addViewListener</span>&#8203;(<span class="parameters"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello">NodeGraphViewListener</a>&nbsp;p)</span></div>
+<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a>s register here.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>p</code> - the <a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a> to register.</dd>
+<dd><code>p</code> - the <a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a> to register.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="removeViewListener(com.marginallyClever.nodeGraphSwing.NodeGraphViewListener)">
 <h3>removeViewListener</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">removeViewListener</span>&#8203;(<span class="parameters"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing">NodeGraphViewListener</a>&nbsp;p)</span></div>
-<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a>s unregister here.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">removeViewListener</span>&#8203;(<span class="parameters"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello">NodeGraphViewListener</a>&nbsp;p)</span></div>
+<div class="block"><a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a>s unregister here.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>p</code> - the <a href="NodeGraphViewListener.html" title="interface in com.marginallyClever.nodeGraphSwing"><code>NodeGraphViewListener</code></a> to unregister.</dd>
+<dd><code>p</code> - the <a href="NodeGraphViewListener.html" title="interface in com.marginallyclever.donatello"><code>NodeGraphViewListener</code></a> to unregister.</dd>
 </dl>
 </section>
 </li>

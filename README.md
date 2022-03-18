@@ -13,7 +13,7 @@ that are not fluent in the archaic syntax of text-only languages.
 - Foldable: Collapse a subgraph down to a single node with Fold and reverse with Unfold
 - Convenient: Built in nodes for basic math and reporting.
 - Tested: Unit tests for everything!  If it can be tested, we shall!
-- A sample editor has been provided in Java Swing.  The main executable class is `com.marginallyClever.nodeGraphSwing.Donatello`.
+- A sample editor has been provided in Java Swing.  The main executable class is `com.marginallyclever.donatello.Donatello`.
 - While running the Swing editor you can also access Swing-only nodes like `LoadImage` and `PrintImage`.  PrintImage will appear in the background of the node editor panel.
 
 ### Use it, Discuss it, Love it.

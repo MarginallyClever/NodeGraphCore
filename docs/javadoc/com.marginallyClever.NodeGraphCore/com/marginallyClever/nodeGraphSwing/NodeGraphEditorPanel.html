@@ -6,7 +6,7 @@
 <title>NodeGraphEditorPanel</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2022-02-25">
-<meta name="description" content="declaration: module: com.marginallyClever.NodeGraphCore, package: com.marginallyClever.nodeGraphSwing, class: NodeGraphEditorPanel">
+<meta name="description" content="declaration: module: com.marginallyclever.NodeGraphCore, package: com.marginallyclever.donatello, class: NodeGraphEditorPanel">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -73,8 +73,8 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../module-summary.html">com.marginallyClever.NodeGraphCore</a></div>
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.marginallyClever.nodeGraphSwing</a></div>
+<div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../module-summary.html">com.marginallyclever.NodeGraphCore</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.marginallyclever.donatello</a></div>
 <h1 title="Class NodeGraphEditorPanel" class="title">Class NodeGraphEditorPanel</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree">java.lang.Object
@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">java.awt.Container
 <div class="inheritance">javax.swing.JComponent
 <div class="inheritance">javax.swing.JPanel
-<div class="inheritance">com.marginallyClever.nodeGraphSwing.Donatello</div>
+<div class="inheritance">com.marginallyclever.donatello.Donatello</div>
 </div>
 </div>
 </div>
@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">NodeGraphEditorPanel</span>
 extends javax.swing.JPanel</pre>
-<div class="block"><a href="NodeGraphEditorPanel.html" title="class in com.marginallyClever.nodeGraphSwing"><code>NodeGraphEditorPanel</code></a> is a Graphic User Interface to edit a <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a>.</div>
+<div class="block"><a href="NodeGraphEditorPanel.html" title="class in com.marginallyclever.donatello"><code>NodeGraphEditorPanel</code></a> is a Graphic User Interface to edit a <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2022-02-01</dd>
@@ -175,7 +175,7 @@ extends javax.swing.JPanel</pre>
 </thead>
 <tbody>
 <tr class="alt-color">
-<th class="col-constructor-name" scope="row"><code><span class="member-name-link"><a href="#%3Cinit%3E(com.marginallyClever.nodeGraphCore.NodeGraph)">NodeGraphEditorPanel</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;model)</code></th>
+<th class="col-constructor-name" scope="row"><code><span class="member-name-link"><a href="#%3Cinit%3E(com.marginallyClever.nodeGraphCore.NodeGraph)">NodeGraphEditorPanel</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;model)</code></th>
 <td class="col-last">
 <div class="block">Default constructor</div>
 </td>
@@ -209,14 +209,14 @@ extends javax.swing.JPanel</pre>
 </td>
 </tr>
 <tr class="row-color" id="i1">
-<td class="col-first"><code><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a></code></td>
+<td class="col-first"><code><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getCopiedGraph()">getCopiedGraph</a></span>()</code></th>
 <td class="col-last">
 <div class="block">Returns the stored graph marked as copied.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i2">
-<td class="col-first"><code><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a></code></td>
+<td class="col-first"><code><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getGraph()">getGraph</a></span>()</code></th>
 <td class="col-last">
 <div class="block">Returns the graph being edited.</div>
@@ -230,7 +230,7 @@ extends javax.swing.JPanel</pre>
 </td>
 </tr>
 <tr class="alt-color" id="i4">
-<td class="col-first"><code>java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&gt;</code></td>
+<td class="col-first"><code>java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getSelectedNodes()">getSelectedNodes</a></span>()</code></th>
 <td class="col-last">
 <div class="block">Returns all selected nodes.</div>
@@ -245,21 +245,21 @@ extends javax.swing.JPanel</pre>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setCopiedGraph(com.marginallyClever.nodeGraphCore.NodeGraph)">setCopiedGraph</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;graph)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setCopiedGraph(com.marginallyClever.nodeGraphCore.NodeGraph)">setCopiedGraph</a></span>&#8203;(<a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;graph)</code></th>
 <td class="col-last">
 <div class="block">Store a copy of some part of the graph for later.</div>
 </td>
 </tr>
 <tr class="row-color" id="i7">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setSelectedNode(com.marginallyClever.nodeGraphCore.Node)">setSelectedNode</a></span>&#8203;(<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setSelectedNode(com.marginallyClever.nodeGraphCore.Node)">setSelectedNode</a></span>&#8203;(<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</code></th>
 <td class="col-last">
 <div class="block">Sets the list of selected nodes to one item.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i8">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setSelectedNodes(java.util.List)">setSelectedNodes</a></span>&#8203;(java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&gt;&nbsp;list)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setSelectedNodes(java.util.List)">setSelectedNodes</a></span>&#8203;(java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&gt;&nbsp;list)</code></th>
 <td class="col-last">
 <div class="block">Sets the list of selected nodes.</div>
 </td>
@@ -319,11 +319,11 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="&lt;init&gt;(com.marginallyClever.nodeGraphCore.NodeGraph)">
 <h3>NodeGraphEditorPanel</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">NodeGraphEditorPanel</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;model)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">NodeGraphEditorPanel</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;model)</span></div>
 <div class="block">Default constructor</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>model</code> - the <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore"><code>NodeGraph</code></a> to edit.</dd>
+<dd><code>model</code> - the <a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore"><code>NodeGraph</code></a> to edit.</dd>
 </dl>
 </section>
 </li>
@@ -345,7 +345,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="setSelectedNode(com.marginallyClever.nodeGraphCore.Node)">
 <h3>setSelectedNode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setSelectedNode</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&nbsp;n)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setSelectedNode</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&nbsp;n)</span></div>
 <div class="block">Sets the list of selected nodes to one item.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -356,7 +356,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="setSelectedNodes(java.util.List)">
 <h3>setSelectedNodes</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setSelectedNodes</span>&#8203;(<span class="parameters">java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&gt;&nbsp;list)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setSelectedNodes</span>&#8203;(<span class="parameters">java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&gt;&nbsp;list)</span></div>
 <div class="block">Sets the list of selected nodes.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -367,7 +367,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="getSelectedNodes()">
 <h3>getSelectedNodes</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyClever.nodeGraphCore">Node</a>&gt;</span>&nbsp;<span class="member-name">getSelectedNodes</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.List&lt;<a href="../nodeGraphCore/Node.html" title="class in com.marginallyclever.nodegraphcore">Node</a>&gt;</span>&nbsp;<span class="member-name">getSelectedNodes</span>()</div>
 <div class="block">Returns all selected nodes.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -378,7 +378,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="getGraph()">
 <h3>getGraph</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a></span>&nbsp;<span class="member-name">getGraph</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a></span>&nbsp;<span class="member-name">getGraph</span>()</div>
 <div class="block">Returns the graph being edited.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -400,7 +400,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="setCopiedGraph(com.marginallyClever.nodeGraphCore.NodeGraph)">
 <h3>setCopiedGraph</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setCopiedGraph</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a>&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setCopiedGraph</span>&#8203;(<span class="parameters"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a>&nbsp;graph)</span></div>
 <div class="block">Store a copy of some part of the graph for later.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -411,7 +411,7 @@ extends javax.swing.JPanel</pre>
 <li>
 <section class="detail" id="getCopiedGraph()">
 <h3>getCopiedGraph</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyClever.nodeGraphCore">NodeGraph</a></span>&nbsp;<span class="member-name">getCopiedGraph</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../nodeGraphCore/NodeGraph.html" title="class in com.marginallyclever.nodegraphcore">NodeGraph</a></span>&nbsp;<span class="member-name">getCopiedGraph</span>()</div>
 <div class="block">Returns the stored graph marked as copied.</div>
 <dl class="notes">
 <dt>Returns:</dt>
