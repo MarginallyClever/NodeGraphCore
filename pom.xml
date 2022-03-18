@@ -6,7 +6,7 @@
 
     <groupId>com.marginallyclever</groupId>
     <artifactId>nodegraphcore</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11-SNAPSHOT</version>
     <name>NodeGraphCore</name>
     <description>Java node graph system for data flow programming.</description>
     <url>https://github.com/MarginallyClever/NodeGraphCore</url>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <version>1.3.0-alpha14</version>
         </dependency>
         <!-- logging -->
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.11</version>
+            <version>1.3.0-alpha14</version>
         </dependency>
         <!-- for logging -->
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
