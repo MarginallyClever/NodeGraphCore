@@ -1,9 +1,9 @@
 /**
- * NodeGraphCore contains essential elements for describing a {@link com.marginallyClever.nodeGraphCore.NodeGraph} for
+ * NodeGraphCore contains essential elements for describing a {@link com.marginallyclever.nodegraphcore.NodeGraph} for
  * flow-based programming.<br>
  * <br>
- * NodeGraphSwing contains Swing-based {@link com.marginallyClever.nodeGraphCore.Node}s and all Swing-based tools for
- * editing {@link com.marginallyClever.nodeGraphCore.NodeGraph}s.
+ * NodeGraphSwing contains Swing-based {@link com.marginallyclever.nodegraphcore.Node}s and all Swing-based tools for
+ * editing {@link com.marginallyclever.nodegraphcore.NodeGraph}s.
  */
 module com.marginallyClever.nodeGraphCore {
     requires java.desktop;
@@ -11,19 +11,19 @@ module com.marginallyClever.nodeGraphCore {
     requires org.slf4j;
     requires logback.core;
 
-    uses com.marginallyClever.nodeGraphCore.NodeRegistry;
-    provides com.marginallyClever.nodeGraphCore.NodeRegistry with
-            com.marginallyClever.nodeGraphCore.BuiltInRegistry,
-            com.marginallyClever.nodeGraphSwing.SwingRegistry;
+    uses com.marginallyclever.nodegraphcore.NodeRegistry;
+    provides com.marginallyclever.nodegraphcore.NodeRegistry with
+            com.marginallyclever.nodegraphcore.BuiltInRegistry,
+            com.marginallyclever.donatello.SwingRegistry;
 
-    uses com.marginallyClever.nodeGraphCore.DAORegistry;
-    provides com.marginallyClever.nodeGraphCore.DAORegistry with
-            com.marginallyClever.nodeGraphCore.BuiltInRegistry,
-            com.marginallyClever.nodeGraphSwing.SwingRegistry;
+    uses com.marginallyclever.nodegraphcore.DAORegistry;
+    provides com.marginallyclever.nodegraphcore.DAORegistry with
+            com.marginallyclever.nodegraphcore.BuiltInRegistry,
+            com.marginallyclever.donatello.SwingRegistry;
 
-    exports com.marginallyClever.nodeGraphCore;
-    exports com.marginallyClever.nodeGraphCore.json;
+    exports com.marginallyclever.nodegraphcore;
+    exports com.marginallyclever.nodegraphcore.json;
 
-    exports com.marginallyClever.nodeGraphSwing;
-    exports com.marginallyClever.nodeGraphSwing.actions;
+    exports com.marginallyclever.donatello;
+    exports com.marginallyclever.donatello.actions;
 }

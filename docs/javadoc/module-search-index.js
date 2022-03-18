@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"com.marginallyClever.NodeGraphCore"}];updateSearchResults();
+moduleSearchIndex = [{"l":"com.marginallyclever.NodeGraphCore"}];updateSearchResults();

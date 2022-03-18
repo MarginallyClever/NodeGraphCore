@@ -10,7 +10,7 @@
                 </encoder>
             </appender>
 
-            <logger name="com.marginallyClever.nodeGraphSwing.Donatello" level="debug" />
+            <logger name="com.marginallyclever.donatello.Donatello" level="debug" />
             <root>
                 <appender-ref ref="STDOUT" />
             </root>
@@ -25,13 +25,13 @@
             <maxIndex>1</maxIndex>
         </rollingPolicy>
 
-        <triggeringPolicy class="com.marginallyClever.nodeGraphSwing.RollOncePerSessionTriggeringPolicy"/>
+        <triggeringPolicy class="com.marginallyclever.donatello.RollOncePerSessionTriggeringPolicy"/>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.marginallyClever" level="debug" />
+    <logger name="com.marginallyclever" level="debug" />
 
     <root level="info">
         <appender-ref ref="FILE" />
