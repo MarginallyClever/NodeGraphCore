@@ -2,7 +2,7 @@
 
 A pure Java implementation of Node based [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming) and a GUI editor.
 
-![img](preview-for-github.png)
+![img](docs/preview-for-github.png)
 
 Data-flow programming is aesthetically pleasing, greatly reduces the chance of syntax error, and empowering for people
 that are not fluent in the archaic syntax of text-only languages.
