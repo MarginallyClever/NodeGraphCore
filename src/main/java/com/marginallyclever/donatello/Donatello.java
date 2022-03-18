@@ -1,5 +1,6 @@
 package com.marginallyclever.donatello;
 
+import com.marginallyclever.donatello.modaltools.RememberKeyStateAction;
 import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.donatello.actions.*;
 import com.marginallyclever.donatello.actions.undoable.*;
@@ -15,9 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,12 +116,12 @@ public class Donatello extends JPanel {
         paintArea = new NodeGraphViewPanel(model);
 
         this.add(toolBar,BorderLayout.NORTH);
-        this.add(new JScrollPane(paintArea),BorderLayout.CENTER);
+        this.add(paintArea,BorderLayout.CENTER);
 
         setupTools();
         setupPaintArea();
 
-        attachMouseAdapter();
+        attachMouse();
 
         setupMenuBar();
 
@@ -436,9 +435,9 @@ public class Donatello extends JPanel {
     }
 
     /**
-     * Attaches the mouse adapter
+     * Respond to popup menu requests
      */
-    private void attachMouseAdapter() {
+    private void attachMouse() {
         paintArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
