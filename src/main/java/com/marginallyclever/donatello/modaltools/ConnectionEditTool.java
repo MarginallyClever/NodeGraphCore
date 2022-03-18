@@ -73,7 +73,7 @@ public class ConnectionEditTool extends ModalTool {
     public void mouseMoved(MouseEvent e) {
         repaintConnectionInProgress(e.getPoint());
 
-        mousePreviousPosition.setLocation(e.getX(), e.getY());
+        mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
         selectOneNearbyConnectionPoint(e.getPoint());
     }
 
@@ -82,7 +82,8 @@ public class ConnectionEditTool extends ModalTool {
      * @param p the center of the search area.
      */
     private void selectOneNearbyConnectionPoint(Point p) {
-        NodeConnectionPointInfo info = editor.getGraph().getFirstNearbyConnection(p,NEARBY_CONNECTION_DISTANCE_MAX);
+        Point p2 = editor.getPaintArea().transformMousePoint(p);
+        NodeConnectionPointInfo info = editor.getGraph().getFirstNearbyConnection(p2,NEARBY_CONNECTION_DISTANCE_MAX);
         setLastConnectionPoint(info);
     }
 

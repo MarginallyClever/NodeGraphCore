@@ -67,25 +67,26 @@ public class NodeMoveTool extends ModalTool {
     @Override
     public void mouseDragged(MouseEvent e) {
         if(dragOn) {
-            int dx = e.getX() - mousePreviousPosition.x;
-            int dy = e.getY() - mousePreviousPosition.y;
+            Point p = editor.getPaintArea().transformMousePoint(e.getPoint());
+            int dx = p.x - mousePreviousPosition.x;
+            int dy = p.y - mousePreviousPosition.y;
             editor.moveSelectedNodes(dx, dy);
             editor.repaint();
         }
-        mousePreviousPosition.setLocation(e.getX(), e.getY());
+        mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        mousePreviousPosition.setLocation(e.getX(), e.getY());
+        mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if(!dragOn) {
             dragOn=true;
-            mouseStartPosition.setLocation(e.getX(),e.getY());
-            mousePreviousPosition.setLocation(e.getX(), e.getY());
+            mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
+            mouseStartPosition.setLocation(mousePreviousPosition);
         }
     }
 
@@ -93,8 +94,9 @@ public class NodeMoveTool extends ModalTool {
     public void mouseReleased(MouseEvent e) {
         if(dragOn) {
             dragOn=false;
-            int dx = e.getX() - mouseStartPosition.x;
-            int dy = e.getY() - mouseStartPosition.y;
+            Point p = editor.getPaintArea().transformMousePoint(e.getPoint());
+            int dx = p.x - mouseStartPosition.x;
+            int dy = p.y - mouseStartPosition.y;
             editor.addEdit(new MoveNodesEdit(getName(),editor,dx,dy));
         }
     }

@@ -18,7 +18,7 @@ public class PasteGraphEdit extends SignificantUndoableEdit {
         this.name = name;
         this.editor = editor;
         this.copiedGraph = graph.deepCopy();
-        this.m = editor.getMousePosition();
+        this.m = editor.getPaintArea().transformMousePoint(editor.getMousePosition());
         doIt();
     }
 

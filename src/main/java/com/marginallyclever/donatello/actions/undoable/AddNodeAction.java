@@ -36,7 +36,7 @@ public class AddNodeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         Node n = AddNodePanel.runAsDialog((JFrame)SwingUtilities.getWindowAncestor(editor));
         if(n!=null) {
-            n.setPosition(editor.getPopupPoint());
+            n.setPosition(editor.getPaintArea().transformMousePoint(editor.getPopupPoint()));
             editor.addEdit(new AddNodeEdit((String)this.getValue(Action.NAME),editor,n));
         }
     }

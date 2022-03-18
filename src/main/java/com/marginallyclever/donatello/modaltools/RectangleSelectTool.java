@@ -107,7 +107,7 @@ public class RectangleSelectTool extends ModalTool {
                 2, new float[]{3}, 0);
         g2d.setStroke(dashed);
 
-        g2d.setColor(keyStateMemory.isShiftKeyDown() ? Color.YELLOW : Color.MAGENTA);
+        g2d.setColor(keyStateMemory.isShiftKeyDown() ? Color.YELLOW : Color.GREEN);
         Rectangle2D r = getSelectionArea(mousePreviousPosition);
         g2d.drawRect((int)r.getMinX(),(int)r.getMinY(),(int)r.getWidth()-STROKE_WIDTH,(int)r.getHeight()-STROKE_WIDTH);
     }
@@ -141,7 +141,7 @@ public class RectangleSelectTool extends ModalTool {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(selectionOn) endSelectionArea(e.getPoint());
+        if(selectionOn) endSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
     }
 
     /**
