@@ -1,6 +1,6 @@
-# Node Graph and Editor
+# Donatello Node Graph and Editor
 
-A pure Java implementation of Node based [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming).
+A pure Java implementation of Node based [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming) and a GUI editor.
 
 ![img](preview-for-github.png)
 
@@ -9,12 +9,14 @@ that are not fluent in the archaic syntax of text-only languages.
 
 ### Features
 
-- Parallel operation: Nodes are not directed or forced to run.  There is little danger of large networks overflowing the stack.
-- Foldable: Collapse a subgraph down to a single node with Fold and reverse with Unfold
-- Convenient: Built in nodes for basic math and reporting.
-- Tested: Unit tests for everything!  If it can be tested, we shall!
-- A sample editor has been provided in Java Swing.  The main executable class is `com.marginallyclever.donatello.Donatello`.
-- While running the Swing editor you can also access Swing-only nodes like `LoadImage` and `PrintImage`.  PrintImage will appear in the background of the node editor panel.
+- Nodes are not directed or forced to run via triggers.  There is little danger of large networks overflowing the stack.  They could be run in parallel.
+- Folding: Collapse a subgraph down to a single Node with *Fold* and reverse with *Unfold*
+- Convenient built-in nodes for basic math and reporting.
+- Unit tests for everything!  If it can be tested, we shall!
+- The editor has written in Java Swing.  The main executable class is `com.marginallyclever.donatello.Donatello`.
+- While running the Swing editor you can also access Swing-only nodes like `LoadImage` and `PrintImage`.  PrintImage results will appear in the background of the node editor panel.
+- A ~/Donatello/ folder contains the application log file.
+- A ~/Donatello/extensions/ folder contains 3rd party plugins.  Add new Nodes or write your own.
 
 ### Use it, Discuss it, Love it.
 
