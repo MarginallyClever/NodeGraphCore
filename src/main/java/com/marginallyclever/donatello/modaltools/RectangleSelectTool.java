@@ -113,19 +113,16 @@ public class RectangleSelectTool extends ModalTool {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {}
-
-    @Override
     public void mouseDragged(MouseEvent e) {
         //Rectangle r = getRepaintArea(e.getPoint());
-        mousePreviousPosition.setLocation(e.getX(), e.getY());
+        mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
         if(selectionOn) editor.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
         //Rectangle r = getRepaintArea(e.getPoint());
-        mousePreviousPosition.setLocation(e.getX(), e.getY());
+        mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
         if(selectionOn) editor.repaint();
     }
 
@@ -136,8 +133,10 @@ public class RectangleSelectTool extends ModalTool {
     }
 
     public void mousePressed(MouseEvent e) {
-        // nothing under point, start new selection.
-        beginSelectionArea(e.getPoint());
+        if(SwingUtilities.isLeftMouseButton(e)) {
+            // nothing under point, start new selection.
+            beginSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
+        }
     }
 
     @Override

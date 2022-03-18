@@ -8,8 +8,11 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +101,15 @@ public class NodeGraphViewPanel extends JPanel {
      */
     private final NodeGraph model;
 
+    private final Point2D camera = new Point2D();
+
+    private final Point previousMouse = new Point();
+
+    /**
+     * Larger number means zooming further out
+     */
+    private double zoom = 1.0;
+
     /**
      * Constructs one new instance of {@link NodeGraphViewPanel}.
      * @param model the {@link NodeGraph} model to paint.
@@ -107,26 +119,119 @@ public class NodeGraphViewPanel extends JPanel {
         this.model=model;
         this.setBackground(PANEL_COLOR_BACKGROUND);
         this.setFocusable(true);
+
+        addCameraControls();
+    }
+
+    /**
+     * Scroll wheel to zoom
+     * click+drag scroll wheel to move camera.
+     */
+    private void addCameraControls() {
+        final boolean[] middlePressed = {false};
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                middlePressed[0] = SwingUtilities.isMiddleMouseButton(e);
+                if(middlePressed[0]) previousMouse.setLocation(e.getX(),e.getY());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                middlePressed[0] = !SwingUtilities.isMiddleMouseButton(e);
+            }
+        });
+
+        this.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Point now = new Point(e.getX(),e.getY());
+                if(SwingUtilities.isMiddleMouseButton(e)) {
+                    Point delta = new Point(now.x- previousMouse.x,now.y- previousMouse.y);
+                    camera.x += zoom * delta.x;
+                    camera.y += zoom * delta.y;
+                    repaint();
+                }
+                previousMouse.setLocation(now);
+                repaint();
+                super.mouseDragged(e);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                previousMouse.setLocation(e.getX(),e.getY());
+                repaint();
+                super.mouseMoved(e);
+            }
+        });
+/*
+        this.addMouseWheelListener(e -> {
+            double notches = e.getWheelRotation() * 0.1;
+            setZoom(getZoom() - notches);
+            repaint();
+        });*/
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         updatePaintAreaBounds();
-        super.paintComponent(g);
-
-        paintNodesInBackground(g);
 
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
 
-        for(Node n : model.getNodes()) paintNode(g,n);
+        super.paintComponent(g);
 
-        g.setColor(CONNECTION_COLOR);
-        for(NodeConnection c : model.getConnections()) paintConnection(g,c);
+        paintNodesInBackground(g);
 
-        firePaintEvent(g);
+        Rectangle r = getBounds();
+        int w2 = (int)(r.getWidth()/2.0);
+        int h2 = (int)(r.getHeight()/2.0);
+        AffineTransform tf = new AffineTransform();
+        double dx=camera.x;
+        double dy=camera.y;
+        tf.scale(1.0/zoom, 1.0/zoom);
+        tf.translate(dx*zoom,dy*zoom);
+        g2.transform(tf);
+
+        for(Node n : model.getNodes()) paintNode(g2,n);
+
+        g2.setColor(CONNECTION_COLOR);
+        for(NodeConnection c : model.getConnections()) paintConnection(g2,c);
+
+        int z = (int)(zoom*10);
+        g2.drawOval(-z,-z,z*2,z*2);
+
+        Point transformed = transformMousePoint(previousMouse);
+        g2.translate(transformed.x,transformed.y);
+        g2.setColor(Color.WHITE);
+        g2.drawOval(-z,-z,z*2,z*2);
+        g2.translate(-transformed.x,-transformed.y);
+
+        transformed.setLocation(transformMousePoint(new Point((int)dx,(int)dy)));
+        g2.translate(transformed.x,transformed.y);
+        g2.setColor(Color.ORANGE);
+        g2.drawOval(-z,-z,z*2,z*2);
+        g2.translate(-transformed.x,-transformed.y);
+
+        firePaintEvent(g2);
+    }
+
+    public Point transformMousePoint(Point point) {
+        Rectangle r = getBounds();
+        int w2 = (int)(r.getWidth()/2.0);
+        int h2 = (int)(r.getHeight()/2.0);
+        AffineTransform tf = new AffineTransform();
+        double dx=camera.x;
+        double dy=camera.y;
+        tf.scale(1.0/zoom, 1.0/zoom);
+        tf.translate(dx,dy);
+        java.awt.geom.Point2D from = new java.awt.geom.Point2D.Double(point.x,point.y);
+        java.awt.geom.Point2D to = tf.transform(from,null);
+
+        return new Point((int)to.getX(),(int)to.getY());
     }
 
     /**
@@ -421,5 +526,25 @@ public class NodeGraphViewPanel extends JPanel {
     public void setLineWidth(Graphics g,float r) {
         Graphics2D g2 = (Graphics2D)g;
         g2.setStroke(new BasicStroke(r));
+    }
+
+    /**
+     * Returns the current scale
+     * @return the current scale
+     */
+    public double getZoom() {
+        return zoom;
+    }
+
+    /**
+     * Sets the scale.  Must be greater than or equal to 1.
+     * @param zoom  Must be greater than or equal to 1.
+     */
+    public void setZoom(double zoom) {
+        this.zoom = Math.max(1, zoom);
+    }
+
+    public Point2D getCamera() {
+        return camera;
     }
 }
