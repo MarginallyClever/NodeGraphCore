@@ -38,6 +38,5 @@ that are not fluent in the archaic syntax of text-only languages.
 - Blender
 - and others
 
-[![Release](https://jitpack.io/v/MarginallyClever/NodeGraphCore.svg)]
-(https://jitpack.io/#MarginallyClever/NodeGraphCore)
+[![Release](https://jitpack.io/v/MarginallyClever/NodeGraphCore.svg)](https://jitpack.io/#MarginallyClever/NodeGraphCore)
 ![ workflow](https://github.com/MarginallyClever/NodeGraphCore/actions/workflows/main.yml/badge.svg)
