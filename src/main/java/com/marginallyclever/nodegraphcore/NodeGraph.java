@@ -178,20 +178,30 @@ public class NodeGraph {
      * @param r radius limit
      * @return a {@link NodeConnectionPointInfo} describing the point found or null.
      */
-    public NodeConnectionPointInfo getFirstNearbyConnection(Point point, double r) {
+    public NodeConnectionPointInfo getNearestConnectionPoint(Point point, double r) {
         double rr=r*r;
+        NodeConnectionPointInfo info=null;
+
         for(Node n : nodes) {
             for(int i = 0; i < n.getNumVariables(); ++i) {
                 NodeVariable<?> v = n.getVariable(i);
-                if(v.getHasInput() && v.getInPosition().distanceSq(point) < rr) {
-                    return new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.IN);
-                }
-                if(v.getHasOutput() && v.getOutPosition().distanceSq(point) < rr) {
-                    return new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.OUT);
+                if(v.getHasInput()) {
+                    double r2 = v.getInPosition().distanceSq(point);
+                    if (r2 < rr) {
+                        rr = r2;
+                        info = new NodeConnectionPointInfo(n, i, NodeConnectionPointInfo.IN);
+                    }
+                } else {
+                    double r2 = v.getOutPosition().distanceSq(point);
+                    if (r2 < rr) {
+                        rr = r2;
+                        info = new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.OUT);
+                    }
                 }
             }
         }
-        return null;
+
+        return info;
     }
 
     /**
