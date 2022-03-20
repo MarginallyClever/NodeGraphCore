@@ -35,6 +35,12 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
         NodeFactory.registerNode(new ATan2());
         NodeFactory.registerNode(new Min());
         NodeFactory.registerNode(new Max());
+        NodeFactory.registerNode(new Mod());
+        NodeFactory.registerNode(new Floor());
+        NodeFactory.registerNode(new Ceil());
+        NodeFactory.registerNode(new Equals());
+        NodeFactory.registerNode(new GreaterThan());
+        NodeFactory.registerNode(new LessThan());
 
         NodeFactory.registerNode(new LoadString());
 
