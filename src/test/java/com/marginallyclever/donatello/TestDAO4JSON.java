@@ -2,7 +2,7 @@ package com.marginallyclever.donatello;
 
 import com.marginallyclever.nodegraphcore.DAO4JSONFactory;
 import com.marginallyclever.nodegraphcore.NodeFactory;
-import com.marginallyclever.donatello.nodes.images.BufferedImage_DAO4JSON;
+import com.marginallyclever.donatello.nodes.images.BufferedImageDAO4JSON;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * @author Dan Royer
  * @since 2022-03-07
  */
-public class Test_DAO4JSON {
+public class TestDAO4JSON {
     @BeforeAll
     public static void beforeAll() {
         NodeFactory.loadRegistries();
@@ -50,7 +50,7 @@ public class Test_DAO4JSON {
      */
     @Test
     public void testBufferedImageDAO() {
-        BufferedImage_DAO4JSON dao = new BufferedImage_DAO4JSON();
+        BufferedImageDAO4JSON dao = new BufferedImageDAO4JSON();
         BufferedImage r1 = new BufferedImage(2,3,BufferedImage.TYPE_INT_ARGB);
         BufferedImage r2=dao.fromJSON(dao.toJSON(r1));
         assert(bufferedImagesEqual(r1,r2));
