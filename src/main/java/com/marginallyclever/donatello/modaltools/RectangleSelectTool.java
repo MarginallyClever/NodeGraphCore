@@ -1,10 +1,7 @@
 package com.marginallyclever.donatello.modaltools;
 
+import com.marginallyclever.donatello.*;
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.donatello.Donatello;
-import com.marginallyclever.donatello.KeyStateMemory;
-import com.marginallyclever.donatello.ModalTool;
-import com.marginallyclever.donatello.NodeGraphViewPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,6 +47,11 @@ public class RectangleSelectTool extends ModalTool {
     @Override
     public String getName() {
         return "Select";
+    }
+
+    @Override
+    public Icon getSmallIcon() {
+        return new UnicodeIcon("⛶");
     }
 
     public KeyStroke getAcceleratorKey() {

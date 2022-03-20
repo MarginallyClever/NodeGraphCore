@@ -25,4 +25,8 @@ public abstract class ModalTool extends MouseAdapter {
     public KeyStroke getAcceleratorKey() {
         return null;
     }
+
+    public Icon getSmallIcon() {
+        return null;
+    }
 }

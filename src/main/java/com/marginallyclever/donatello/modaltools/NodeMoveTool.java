@@ -3,6 +3,7 @@ package com.marginallyclever.donatello.modaltools;
 import com.marginallyclever.donatello.ModalTool;
 import com.marginallyclever.donatello.Donatello;
 import com.marginallyclever.donatello.NodeGraphViewPanel;
+import com.marginallyclever.donatello.UnicodeIcon;
 import com.marginallyclever.donatello.edits.MoveNodesEdit;
 
 import javax.swing.*;
@@ -42,6 +43,11 @@ public class NodeMoveTool extends ModalTool {
     @Override
     public String getName() {
         return "Move";
+    }
+
+    @Override
+    public Icon getSmallIcon() {
+        return new UnicodeIcon("⬌\r⬍");
     }
 
     public KeyStroke getAcceleratorKey() {

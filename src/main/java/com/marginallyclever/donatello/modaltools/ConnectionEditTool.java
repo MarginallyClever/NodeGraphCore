@@ -1,5 +1,6 @@
 package com.marginallyclever.donatello.modaltools;
 
+import com.marginallyclever.donatello.UnicodeIcon;
 import com.marginallyclever.nodegraphcore.NodeConnection;
 import com.marginallyclever.nodegraphcore.NodeConnectionPointInfo;
 import com.marginallyclever.nodegraphcore.NodeGraph;
@@ -9,6 +10,8 @@ import com.marginallyclever.donatello.ModalTool;
 import com.marginallyclever.donatello.NodeGraphViewPanel;
 import com.marginallyclever.donatello.edits.AddConnectionEdit;
 import com.marginallyclever.donatello.edits.RemoveConnectionEdit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class ConnectionEditTool extends ModalTool {
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionEditTool.class);
     private static final Color CONNECTION_POINT_COLOR_SELECTED = Color.RED;
     private static final Color CONNECTION_BEING_EDITED = Color.RED;
     private static final double NEARBY_CONNECTION_DISTANCE_MAX = 10;
@@ -41,7 +45,6 @@ public class ConnectionEditTool extends ModalTool {
     private final String addName;
     private final String removeName;
 
-
     public ConnectionEditTool(Donatello editor, String addName, String removeName) {
         super();
         this.editor=editor;
@@ -52,6 +55,11 @@ public class ConnectionEditTool extends ModalTool {
     @Override
     public String getName() {
         return "Connect";
+    }
+
+    @Override
+    public Icon getSmallIcon() {
+        return new UnicodeIcon("🔌");
     }
 
     public KeyStroke getAcceleratorKey() {
@@ -83,7 +91,7 @@ public class ConnectionEditTool extends ModalTool {
      */
     private void selectOneNearbyConnectionPoint(Point p) {
         Point p2 = editor.getPaintArea().transformMousePoint(p);
-        NodeConnectionPointInfo info = editor.getGraph().getFirstNearbyConnection(p2,NEARBY_CONNECTION_DISTANCE_MAX);
+        NodeConnectionPointInfo info = editor.getGraph().getNearestConnectionPoint(p2,NEARBY_CONNECTION_DISTANCE_MAX);
         setLastConnectionPoint(info);
     }
 
@@ -165,7 +173,8 @@ public class ConnectionEditTool extends ModalTool {
         }
 
         // check that the end node is not the same as the start node.
-        if(!connectionBeingCreated.isConnectedTo(lastConnectionPoint.node)) {
+        //if(!connectionBeingCreated.isConnectedTo(lastConnectionPoint.node))
+        {
             if (lastConnectionPoint.flags == NodeConnectionPointInfo.IN) {
                 // the output of a connection goes to the input of a node.
                 connectionBeingCreated.setOutput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
@@ -194,7 +203,7 @@ public class ConnectionEditTool extends ModalTool {
                 NodeVariable<?> vOut = connectionBeingCreated.getOutVariable();
                 String nameIn = (vIn==null) ? "null" : vIn.getTypeName();
                 String nameOut = (vOut==null) ? "null" : vOut.getTypeName();
-                System.out.println("Invalid types "+nameOut+", "+nameIn+".");
+                logger.warn("Invalid types {}, {}",nameOut,nameIn);
             }
 
             Rectangle r = connectionBeingCreated.getBounds();
