@@ -1,6 +1,6 @@
-# Donatello Node Graph and Editor
+# Donatello Flow-based Programming Editor
 
-A pure Java implementation of Node based [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming) and a GUI editor.
+A pure Java implementation of [Flow-based Programming](https://en.wikipedia.org/wiki/Dataflow_programming) (FBP) and a GUI editor.
 
 ![img](docs/preview-for-github.png)
 
@@ -33,11 +33,16 @@ that are not fluent in the archaic syntax of text-only languages.
 - https://github.com/paceholder/nodeeditor
 - https://github.com/miho/VWorkflows
 - https://nodered.org/
-- Maya
-- Unity
-- Blender
+- Maya, Unity, Blender
+- NoFlo, Flowhub
 - and others
 
-[![Release](https://jitpack.io/v/MarginallyClever/NodeGraphCore.svg)]
-(https://jitpack.io/#MarginallyClever/NodeGraphCore)
+### Learn more
+
+- [Flow based programming Discord](https://discord.com/invite/YBQj6UsD5H)
+- https://jpaulm.github.io/fbp/
+- 
+### Badges
+
+[![Release](https://jitpack.io/v/MarginallyClever/NodeGraphCore.svg)](https://jitpack.io/#MarginallyClever/NodeGraphCore)
 ![ workflow](https://github.com/MarginallyClever/NodeGraphCore/actions/workflows/main.yml/badge.svg)
