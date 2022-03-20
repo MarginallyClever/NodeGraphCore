@@ -1,6 +1,5 @@
 package com.marginallyclever.donatello;
 
-import com.marginallyclever.donatello.modaltools.RememberKeyStateAction;
 import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.donatello.actions.*;
 import com.marginallyclever.donatello.actions.undoable.*;
@@ -105,6 +104,9 @@ public class Donatello extends JPanel {
      */
     private final Point popupPoint = new Point();
 
+    private final UpdateClock updateClock = new UpdateClock(1000/60);
+    private boolean keepGoing = false;
+
     /**
      * Default constructor
      * @param model the {@link NodeGraph} to edit.
@@ -115,18 +117,29 @@ public class Donatello extends JPanel {
 
         paintArea = new NodeGraphViewPanel(model);
 
-        this.add(toolBar,BorderLayout.NORTH);
-        this.add(paintArea,BorderLayout.CENTER);
+        this.add(toolBar, BorderLayout.NORTH);
+        this.add(paintArea, BorderLayout.CENTER);
 
         setupTools();
         setupPaintArea();
-
         attachMouse();
-
         setupMenuBar();
 
         setSelectedNodes(null);
         updateActionEnableStatus();
+        setupClock();
+    }
+
+    private void setupClock() {
+        final int[] t = {0};
+        updateClock.addListener(()->{
+            if(keepGoing) {
+                model.update();
+                paintArea.repaint();
+                System.out.println("tick "+ t[0]);
+                ++t[0];
+            }
+        });
     }
 
     /**
@@ -189,7 +202,7 @@ public class Donatello extends JPanel {
 
         menuBar.add(setupGraphMenu());
         menuBar.add(setupNodeMenu());
-        menuBar.add(setupToolMenu());
+        menuBar.add(setupToolMenuAndToolBar());
         menuBar.add(setupHelpMenu());
     }
 
@@ -233,26 +246,27 @@ public class Donatello extends JPanel {
         return menu;
     }
 
-    private JMenu setupToolMenu() {
+    private JMenu setupToolMenuAndToolBar() {
         JMenu menu = new JMenu("Tools");
 
-        ButtonGroup group = new ButtonGroup();
-
-        // TODO select action: ⛶
-        // TODO move action: ✥ or ⬌\r⬍
-        // TODO connect action: 🔌
+        ButtonGroup toolGroup = new ButtonGroup();
 
         for(ModalTool tool : tools) {
             AbstractAction swapAction = new SwapToolsAction(this, tool);
             swapAction.putValue(Action.ACCELERATOR_KEY,tool.getAcceleratorKey());
+            swapAction.putValue(Action.SMALL_ICON,tool.getSmallIcon());
             JToggleButton button = new JToggleButton(swapAction);
-            group.add(button);
+            toolGroup.add(button);
+            button.setText("");
             button.setMnemonic(tool.getAcceleratorKey().getKeyCode());
             toolBar.add(button);
             menu.add(swapAction);
         }
 
+        toolBar.addSeparator();
         menu.addSeparator();
+
+        addPlayAndPause(menu);
 
         JMenuItem showToolBar = new JCheckBoxMenuItem("Show tool bar");
         menu.add(showToolBar);
@@ -260,6 +274,34 @@ public class Donatello extends JPanel {
         showToolBar.setSelected(true);
 
         return menu;
+    }
+
+    private void addPlayAndPause(JMenu menu) {
+        AbstractAction playAction = new AbstractAction("Play") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keepGoing=true;
+            }
+        };
+        AbstractAction pauseAction = new AbstractAction("Pause") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keepGoing=false;
+            }
+        };
+
+        ButtonGroup clockGroup = new ButtonGroup();
+        JToggleButton playButton = new JToggleButton(playAction);
+        JToggleButton pauseButton = new JToggleButton(pauseAction);
+        playAction .putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
+        pauseAction.putValue(Action.SMALL_ICON,new UnicodeIcon("⏸"));
+        clockGroup.add(playButton);
+        clockGroup.add(pauseButton);
+        toolBar.add(playButton);
+        toolBar.add(pauseButton);
+
+        toolBar.addSeparator();
+        menu.addSeparator();
     }
 
     /**
@@ -279,7 +321,7 @@ public class Donatello extends JPanel {
         loadGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🗁"));
         saveGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖫"));
         printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖶"));
-        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
+        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("+1"));
         straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🧹"));
         straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📐"));
         organizeGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📝"));
@@ -335,8 +377,8 @@ public class Donatello extends JPanel {
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
 
-        undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇤"));
-        redoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⇥"));
+        undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("↪"));
+        redoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("↩"));
 
         copyGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗐"));
         pasteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📎"));
@@ -438,6 +480,19 @@ public class Donatello extends JPanel {
      * Respond to popup menu requests
      */
     private void attachMouse() {
+        paintArea.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+            }
+        });
         paintArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
