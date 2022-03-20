@@ -1,5 +1,10 @@
 package com.marginallyclever.donatello;
 
+import com.marginallyclever.donatello.nodes.ColorAtPoint;
+import com.marginallyclever.donatello.nodes.color.ColorDAO4JSON;
+import com.marginallyclever.donatello.nodes.color.ColorToCMYK;
+import com.marginallyclever.donatello.nodes.color.ColorToRGBA;
+import com.marginallyclever.donatello.nodes.color.LoadColor;
 import com.marginallyclever.nodegraphcore.DAORegistry;
 import com.marginallyclever.nodegraphcore.NodeFactory;
 import com.marginallyclever.nodegraphcore.DAO4JSONFactory;
@@ -9,6 +14,7 @@ import com.marginallyclever.donatello.nodes.images.blend.BlendDifference;
 import com.marginallyclever.donatello.nodes.images.blend.BlendMultiply;
 import com.marginallyclever.donatello.nodes.images.blend.BlendScreen;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -29,6 +35,11 @@ public class SwingRegistry implements NodeRegistry, DAORegistry {
         NodeFactory.registerNode(new BlendMultiply());
         NodeFactory.registerNode(new BlendScreen());
         NodeFactory.registerNode(new SplitToCMYK());
+
+        NodeFactory.registerNode(new LoadColor());
+        NodeFactory.registerNode(new ColorAtPoint());
+        NodeFactory.registerNode(new ColorToRGBA());
+        NodeFactory.registerNode(new ColorToCMYK());
     }
 
     /**
@@ -36,6 +47,7 @@ public class SwingRegistry implements NodeRegistry, DAORegistry {
      */
     @Override
     public void registerDAO() {
-        DAO4JSONFactory.registerDAO(BufferedImage.class,new BufferedImage_DAO4JSON());
+        DAO4JSONFactory.registerDAO(BufferedImage.class,new BufferedImageDAO4JSON());
+        DAO4JSONFactory.registerDAO(Color.class,new ColorDAO4JSON());
     }
 }

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
 
-public class BufferedImage_DAO4JSON implements DAO4JSON<BufferedImage> {
+public class BufferedImageDAO4JSON implements DAO4JSON<BufferedImage> {
     @Override
     public Object toJSON(Object value) throws JSONException {
         BufferedImage image = (BufferedImage)value;
