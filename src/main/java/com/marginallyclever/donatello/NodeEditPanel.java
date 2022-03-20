@@ -41,6 +41,7 @@ public class NodeEditPanel extends JPanel {
         c.gridy=0;
         c.weightx=1;
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(1,1,1,1);
 
         addReadOnlyField(c,"Type",node.getName());
         c.gridy++;
@@ -56,10 +57,16 @@ public class NodeEditPanel extends JPanel {
     }
 
     private void addVariableField(NodeVariable<?> variable,GridBagConstraints c) {
-        if(variable.getValue() instanceof Number || variable.getValue() instanceof String) {
-            addTextField(variable,c);
+        if(variable.getHasInput()) {
+            if (variable.getTypeClass().equals(Number.class)) {
+                addTextField(variable, c);
+            } else if (variable.getTypeClass().equals(String.class)) {
+                addTextField(variable, c);
+            } else {
+                addReadOnlyField(c, variable.getName(), variable.getTypeName());
+            }
         } else {
-            addReadOnlyField(c,variable.getName(),variable.getTypeName());
+            addReadOnlyField(c, variable.getName(), variable.getTypeName());
         }
     }
 
@@ -73,7 +80,9 @@ public class NodeEditPanel extends JPanel {
         c.gridx=0;
         this.add(new JLabel(variable.getName()),c);
 
-        JTextField textField = new JTextField(variable.getValue().toString());
+        Object v = variable.getValue();
+        String output = v==null? "" : v.toString();
+        JTextField textField = new JTextField(output);
         fields.add(textField);
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx=1;
@@ -129,9 +138,15 @@ public class NodeEditPanel extends JPanel {
     private static void readAllFields(Node subject,NodeEditPanel panel) {
         int j=0;
         for(int i=0;i<subject.getNumVariables();++i) {
-            NodeVariable<?> v = subject.getVariable(i);
-            if(v.getValue() instanceof Number || v.getValue() instanceof String) {
-                panel.readTextField(j++, subject.getVariable(i));
+            NodeVariable<?> variable = subject.getVariable(i);
+            if(variable.getHasInput()) {
+                if (variable.getTypeClass().equals(Number.class)) {
+                    panel.readTextField(j++, subject.getVariable(i));
+                } else if (variable.getTypeClass().equals(String.class)) {
+                    panel.readTextField(j++, subject.getVariable(i));
+                } else {
+                    // TODO ???
+                }
             }
         }
     }
@@ -143,9 +158,9 @@ public class NodeEditPanel extends JPanel {
             return;
         }
 
-        if(variable.getValue() instanceof Number) {
+        if(variable.getTypeClass().equals(Number.class)) {
             variable.setValue(Double.parseDouble(f.getText()));
-        } else if(variable.getValue() instanceof String) {
+        } else if(variable.getTypeClass().equals(String.class)) {
             variable.setValue(f.getText());
         } else {
             // TODO ???
