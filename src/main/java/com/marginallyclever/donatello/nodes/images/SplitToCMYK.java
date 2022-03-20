@@ -57,26 +57,15 @@ public class SplitToCMYK extends Node {
         for (int py = 0; py < h; ++py) {
             for (int px = 0; px < w; ++px) {
                 int pixel = src.getRGB(px,py);
-                //double a = 255-((pixel>>24) & 0xff);
-                double r = 1.0-(double)((pixel >> 16) & 0xff) / 255.0;
-                double g = 1.0-(double)((pixel >>  8) & 0xff) / 255.0;
-                double b = 1.0-(double)((pixel      ) & 0xff) / 255.0;
-                // now convert to cmyk
-                double k = Math.min(Math.min(r,g),b);   // should be Math.max(Math.max(r,g),b) but colors are inverted.
-                double ik = 1.0 - k;
-
-                //if(ik<1.0/255.0) {
-                //  c=m=y=0;
-                //} else {
-                    int c = (int)Math.max(0,Math.min(255, 255 * (r-k) / k ));
-                    int m = (int)Math.max(0,Math.min(255, 255 * (g-k) / k ));
-                    int y = (int)Math.max(0,Math.min(255, 255 * (b-k) / k ));
-                    int k2 = (int)Math.max(0,Math.min(255, 255 * ik ));
-                //}
-                channelCyan   .setRGB(px, py, RGBtoInt(c,c,c));
-                channelMagenta.setRGB(px, py, RGBtoInt(m,m,m));
-                channelYellow .setRGB(px, py, RGBtoInt(y,y,y));
-                channelBlack  .setRGB(px, py, RGBtoInt(k2,k2,k2));
+                double [] cmyk = ColorHelper.IntToCMYK(pixel);
+                int c=(int)cmyk[0];
+                int m=(int)cmyk[1];
+                int y=(int)cmyk[2];
+                int k=(int)cmyk[3];
+                channelCyan   .setRGB(px, py, ColorHelper.RGBToInt(c,c,c,c));
+                channelMagenta.setRGB(px, py, ColorHelper.RGBToInt(m,m,m,m));
+                channelYellow .setRGB(px, py, ColorHelper.RGBToInt(y,y,y,y));
+                channelBlack  .setRGB(px, py, ColorHelper.RGBToInt(k,k,k,k));
             }
         }
 
@@ -86,12 +75,5 @@ public class SplitToCMYK extends Node {
         black  .setValue(channelBlack);
 
         cleanAllInputs();
-    }
-
-    private int RGBtoInt(int r, int g, int b) {
-        r = ( r & 0xff ) << 16;
-        g = ( g & 0xff ) << 8;
-        b = ( b & 0xff );
-        return r|g|b;
     }
 }
