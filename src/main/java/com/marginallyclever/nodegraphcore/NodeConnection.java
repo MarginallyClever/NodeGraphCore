@@ -276,4 +276,15 @@ public class NodeConnection {
         }
         return r;
     }
+
+    /**
+     * Returns the node from the other end of the connection
+     * @param node the node to check
+     * @return the node from the other end of the connection
+     */
+    public Node getOtherNode(Node node) {
+        if(node==inNode) return outNode;
+        else if(node==outNode) return inNode;
+        else throw new GraphException("NodeConnection does not connect to given node.");
+    }
 }
