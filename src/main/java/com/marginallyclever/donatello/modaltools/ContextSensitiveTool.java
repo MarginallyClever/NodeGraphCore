@@ -3,8 +3,10 @@ package com.marginallyclever.donatello.modaltools;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public abstract class ContextSensitiveTool extends MouseAdapter {
+    private boolean isActive=false;
 
     public abstract void paint(Graphics g);
 
@@ -29,4 +31,19 @@ public abstract class ContextSensitiveTool extends MouseAdapter {
     public Icon getSmallIcon() {
         return null;
     }
+
+    protected void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * Returns true if the tool should activate at this point.
+     * @param p the point on the graph to check
+     * @return true if the tool should activate at this point.
+     */
+    public abstract boolean isCorrectContext(Point p);
 }

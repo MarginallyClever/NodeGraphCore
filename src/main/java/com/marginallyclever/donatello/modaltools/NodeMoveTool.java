@@ -4,6 +4,7 @@ import com.marginallyclever.donatello.Donatello;
 import com.marginallyclever.donatello.NodeGraphViewPanel;
 import com.marginallyclever.donatello.UnicodeIcon;
 import com.marginallyclever.donatello.edits.MoveNodesEdit;
+import com.marginallyclever.nodegraphcore.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +50,16 @@ public class NodeMoveTool extends ContextSensitiveTool {
         return new UnicodeIcon("⬌\r⬍");
     }
 
+    @Override
+    public boolean isCorrectContext(Point p) {
+        for( Node node : editor.getSelectedNodes() ) {
+            if(node.getRectangle().contains(p)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public KeyStroke getAcceleratorKey() {
         return KeyStroke.getKeyStroke(KeyEvent.VK_M,0);
     }
@@ -90,6 +101,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
     public void mousePressed(MouseEvent e) {
         if(!dragOn) {
             dragOn=true;
+            setActive(true);
             mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
             mouseStartPosition.setLocation(mousePreviousPosition);
         }
@@ -99,6 +111,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
     public void mouseReleased(MouseEvent e) {
         if(dragOn) {
             dragOn=false;
+            setActive(false);
             Point p = editor.getPaintArea().transformMousePoint(e.getPoint());
             int dx = p.x - mouseStartPosition.x;
             int dy = p.y - mouseStartPosition.y;

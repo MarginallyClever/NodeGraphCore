@@ -458,6 +458,8 @@ public class Donatello extends JPanel {
     }
 
     public void swapTool(ContextSensitiveTool tool) {
+        if(tool==activeTool) return;
+
         deactivateCurrentTool();
         activeTool = tool;
         activateCurrentTool();
@@ -485,13 +487,14 @@ public class Donatello extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+                //System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+                //System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+                checkToolContext(paintArea.transformMousePoint(e.getPoint()));
             }
         });
         paintArea.addMouseListener(new MouseAdapter() {
@@ -512,6 +515,18 @@ public class Donatello extends JPanel {
                 }
             }
         });
+    }
+
+    private void checkToolContext(Point point) {
+        if(activeTool != null && !activeTool.isActive()) {
+            for (ContextSensitiveTool tool : tools) {
+                if (tool.isCorrectContext(point)) {
+                    System.out.println("Context: " + tool.getName());
+                    swapTool(tool);
+                    return;
+                }
+            }
+        }
     }
 
     /**

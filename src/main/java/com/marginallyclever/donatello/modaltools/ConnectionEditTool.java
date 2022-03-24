@@ -61,6 +61,12 @@ public class ConnectionEditTool extends ContextSensitiveTool {
         return new UnicodeIcon("🔌");
     }
 
+    @Override
+    public boolean isCorrectContext(Point p) {
+        selectOneNearbyConnectionPoint(p);
+        return lastConnectionPoint!=null;
+    }
+
     public KeyStroke getAcceleratorKey() {
         return KeyStroke.getKeyStroke(KeyEvent.VK_C,0);
     }
@@ -81,7 +87,7 @@ public class ConnectionEditTool extends ContextSensitiveTool {
         repaintConnectionInProgress(e.getPoint());
 
         mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
-        selectOneNearbyConnectionPoint(e.getPoint());
+        selectOneNearbyConnectionPoint(editor.getPaintArea().transformMousePoint(e.getPoint()));
     }
 
     /**
@@ -89,8 +95,7 @@ public class ConnectionEditTool extends ContextSensitiveTool {
      * @param p the center of the search area.
      */
     private void selectOneNearbyConnectionPoint(Point p) {
-        Point p2 = editor.getPaintArea().transformMousePoint(p);
-        NodeConnectionPointInfo info = editor.getGraph().getNearestConnectionPoint(p2,NEARBY_CONNECTION_DISTANCE_MAX);
+        NodeConnectionPointInfo info = editor.getGraph().getNearestConnectionPoint(p,NEARBY_CONNECTION_DISTANCE_MAX);
         setLastConnectionPoint(info);
     }
 
@@ -168,6 +173,7 @@ public class ConnectionEditTool extends ContextSensitiveTool {
     private void onClickConnectionPoint() {
         if(lastConnectionPoint == null) {
             connectionBeingCreated.disconnectAll();
+            setActive(false);
             return;
         }
 
@@ -182,6 +188,7 @@ public class ConnectionEditTool extends ContextSensitiveTool {
                 connectionBeingCreated.setInput(lastConnectionPoint.node, lastConnectionPoint.nodeVariableIndex);
             }
 
+            setActive(true);
             Rectangle r = connectionBeingCreated.getBounds();
             r.grow((int)NEARBY_CONNECTION_DISTANCE_MAX,(int)NEARBY_CONNECTION_DISTANCE_MAX);
             editor.repaint(r);
@@ -210,6 +217,7 @@ public class ConnectionEditTool extends ContextSensitiveTool {
             editor.repaint(r);
             // either way, restart.
             connectionBeingCreated.disconnectAll();
+            setActive(false);
         }
     }
 

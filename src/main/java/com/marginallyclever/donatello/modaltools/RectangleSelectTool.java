@@ -54,6 +54,11 @@ public class RectangleSelectTool extends ContextSensitiveTool {
         return new UnicodeIcon("⛶");
     }
 
+    @Override
+    public boolean isCorrectContext(Point p) {
+        return true;
+    }
+
     public KeyStroke getAcceleratorKey() {
         return KeyStroke.getKeyStroke(KeyEvent.VK_S,0);
     }
@@ -143,7 +148,9 @@ public class RectangleSelectTool extends ContextSensitiveTool {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(selectionOn) endSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
+        if(selectionOn) {
+            endSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
+        }
     }
 
     /**
@@ -152,6 +159,7 @@ public class RectangleSelectTool extends ContextSensitiveTool {
      */
     private void beginSelectionArea(Point point) {
         selectionOn=true;
+        setActive(true);
         selectionAreaStart.x=point.x;
         selectionAreaStart.y=point.y;
     }
@@ -162,6 +170,7 @@ public class RectangleSelectTool extends ContextSensitiveTool {
      */
     private void endSelectionArea(Point point) {
         selectionOn=false;
+        setActive(false);
         Rectangle selectionArea = getSelectionArea(point);
         java.util.List<Node> nodesInSelectionArea = editor.getGraph().getNodesInRectangle(selectionArea);
         if(!keyStateMemory.isShiftKeyDown()) {
