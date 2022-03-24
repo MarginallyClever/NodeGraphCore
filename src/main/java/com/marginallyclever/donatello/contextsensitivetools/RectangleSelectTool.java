@@ -142,6 +142,8 @@ public class RectangleSelectTool extends ContextSensitiveTool {
     public void mousePressed(MouseEvent e) {
         if(SwingUtilities.isLeftMouseButton(e)) {
             // nothing under point, start new selection.
+            selectionOn=true;
+            setActive(true);
             beginSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
         }
     }
@@ -149,6 +151,8 @@ public class RectangleSelectTool extends ContextSensitiveTool {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(selectionOn) {
+            selectionOn=false;
+            setActive(false);
             endSelectionArea(editor.getPaintArea().transformMousePoint(e.getPoint()));
         }
     }
@@ -158,8 +162,6 @@ public class RectangleSelectTool extends ContextSensitiveTool {
      * @param point the first corner of the rectangle selection area.
      */
     private void beginSelectionArea(Point point) {
-        selectionOn=true;
-        setActive(true);
         selectionAreaStart.x=point.x;
         selectionAreaStart.y=point.y;
     }
@@ -169,8 +171,6 @@ public class RectangleSelectTool extends ContextSensitiveTool {
      * @param point the second corner of the rectangle selection area.
      */
     private void endSelectionArea(Point point) {
-        selectionOn=false;
-        setActive(false);
         Rectangle selectionArea = getSelectionArea(point);
         java.util.List<Node> nodesInSelectionArea = editor.getGraph().getNodesInRectangle(selectionArea);
         if(!keyStateMemory.isShiftKeyDown()) {
