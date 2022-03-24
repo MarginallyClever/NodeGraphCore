@@ -124,8 +124,7 @@
                 <version>3.2.2</version>
                 <configuration>
                     <excludes>
-                        <exclude>${project.basedir}/src/main/resources/logback.xml</exclude>
-                        <exclude>${project.basedir}/src/test/resources/logback-test.xml</exclude>
+                        <exclude>logback.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>
