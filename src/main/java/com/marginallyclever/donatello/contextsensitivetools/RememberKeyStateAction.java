@@ -1,4 +1,4 @@
-package com.marginallyclever.donatello.modaltools;
+package com.marginallyclever.donatello.contextsensitivetools;
 
 import com.marginallyclever.donatello.KeyStateMemory;
 

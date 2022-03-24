@@ -1,7 +1,7 @@
 package com.marginallyclever.donatello.actions;
 
 import com.marginallyclever.donatello.Donatello;
-import com.marginallyclever.donatello.modaltools.ContextSensitiveTool;
+import com.marginallyclever.donatello.contextsensitivetools.ContextSensitiveTool;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

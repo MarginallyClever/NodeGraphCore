@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by the {@link com.marginallyclever.donatello.modaltools.NodeMoveTool} so that reorganizations
+ * Created by the {@link com.marginallyclever.donatello.contextsensitivetools.NodeMoveTool} so that reorganizations
  * can be undone.  This edit is created when a move is complete and should record only the significant relative change
  * in position.  Since the tool already completed the move there is no need to apply the move in the constructor.
  * @author Dan Royer

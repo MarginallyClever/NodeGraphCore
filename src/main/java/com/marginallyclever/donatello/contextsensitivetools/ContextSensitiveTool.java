@@ -1,9 +1,8 @@
-package com.marginallyclever.donatello.modaltools;
+package com.marginallyclever.donatello.contextsensitivetools;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public abstract class ContextSensitiveTool extends MouseAdapter {
     private boolean isActive=false;

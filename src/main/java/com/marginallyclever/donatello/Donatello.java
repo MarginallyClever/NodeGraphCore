@@ -1,12 +1,12 @@
 package com.marginallyclever.donatello;
 
-import com.marginallyclever.donatello.modaltools.ContextSensitiveTool;
+import com.marginallyclever.donatello.contextsensitivetools.ContextSensitiveTool;
 import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.donatello.actions.*;
 import com.marginallyclever.donatello.actions.undoable.*;
-import com.marginallyclever.donatello.modaltools.ConnectionEditTool;
-import com.marginallyclever.donatello.modaltools.NodeMoveTool;
-import com.marginallyclever.donatello.modaltools.RectangleSelectTool;
+import com.marginallyclever.donatello.contextsensitivetools.ConnectionEditTool;
+import com.marginallyclever.donatello.contextsensitivetools.NodeMoveTool;
+import com.marginallyclever.donatello.contextsensitivetools.RectangleSelectTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -250,23 +250,6 @@ public class Donatello extends JPanel {
     private JMenu setupToolMenuAndToolBar() {
         JMenu menu = new JMenu("Tools");
 
-        ButtonGroup toolGroup = new ButtonGroup();
-
-        for(ContextSensitiveTool tool : tools) {
-            AbstractAction swapAction = new SwapToolsAction(this, tool);
-            swapAction.putValue(Action.ACCELERATOR_KEY,tool.getAcceleratorKey());
-            swapAction.putValue(Action.SMALL_ICON,tool.getSmallIcon());
-            JToggleButton button = new JToggleButton(swapAction);
-            toolGroup.add(button);
-            button.setText("");
-            button.setMnemonic(tool.getAcceleratorKey().getKeyCode());
-            toolBar.add(button);
-            menu.add(swapAction);
-        }
-
-        toolBar.addSeparator();
-        menu.addSeparator();
-
         addPlayAndPause(menu);
 
         JMenuItem showToolBar = new JCheckBoxMenuItem("Show tool bar");
@@ -459,6 +442,7 @@ public class Donatello extends JPanel {
 
     public void swapTool(ContextSensitiveTool tool) {
         if(tool==activeTool) return;
+        logger.debug("Context: " + tool.getName());
 
         deactivateCurrentTool();
         activeTool = tool;
@@ -521,7 +505,6 @@ public class Donatello extends JPanel {
         if(activeTool != null && !activeTool.isActive()) {
             for (ContextSensitiveTool tool : tools) {
                 if (tool.isCorrectContext(point)) {
-                    System.out.println("Context: " + tool.getName());
                     swapTool(tool);
                     return;
                 }
