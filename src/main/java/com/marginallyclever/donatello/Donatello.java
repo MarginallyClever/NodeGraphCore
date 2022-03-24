@@ -31,7 +31,11 @@ public class Donatello extends JPanel {
      * Used by save and load actions
       */
     public static final FileNameExtensionFilter FILE_FILTER = new FileNameExtensionFilter("Node Graph","graph");
+
+    private static final Color COLOR_SELECTED_NODE_FIRST = Color.CYAN;
     private static final Color COLOR_SELECTED_NODE = Color.GREEN;
+    private static final Color COLOR_SELECTED_NODE_LAST = Color.YELLOW;
+
     private static final Color COLOR_CONNECTION_EXTERNAL_INBOUND = Color.decode("#FFFF00");
     private static final Color COLOR_CONNECTION_INTERNAL = Color.decode("#FF00FF");
     private static final Color COLOR_CONNECTION_EXTERNAL_OUTBOUND = Color.decode("#00FFFF");
@@ -79,6 +83,11 @@ public class Donatello extends JPanel {
     private final JToolBar toolBar = new JToolBar();
 
     /**
+     * Status information at the bottom of the editor.
+     */
+    private final JLabel statusBar = new JLabel();
+
+    /**
      * The popupBar appears when the user right clicks in the paintArea.  It contains all actions that affect one or
      * more {@link Node}s within the model.
      */
@@ -91,7 +100,7 @@ public class Donatello extends JPanel {
     private final ArrayList<AbstractAction> actions = new ArrayList<>();
 
     /**
-     * The list of modal tools, only one of which can be active at any time.
+     * The list of context sensitive tools, only one of which can be active at any time.
      */
     private final ArrayList<ContextSensitiveTool> tools = new ArrayList<>();
 
@@ -120,6 +129,7 @@ public class Donatello extends JPanel {
 
         this.add(toolBar, BorderLayout.NORTH);
         this.add(paintArea, BorderLayout.CENTER);
+        this.add(statusBar, BorderLayout.SOUTH);
 
         setupTools();
         setupPaintArea();
@@ -166,8 +176,14 @@ public class Donatello extends JPanel {
         ArrayList<NodeConnection> in = new ArrayList<>();
         ArrayList<NodeConnection> out = new ArrayList<>();
 
-        g.setColor(COLOR_SELECTED_NODE);
-        for( Node n : selectedNodes) {
+        final int size = selectedNodes.size();
+        for(int i=0;i<size;++i) {
+            Node n = selectedNodes.get(i);
+
+            if(i==0) g.setColor(COLOR_SELECTED_NODE_FIRST);
+            else if(i==size-1) g.setColor(COLOR_SELECTED_NODE_LAST);
+            else g.setColor(COLOR_SELECTED_NODE);
+
             paintArea.paintNodeBorder(g, n);
 
             for( NodeConnection c : model.getConnections() ) {
@@ -261,31 +277,31 @@ public class Donatello extends JPanel {
     }
 
     private void addPlayAndPause(JMenu menu) {
+        UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
+
         AbstractAction playAction = new AbstractAction("Play") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                keepGoing=true;
-            }
-        };
-        AbstractAction pauseAction = new AbstractAction("Pause") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                keepGoing=false;
+                keepGoing=!keepGoing;
+                updateGraphAction.setEnabled(!keepGoing);
+                this.putValue(Action.SMALL_ICON, keepGoing ? new UnicodeIcon("⏸") : new UnicodeIcon("▶"));
             }
         };
 
         ButtonGroup clockGroup = new ButtonGroup();
+        JToggleButton stepButton = new JToggleButton(updateGraphAction);
         JToggleButton playButton = new JToggleButton(playAction);
-        JToggleButton pauseButton = new JToggleButton(pauseAction);
-        playAction .putValue(Action.SMALL_ICON,new UnicodeIcon("▶"));
-        pauseAction.putValue(Action.SMALL_ICON,new UnicodeIcon("⏸"));
-        clockGroup.add(playButton);
-        clockGroup.add(pauseButton);
-        toolBar.add(playButton);
-        toolBar.add(pauseButton);
 
-        toolBar.addSeparator();
-        menu.addSeparator();
+        updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, 0));
+        playAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
+        playAction.putValue(Action.SMALL_ICON, keepGoing ? new UnicodeIcon("⏸") : new UnicodeIcon("▶"));
+
+        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("+1"));
+
+        clockGroup.add(stepButton);
+        clockGroup.add(playButton);
+        toolBar.add(updateGraphAction);
+        toolBar.add(playButton);
     }
 
     /**
@@ -297,7 +313,6 @@ public class Donatello extends JPanel {
         LoadGraphAction loadGraphAction = new LoadGraphAction("Load",this);
         SaveGraphAction saveGraphAction = new SaveGraphAction("Save",this);
         PrintGraphAction printGraphAction = new PrintGraphAction("Print",this);
-        UpdateGraphAction updateGraphAction = new UpdateGraphAction("Update",this);
         StraightenGraphAction straightenGraphAction = new StraightenGraphAction("Straighten",this);
         OrganizeGraphAction organizeGraphAction = new OrganizeGraphAction("Organize",this);
 
@@ -305,7 +320,6 @@ public class Donatello extends JPanel {
         loadGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🗁"));
         saveGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖫"));
         printGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🖶"));
-        updateGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("+1"));
         straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("🧹"));
         straightenGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📐"));
         organizeGraphAction.putValue(Action.SMALL_ICON,new UnicodeIcon("📝"));
@@ -315,7 +329,6 @@ public class Donatello extends JPanel {
         actions.add(newGraphAction);
         actions.add(saveGraphAction);
         actions.add(loadGraphAction);
-        actions.add(updateGraphAction);
         actions.add(printGraphAction);
         actions.add(straightenGraphAction);
         actions.add(organizeGraphAction);
@@ -324,14 +337,12 @@ public class Donatello extends JPanel {
         saveGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         loadGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
         printGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-        updateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_U, 0));
         organizeGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 
         menu.add(newGraphAction);
         menu.add(loadGraphAction);
         menu.add(saveGraphAction);
         menu.addSeparator();
-        menu.add(updateGraphAction);
         menu.add(printGraphAction);
         menu.add(straightenGraphAction);
         menu.add(organizeGraphAction);
@@ -359,6 +370,8 @@ public class Donatello extends JPanel {
         UnfoldGraphAction unfoldGraphAction = new UnfoldGraphAction("Unfold",this);
         IsolateGraphAction isolateGraphAction = new IsolateGraphAction("Isolate",this);
         SelectAllAction selectAllAction = new SelectAllAction("Select all",this);
+        GrowSelectionAction growSelectionAction = new GrowSelectionAction("Grow selection",this);
+        ShrinkSelectionAction shrinkSelectionAction = new ShrinkSelectionAction("Shrink selection",this);
         InvertSelectionAction invertSelectionAction = new InvertSelectionAction("Invert selection",this);
 
         undoAction.putValue(Action.SMALL_ICON, new UnicodeIcon("↪"));
@@ -374,6 +387,8 @@ public class Donatello extends JPanel {
         foldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⫏"));
         unfoldGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⟃"));
         isolateGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("𝄄"));
+        growSelectionAction.putValue(Action.SMALL_ICON, new UnicodeIcon(">"));
+        shrinkSelectionAction.putValue(Action.SMALL_ICON, new UnicodeIcon("<"));
 
         actions.add(undoAction);
         actions.add(redoAction);
@@ -388,6 +403,8 @@ public class Donatello extends JPanel {
         actions.add(unfoldGraphAction);
         actions.add(isolateGraphAction);
         actions.add(selectAllAction);
+        actions.add(growSelectionAction);
+        actions.add(shrinkSelectionAction);
         actions.add(invertSelectionAction);
 
         undoAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK));
@@ -403,12 +420,16 @@ public class Donatello extends JPanel {
         unfoldGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_BRACERIGHT, KeyEvent.CTRL_DOWN_MASK));
         isolateGraphAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
         selectAllAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        growSelectionAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.CTRL_DOWN_MASK));
+        shrinkSelectionAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, KeyEvent.CTRL_DOWN_MASK));
         invertSelectionAction.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK));
 
         menu.add(undoAction);
         menu.add(redoAction);
         menu.addSeparator();
         menu.add(selectAllAction);
+        menu.add(growSelectionAction);
+        menu.add(shrinkSelectionAction);
         menu.add(invertSelectionAction);
         menu.add(copyGraphAction);
         menu.add(cutGraphAction);
@@ -471,14 +492,15 @@ public class Donatello extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                //System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
+                setStatusBar(paintArea.transformMousePoint(e.getPoint()));
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                //System.out.println(paintArea.transformMousePoint(e.getPoint()).toString());
-                checkToolContext(paintArea.transformMousePoint(e.getPoint()));
+                Point p = paintArea.transformMousePoint(e.getPoint());
+                checkToolContext(p);
+                setStatusBar(p);
             }
         });
         paintArea.addMouseListener(new MouseAdapter() {
@@ -499,6 +521,10 @@ public class Donatello extends JPanel {
                 }
             }
         });
+    }
+
+    private void setStatusBar(Point transformMousePoint) {
+        statusBar.setText(activeTool.getName()+" ("+transformMousePoint.x+","+transformMousePoint.y+")");
     }
 
     private void checkToolContext(Point point) {
