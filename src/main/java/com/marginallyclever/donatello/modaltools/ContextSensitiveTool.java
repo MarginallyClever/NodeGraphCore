@@ -1,10 +1,10 @@
-package com.marginallyclever.donatello;
+package com.marginallyclever.donatello.modaltools;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
-public abstract class ModalTool extends MouseAdapter {
+public abstract class ContextSensitiveTool extends MouseAdapter {
 
     public abstract void paint(Graphics g);
 

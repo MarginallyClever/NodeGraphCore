@@ -26,4 +26,5 @@ module com.marginallyclever.nodegraphcore {
 
     exports com.marginallyclever.donatello;
     exports com.marginallyclever.donatello.actions;
+    exports com.marginallyclever.donatello.modaltools;
 }

@@ -6,7 +6,6 @@ import com.marginallyclever.nodegraphcore.NodeConnectionPointInfo;
 import com.marginallyclever.nodegraphcore.NodeGraph;
 import com.marginallyclever.nodegraphcore.NodeVariable;
 import com.marginallyclever.donatello.Donatello;
-import com.marginallyclever.donatello.ModalTool;
 import com.marginallyclever.donatello.NodeGraphViewPanel;
 import com.marginallyclever.donatello.edits.AddConnectionEdit;
 import com.marginallyclever.donatello.edits.RemoveConnectionEdit;
@@ -18,7 +17,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class ConnectionEditTool extends ModalTool {
+public class ConnectionEditTool extends ContextSensitiveTool {
     private static final Logger logger = LoggerFactory.getLogger(ConnectionEditTool.class);
     private static final Color CONNECTION_POINT_COLOR_SELECTED = Color.RED;
     private static final Color CONNECTION_BEING_EDITED = Color.RED;

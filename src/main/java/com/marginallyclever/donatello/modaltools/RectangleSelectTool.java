@@ -14,7 +14,7 @@ import java.util.List;
 
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 
-public class RectangleSelectTool extends ModalTool {
+public class RectangleSelectTool extends ContextSensitiveTool {
     private final Donatello editor;
 
     private static final int STROKE_WIDTH=2;

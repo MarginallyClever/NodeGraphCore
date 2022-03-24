@@ -1,5 +1,6 @@
 package com.marginallyclever.donatello;
 
+import com.marginallyclever.donatello.modaltools.ContextSensitiveTool;
 import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.donatello.actions.*;
 import com.marginallyclever.donatello.actions.undoable.*;
@@ -92,12 +93,12 @@ public class Donatello extends JPanel {
     /**
      * The list of modal tools, only one of which can be active at any time.
      */
-    private final ArrayList<ModalTool> tools = new ArrayList<>();
+    private final ArrayList<ContextSensitiveTool> tools = new ArrayList<>();
 
     /**
      * The active tool from the list of tools.
      */
-    private ModalTool activeTool;
+    private ContextSensitiveTool activeTool;
 
     /**
      * cursor position when the popup menu happened.
@@ -210,9 +211,9 @@ public class Donatello extends JPanel {
         RectangleSelectTool rectangleSelectTool = new RectangleSelectTool(this);
         NodeMoveTool moveTool = new NodeMoveTool(this);
         ConnectionEditTool connectionEditTool = new ConnectionEditTool(this,"Add connection","Remove connection");
-        tools.add(rectangleSelectTool);
-        tools.add(moveTool);
         tools.add(connectionEditTool);
+        tools.add(moveTool);
+        tools.add(rectangleSelectTool);
 
         swapTool(tools.get(0));
     }
@@ -251,7 +252,7 @@ public class Donatello extends JPanel {
 
         ButtonGroup toolGroup = new ButtonGroup();
 
-        for(ModalTool tool : tools) {
+        for(ContextSensitiveTool tool : tools) {
             AbstractAction swapAction = new SwapToolsAction(this, tool);
             swapAction.putValue(Action.ACCELERATOR_KEY,tool.getAcceleratorKey());
             swapAction.putValue(Action.SMALL_ICON,tool.getSmallIcon());
@@ -456,7 +457,7 @@ public class Donatello extends JPanel {
         return menu;
     }
 
-    public void swapTool(ModalTool tool) {
+    public void swapTool(ContextSensitiveTool tool) {
         deactivateCurrentTool();
         activeTool = tool;
         activateCurrentTool();

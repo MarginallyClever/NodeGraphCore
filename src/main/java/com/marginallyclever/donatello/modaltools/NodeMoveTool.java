@@ -1,6 +1,5 @@
 package com.marginallyclever.donatello.modaltools;
 
-import com.marginallyclever.donatello.ModalTool;
 import com.marginallyclever.donatello.Donatello;
 import com.marginallyclever.donatello.NodeGraphViewPanel;
 import com.marginallyclever.donatello.UnicodeIcon;
@@ -11,7 +10,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class NodeMoveTool extends ModalTool {
+public class NodeMoveTool extends ContextSensitiveTool {
     private final Donatello editor;
 
     /**
