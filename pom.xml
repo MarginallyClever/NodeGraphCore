@@ -119,6 +119,17 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>${project.basedir}/src/main/resources/logback.xml</exclude>
+                        <exclude>${project.basedir}/src/test/resources/logback-test.xml</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.2</version>
             </plugin>
