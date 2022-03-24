@@ -4,7 +4,7 @@
 
     <groupId>com.marginallyclever</groupId>
     <artifactId>nodegraphcore</artifactId>
-    <version>1.0.16-SNAPSHOT</version>
+    <version>1.0.16</version>
     <name>NodeGraphCore</name>
     <description>Java node graph system for data flow programming.</description>
     <url>https://github.com/MarginallyClever/NodeGraphCore</url>
@@ -26,7 +26,7 @@
         <url>https://github.com/MarginallyClever/NodeGraphCore</url>
         <connection>scm:git:https://github.com/MarginallyClever/NodeGraphCore.git</connection>
         <developerConnection>scm:git:https://github.com/MarginallyClever/NodeGraphCore.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.0.16</tag>
     </scm>
 
     <developers>
