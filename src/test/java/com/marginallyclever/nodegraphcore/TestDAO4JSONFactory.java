@@ -22,6 +22,6 @@ public class TestDAO4JSONFactory {
             registry.registerDAO();
             ++count;
         }
-        assertEquals(2,count);
+        assertEquals(1,count);
     }
 }

@@ -22,6 +22,6 @@ public class TestNodeFactory {
             registry.registerNodes();
             ++count;
         }
-        assertEquals(2,count);
+        assertEquals(1,count);
     }
 }
