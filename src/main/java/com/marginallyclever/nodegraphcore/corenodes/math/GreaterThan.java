@@ -23,22 +23,6 @@ public class GreaterThan extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     * @param b the starting value.
-     */
-    public GreaterThan(double a, double b) {
-        this();
-        this.a.setValue(a);
-        this.b.setValue(b);
-    }
-
-    @Override
-    public Node create() {
-        return new GreaterThan();
-    }
-
     @Override
     public void update() {
         double av = a.getValue().doubleValue();

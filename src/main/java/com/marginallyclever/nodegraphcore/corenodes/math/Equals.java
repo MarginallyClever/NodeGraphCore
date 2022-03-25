@@ -23,22 +23,6 @@ public class Equals extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     * @param b the starting value.
-     */
-    public Equals(double a, double b) {
-        this();
-        this.a.setValue(a);
-        this.b.setValue(b);
-    }
-
-    @Override
-    public Node create() {
-        return new Equals();
-    }
-
     @Override
     public void update() {
         double av = a.getValue().doubleValue();

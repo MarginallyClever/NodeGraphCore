@@ -50,13 +50,6 @@ public abstract class Node {
     }
 
     /**
-     * Return one new instance of this type of {@link Node}.
-     * Override this method in derived classes.
-     * @return One new instance of this type of {@link Node}.
-     */
-    public abstract Node create();
-
-    /**
      * Adjust the UniqueIDSource, the global number used to guarantee unique names for all classes.
      * Be very careful messing with this number!  It is exposed here for folding, unfolding, and serialization.
      * @param index the new value.

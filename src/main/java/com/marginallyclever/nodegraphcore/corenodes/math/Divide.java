@@ -21,22 +21,6 @@ public class Divide extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     * @param b the starting value.
-     */
-    public Divide(double a, double b) {
-        this();
-        this.a.setValue(a);
-        this.b.setValue(b);
-    }
-
-    @Override
-    public Node create() {
-        return new Divide();
-    }
-
     @Override
     public void update() {
         double av = a.getValue().doubleValue();

@@ -23,22 +23,6 @@ public class ATan2 extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param y the starting value.
-     * @param x the starting value.
-     */
-    public ATan2(double y, double x) {
-        this();
-        this.a.setValue(y);
-        this.b.setValue(x);
-    }
-
-    @Override
-    public Node create() {
-        return new ATan2();
-    }
-
     @Override
     public void update() {
         double y = a.getValue().doubleValue();

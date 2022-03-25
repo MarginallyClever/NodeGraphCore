@@ -21,21 +21,6 @@ public class Ceil extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param y the starting value.
-     * @param x the starting value.
-     */
-    public Ceil(double a) {
-        this();
-        this.a.setValue(a);
-    }
-
-    @Override
-    public Node create() {
-        return new Ceil();
-    }
-
     @Override
     public void update() {
         c.setValue(Math.ceil(a.getValue().doubleValue()));

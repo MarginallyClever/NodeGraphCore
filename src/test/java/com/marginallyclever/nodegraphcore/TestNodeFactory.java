@@ -24,4 +24,13 @@ public class TestNodeFactory {
         }
         assertEquals(1,count);
     }
+
+    @Test
+    public void listAllNodesRegistered() throws Exception {
+        NodeFactory.loadRegistries();
+        for(String name : NodeFactory.getNames()) {
+            System.out.println(name);
+        }
+        NodeFactory.clear();
+    }
 }

@@ -6,6 +6,7 @@ module com.marginallyclever.nodegraphcore {
     requires java.desktop;
     requires org.json;
     requires org.slf4j;
+    requires org.reflections;
 
     uses com.marginallyclever.nodegraphcore.NodeRegistry;
     provides com.marginallyclever.nodegraphcore.NodeRegistry with

@@ -21,20 +21,6 @@ public class LogicalNot extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     */
-    public LogicalNot(double a) {
-        this();
-        this.a.setValue(a);
-    }
-
-    @Override
-    public Node create() {
-        return new LogicalNot();
-    }
-
     @Override
     public void update() {
         boolean av = a.getValue();

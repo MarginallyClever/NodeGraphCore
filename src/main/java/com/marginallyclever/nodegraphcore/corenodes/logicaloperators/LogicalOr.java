@@ -23,21 +23,6 @@ public class LogicalOr extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     * @param b the starting value.
-     */
-    public LogicalOr(double a, double b) {
-        this();
-        this.a.setValue(a);
-        this.b.setValue(b);
-    }
-
-    @Override
-    public Node create() {
-        return new LogicalOr();
-    }
 
     @Override
     public void update() {

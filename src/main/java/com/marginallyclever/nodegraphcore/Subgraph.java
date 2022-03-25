@@ -130,11 +130,6 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     }
 
     @Override
-    public Node create() {
-        return new Subgraph();
-    }
-
-    @Override
     public void update() {
         for(VariablePair p : pairs) {
             if(p.superVariable.getHasInput()) {

@@ -21,32 +21,8 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     /**
      * Perform the registration.
      */
-    public void registerNodes() {
-        NodeFactory.registerNode(new LoadNumber());
-        NodeFactory.registerNode(new Random());
-        NodeFactory.registerNode(new Add());
-        NodeFactory.registerNode(new Subtract());
-        NodeFactory.registerNode(new Multiply());
-        NodeFactory.registerNode(new Divide());
-        NodeFactory.registerNode(new PrintToStdOut());
-        NodeFactory.registerNode(new Cos());
-        NodeFactory.registerNode(new Sin());
-        NodeFactory.registerNode(new Tan());
-        NodeFactory.registerNode(new ATan2());
-        NodeFactory.registerNode(new Min());
-        NodeFactory.registerNode(new Max());
-        NodeFactory.registerNode(new Mod());
-        NodeFactory.registerNode(new Floor());
-        NodeFactory.registerNode(new Ceil());
-        NodeFactory.registerNode(new Equals());
-        NodeFactory.registerNode(new GreaterThan());
-        NodeFactory.registerNode(new LessThan());
-
-        NodeFactory.registerNode(new LoadString());
-
-        NodeFactory.registerNode(new LogicalOr());
-        NodeFactory.registerNode(new LogicalAnd());
-        NodeFactory.registerNode(new LogicalNot());
+    public void registerNodes() throws GraphException {
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.corenodes");
     }
 
     /**

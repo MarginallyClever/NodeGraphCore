@@ -19,20 +19,6 @@ public class PrintToStdOut extends Node {
         addVariable(a);
     }
 
-    /**
-     * Constructor that sets a starting value
-     * @param startingValue the starting value.
-     */
-    public PrintToStdOut(Object startingValue) {
-        this();
-        this.a.setValue(startingValue);
-    }
-
-    @Override
-    public Node create() {
-        return new PrintToStdOut();
-    }
-
     @Override
     public void update() {
         if(!isDirty()) return;

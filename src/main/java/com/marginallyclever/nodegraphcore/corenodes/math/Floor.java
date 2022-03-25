@@ -21,21 +21,6 @@ public class Floor extends Node {
         addVariable(c);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param y the starting value.
-     * @param x the starting value.
-     */
-    public Floor(double a) {
-        this();
-        this.a.setValue(a);
-    }
-
-    @Override
-    public Node create() {
-        return new Floor();
-    }
-
     @Override
     public void update() {
         c.setValue(Math.floor(a.getValue().doubleValue()));

@@ -16,25 +16,11 @@ public class Random extends Node {
      * @param top the maximum value, exclusive.
      * @param bottom the minimum value, inclusive.
      */
-    public Random(double top,double bottom) {
+    public Random() {
         super("Random");
         addVariable(vMax);
         addVariable(vMin);
         addVariable(v);
-        vMax.setValue(top);
-        vMin.setValue(bottom);
-    }
-
-    /**
-     * Constructor for subclasses to call.
-     */
-    public Random() {
-        this(20,0);
-    }
-
-    @Override
-    public Node create() {
-        return new Random();
     }
 
     @Override

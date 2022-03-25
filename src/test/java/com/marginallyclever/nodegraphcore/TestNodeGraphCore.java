@@ -25,9 +25,9 @@ public class TestNodeGraphCore {
     private static NodeGraph nodeGraph = new NodeGraph();
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws Exception {
+        NodeFactory.loadRegistries();
         BuiltInRegistry r = new BuiltInRegistry();
-        r.registerNodes();
         r.registerDAO();
     }
 
@@ -70,9 +70,11 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testAddTwoConstants() {
-        Node constant0 = nodeGraph.add(new LoadNumber(1));
-        Node constant1 = nodeGraph.add(new LoadNumber(2));
-        Node add = nodeGraph.add(new Add());
+        LoadNumber constant0 = (LoadNumber)nodeGraph.add(new LoadNumber());
+        LoadNumber constant1 = (LoadNumber)nodeGraph.add(new LoadNumber());
+        constant0.getVariable(0).setValue(1);
+        constant1.getVariable(0).setValue(2);
+        Add add = (Add)nodeGraph.add(new Add());
         nodeGraph.add(new NodeConnection(constant0,0,add,0));
         nodeGraph.add(new NodeConnection(constant1,0,add,1));
         nodeGraph.update();
@@ -85,9 +87,11 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testAddTwoConstantsAndReport() {
-        Node constant0 = nodeGraph.add(new LoadNumber(1));
-        Node constant1 = nodeGraph.add(new LoadNumber(2));
-        Node add = nodeGraph.add(new Add());
+        LoadNumber constant0 = (LoadNumber)nodeGraph.add(new LoadNumber());
+        LoadNumber constant1 = (LoadNumber)nodeGraph.add(new LoadNumber());
+        constant0.getVariable(0).setValue(1);
+        constant1.getVariable(0).setValue(2);
+        Add add = (Add)nodeGraph.add(new Add());
         Node report = nodeGraph.add(new PrintToStdOut());
         nodeGraph.add(new NodeConnection(constant0,0,add,0));
         nodeGraph.add(new NodeConnection(constant1,0,add,1));
@@ -180,10 +184,8 @@ public class TestNodeGraphCore {
      * confirm registering an already registered node does not throw an exception and does not double-register.
      */
     @Test
-    public void testFactoryWontRegisterTwoNodesWithSameName() {
-        int before = NodeFactory.getNames().length;
-        NodeFactory.registerNode(new Add());
-        assertEquals(before,NodeFactory.getNames().length);
+    public void testFactoryWontRegisterTwoNodesWithSameName() throws Exception {
+        assertThrows(GraphException.class,()-> NodeFactory.loadRegistries());
     }
 
     /**

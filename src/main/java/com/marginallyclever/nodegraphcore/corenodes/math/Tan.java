@@ -21,20 +21,6 @@ public class Tan extends Node {
         addVariable(b);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     */
-    public Tan(double a) {
-        this();
-        this.a.setValue(a);
-    }
-
-    @Override
-    public Node create() {
-        return new Tan();
-    }
-
     @Override
     public void update() {
         double av = a.getValue().doubleValue();

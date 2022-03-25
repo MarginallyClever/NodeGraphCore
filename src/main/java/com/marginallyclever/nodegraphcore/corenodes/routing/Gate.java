@@ -21,11 +21,6 @@ public class Gate extends Node {
     }
 
     @Override
-    public Node create() {
-        return new Gate();
-    }
-
-    @Override
     public void update() throws Exception {
         c.setValue(a.getValue());
     }

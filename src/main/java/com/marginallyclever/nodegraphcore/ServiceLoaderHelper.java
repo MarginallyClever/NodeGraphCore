@@ -52,7 +52,7 @@ public class ServiceLoaderHelper {
             try {
                 list.add((new File(pathname).toURI()).toURL());
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                logger.warn("Could not add file to classpath: {}",pathname);
             }
         }
 

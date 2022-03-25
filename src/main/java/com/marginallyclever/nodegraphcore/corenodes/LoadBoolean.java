@@ -20,20 +20,6 @@ public class LoadBoolean extends Node implements SupergraphInput {
         addVariable(v);
     }
 
-    /**
-     * Constructor that sets a starting value
-     * @param startingValue the starting value.
-     */
-    public LoadBoolean(Boolean startingValue) {
-        this();
-        v.setValue(startingValue);
-    }
-
-    @Override
-    public Node create() {
-        return new LoadBoolean();
-    }
-
     @Override
     public void update() {}
 }

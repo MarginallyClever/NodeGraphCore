@@ -79,6 +79,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.32</version>
         </dependency>
+        <!-- for finding nodes in a package -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.10.2</version>
+        </dependency>
     </dependencies>
 
     <build>

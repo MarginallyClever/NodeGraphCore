@@ -20,20 +20,6 @@ public class LoadString extends Node implements SupergraphInput {
         addVariable(v);
     }
 
-    /**
-     * Constructor that sets a starting value
-     * @param startingValue the starting value.
-     */
-    public LoadString(String startingValue) {
-        this();
-        v.setValue(startingValue);
-    }
-
-    @Override
-    public Node create() {
-        return new LoadString();
-    }
-
     @Override
     public void update() {}
 }

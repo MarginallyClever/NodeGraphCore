@@ -20,20 +20,6 @@ public class LoadNumber extends Node implements SupergraphInput {
         addVariable(v);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param startingValue the starting value.
-     */
-    public LoadNumber(Number startingValue) {
-        this();
-        v.setValue(startingValue);
-    }
-
-    @Override
-    public Node create() {
-        return new LoadNumber();
-    }
-
     @Override
     public void update() {}
 }

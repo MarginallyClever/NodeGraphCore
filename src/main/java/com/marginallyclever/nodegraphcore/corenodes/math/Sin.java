@@ -21,20 +21,6 @@ public class Sin extends Node {
         addVariable(b);
     }
 
-    /**
-     * Constructor for subclasses to call.
-     * @param a the starting value.
-     */
-    public Sin(double a) {
-        this();
-        this.a.setValue(a);
-    }
-
-    @Override
-    public Node create() {
-        return new Sin();
-    }
-
     @Override
     public void update() {
         double av = a.getValue().doubleValue();
