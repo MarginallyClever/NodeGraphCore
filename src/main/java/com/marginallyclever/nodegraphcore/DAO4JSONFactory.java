@@ -65,6 +65,8 @@ public class DAO4JSONFactory {
     public static void loadRegistries() {
         ServiceLoaderHelper helper = new ServiceLoaderHelper();
         loadRegistries(helper.getExtensionClassLoader());
+        BuiltInRegistry registry = new BuiltInRegistry();
+        registry.registerDAO();
     }
 
 

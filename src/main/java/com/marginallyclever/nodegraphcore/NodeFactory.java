@@ -59,9 +59,12 @@ public class NodeFactory {
      */
     public static Node createNode(String name) throws IllegalArgumentException {
         if(nodeRegistry.containsKey(name)) {
-            Node n = null;
             try {
-                n = (Node)nodeRegistry.get(name).getDeclaredConstructors()[0].newInstance();
+                for( Constructor<?> constructor : nodeRegistry.get(name).getDeclaredConstructors() ) {
+                    if (constructor.getParameterCount() == 0) {
+                        return (Node) constructor.newInstance();
+                    }
+                }
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -69,8 +72,6 @@ public class NodeFactory {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-
-            return n;
         }
         throw new IllegalArgumentException("Node type not found: "+name);
     }
@@ -91,6 +92,11 @@ public class NodeFactory {
         nodeRegistry.clear();
     }
 
+    /**
+     * Initializes the {@link NodeFactory} by scanning the classpath for {@link Node}s.
+     * Be sure to call {@link ServiceLoaderHelper#addPath(String)} before calling this method.
+     * @throws Exception
+     */
     public static void loadRegistries() throws Exception {
         ServiceLoaderHelper helper = new ServiceLoaderHelper();
         loadRegistries(helper.getExtensionClassLoader());
@@ -100,6 +106,7 @@ public class NodeFactory {
         ServiceLoader<NodeRegistry> serviceLoader = ServiceLoader.load(NodeRegistry.class, classLoader);
         for (NodeRegistry registry : serviceLoader) {
             try {
+                logger.info("Loading node registry: "+registry.getClass().getName());
                 registry.registerNodes();
             } catch(NoSuchMethodError e) {
                 logger.warn("Plugin out of date: {}", registry.getClass().getName());

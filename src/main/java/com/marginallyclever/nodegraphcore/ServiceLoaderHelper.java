@@ -21,38 +21,51 @@ import java.util.Set;
 public class ServiceLoaderHelper {
     private static final Logger logger = LoggerFactory.getLogger(ServiceLoaderHelper.class);
     private static ClassLoader myLoader=null;
+    private static List<URL> sourcesList = new ArrayList<>();
 
     public ServiceLoaderHelper() {
         super();
     }
 
+    /**
+     * Call this before the first call to #getExtensionClassLoader() to add extra paths to the classpath.
+     * @param path the path to add
+     */
+    public static void addPath(String path) {
+        logger.debug("extension path = {}",path);
+        try {
+            sourcesList.add((new File(path).toURI()).toURL());
+        } catch (MalformedURLException e) {
+            logger.warn("Could not add to classpath: {}",path);
+        }
+    }
+
+    /**
+     * Returns the static {@link ClassLoader} for all services.  Be sure to call addPath() before this.
+     * @return the static {@link ClassLoader} for all services.
+     */
     public ClassLoader getExtensionClassLoader() {
         if(myLoader==null) createClassLoader();
         return myLoader;
     }
 
     private void createClassLoader() {
-        List<URL> list = new ArrayList<>();
-        FileHelper.createDirectoryIfMissing(FileHelper.getExtensionPath());
-        list.addAll(listFilesIn(FileHelper.getExtensionPath()));
-        list.addAll(listFilesIn(System.getProperty("user.dir")));
-
-        myLoader = new URLClassLoader(list.toArray(new URL[]{}),this.getClass().getClassLoader());
+        myLoader = new URLClassLoader(sourcesList.toArray(new URL[]{}),this.getClass().getClassLoader());
     }
 
-    private List<URL> listFilesIn(String extensionPath) {
+    private static List<URL> listFilesIn(String extensionPath) {
         String sep = FileSystems.getDefault().getSeparator();
-        logger.debug("extension path = {}",extensionPath);
+        logger.debug("list files in path = {}",extensionPath);
 
         List<URL> list = new ArrayList<>();
 
         List<String> listOfFiles = FileHelper.listFilesInDirectory(extensionPath);
         for(String pathname : listOfFiles) {
-            logger.debug("extension file = {}",pathname);
+            logger.debug("found file = {}",pathname);
             try {
                 list.add((new File(pathname).toURI()).toURL());
             } catch (MalformedURLException e) {
-                logger.warn("Could not add file to classpath: {}",pathname);
+                logger.warn("Could not add file to list: {}",pathname);
             }
         }
 

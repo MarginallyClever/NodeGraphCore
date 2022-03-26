@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 /**
  * Convenient methods for searching files in a directory and finding the user's donatello/extensions path.
+ * @author Dan Royer
+ * @since 2022-03-??
  */
 public class FileHelper {
     /**
@@ -29,48 +31,5 @@ public class FileHelper {
             absoluteNames.add(f.getAbsolutePath());
         }
         return absoluteNames;
-    }
-
-    /**
-     * Returns the extension path ~/Donatello/extensions/
-     * @return the extension path ~/Donatello/extensions/
-     */
-    public static String getExtensionPath() {
-        String sep = FileSystems.getDefault().getSeparator();
-        return getWorkPath() + sep +"extensions";
-    }
-
-    /**
-     * Returns the path ~/Donatello/
-     * @return the path ~/Donatello/
-     */
-    public static String getWorkPath() {
-        String sep = FileSystems.getDefault().getSeparator();
-        return System.getProperty("user.home") + sep + "Donatello";
-    }
-
-    /**
-     * Returns the path ~/Donatello/Donatello.log
-     * @return the path ~/Donatello/Donatello.log
-     */
-    public static String getLogFile() {
-        String sep = FileSystems.getDefault().getSeparator();
-        return getWorkPath() + sep + "Donatello.log";
-    }
-
-    /**
-     * Convert from a filename to a file URL.
-     */
-    public static String convertToFileURL( String filename ) {
-        // On JDK 1.2 and later, simplify this to:
-        // "path = file.toURL().toString()".
-        String path = new File( filename ).getAbsolutePath();
-        if ( File.separatorChar != '/' ) {
-            path = path.replace ( File.separatorChar, '/' );
-        }
-        if ( !path.startsWith ( "/" ) ) {
-            path = "/" + path;
-        }
-        return "file:" + path;
     }
 }
