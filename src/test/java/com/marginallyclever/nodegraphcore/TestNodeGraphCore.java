@@ -1,10 +1,10 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.corenodes.LoadNumber;
-import com.marginallyclever.nodegraphcore.corenodes.PrintToStdOut;
-import com.marginallyclever.nodegraphcore.corenodes.math.Add;
-import com.marginallyclever.nodegraphcore.corenodes.math.Multiply;
-import com.marginallyclever.nodegraphcore.corenodes.math.Subtract;
+import com.marginallyclever.nodegraphcore.nodes.LoadNumber;
+import com.marginallyclever.nodegraphcore.nodes.PrintToStdOut;
+import com.marginallyclever.nodegraphcore.nodes.math.Add;
+import com.marginallyclever.nodegraphcore.nodes.math.Multiply;
+import com.marginallyclever.nodegraphcore.nodes.math.Subtract;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;

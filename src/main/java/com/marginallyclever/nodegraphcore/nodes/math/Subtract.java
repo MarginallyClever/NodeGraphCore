@@ -1,14 +1,12 @@
-package com.marginallyclever.nodegraphcore.corenodes.math;
+package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;
 
 /**
- * C=A+B
- * @author Dan Royer
- * @since 2022-02-01
+ * A-B {@link Node}
  */
-public class Add extends Node {
+public class Subtract extends Node {
     private final NodeVariable<Number> a = NodeVariable.newInstance("A",Number.class,0,true,false);
     private final NodeVariable<Number> b = NodeVariable.newInstance("B",Number.class,0,true,false);
     private final NodeVariable<Number> c = NodeVariable.newInstance("output",Number.class,0,false,true);
@@ -16,8 +14,8 @@ public class Add extends Node {
     /**
      * Constructor for subclasses to call.
      */
-    public Add() {
-        super("Add");
+    public Subtract() {
+        super("Subtract");
         addVariable(a);
         addVariable(b);
         addVariable(c);
@@ -27,7 +25,7 @@ public class Add extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.setValue(av + bv);
+        c.setValue(av - bv);
         cleanAllInputs();
     }
 }

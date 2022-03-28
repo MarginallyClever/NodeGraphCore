@@ -1,22 +1,22 @@
-package com.marginallyclever.nodegraphcore.corenodes;
+package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.SupergraphInput;
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;
 
 /**
- * {@link SupergraphInput} for a {@link Number}.
+ * {@link SupergraphInput} for a {@link String}.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class LoadNumber extends Node implements SupergraphInput {
-    private final NodeVariable<Number> v = NodeVariable.newInstance("value",Number.class,0,false,true);
+public class LoadString extends Node implements SupergraphInput {
+    private final NodeVariable<String> v = NodeVariable.newInstance("value",String.class,"",false,true);
 
     /**
      * Constructor for subclasses to call.
      */
-    public LoadNumber() {
-        super("LoadNumber");
+    public LoadString() {
+        super("LoadString");
         addVariable(v);
     }
 

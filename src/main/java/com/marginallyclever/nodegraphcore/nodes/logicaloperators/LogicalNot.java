@@ -1,4 +1,4 @@
-package com.marginallyclever.nodegraphcore.corenodes.logicaloperators;
+package com.marginallyclever.nodegraphcore.nodes.logicaloperators;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;

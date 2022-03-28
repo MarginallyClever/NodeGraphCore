@@ -1,4 +1,4 @@
-package com.marginallyclever.nodegraphcore.corenodes.routing;
+package com.marginallyclever.nodegraphcore.nodes.routing;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;

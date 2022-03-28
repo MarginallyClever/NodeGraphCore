@@ -1,14 +1,14 @@
-package com.marginallyclever.nodegraphcore.corenodes.math;
+package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;
 
 /**
- * C=mod(A,B)
+ * C=max(A,B)
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class Mod extends Node {
+public class Max extends Node {
     private final NodeVariable<Number> a = NodeVariable.newInstance("A",Number.class,0,true,false);
     private final NodeVariable<Number> b = NodeVariable.newInstance("B",Number.class,0,true,false);
     private final NodeVariable<Number> c = NodeVariable.newInstance("output",Number.class,0,false,true);
@@ -16,8 +16,8 @@ public class Mod extends Node {
     /**
      * Constructor for subclasses to call.
      */
-    public Mod() {
-        super("Mod");
+    public Max() {
+        super("Max");
         addVariable(a);
         addVariable(b);
         addVariable(c);
@@ -27,7 +27,7 @@ public class Mod extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.setValue(av%bv);
+        c.setValue(Math.max(av,bv));
         cleanAllInputs();
     }
 }

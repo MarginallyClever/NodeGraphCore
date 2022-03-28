@@ -1,4 +1,4 @@
-package com.marginallyclever.nodegraphcore.corenodes.math;
+package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;

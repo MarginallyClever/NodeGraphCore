@@ -1,14 +1,12 @@
-package com.marginallyclever.nodegraphcore.corenodes.math;
+package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.NodeVariable;
 
 /**
- * C = (A&gt;B) ? 1 : 0
- * @author Dan Royer
- * @since 2022-03-19
+ * C=A/B
  */
-public class GreaterThan extends Node {
+public class Divide extends Node {
     private final NodeVariable<Number> a = NodeVariable.newInstance("A",Number.class,0,true,false);
     private final NodeVariable<Number> b = NodeVariable.newInstance("B",Number.class,0,true,false);
     private final NodeVariable<Number> c = NodeVariable.newInstance("output",Number.class,0,false,true);
@@ -16,8 +14,8 @@ public class GreaterThan extends Node {
     /**
      * Constructor for subclasses to call.
      */
-    public GreaterThan() {
-        super("GreaterThan");
+    public Divide() {
+        super("Divide");
         addVariable(a);
         addVariable(b);
         addVariable(c);
@@ -27,7 +25,8 @@ public class GreaterThan extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.setValue((av > bv) ? 1 : 0);
+        if(bv==0) c.setValue(Float.NaN);
+        else c.setValue(av / bv);
         cleanAllInputs();
     }
 }
