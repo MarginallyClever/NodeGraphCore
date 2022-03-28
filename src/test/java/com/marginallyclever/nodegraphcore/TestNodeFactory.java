@@ -3,6 +3,8 @@ package com.marginallyclever.nodegraphcore;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ServiceLoader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,5 +34,17 @@ public class TestNodeFactory {
             System.out.println(name);
         }
         NodeFactory.clear();
+    }
+
+    @Test
+    public void testLoadingDonatelloExtensionsIfAvailable() throws Exception {
+        String sep = FileSystems.getDefault().getSeparator();
+        String path = System.getProperty("user.home") + sep + "Donatello" + sep + "extensions" + sep;
+
+        if((new File(path).exists())) {
+            System.out.println("Loading Donatello extensions from " + path);
+            ServiceLoaderHelper.addAllPathFiles(path);
+            listAllNodesRegistered();
+        }
     }
 }
