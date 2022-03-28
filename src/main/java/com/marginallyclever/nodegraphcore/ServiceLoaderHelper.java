@@ -10,11 +10,12 @@ import java.net.URLClassLoader;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
- * Creates and stores a single {@link ClassLoader} so that services create all instances in the same... class space?
- * If they have different {@link ClassLoader} then they cannot cast to each other.
+ * <p>Creates and stores a single {@link ClassLoader}.  Two instances of the same class created by different ClassLoaders
+ * will not be equal and they cannot cast to each other.</p>
+ * <p>Please note that adding a path that contains a JAR is not enough - the ClassLoader must specifically name the JAR
+ * file to load.  If you want to add many JARS in a single path, use {@link #addAllPathFiles(String)}.</p>
  * @author Dan Royer
  * @since 2022-03-14
  */
@@ -31,8 +32,14 @@ public class ServiceLoaderHelper {
      * Call this before the first call to #getExtensionClassLoader() to add extra paths to the classpath.
      * @param path the path to add
      */
-    public static void addPath(String path) {
-        logger.debug("extension path = {}",path);
+    public static void addAllPathFiles(String path) {
+        logger.debug("extension path = {}", path);
+        sourcesList.addAll(listFilesIn(path));
+    }
+
+    @Deprecated
+    public static void addFile(String path) {
+        logger.debug("adding file = {}", path);
         try {
             sourcesList.add((new File(path).toURI()).toURL());
         } catch (MalformedURLException e) {
@@ -50,7 +57,8 @@ public class ServiceLoaderHelper {
     }
 
     private void createClassLoader() {
-        myLoader = new URLClassLoader(sourcesList.toArray(new URL[]{}),this.getClass().getClassLoader());
+        ClassLoader loader = this.getClass().getClassLoader();
+        myLoader = new URLClassLoader(sourcesList.toArray(new URL[]{}),loader);
     }
 
     private static List<URL> listFilesIn(String extensionPath) {

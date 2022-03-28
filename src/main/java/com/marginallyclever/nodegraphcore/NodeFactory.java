@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -101,7 +100,7 @@ public class NodeFactory {
 
     /**
      * Initializes the {@link NodeFactory} by scanning the classpath for {@link Node}s.
-     * Be sure to call {@link ServiceLoaderHelper#addPath(String)} before calling this method.
+     * Be sure to call {@link ServiceLoaderHelper#addFile(String)} before calling this method.
      * @throws Exception
      */
     public static void loadRegistries() throws Exception {
