@@ -1,8 +1,8 @@
 module:com.marginallyclever.NodeGraphCore
 com.marginallyclever.nodegraphcore
-com.marginallyclever.nodegraphcore.corenodes
-com.marginallyclever.nodegraphcore.corenodes.logicaloperators
-com.marginallyclever.nodegraphcore.corenodes.math
+com.marginallyclever.nodegraphcore.nodes
+com.marginallyclever.nodegraphcore.nodes.logicaloperators
+com.marginallyclever.nodegraphcore.nodes.math
 com.marginallyclever.nodegraphcore.json
 com.marginallyclever.donatello
 com.marginallyclever.donatello.actions

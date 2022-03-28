@@ -8,7 +8,7 @@
  *
  * Nodes are exposed to editing and serialization tools by registering themselves to the NodeFactory.  See {@link
  * com.marginallyclever.nodegraphcore.BuiltInRegistry} for examples which include {@link
- * com.marginallyclever.nodegraphcore.corenodes.PrintToStdOut}, boolean logical operators, and basic math functions.
+ * com.marginallyclever.nodegraphcore.nodes.PrintToStdOut}, boolean logical operators, and basic math functions.
  *
  *
  * The core nodes are registered by calling {@link com.marginallyclever.nodegraphcore.BuiltInRegistry#registerNodes()}.

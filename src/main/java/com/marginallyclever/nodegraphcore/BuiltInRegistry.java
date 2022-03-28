@@ -1,12 +1,5 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.corenodes.LoadNumber;
-import com.marginallyclever.nodegraphcore.corenodes.LoadString;
-import com.marginallyclever.nodegraphcore.corenodes.PrintToStdOut;
-import com.marginallyclever.nodegraphcore.corenodes.logicaloperators.LogicalAnd;
-import com.marginallyclever.nodegraphcore.corenodes.logicaloperators.LogicalNot;
-import com.marginallyclever.nodegraphcore.corenodes.logicaloperators.LogicalOr;
-import com.marginallyclever.nodegraphcore.corenodes.math.*;
 import com.marginallyclever.nodegraphcore.json.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +24,7 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
      */
     public void registerNodes() throws GraphException {
         logger.info("Registering core nodes");
-        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.corenodes");
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
     }
 
     /**
