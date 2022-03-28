@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -24,14 +25,20 @@ public class NodeFactory {
     private static final Map<String,Class<? extends Node>> nodeRegistry = new HashMap<>();
 
     public static void registerAllNodesInPackage(String packageName) throws GraphException {
+        ServiceLoaderHelper helper = new ServiceLoaderHelper();
         Reflections reflections = new Reflections(packageName);
-        Set<Class<?>> subTypes = reflections.get(SubTypes.of(Node.class).asClass());
+        Set<Class<?>> subTypes = reflections.get(SubTypes.of(Node.class).asClass(helper.getExtensionClassLoader()));
         for(Class<?> typeFound : subTypes) {
-            logger.debug("Registering node "+typeFound.getName());
-            verifyTypeNotRegistered(typeFound);
-            verifyTypeConstructor(typeFound);
-            nodeRegistry.put(typeFound.getSimpleName(),(Class<? extends Node>) typeFound);
+            registerNode((Class<? extends Node>)typeFound);
         }
+    }
+
+    public static void registerNode(Class<? extends Node> typeFound) {
+        logger.debug("Registering node {} ",typeFound.getName());
+        System.out.println("Registering node "+typeFound.getName());
+        verifyTypeNotRegistered(typeFound);
+        verifyTypeConstructor(typeFound);
+        nodeRegistry.put(typeFound.getSimpleName(),(Class<? extends Node>) typeFound);
     }
 
     private static void verifyTypeNotRegistered(Class<?> typeFound) throws GraphException {
