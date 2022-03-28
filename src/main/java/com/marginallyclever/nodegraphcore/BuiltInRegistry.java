@@ -22,6 +22,10 @@ import java.awt.*;
 public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     private static final Logger logger = LoggerFactory.getLogger(BuiltInRegistry.class);
 
+    public String getName() {
+        return "Built-in";
+    }
+
     /**
      * Perform the registration.
      */

@@ -11,5 +11,7 @@ package com.marginallyclever.nodegraphcore;
  * @since 2022-03-12
  */
 public interface DAORegistry {
+    String getName();
+
     void registerDAO();
 }
