@@ -115,13 +115,11 @@ public class NodeGraph {
      */
     public void add(NodeGraph nodeGraph) {
         if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
-        assignNewUniqueIDs(0);
-        nodeGraph.assignNewUniqueIDs(Node.getUniqueIDSource());
+        assignNewUniqueIDs();
+        nodeGraph.assignNewUniqueIDs();
 
         nodes.addAll(nodeGraph.nodes);
         connections.addAll(nodeGraph.connections);
-
-        bumpUpIndexableID();
     }
 
     public void remove(NodeGraph nodeGraph) {
@@ -217,19 +215,6 @@ public class NodeGraph {
     }
 
     /**
-     * Every {@link Node} and {@link NodeConnection} has a unique ID.  If the model has just been restored from a file
-     * then the static unique ID will be wrong.  This method bumps the first available unique ID up to the largest value
-     * found.  Then the next attempt to create a unique item will be safe.
-     */
-    public void bumpUpIndexableID() { //TODO THIS SHOULDN'T BE PUBLIC!
-        int id=0;
-        for(Node n : nodes) {
-            id = Math.max(id, n.getUniqueID());
-        }
-        Node.setUniqueIDSource(id);
-    }
-
-    /**
      * Find and remove any {@link NodeConnection} that connects to the input side of a given {@link NodeVariable}.
      * @param outVariable the {@link NodeVariable} with an input to be isolated.
      */
@@ -247,8 +232,8 @@ public class NodeGraph {
         return list;
     }
 
-    private void assignNewUniqueIDs(int startingIndex) {
-        for(Node n : nodes) n.setUniqueID(++startingIndex);
+    private void assignNewUniqueIDs() {
+        for(Node n : nodes) n.setUniqueID();
     }
 
     /**
@@ -359,7 +344,6 @@ public class NodeGraph {
         clear();
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));
         parseAllNodeConnectionsFromJSON(jo.getJSONArray("connections"));
-        bumpUpIndexableID();
     }
 
     private void parseAllNodesFromJSON(JSONArray arr) throws JSONException {

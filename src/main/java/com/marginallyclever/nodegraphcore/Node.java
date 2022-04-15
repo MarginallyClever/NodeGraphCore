@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * {@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
@@ -21,12 +22,7 @@ public abstract class Node {
      */
     public static final int TITLE_HEIGHT = 25;
 
-    /**
-     * This is used to ensure all {@link Node}s in a
-     */
-    private static int uniqueIDSource=0;
-
-    private int uniqueID;
+    private String uniqueID = UUID.randomUUID().toString();
 
     private final String name;
 
@@ -44,41 +40,22 @@ public abstract class Node {
      */
     protected Node(String name) {
         super();
-        this.uniqueID = ++uniqueIDSource;
         this.name = name;
         this.label = "";
     }
 
     /**
-     * Adjust the UniqueIDSource, the global number used to guarantee unique names for all classes.
-     * Be very careful messing with this number!  It is exposed here for folding, unfolding, and serialization.
-     * @param index the new value.
-     */
-    public static void setUniqueIDSource(int index) {
-        uniqueIDSource=index;
-    }
-
-    /**
-     * Returns the current uniqueIDSource.
-     * @return the current uniqueIDSource.
-     */
-    public static int getUniqueIDSource() {
-        return uniqueIDSource;
-    }
-
-    /**
      * Sets the unique ID of this Node.
-     * @param id the new ID value.
      */
-    public void setUniqueID(int id) {
-        uniqueID=id;
+    public void setUniqueID() {
+        uniqueID=UUID.randomUUID().toString();
     }
 
     /**
      * Returns the unique ID of this Node.
      * @return the unique ID of this Node.
      */
-    public int getUniqueID() {
+    public String getUniqueID() {
         return uniqueID;
     }
 
@@ -123,8 +100,9 @@ public abstract class Node {
     }
 
     /**
-     * Override this method to provide the custom behavior of this node.
-     * Runs regardless of dirty inputs or outputs.
+     * Override this method to provide the custom behavior of this node.  Runs regardless of dirty inputs or outputs.
+     * Classes that derive from {@link Node} MUST not modify data that arrives from the inputs.
+     * Classes that derive from {@link Node} MAY pass input along as output.
      */
     public abstract void update() throws Exception;
 
@@ -317,7 +295,7 @@ public abstract class Node {
         String joName = jo.getString("name");
         if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
 
-        uniqueID = jo.getInt("uniqueID");
+        uniqueID = jo.getString("uniqueID");
         if(jo.has("label")) {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
