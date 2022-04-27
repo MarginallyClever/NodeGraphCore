@@ -8,9 +8,10 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class LoadNumber extends Node implements SupergraphInput {
-    private final DockShipping<Number> value = new DockShipping<>("value",Number.class,0);
+    private final DockReceiving<Number> value = new DockReceiving<>("value",Number.class,0);
     private final DockReceiving<Integer> qty = new DockReceiving<>("qty",Integer.class,1);
     private final DockShipping<Number> output = new DockShipping<>("output",Number.class,0);
+    private boolean done=false;
 
     /**
      * Constructor for subclasses to call.
@@ -24,10 +25,20 @@ public class LoadNumber extends Node implements SupergraphInput {
 
     @Override
     public void update() {
+        if(done) return;
+
         int q = qty.getValue();
-        if(q!=0 && value.outputHasRoom()) {
-            if(q>0) qty.setValue(q-1);
-            output.send(new Packet<>(value.getValue()));
+        if(q!=0 && output.outputHasRoom()) {
+            for(int i=0;i<q;++i) {
+                output.send(new Packet<>(value.getValue()));
+            }
+            done=true;
         }
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        done=false;
     }
 }

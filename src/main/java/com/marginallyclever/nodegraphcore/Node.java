@@ -295,4 +295,10 @@ public abstract class Node {
         }
         return count;
     }
+
+    /**
+     * Classes which extend can use this method to reset their internal state as needed.  A good example is {@link
+     * com.marginallyclever.nodegraphcore.nodes.LoadNumber} which only fires once when the program begins.
+     */
+    public void reset() {}
 }

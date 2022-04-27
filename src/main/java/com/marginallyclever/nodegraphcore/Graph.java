@@ -448,4 +448,14 @@ public class Graph {
         }
         return found;
     }
+
+    public void reset() {
+        for(Node node : getNodes()) {
+            node.reset();
+        }
+
+        for(Connection c : getConnections()) {
+            c.clear();
+        }
+    }
 }
