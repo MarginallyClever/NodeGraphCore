@@ -11,7 +11,7 @@ import java.awt.*;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class NodeVariable<T> {
+public class Dock<T> {
     /**
      * Dimensions used for bounds calculations and intersection tests.
      */
@@ -48,11 +48,6 @@ public class NodeVariable<T> {
     protected boolean hasOutput;
 
     /**
-     * is this variable dirty?
-     */
-    protected boolean isDirty;
-
-    /**
      * bounding rectangle of this variable.
      */
     protected final Rectangle rectangle = new Rectangle();
@@ -66,7 +61,7 @@ public class NodeVariable<T> {
      * @param _hasOutput does this variable have an input?
      * @throws IllegalArgumentException if input and output are true at the same time.
      */
-    private NodeVariable(String _name,Class<T> type,T startingValue,boolean _hasInput,boolean _hasOutput) throws IllegalArgumentException {
+    protected Dock(String _name, Class<T> type, T startingValue, boolean _hasInput, boolean _hasOutput) throws IllegalArgumentException {
         super();
         if(hasInput && hasOutput) throw new IllegalArgumentException("Cannot be input and output at the same time!");
         this.type = type;
@@ -74,30 +69,15 @@ public class NodeVariable<T> {
         this.value = startingValue;
         this.hasInput = _hasInput;
         this.hasOutput = _hasOutput;
-        this.isDirty = true;
         this.rectangle.setBounds(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT);
     }
 
     /**
-     * Called to create a new instance of a NodeVariable.
-     * @param name the variable name
-     * @param clazz the variable type
-     * @param startingValue the starting value
-     * @param hasInput does this variable have an input?
-     * @param hasOutput does this variable have an input?
-     * @param <T> the class type.
-     * @return the new instance.
+     * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
+     * @return an inverted copy of this {@link Dock}.
      */
-    public static <T> NodeVariable<T> newInstance(String name,Class<T> clazz,T startingValue,boolean hasInput,boolean hasOutput) {
-        return new NodeVariable<>(name,clazz,startingValue,hasInput,hasOutput);
-    }
-
-    /**
-     * Creates a copy of this {@link NodeVariable}, while flipping hasInput and hasOutput
-     * @return an inverted copy of this {@link NodeVariable}.
-     */
-    public NodeVariable<T> createInverse() {
-        return new NodeVariable<>(name,type,value,!hasInput,!hasOutput);
+    public Dock<T> createInverse() {
+        return new Dock<>(name,type,value,!hasInput,!hasOutput);
     }
 
     /**
@@ -124,7 +104,6 @@ public class NodeVariable<T> {
     public void setValue(Object arg0) {
         if(isValidType(arg0)) {
             value = (T)arg0;
-            isDirty = true;
         }
     }
 
@@ -161,27 +140,10 @@ public class NodeVariable<T> {
         return value;
     }
 
-    /**
-     * Sets the dirty state.
-     * @param state the new dirty state.
-     */
-    public void setIsDirty(boolean state) {
-        isDirty=state;
-    }
-
-    /**
-     * Returns the dirty state.
-     * @return the dirty state.
-     */
-    public boolean getIsDirty() {
-        return isDirty;
-    }
-
     @Override
     public String toString() {
         return "NodeVariable{" +
                 "name='" + name + '\'' +
-                ", isDirty=" + isDirty +
                 ", hasInput=" + hasInput +
                 ", hasOutput=" + hasOutput +
                 ", value=" + value +
@@ -228,7 +190,6 @@ public class NodeVariable<T> {
         jo.put("hasOutput",hasOutput);
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
-        jo.put("isDirty",isDirty);
         return jo;
     }
 
@@ -240,6 +201,5 @@ public class NodeVariable<T> {
         hasOutput = jo.getBoolean("hasOutput");
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
-        isDirty = jo.getBoolean("isDirty");
     }
 }

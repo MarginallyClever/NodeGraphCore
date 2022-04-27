@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Dan Royer
  * @since 2022-02-21
  */
-public class TestNodeGraphCore {
-    private static NodeGraph nodeGraph = new NodeGraph();
+public class TestGraphCore {
+    private static Graph graph = new Graph();
 
     @BeforeAll
     public static void beforeAll() throws Exception {
@@ -41,7 +41,7 @@ public class TestNodeGraphCore {
      */
     @BeforeEach
     public void beforeEach() {
-        nodeGraph.clear();
+        graph.clear();
     }
 
     /**
@@ -49,56 +49,41 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testSaveEmptyGraph() {
-        assertEquals("{\"nodes\":[],\"connections\":[]}",nodeGraph.toJSON().toString().replaceAll("\\s+",""));
+        assertEquals("{\"nodes\":[],\"connections\":[]}", graph.toJSON().toString().replaceAll("\\s+",""));
+    }
+
+    private void buildAddTwoConstants() {
+        LoadNumber constant0 = (LoadNumber) graph.add(new LoadNumber());
+        LoadNumber constant1 = (LoadNumber) graph.add(new LoadNumber());
+        constant0.getVariable(0).setValue(1);
+        constant1.getVariable(0).setValue(2);
+        Add add = (Add) graph.add(new Add());
+        graph.add(new Connection(constant0,0,add,0));
+        graph.add(new Connection(constant1,0,add,1));
     }
 
     /**
-     * confirm {@link Add#update()} works as expected and sets itself to not dirty
-     */
-    @Test
-    public void testAdd() throws Exception {
-        Node add = nodeGraph.add(new Add());
-        add.getVariable(0).setValue(1);
-        add.getVariable(1).setValue(2);
-        add.update();
-        assertEquals( 3.0, add.getVariable(2).getValue() );
-        assertEquals( false, add.isDirty() );
-    }
-
-    /**
-     * confirm adding two constants together via {@link NodeConnection}s works as expected
+     * confirm adding two constants together via {@link Connection}s works as expected
      */
     @Test
     public void testAddTwoConstants() {
-        LoadNumber constant0 = (LoadNumber)nodeGraph.add(new LoadNumber());
-        LoadNumber constant1 = (LoadNumber)nodeGraph.add(new LoadNumber());
-        constant0.getVariable(0).setValue(1);
-        constant1.getVariable(0).setValue(2);
-        Add add = (Add)nodeGraph.add(new Add());
-        nodeGraph.add(new NodeConnection(constant0,0,add,0));
-        nodeGraph.add(new NodeConnection(constant1,0,add,1));
-        nodeGraph.update();
-        assertEquals( 3.0, add.getVariable(2).getValue() );
+        buildAddTwoConstants();
+        graph.update();
+        assertEquals( 3.0, graph.getNodes().get(2).getVariable(2).getValue() );
     }
 
     /**
-     * confirm adding two constants together via {@link NodeConnection}s works as expected.
+     * confirm adding two constants together via {@link Connection}s works as expected.
      * confirm {@link PrintToStdOut} works as expected.
      */
     @Test
     public void testAddTwoConstantsAndReport() {
-        LoadNumber constant0 = (LoadNumber)nodeGraph.add(new LoadNumber());
-        LoadNumber constant1 = (LoadNumber)nodeGraph.add(new LoadNumber());
-        constant0.getVariable(0).setValue(1);
-        constant1.getVariable(0).setValue(2);
-        Add add = (Add)nodeGraph.add(new Add());
-        Node report = nodeGraph.add(new PrintToStdOut());
-        nodeGraph.add(new NodeConnection(constant0,0,add,0));
-        nodeGraph.add(new NodeConnection(constant1,0,add,1));
-        nodeGraph.add(new NodeConnection(add,2,report,0));
+        buildAddTwoConstants();
+        Node report = graph.add(new PrintToStdOut());
+        graph.add(new Connection(graph.getNodes().get(2),2,report,0));
 
-        nodeGraph.update();
-        nodeGraph.update();
+        graph.update();
+        graph.update();
 
         assertEquals( 3.0, report.getVariable(0).getValue() );
     }
@@ -131,12 +116,12 @@ public class TestNodeGraphCore {
      */
     @Test
     public void testNodesAreNotEqual() {
-        Node nodeA = nodeGraph.add(new Add());
+        Node nodeA = graph.add(new Add());
         Node nodeB = new Subtract();
 
         assertThrows(JSONException.class,()->nodeB.parseJSON(nodeA.toJSON()));
         assertNotEquals(nodeA.toString(), nodeB.toString());
-        Node nodeC = nodeGraph.add(new Add());
+        Node nodeC = graph.add(new Add());
         assertNotEquals(nodeA.toString(), nodeC.toString());
     }
 
@@ -159,25 +144,25 @@ public class TestNodeGraphCore {
     }
 
     /**
-     * confirm a {@link NodeGraph} can be serialized and de-serialized.
+     * confirm a {@link Graph} can be serialized and de-serialized.
      */
     @Test
     public void testModelToJSONAndBack() {
-        testAddTwoConstants();
-        JSONObject a = nodeGraph.toJSON();
-        NodeGraph modelB = new NodeGraph();
+        buildAddTwoConstants();
+        JSONObject a = graph.toJSON();
+        Graph modelB = new Graph();
         modelB.parseJSON(a);
-        assertEquals(nodeGraph.toString(),modelB.toString());
+        assertEquals(graph.toString(),modelB.toString());
     }
 
     /**
-     * confirm clearing a {@link NodeGraph} really does set it back to nothing.
+     * confirm clearing a {@link Graph} really does set it back to nothing.
      */
     @Test
     public void testModelClears() {
-        testAddTwoConstants();
-        nodeGraph.clear();
-        assertEquals((new NodeGraph()).toString(),nodeGraph.toString());
+        buildAddTwoConstants();
+        graph.clear();
+        assertEquals((new Graph()).toString(), graph.toString());
     }
 
     /**
@@ -189,7 +174,7 @@ public class TestNodeGraphCore {
     }
 
     /**
-     * Test {@link NodeVariable} serialization
+     * Test {@link Dock} serialization
      * @param myClass
      * @param instA
      * @param instB
@@ -197,17 +182,24 @@ public class TestNodeGraphCore {
      * @throws Exception
      */
     private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws Exception {
-        NodeVariable<?> a = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instA,false,false);
-        NodeVariable<?> b = NodeVariable.newInstance(myClass.getSimpleName(),myClass,instB,false,false);
+        Dock<?> a = new DockReceiving<>(myClass.getSimpleName(),myClass,instA);
+        Dock<?> b = new DockReceiving<>(myClass.getSimpleName(),myClass,instB);
 
         JSONObject obj = a.toJSON();
+        b.parseJSON(obj);
+        assertEquals(a.toString(),b.toString());
+        assertEquals(a.getValue(),b.getValue());
+
+        a = new DockShipping<>(myClass.getSimpleName(),myClass,instA);
+        b = new DockShipping<>(myClass.getSimpleName(),myClass,instB);
+        obj = a.toJSON();
         b.parseJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
     }
 
     /**
-     * Test {@link NodeVariable} serialization
+     * Test {@link Dock} serialization
      * @throws Exception if serialization fails.
      */
     @Test
@@ -226,23 +218,22 @@ public class TestNodeGraphCore {
      * Test that two models can be added together
      * <ul>
      *     <li>without loss of {@link Node}s</li>
-     *     <li>without loss of {@link NodeConnection}</li>
-     *     <li>while preserving values in the {@link NodeVariable}s</li>
+     *     <li>without loss of {@link Connection}</li>
+     *     <li>while preserving values in the {@link Dock}s</li>
      * </ul>
      */
     @Test
     public void testAddTwoModelsTogether() {
-        testAddTwoConstants();
+        buildAddTwoConstants();
 
-        NodeGraph modelB = new NodeGraph();
-        modelB.add(nodeGraph);
-        modelB.add(nodeGraph.deepCopy());
+        Graph modelB = new Graph();
+        modelB.add(graph);
+        modelB.add(graph.deepCopy());
 
         assertEquals(2,modelB.countNodesOfClass(Add.class));
         assertEquals(4,modelB.countNodesOfClass(LoadNumber.class));
 
         // connect the Adds with a Multiply, update, and check the results.
-        Node m = modelB.add(new Multiply());
         int a0index = modelB.indexOfNode(Add.class);
         int a1index = modelB.indexOfNode(Add.class,a0index+1);
         assertNotEquals(a0index,a1index);
@@ -252,8 +243,9 @@ public class TestNodeGraphCore {
         assertNotEquals(a0,a1);
         assertNotEquals(a0.getUniqueID(),a1.getUniqueID());
 
-        modelB.add(new NodeConnection(a0,2,m,0));
-        modelB.add(new NodeConnection(a1,2,m,1));
+        Node m = modelB.add(new Multiply());
+        modelB.add(new Connection(a0,2,m,0));
+        modelB.add(new Connection(a1,2,m,1));
         modelB.update();
         assertEquals(9.0,m.getVariable(2).getValue());
     }

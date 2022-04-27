@@ -35,6 +35,8 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
         logger.info("Registering core DAOs");
         DAO4JSONFactory.registerDAO(Rectangle.class, new RectangleDAO4JSON());
         DAO4JSONFactory.registerDAO(String.class, new StringDAO4JSON());
+        DAO4JSONFactory.registerDAO(Double.class, new DoubleDAO4JSON());
+        DAO4JSONFactory.registerDAO(Integer.class, new IntegerDAO4JSON());
         DAO4JSONFactory.registerDAO(Number.class, new NumberDAO4JSON());
         DAO4JSONFactory.registerDAO(Boolean.class, new BooleanDAO4JSON());
         DAO4JSONFactory.registerDAO(Object.class, new ObjectDAO4JSON());

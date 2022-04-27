@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * output=tan(A)
@@ -9,8 +8,8 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class Tan extends Node {
-    private final NodeVariable<Number> a = NodeVariable.newInstance("A",Number.class,0,true,false);
-    private final NodeVariable<Number> b = NodeVariable.newInstance("output",Number.class,0,false,true);
+    private final DockReceiving<Number> a = new DockReceiving<>("A",Number.class,0);
+    private final DockShipping<Number> c = new DockShipping<>("output",Number.class,0);
 
     /**
      * Constructor for subclasses to call.
@@ -18,13 +17,14 @@ public class Tan extends Node {
     public Tan() {
         super("Tan");
         addVariable(a);
-        addVariable(b);
+        addVariable(c);
     }
 
     @Override
     public void update() {
+        if(!a.hasPacketWaiting()) return;
+        a.receive();
         double av = a.getValue().doubleValue();
-        b.setValue(Math.tan(av));
-        cleanAllInputs();
+        c.send(new Packet<>(Math.tan(av)));
     }
 }

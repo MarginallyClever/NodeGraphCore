@@ -1,8 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
-import com.marginallyclever.nodegraphcore.SupergraphInput;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * {@link SupergraphInput} for a {@link Boolean}.
@@ -10,7 +8,8 @@ import com.marginallyclever.nodegraphcore.SupergraphInput;
  * @since 2022-02-01
  */
 public class LoadBoolean extends Node implements SupergraphInput {
-    private final NodeVariable<Boolean> v = NodeVariable.newInstance("value",Boolean.class,false,false,true);
+    private final DockShipping<Boolean> v = new DockShipping<>("value",Boolean.class,false);
+    private final DockReceiving<Integer> qty = new DockReceiving<>("qty",Integer.class,1);
 
     /**
      * Constructor for subclasses to call.
@@ -18,8 +17,15 @@ public class LoadBoolean extends Node implements SupergraphInput {
     public LoadBoolean() {
         super("LoadBoolean");
         addVariable(v);
+        addVariable(qty);
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        int q = qty.getValue();
+        if(q!=0 && v.outputHasRoom()) {
+            if(q>0) qty.setValue(q-1);
+            v.send(new Packet<>(v.getValue()));
+        }
+    }
 }

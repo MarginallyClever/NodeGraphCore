@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.logicaloperators;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * C=(A &amp;&amp; B)
@@ -9,9 +8,9 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class LogicalAnd extends Node {
-    private final NodeVariable<Boolean> a = NodeVariable.newInstance("A",Boolean.class,false,true,false);
-    private final NodeVariable<Boolean> b = NodeVariable.newInstance("B",Boolean.class,false,true,false);
-    private final NodeVariable<Boolean> c = NodeVariable.newInstance("output",Boolean.class,false,false,true);
+    private final DockReceiving<Boolean> a = new DockReceiving<>("A",Boolean.class,false);
+    private final DockReceiving<Boolean> b = new DockReceiving<>("B",Boolean.class,false);
+    private final DockShipping<Boolean> c = new DockShipping<>("output",Boolean.class,false);
 
     /**
      * Constructor for subclasses to call.
@@ -25,9 +24,12 @@ public class LogicalAnd extends Node {
 
     @Override
     public void update() {
+        if(0==countReceivingConnections()) return;
+        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
+        a.receive();
+        b.receive();
         boolean av = a.getValue();
         boolean bv = b.getValue();
-        c.setValue(av && bv);
-        cleanAllInputs();
+        c.send(new Packet<>(av && bv));
     }
 }

@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * whole number = ceil(decimal number)
@@ -9,8 +8,8 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class Ceil extends Node {
-    private final NodeVariable<Number> a = NodeVariable.newInstance("decimal",Number.class,0,true,false);
-    private final NodeVariable<Number> c = NodeVariable.newInstance("whole number",Number.class,0,false,true);
+    private final DockReceiving<Number> a = new DockReceiving<>("decimal",Number.class,0);
+    private final DockShipping<Number> c = new DockShipping<>("whole number",Number.class,0);
 
     /**
      * Constructor for subclasses to call.
@@ -23,7 +22,8 @@ public class Ceil extends Node {
 
     @Override
     public void update() {
-        c.setValue(Math.ceil(a.getValue().doubleValue()));
-        cleanAllInputs();
+        if(!a.hasPacketWaiting()) return;
+        a.receive();
+        c.send(new Packet<>(Math.ceil(a.getValue().doubleValue())));
     }
 }

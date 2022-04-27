@@ -3,19 +3,19 @@ package com.marginallyclever.nodegraphcore;
 import java.awt.*;
 
 /**
- * {@link NodeConnectionPointInfo} makes it easier to query connection points of a {@link NodeVariable} within a
- * {@link Node}.  A use case is for remembering a new {@link NodeConnection}'s starting point as it is being created.
+ * {@link NodeConnectionPointInfo} makes it easier to query connection points of a {@link Dock} within a
+ * {@link Node}.  A use case is for remembering a new {@link Connection}'s starting point as it is being created.
  * @author Dan Royer
  * @since 2022-02-11
  */
 public class NodeConnectionPointInfo {
     /**
-     * The {@link Node} containing the {@link NodeVariable} with a connection point.
+     * The {@link Node} containing the {@link Dock} with a connection point.
      */
     public Node node;
 
     /**
-     * The index of the {@link NodeVariable} within this node with the connection point.
+     * The index of the {@link Dock} within this node with the connection point.
      */
     public int nodeVariableIndex;
 
@@ -55,12 +55,12 @@ public class NodeConnectionPointInfo {
      * Returns the variable
      * @return the variable
      */
-    public NodeVariable<?> getVariable() {
+    public Dock<?> getVariable() {
         return node.getVariable(nodeVariableIndex);
     }
 
     public Point getPoint() {
-        NodeVariable<?> v = getVariable();
+        Dock<?> v = getVariable();
         return (flags == IN) ? v.getInPosition() : v.getOutPosition();
     }
 }

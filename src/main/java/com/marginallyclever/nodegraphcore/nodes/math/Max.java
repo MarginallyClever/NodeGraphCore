@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * C=max(A,B)
@@ -9,9 +8,9 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class Max extends Node {
-    private final NodeVariable<Number> a = NodeVariable.newInstance("A",Number.class,0,true,false);
-    private final NodeVariable<Number> b = NodeVariable.newInstance("B",Number.class,0,true,false);
-    private final NodeVariable<Number> c = NodeVariable.newInstance("output",Number.class,0,false,true);
+    private final DockReceiving<Number> a = new DockReceiving<>("A",Number.class,0);
+    private final DockReceiving<Number> b = new DockReceiving<>("B",Number.class,0);
+    private final DockShipping<Number> c = new DockShipping<>("output",Number.class,0);
 
     /**
      * Constructor for subclasses to call.
@@ -25,9 +24,12 @@ public class Max extends Node {
 
     @Override
     public void update() {
+        if(0==countReceivingConnections()) return;
+        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
+        a.receive();
+        b.receive();
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.setValue(Math.max(av,bv));
-        cleanAllInputs();
+        c.send(new Packet<>(Math.max(av,bv)));
     }
 }

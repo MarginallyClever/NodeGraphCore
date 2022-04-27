@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.logicaloperators;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * C=(!A)
@@ -9,8 +8,8 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class LogicalNot extends Node {
-    private final NodeVariable<Boolean> a = NodeVariable.newInstance("A",Boolean.class,false,true,false);
-    private final NodeVariable<Boolean> c = NodeVariable.newInstance("output",Boolean.class,false,false,true);
+    private final DockReceiving<Boolean> a = new DockReceiving<>("A",Boolean.class,false);
+    private final DockShipping<Boolean> c = new DockShipping<>("output",Boolean.class,false);
 
     /**
      * Constructor for subclasses to call.
@@ -23,8 +22,10 @@ public class LogicalNot extends Node {
 
     @Override
     public void update() {
+        if(0==countReceivingConnections()) return;
+        if(!a.hasPacketWaiting()) return;
+        a.receive();
         boolean av = a.getValue();
-        c.setValue(!av);
-        cleanAllInputs();
+        c.send(new Packet<>(!av));
     }
 }

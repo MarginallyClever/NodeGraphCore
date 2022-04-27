@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * C=atan2(y,x)
@@ -9,9 +8,9 @@ import com.marginallyclever.nodegraphcore.NodeVariable;
  * @since 2022-02-01
  */
 public class ATan2 extends Node {
-    private final NodeVariable<Number> a = NodeVariable.newInstance("X",Number.class,0,true,false);
-    private final NodeVariable<Number> b = NodeVariable.newInstance("Y",Number.class,0,true,false);
-    private final NodeVariable<Number> c = NodeVariable.newInstance("output",Number.class,0,false,true);
+    private final DockReceiving<Number> a = new DockReceiving<>("X",Number.class,0);
+    private final DockReceiving<Number> b = new DockReceiving<>("Y",Number.class,0);
+    private final DockShipping<Number> c = new DockShipping<>("output",Number.class,0);
 
     /**
      * Constructor for subclasses to call.
@@ -25,9 +24,12 @@ public class ATan2 extends Node {
 
     @Override
     public void update() {
+        if(0==countReceivingConnections()) return;
+        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
+        a.receive();
+        b.receive();
         double y = a.getValue().doubleValue();
         double x = b.getValue().doubleValue();
-        c.setValue(Math.atan2(y,x));
-        cleanAllInputs();
+        c.send(new Packet<>(Math.atan2(y,x)));
     }
 }

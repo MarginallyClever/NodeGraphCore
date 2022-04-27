@@ -1,20 +1,17 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
-import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.NodeVariable;
+import com.marginallyclever.nodegraphcore.*;
 
 /**
  * Generate a new random number in the range max-min when updated.
  */
 public class Random extends Node {
-    private final NodeVariable<Number> vMax = NodeVariable.newInstance("max",Number.class,0,true,false);
-    private final NodeVariable<Number> vMin = NodeVariable.newInstance("min",Number.class,0,true,false);
-    private final NodeVariable<Number> v = NodeVariable.newInstance("value",Number.class,0,false,true);
+    private final DockReceiving<Number> vMax = new DockReceiving<>("max",Number.class,0);
+    private final DockReceiving<Number> vMin = new DockReceiving<>("min",Number.class,0);
+    private final DockShipping<Number> v = new DockShipping<>("value",Number.class,0);
 
     /**
      * Constructor for subclasses to call.
-     * @param top the maximum value, exclusive.
-     * @param bottom the minimum value, inclusive.
      */
     public Random() {
         super("Random");
@@ -25,9 +22,12 @@ public class Random extends Node {
 
     @Override
     public void update() {
+        if(0==countReceivingConnections()) return;
+        if(!vMax.hasPacketWaiting() && !vMin.hasPacketWaiting()) return;
+        vMin.receive();
+        vMax.receive();
         double a = vMin.getValue().doubleValue();
         double b = vMax.getValue().doubleValue();
-        v.setValue(Math.random()*(b-a) + a);
-        cleanAllInputs();
+        v.send(new Packet<>(Math.random()*(b-a) + a));
     }
 }

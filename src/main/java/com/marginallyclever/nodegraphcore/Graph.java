@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link NodeGraph} contains the {@link Node}s, and {@link NodeConnection}s
+ * {@link Graph} contains the {@link Node}s, and {@link Connection}s
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class NodeGraph {
-    private static final Logger logger = LoggerFactory.getLogger(NodeGraph.class);
+public class Graph {
+    private static final Logger logger = LoggerFactory.getLogger(Graph.class);
 
     /**
      * The list of all {@link Node} in this graph.
@@ -25,14 +25,14 @@ public class NodeGraph {
     private final List<Node> nodes = new ArrayList<>();
 
     /**
-     * The list of all {@link NodeConnection} in this graph.
+     * The list of all {@link Connection} in this graph.
      */
-    private final List<NodeConnection> connections = new ArrayList<>();
+    private final List<Connection> connections = new ArrayList<>();
 
     /**
-     * Constructor for subclasses to call.  Creates an empty {@link NodeGraph}.
+     * Constructor for subclasses to call.  Creates an empty {@link Graph}.
      */
-    public NodeGraph() {
+    public Graph() {
         super();
     }
 
@@ -45,19 +45,11 @@ public class NodeGraph {
      * The method does not analyze the directed graph to run nodes in an "intelligent" way.
      */
     public void update() {
-        for(Node n : nodes) {
-            try {
-                n.updateIfNotDirty();
-            } catch(Exception e) {
-                logger.debug(e.getMessage());
-            }
-        }
-        for(NodeConnection c : connections) c.applyIfDirty();
-        for(Node n : nodes) n.cleanAllOutputs();
+        for(Node n : nodes) n.update();
     }
 
     /**
-     * @return a {@link List} of all the {@link Node}s within this {@link NodeGraph}.
+     * @return a {@link List} of all the {@link Node}s within this {@link Graph}.
      * It is not a copy!  Use with caution.
      */
     public List<Node> getNodes() {
@@ -65,10 +57,10 @@ public class NodeGraph {
     }
 
     /**
-     * @return a {@link List} of all the {@link NodeConnection}s within this {@link NodeGraph}.
+     * @return a {@link List} of all the {@link Connection}s within this {@link Graph}.
      * It is not a copy!  Use with caution.
      */
-    public List<NodeConnection> getConnections() {
+    public List<Connection> getConnections() {
         return connections;
     }
 
@@ -83,7 +75,7 @@ public class NodeGraph {
     }
 
     /**
-     * Remove a {@link Node} and all associated {@link NodeConnection}s from the model.
+     * Remove a {@link Node} and all associated {@link Connection}s from the model.
      * @param n the subject to be removed.
      */
     public void remove(Node n) {
@@ -92,50 +84,50 @@ public class NodeGraph {
     }
 
     /**
-     * Adds a {@link NodeConnection} without checking if it already exists.
+     * Adds a {@link Connection} without checking if it already exists.
      * @param connection the item to add.
      * @return the same connection for convenient method chaining.
      */
-    public NodeConnection add(NodeConnection connection) {
+    public Connection add(Connection connection) {
         connections.add(connection);
         return connection;
     }
 
     /**
-     * Remove one {@link NodeConnection} from this graph.
+     * Remove one {@link Connection} from this graph.
      * @param c the item to remove.
      */
-    public void remove(NodeConnection c) {
+    public void remove(Connection c) {
         connections.remove(c);
     }
 
     /**
-     * Add all {@link Node}s and {@link NodeConnection}s from one model to this model.
-     * @param nodeGraph the model to add.
+     * Add all {@link Node}s and {@link Connection}s from one model to this model.
+     * @param graph the model to add.
      */
-    public void add(NodeGraph nodeGraph) {
-        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
+    public void add(Graph graph) {
+        if(graph ==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
         assignNewUniqueIDs();
-        nodeGraph.assignNewUniqueIDs();
+        graph.assignNewUniqueIDs();
 
-        nodes.addAll(nodeGraph.nodes);
-        connections.addAll(nodeGraph.connections);
+        nodes.addAll(graph.nodes);
+        connections.addAll(graph.connections);
     }
 
-    public void remove(NodeGraph nodeGraph) {
-        if(nodeGraph==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
-        nodes.removeAll(nodeGraph.nodes);
-        connections.removeAll(nodeGraph.connections);
+    public void remove(Graph graph) {
+        if(graph ==null) throw new IllegalArgumentException("nodeGraph cannot be null.");
+        nodes.removeAll(graph.nodes);
+        connections.removeAll(graph.connections);
     }
 
 
     /**
-     * Remove all {@link NodeConnection}s from the model associated with a given {@link Node}
+     * Remove all {@link Connection}s from the model associated with a given {@link Node}
      * @param n the subject from which all connections should be removed.
      */
     public void removeConnectionsToNode(Node n) {
-        ArrayList<NodeConnection> toKeep = new ArrayList<>();
-        for(NodeConnection c : connections) {
+        ArrayList<Connection> toKeep = new ArrayList<>();
+        for(Connection c : connections) {
             if(!c.isConnectedTo(n)) toKeep.add(c);
         }
         connections.clear();
@@ -143,12 +135,12 @@ public class NodeGraph {
     }
 
     /**
-     * Searches this {@link NodeGraph} for an equivalent {@link NodeConnection}.
+     * Searches this {@link Graph} for an equivalent {@link Connection}.
      * @param connection the item to match.
-     * @return returns the matching {@link NodeConnection} or null.
+     * @return returns the matching {@link Connection} or null.
      */
-    public NodeConnection getMatchingConnection(NodeConnection connection) {
-        for(NodeConnection c : connections) {
+    public Connection getMatchingConnection(Connection connection) {
+        for(Connection c : connections) {
             if(c.equals(connection)) return c;
         }
         return null;
@@ -182,7 +174,7 @@ public class NodeGraph {
 
         for(Node n : nodes) {
             for(int i = 0; i < n.getNumVariables(); ++i) {
-                NodeVariable<?> v = n.getVariable(i);
+                Dock<?> v = n.getVariable(i);
                 if(v.getHasInput()) {
                     double r2 = v.getInPosition().distanceSq(point);
                     if (r2 < rr) {
@@ -215,17 +207,17 @@ public class NodeGraph {
     }
 
     /**
-     * Find and remove any {@link NodeConnection} that connects to the input side of a given {@link NodeVariable}.
-     * @param outVariable the {@link NodeVariable} with an input to be isolated.
+     * Find and remove any {@link Connection} that connects to the input side of a given {@link Dock}.
+     * @param outVariable the {@link Dock} with an input to be isolated.
      */
-    public void removeAllConnectionsInto(NodeVariable<?> outVariable) {
+    public void removeAllConnectionsInto(Dock<?> outVariable) {
         connections.removeAll(getAllConnectionsInto(outVariable));
     }
 
-    public List<NodeConnection> getAllConnectionsInto(NodeVariable<?> outVariable) {
-        ArrayList<NodeConnection> list = new ArrayList<>();
+    public List<Connection> getAllConnectionsInto(Dock<?> outVariable) {
+        ArrayList<Connection> list = new ArrayList<>();
 
-        for(NodeConnection c : connections) {
+        for(Connection c : connections) {
             if(c.getOutVariable() == outVariable) list.add(c);
         }
 
@@ -237,11 +229,11 @@ public class NodeGraph {
     }
 
     /**
-     * Returns a deep copy of this {@link NodeGraph} by using the JSON serialization methods.
-     * @return the {@link NodeGraph} copy
+     * Returns a deep copy of this {@link Graph} by using the JSON serialization methods.
+     * @return the {@link Graph} copy
      */
-    public NodeGraph deepCopy() {
-        NodeGraph copy = new NodeGraph();
+    public Graph deepCopy() {
+        Graph copy = new Graph();
         copy.parseJSON(toJSON());
         return copy;
     }
@@ -357,19 +349,19 @@ public class NodeGraph {
 
     private void parseAllNodeConnectionsFromJSON(JSONArray arr) throws JSONException {
         for (Object o : arr) {
-            NodeConnection c = new NodeConnection();
+            Connection c = new Connection();
             parseOneConnectionFromJSON(c, (JSONObject)o);
             add(c);
         }
     }
 
     /**
-     * {@link NodeConnection} must be parsed in the {@link NodeGraph} because only here can we access the list of
+     * {@link Connection} must be parsed in the {@link Graph} because only here can we access the list of
      * nodes to find the one with a matching {@code getUniqueName()}.
      * @param c the connection to parse into.
      * @param jo the JSON to parse.
      */
-    private void parseOneConnectionFromJSON(NodeConnection c, JSONObject jo) {
+    private void parseOneConnectionFromJSON(Connection c, JSONObject jo) {
         if(jo.has("inNode")) {
             Node n = findNodeWithUniqueName(jo.getString("inNode"));
             int i = jo.getInt("inVariableIndex");
@@ -392,7 +384,7 @@ public class NodeGraph {
 
     private JSONArray getAllNodeConnectionsAsJSON() {
         JSONArray a = new JSONArray();
-        for (NodeConnection c : connections) {
+        for (Connection c : connections) {
             a.put(c.toJSON());
         }
         return a;
@@ -415,18 +407,12 @@ public class NodeGraph {
         return null;
     }
 
-    public void setAllDirty() {
-        for(Node n : nodes) {
-            n.setAllDirty();
-        }
-    }
-
     /**
      * Returns a list of connections that connect to the selected {@link Node}s and unselected {@link Node}s.
      * @param selectedNodes the set of {@link Node}s.
      * @return a list of connections that connect to the selected {@link Node}s and unselected {@link Node}s.
      */
-    public List<NodeConnection> getExteriorConnections(List<Node> selectedNodes) {
+    public List<Connection> getExteriorConnections(List<Node> selectedNodes) {
         return getConnectionsCounted(selectedNodes,1);
     }
 
@@ -435,7 +421,7 @@ public class NodeGraph {
      * @param selectedNodes the set of {@link Node}s.
      * @return a list of connections that connect between the selected {@link Node}s.
      */
-    public List<NodeConnection> getInteriorConnections(List<Node> selectedNodes) {
+    public List<Connection> getInteriorConnections(List<Node> selectedNodes) {
         return getConnectionsCounted(selectedNodes,2);
     }
 
@@ -445,10 +431,10 @@ public class NodeGraph {
      * @param count the number of connections to match.
      * @return a list of connections that have exactly <code>count</code> connections to the selected {@link Node}s.
      */
-    private List<NodeConnection> getConnectionsCounted(List<Node> selectedNodes,int count) {
-        ArrayList<NodeConnection> found = new ArrayList<>();
+    private List<Connection> getConnectionsCounted(List<Node> selectedNodes, int count) {
+        ArrayList<Connection> found = new ArrayList<>();
 
-        for(NodeConnection c : getConnections()) {
+        for(Connection c : getConnections()) {
             int hits=0;
             for(Node n : selectedNodes) {
                 if(c.isConnectedTo(n)) {

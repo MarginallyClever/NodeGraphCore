@@ -7,13 +7,13 @@ import java.util.ArrayList;
  * A {@link Subgraph} is a {@link Node} which contains another graph.
  */
 public class Subgraph extends Node implements SupergraphInput, SupergraphOutput, PrintWithGraphics {
-    private final NodeGraph graph = new NodeGraph();
+    private final Graph graph = new Graph();
 
     private class VariablePair {
-        public NodeVariable<?> superVariable;
-        public NodeVariable<?> subVariable;
+        public Dock<?> superVariable;
+        public Dock<?> subVariable;
 
-        public VariablePair(NodeVariable<?> subVariable) {
+        public VariablePair(Dock<?> subVariable) {
             this.superVariable = subVariable.createInverse();
             this.subVariable = subVariable;
         }
@@ -35,7 +35,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
      * Constructor for subclasses to call.
      * @param graph the contents of this subgraph.
      */
-    public Subgraph(NodeGraph graph) {
+    public Subgraph(Graph graph) {
         this();
         setGraph(graph);
     }
@@ -43,9 +43,9 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     /**
      * Stores a deep copy of the given graph and exposes the {@link SupergraphInput}s and {@link SupergraphOutput}s to
      * the supergraph.
-     * @param graph the {@link NodeGraph} to store.
+     * @param graph the {@link Graph} to store.
      */
-    public void setGraph(NodeGraph graph) {
+    public void setGraph(Graph graph) {
         this.graph.clear();
         this.graph.add(graph.deepCopy());
 
@@ -71,7 +71,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphOutput) {
             System.out.println("SupergraphOutput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                NodeVariable<?> v = n.getVariable(i);
+                Dock<?> v = n.getVariable(i);
                 if(v.getHasInput()) {
                     System.out.println("found output "+v.getName());
                     addToPairs(v);
@@ -88,7 +88,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphInput) {
             System.out.println("SupergraphInput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                NodeVariable<?> v = n.getVariable(i);
+                Dock<?> v = n.getVariable(i);
                 if(v.getHasOutput()) {
                     System.out.println("found input "+v.getName());
                     addToPairs(v);
@@ -116,16 +116,16 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
      * Create and store a supergraph/subgraph variable pair.
      * @param v subgraph variable.
      */
-    private void addToPairs(NodeVariable<?> v) {
+    private void addToPairs(Dock<?> v) {
         VariablePair p = new VariablePair(v);
         pairs.add(p);
     }
 
     /**
-     * Returns the {@link NodeGraph} within this {@link Subgraph}
-     * @return the {@link NodeGraph} within this {@link Subgraph}
+     * Returns the {@link Graph} within this {@link Subgraph}
+     * @return the {@link Graph} within this {@link Subgraph}
      */
-    public NodeGraph getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 
@@ -133,19 +133,14 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     public void update() {
         for(VariablePair p : pairs) {
             if(p.superVariable.getHasInput()) {
-                if (p.superVariable.getIsDirty()) {
-                    p.subVariable.setValue(p.superVariable.getValue());
-                }
+                p.subVariable.setValue(p.superVariable.getValue());
             }
             if(p.superVariable.getHasOutput()) {
-                if (p.subVariable.getIsDirty()) {
-                    p.superVariable.setValue(p.subVariable.getValue());
-                }
+                p.superVariable.setValue(p.subVariable.getValue());
             }
         }
 
         graph.update();
-        cleanAllInputs();
     }
 
     @Override

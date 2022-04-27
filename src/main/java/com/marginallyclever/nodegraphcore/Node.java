@@ -30,7 +30,7 @@ public abstract class Node {
 
     private final Rectangle rectangle = new Rectangle(0,0,150,50);
 
-    private final List<NodeVariable<?>> variables = new ArrayList<>();
+    private final List<Dock<?>> variables = new ArrayList<>();
 
     /**
      * Default constructor
@@ -63,7 +63,7 @@ public abstract class Node {
      * Returns the list of variables in this node.
      * @return the list of variables in this node.
      */
-    public List<NodeVariable<?>> getVariables() {
+    public List<Dock<?>> getVariables() {
         return variables;
     }
 
@@ -104,16 +104,7 @@ public abstract class Node {
      * Classes that derive from {@link Node} MUST not modify data that arrives from the inputs.
      * Classes that derive from {@link Node} MAY pass input along as output.
      */
-    public abstract void update() throws Exception;
-
-    /**
-     * Runs {@link Node#update()} only if the node is considered dirty.  It is up to individual nodes to decide
-     * if they are done (no longer dirty)
-     */
-    public void updateIfNotDirty() throws Exception {
-        if(!isDirty()) return;
-        update();
-    }
+    public abstract void update();
 
     /**
      * Recalculate the bounds of this node.
@@ -123,7 +114,7 @@ public abstract class Node {
         int h=Node.TITLE_HEIGHT;
         int y=getRectangle().y;
         int x=getRectangle().x;
-        for(NodeVariable<?> v : variables) {
+        for(Dock<?> v : variables) {
             Rectangle r = v.getRectangle();
             r.y=h+y;
             r.x=x;
@@ -135,47 +126,18 @@ public abstract class Node {
     }
 
     /**
-     * Returns true if any input variables variables are dirty.
-     * @return true if any input variables are dirty.
+     * Add a {@link Dock} to this node.
+     * @param v the new {@link Dock}
      */
-    public boolean isDirty() {
-        for(NodeVariable<?> v : variables) {
-            if(v.getHasInput() && v.getIsDirty()) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Makes all input variables not dirty.
-     */
-    protected void cleanAllInputs() {
-        for(NodeVariable<?> v : variables) {
-            if(v.getHasInput()) v.setIsDirty(false);
-        }
-    }
-
-    /**
-     * Set all outputs to not dirty.
-     */
-    public void cleanAllOutputs() {
-        for(NodeVariable<?> v : variables) {
-            if(v.getHasOutput()) v.setIsDirty(false);
-        }
-    }
-
-    /**
-     * Add a {@link NodeVariable} to this node.
-     * @param v the new {@link NodeVariable}
-     */
-    protected void addVariable(NodeVariable<?> v) {
+    protected void addVariable(Dock<?> v) {
         variables.add(v);
     }
 
     /**
-     * Remove a {@link NodeVariable} from this node.
-     * @param v the old {@link NodeVariable}
+     * Remove a {@link Dock} from this node.
+     * @param v the old {@link Dock}
      */
-    protected void removeVariable(NodeVariable<?> v) {
+    protected void removeVariable(Dock<?> v) {
         variables.remove(v);
     }
 
@@ -188,12 +150,12 @@ public abstract class Node {
     }
 
     /**
-     * Get the i-th {@link NodeVariable} in this node.
+     * Get the i-th {@link Dock} in this node.
      * @param index the index.
-     * @return the i-th {@link NodeVariable} in this node.
+     * @return the i-th {@link Dock} in this node.
      * @throws IndexOutOfBoundsException when an invalid index is requested.
      */
-    public NodeVariable<?> getVariable(int index) throws IndexOutOfBoundsException {
+    public Dock<?> getVariable(int index) throws IndexOutOfBoundsException {
         return variables.get(index);
     }
 
@@ -209,9 +171,9 @@ public abstract class Node {
     }
 
     /**
-     * Returns the center of the input connection point of the requested {@link NodeVariable}.
+     * Returns the center of the input connection point of the requested {@link Dock}.
      * @param index the requested index
-     * @return the center of the input connection point of the requested {@link NodeVariable}.
+     * @return the center of the input connection point of the requested {@link Dock}.
      */
     public Point getInPosition(int index) {
         Rectangle r = getRectangle();
@@ -219,9 +181,9 @@ public abstract class Node {
     }
 
     /**
-     * Returns the center of the output connection point of the requested {@link NodeVariable}.
+     * Returns the center of the output connection point of the requested {@link Dock}.
      * @param index the requested index
-     * @return the center of the output connection point of the requested {@link NodeVariable}.
+     * @return the center of the output connection point of the requested {@link Dock}.
      */
     public Point getOutPosition(int index) {
         Rectangle r = getRectangle();
@@ -285,7 +247,7 @@ public abstract class Node {
 
     private JSONArray getAllVariablesAsJSON() {
         JSONArray vars = new JSONArray();
-        for(NodeVariable<?> v : variables) {
+        for(Dock<?> v : variables) {
             vars.put(v.toJSON());
         }
         return vars;
@@ -295,7 +257,9 @@ public abstract class Node {
         String joName = jo.getString("name");
         if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
 
-        uniqueID = jo.getString("uniqueID");
+        Object uid = jo.get("uniqueID");
+        uniqueID = (uid instanceof String) ? (String)uid : uid.toString();
+
         if(jo.has("label")) {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
@@ -320,9 +284,15 @@ public abstract class Node {
         }
     }
 
-    public void setAllDirty() {
-        for(NodeVariable<?> v : variables) {
-            v.setIsDirty(true);
+    public int countReceivingConnections() {
+        int count = 0;
+        for(Dock<?> v : variables) {
+            if(v.hasInput) {
+                if(((DockReceiving<?>)v).hasConnection()) {
+                    count++;
+                }
+            }
         }
+        return count;
     }
 }

@@ -4,18 +4,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.*;
+import java.util.Deque;
 import java.util.Objects;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
- * Describes the connection between two {@link NodeVariable}s in different {@link Node}s.
+ * Describes the connection between two {@link Dock}s in different {@link Node}s.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class NodeConnection {
+public class Connection {
     /**
      * radius of connection points at either end.  Used for generating bounds and testing intersections.
      */
     public static final double DEFAULT_RADIUS = 5;
+
+    private final Deque<Packet<?>> queue = new LinkedBlockingDeque<>();
 
     private Node inNode;
     private int inVariableIndex=-1;
@@ -25,60 +29,41 @@ public class NodeConnection {
     /**
      * public Constructor for subclasses to call.
      */
-    public NodeConnection() {
+    public Connection() {
         super();
     }
 
     /**
-     * Construct this {@link NodeConnection} with the given parameters.
-     * @param inNode the input {@link Node}
-     * @param inVariableIndex the {@link NodeVariable} index
-     * @param outNode the output {@link Node}
-     * @param outVariableIndex the output {@link NodeVariable} index
+     * Construct this {@link Connection} with the given parameters.
+     * @param fromNode the input {@link Node}
+     * @param fromIndex the {@link Dock} index
+     * @param toNode the output {@link Node}
+     * @param toIndex the output {@link Dock} index
      */
-    public NodeConnection(Node inNode,int inVariableIndex,Node outNode,int outVariableIndex) {
+    public Connection(Node fromNode, int fromIndex, Node toNode, int toIndex) {
         this();
-        setInput(inNode,inVariableIndex);
-        setOutput(outNode,outVariableIndex);
+        setInput(fromNode,fromIndex);
+        setOutput(toNode,toIndex);
+
+        ((DockShipping)fromNode.getVariable(fromIndex)).addTo(this);
+        ((DockReceiving)toNode.getVariable(toIndex)).setFrom(this);
     }
 
     /**
-     * Construct this {@link NodeConnection} to match another.
+     * Construct this {@link Connection} to match another.
      * @param another the source to match.
      */
-    public NodeConnection(NodeConnection another) {
+    public Connection(Connection another) {
         this(another.inNode,another.inVariableIndex,another.outNode,another.outVariableIndex);
-    }
-
-    /**
-     * Send the value of upstream variables to downstream variables if the upstream is dirty.
-     */
-    public void applyIfDirty() {
-        if(!isValidDataType()) return;
-
-        NodeVariable<?> in = getInputVariable();
-        if(in.getIsDirty()) {
-            getOutputVariable().setValue(in.getValue());
-        }
-    }
-
-    /**
-     * Send the value of upstream variables to downstream variables, dirty or not.
-     */
-    public void apply() {
-        if(!isValidDataType()) return;
-
-        NodeVariable<?> in = getInputVariable();
-        getOutputVariable().setValue(in.getValue());
     }
 
     /**
      * @return true if the data type at both ends is a valid match.
      */
     public boolean isValidDataType() {
-        if(!isInputValid() || !isOutputValid()) return false;
-        NodeVariable<?> in = getInputVariable();
-        NodeVariable<?> out = getOutputVariable();
+        if (!isInputValid() || !isOutputValid()) return false;
+        Dock<?> in = getInputVariable();
+        Dock<?> out = getOutputVariable();
         return out.isValidType(in.getValue());
     }
 
@@ -97,16 +82,16 @@ public class NodeConnection {
     }
 
     /**
-     * @return the {@link NodeVariable} connected on the input side.
+     * @return the {@link Dock} connected on the input side.
      * @throws IndexOutOfBoundsException if the requested index is invalid.
      * @throws NullPointerException if the output does not exist.
      */
-    private NodeVariable<?> getOutputVariable() throws NullPointerException, IndexOutOfBoundsException {
+    private Dock<?> getOutputVariable() throws NullPointerException, IndexOutOfBoundsException {
         if(outNode==null) throw new NullPointerException("output does not exist");
         return outNode.getVariable(outVariableIndex);
     }
 
-    private NodeVariable<?> getInputVariable() throws NullPointerException, IndexOutOfBoundsException {
+    private Dock<?> getInputVariable() throws NullPointerException, IndexOutOfBoundsException {
         if(inNode==null) throw new NullPointerException("output does not exist");
         return inNode.getVariable(inVariableIndex);
     }
@@ -134,25 +119,29 @@ public class NodeConnection {
     }
 
     /**
-     * Sets the input of this {@link NodeConnection}.  Does not perform a validity check.
+     * Sets the input of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
      * @param variableIndex the connecting node index.
      */
     public void setInput(Node n, int variableIndex) {
         inNode = n;
         inVariableIndex = variableIndex;
-        apply();
+        if(n!=null) {
+            ((DockShipping) n.getVariable(variableIndex)).addTo(this);
+        }
     }
 
     /**
-     * Sets the output of this {@link NodeConnection}.  Does not perform a validity check.
+     * Sets the output of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
      * @param variableIndex the connecting node index.
      */
     public void setOutput(Node n, int variableIndex) {
         outNode = n;
         outVariableIndex = variableIndex;
-        apply();
+        if(n!=null) {
+            ((DockReceiving) n.getVariable(variableIndex)).setFrom(this);
+        }
     }
 
     @Override
@@ -166,23 +155,23 @@ public class NodeConnection {
     }
 
     /**
-     * @return The position of this {@link NodeConnection}'s input connection point.
+     * @return The position of this {@link Connection}'s input connection point.
      */
     public Point getInPosition() {
         return inNode.getOutPosition(inVariableIndex);
     }
 
     /**
-     * @return The position of this {@link NodeConnection}'s output connection point.
+     * @return The position of this {@link Connection}'s output connection point.
      */
     public Point getOutPosition() {
         return outNode.getInPosition(outVariableIndex);
     }
 
     /**
-     * Returns true if this {@link NodeConnection} is attached at either end to a given {@link Node}.
+     * Returns true if this {@link Connection} is attached at either end to a given {@link Node}.
      * @param node the subject being tested.
-     * @return true if this {@link NodeConnection} is attached at either end to a given {@link Node}.
+     * @return true if this {@link Connection} is attached at either end to a given {@link Node}.
      */
     public boolean isConnectedTo(Node node) {
         return node==inNode || node==outNode;
@@ -197,19 +186,19 @@ public class NodeConnection {
     }
 
     /**
-     * Sets the contents of this {@link NodeConnection} to match that of another.
-     * @param nodeConnection the {@link NodeConnection} to match.
+     * Sets the contents of this {@link Connection} to match that of another.
+     * @param connection the {@link Connection} to match.
      */
-    public void set(NodeConnection nodeConnection) {
-        setInput(nodeConnection.inNode,nodeConnection.inVariableIndex);
-        setOutput(nodeConnection.outNode,nodeConnection.outVariableIndex);
+    public void set(Connection connection) {
+        setInput(connection.inNode, connection.inVariableIndex);
+        setOutput(connection.outNode, connection.outVariableIndex);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NodeConnection that = (NodeConnection) o;
+        Connection that = (Connection) o;
         return inVariableIndex == that.inVariableIndex &&
                 outVariableIndex == that.outVariableIndex &&
                 inNode.equals(that.inNode) &&
@@ -222,7 +211,7 @@ public class NodeConnection {
     }
 
     /**
-     * @return the index of the input {@link Node} variable to which this {@link NodeConnection} is attached.  Assumes
+     * @return the index of the input {@link Node} variable to which this {@link Connection} is attached.  Assumes
      * there is a valid connection.
      */
     public int getInVariableIndex() {
@@ -230,7 +219,7 @@ public class NodeConnection {
     }
 
     /**
-     * @return the index of the output {@link Node} variable to which this {@link NodeConnection} is attached.  Assumes
+     * @return the index of the output {@link Node} variable to which this {@link Connection} is attached.  Assumes
      * there is a valid connection.
      */
     public int getOutVariableIndex() {
@@ -238,16 +227,16 @@ public class NodeConnection {
     }
 
     /**
-     * @return the {@link NodeVariable} at this input, or null.
+     * @return the {@link Dock} at this input, or null.
      */
-    public NodeVariable<?> getInVariable() {
+    public Dock<?> getInVariable() {
         return (inNode==null) ? null : inNode.getVariable(inVariableIndex);
     }
 
     /**
-     * @return the {@link NodeVariable} at this output, or null.
+     * @return the {@link Dock} at this output, or null.
      */
-    public NodeVariable<?> getOutVariable() {
+    public Dock<?> getOutVariable() {
         return (outNode==null) ? null : outNode.getVariable(outVariableIndex);
     }
 
@@ -286,5 +275,21 @@ public class NodeConnection {
         if(node==inNode) return outNode;
         else if(node==outNode) return inNode;
         else throw new GraphException("NodeConnection does not connect to given node.");
+    }
+
+    public void send(Packet<?> packet) {
+        queue.offer(packet);
+    }
+
+    public Packet<?> get() {
+        return queue.poll();
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    public int size() {
+        return queue.size();
     }
 }

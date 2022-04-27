@@ -1,5 +1,7 @@
+import com.marginallyclever.nodegraphcore.Graph;
+
 /**
- * nodegraphcore contains essential elements for describing a {@link com.marginallyclever.nodegraphcore.NodeGraph} for
+ * nodegraphcore contains essential elements for describing a {@link Graph} for
  * flow-based programming.<br>
  */
 module com.marginallyclever.nodegraphcore {
