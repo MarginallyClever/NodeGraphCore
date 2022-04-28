@@ -7,15 +7,13 @@ public class DockShipping<T> extends Dock<T> {
     private List<Connection> to = new ArrayList<>();
 
     public DockShipping(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
-        super(_name,type,startingValue,false,true);
+        super(_name,type,startingValue);
     }
 
     public void send(Packet<?> packet) {
-        if(isValidType(packet.getData())) {
-            super.setValue(packet.getData());
-            for(Connection c : to) {
-                c.send(packet);
-            }
+        super.setValue(packet.getData());
+        for(Connection c : to) {
+            c.send(packet);
         }
     }
 

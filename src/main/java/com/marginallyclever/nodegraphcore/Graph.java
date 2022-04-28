@@ -99,6 +99,7 @@ public class Graph {
      */
     public void remove(Connection c) {
         connections.remove(c);
+        c.disconnectAll();
     }
 
     /**
@@ -166,26 +167,26 @@ public class Graph {
      * Return the first connection point found within radius of a point
      * @param point center of search area
      * @param r radius limit
-     * @return a {@link NodeConnectionPointInfo} describing the point found or null.
+     * @return a {@link ConnectionPointInfo} describing the point found or null.
      */
-    public NodeConnectionPointInfo getNearestConnectionPoint(Point point, double r) {
+    public ConnectionPointInfo getNearestConnectionPoint(Point point, double r) {
         double rr=r*r;
-        NodeConnectionPointInfo info=null;
+        ConnectionPointInfo info=null;
 
         for(Node n : nodes) {
             for(int i = 0; i < n.getNumVariables(); ++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v.getHasInput()) {
+                if(v instanceof DockReceiving) {
                     double r2 = v.getInPosition().distanceSq(point);
                     if (r2 < rr) {
                         rr = r2;
-                        info = new NodeConnectionPointInfo(n, i, NodeConnectionPointInfo.IN);
+                        info = new ConnectionPointInfo(n, i, ConnectionPointInfo.IN);
                     }
-                } else {
+                } else if(v instanceof DockShipping) {
                     double r2 = v.getOutPosition().distanceSq(point);
                     if (r2 < rr) {
                         rr = r2;
-                        info = new NodeConnectionPointInfo(n,i, NodeConnectionPointInfo.OUT);
+                        info = new ConnectionPointInfo(n,i, ConnectionPointInfo.OUT);
                     }
                 }
             }

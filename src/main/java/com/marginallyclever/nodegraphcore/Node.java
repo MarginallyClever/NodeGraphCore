@@ -287,7 +287,7 @@ public abstract class Node {
     public int countReceivingConnections() {
         int count = 0;
         for(Dock<?> v : variables) {
-            if(v.hasInput) {
+            if(v instanceof DockReceiving) {
                 if(((DockReceiving<?>)v).hasConnection()) {
                     count++;
                 }

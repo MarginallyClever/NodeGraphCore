@@ -103,7 +103,7 @@ public class Connection {
         if(inNode==null) return false;
         if(inVariableIndex==-1) return false;
         if(inNode.getNumVariables() <= inVariableIndex) return false;
-        if(!inNode.getVariable(inVariableIndex).getHasOutput()) return false;
+        if(!(inNode.getVariable(inVariableIndex) instanceof DockShipping)) return false;
         return true;
     }
 
@@ -114,7 +114,7 @@ public class Connection {
         if(outNode==null) return false;
         if(outVariableIndex==-1) return false;
         if(outNode.getNumVariables() <= outVariableIndex) return false;
-        if(!outNode.getVariable(outVariableIndex).getHasInput()) return false;
+        if(!(outNode.getVariable(outVariableIndex) instanceof DockReceiving)) return false;
         return true;
     }
 
@@ -181,8 +181,11 @@ public class Connection {
      * Disconnects from all {@link Node}s.
      */
     public void disconnectAll() {
+        if(getInVariable()!=null) ((DockShipping)getInVariable()).removeTo(this);
+        if(getOutVariable()!=null) ((DockReceiving)getOutVariable()).removeFrom(this);
         setInput(null,0);
         setOutput(null,0);
+        queue.clear();
     }
 
     /**

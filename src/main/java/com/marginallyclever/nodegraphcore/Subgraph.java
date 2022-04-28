@@ -72,7 +72,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
             System.out.println("SupergraphOutput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v.getHasInput()) {
+                if(v instanceof DockReceiving) {
                     System.out.println("found output "+v.getName());
                     addToPairs(v);
                 }
@@ -89,7 +89,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
             System.out.println("SupergraphInput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v.getHasOutput()) {
+                if(v instanceof DockShipping) {
                     System.out.println("found input "+v.getName());
                     addToPairs(v);
                 }
@@ -105,8 +105,8 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
      */
     private int sortVariables(VariablePair a, VariablePair b) {
         // all input first
-        int aIn = (a.subVariable.getHasInput())?1:0;
-        int bIn = (a.subVariable.getHasInput())?1:0;
+        int aIn = (a.subVariable  instanceof DockReceiving)?1:0;
+        int bIn = (a.subVariable  instanceof DockReceiving)?1:0;
         if(aIn != bIn) return aIn-bIn;
         // then sort by name alphabetically
         return a.subVariable.getName().compareTo(b.subVariable.getName());
@@ -132,10 +132,10 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     @Override
     public void update() {
         for(VariablePair p : pairs) {
-            if(p.superVariable.getHasInput()) {
+            if(p.superVariable instanceof DockReceiving) {
                 p.subVariable.setValue(p.superVariable.getValue());
             }
-            if(p.superVariable.getHasOutput()) {
+            if(p.superVariable instanceof DockShipping) {
                 p.superVariable.setValue(p.subVariable.getValue());
             }
         }

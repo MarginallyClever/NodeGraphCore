@@ -4,7 +4,7 @@ public class DockReceiving<T> extends Dock<T> {
     private Connection from;
 
     public DockReceiving(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
-        super(_name,type,startingValue,true,false);
+        super(_name,type,startingValue);
     }
 
     public void receive() {
@@ -12,9 +12,7 @@ public class DockReceiving<T> extends Dock<T> {
 
         Packet<?> packet = from.get();
         if(packet==null) return;
-        if(isValidType(packet.getData())) {
-            super.setValue(packet.getData());
-        }
+        super.setValue(packet.getData());
     }
 
     public boolean hasPacketWaiting() {
@@ -23,6 +21,12 @@ public class DockReceiving<T> extends Dock<T> {
 
     public void setFrom(Connection connection) {
         from = connection;
+    }
+
+    public void removeFrom(Connection connection) {
+        if (from == connection) {
+            from = null;
+        }
     }
 
     public boolean hasConnection() {
