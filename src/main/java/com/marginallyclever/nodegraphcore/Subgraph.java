@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Subgraph extends Node implements SupergraphInput, SupergraphOutput, PrintWithGraphics {
     private final Graph graph = new Graph();
 
-    private class VariablePair {
+    static class VariablePair {
         public Dock<?> superVariable;
         public Dock<?> subVariable;
 
@@ -43,11 +43,14 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     /**
      * Stores a deep copy of the given graph and exposes the {@link SupergraphInput}s and {@link SupergraphOutput}s to
      * the supergraph.
-     * @param graph the {@link Graph} to store.
+     * @param graph the {@link Graph} to store.  A deep copy is made.
      */
     public void setGraph(Graph graph) {
         this.graph.clear();
-        this.graph.add(graph.deepCopy());
+
+        if(graph!=null) {
+            this.graph.add(graph.deepCopy());
+        }
 
         for(Node n : this.graph.getNodes()) {
             extractSupergraphInputs(n);
@@ -106,7 +109,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     private int sortVariables(VariablePair a, VariablePair b) {
         // all input first
         int aIn = (a.subVariable  instanceof DockReceiving)?1:0;
-        int bIn = (a.subVariable  instanceof DockReceiving)?1:0;
+        int bIn = (b.subVariable  instanceof DockReceiving)?1:0;
         if(aIn != bIn) return aIn-bIn;
         // then sort by name alphabetically
         return a.subVariable.getName().compareTo(b.subVariable.getName());
