@@ -11,7 +11,7 @@ import java.awt.*;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class Dock<T> {
+public abstract class Dock<T> {
     /**
      * Dimensions used for bounds calculations and intersection tests.
      */
@@ -61,9 +61,7 @@ public class Dock<T> {
      * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
      * @return an inverted copy of this {@link Dock}.
      */
-    public Dock<T> createInverse() {
-        return new Dock<>(name,type,value);
-    }
+    abstract public Dock<T> createInverse();
 
     /**
      * Returns the bounding rectangle.

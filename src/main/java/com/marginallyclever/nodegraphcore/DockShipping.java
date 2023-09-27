@@ -31,4 +31,13 @@ public class DockShipping<T> extends Dock<T> {
         }
         return true;
     }
+
+    /**
+     * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
+     * @return an inverted copy of this {@link Dock}.
+     */
+    @Override
+    public Dock<T> createInverse() {
+        return new DockReceiving<>(name,type,value);
+    }
 }

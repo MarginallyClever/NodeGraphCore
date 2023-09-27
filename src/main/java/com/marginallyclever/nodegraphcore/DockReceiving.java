@@ -32,4 +32,13 @@ public class DockReceiving<T> extends Dock<T> {
     public boolean hasConnection() {
         return from!=null;
     }
+
+    /**
+     * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
+     * @return an inverted copy of this {@link Dock}.
+     */
+    @Override
+    public Dock<T> createInverse() {
+        return new DockShipping<T>(name,type,value);
+    }
 }
