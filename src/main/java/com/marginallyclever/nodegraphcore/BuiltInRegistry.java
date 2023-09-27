@@ -20,7 +20,7 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     }
 
     /**
-     * Perform the registration.
+     * Register nodes
      */
     public void registerNodes() throws GraphException {
         logger.info("Registering core nodes");
@@ -28,7 +28,7 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     }
 
     /**
-     * Perform the registration.
+     * Register DAOs.
      */
     @Override
     public void registerDAO() {
