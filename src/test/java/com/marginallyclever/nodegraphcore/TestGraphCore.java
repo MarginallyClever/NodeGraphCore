@@ -36,6 +36,7 @@ public class TestGraphCore {
         NodeFactory.clear();
         DAO4JSONFactory.clear();
     }
+
     /**
      * clear the graph.
      */
