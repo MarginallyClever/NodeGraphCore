@@ -35,18 +35,18 @@ public class Connection {
 
     /**
      * Construct this {@link Connection} with the given parameters.
-     * @param fromNode the input {@link Node}
-     * @param fromIndex the {@link Dock} index
-     * @param toNode the output {@link Node}
-     * @param toIndex the output {@link Dock} index
+     * @param inNode the input {@link Node}
+     * @param inVariableIndex the {@link Dock} index
+     * @param outNode the output {@link Node}
+     * @param outVariableIndex the output {@link Dock} index
      */
-    public Connection(Node fromNode, int fromIndex, Node toNode, int toIndex) {
+    public Connection(Node inNode, int inVariableIndex, Node outNode, int outVariableIndex) {
         this();
-        setInput(fromNode,fromIndex);
-        setOutput(toNode,toIndex);
+        setInput(inNode,inVariableIndex);
+        setOutput(outNode,outVariableIndex);
 
-        ((DockShipping)fromNode.getVariable(fromIndex)).addTo(this);
-        ((DockReceiving)toNode.getVariable(toIndex)).setFrom(this);
+        ((DockShipping<?>)inNode.getVariable(inVariableIndex)).addTo(this);
+        ((DockReceiving<?>)outNode.getVariable(outVariableIndex)).setFrom(this);
     }
 
     /**
@@ -127,7 +127,7 @@ public class Connection {
         inNode = n;
         inVariableIndex = variableIndex;
         if(n!=null) {
-            ((DockShipping) n.getVariable(variableIndex)).addTo(this);
+            ((DockShipping<?>) n.getVariable(variableIndex)).addTo(this);
         }
     }
 
@@ -140,7 +140,7 @@ public class Connection {
         outNode = n;
         outVariableIndex = variableIndex;
         if(n!=null) {
-            ((DockReceiving) n.getVariable(variableIndex)).setFrom(this);
+            ((DockReceiving<?>) n.getVariable(variableIndex)).setFrom(this);
         }
     }
 
@@ -181,8 +181,8 @@ public class Connection {
      * Disconnects from all {@link Node}s.
      */
     public void disconnectAll() {
-        if(getInVariable()!=null) ((DockShipping)getInVariable()).removeTo(this);
-        if(getOutVariable()!=null) ((DockReceiving)getOutVariable()).removeFrom(this);
+        if(getInVariable()!=null) ((DockShipping<?>)getInVariable()).removeTo(this);
+        if(getOutVariable()!=null) ((DockReceiving<?>)getOutVariable()).removeFrom(this);
         setInput(null,0);
         setOutput(null,0);
         queue.clear();
