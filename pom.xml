@@ -46,7 +46,7 @@
         <repository>
             <uniqueVersion>false</uniqueVersion>
             <id>github</id>
-            <name>GitHub Packages</name>
+            <name>GitHub MarginallyClever Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/MarginallyClever/NodeGraphCore</url>
             <layout>default</layout>
         </repository>
@@ -300,7 +300,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <minimum.maven.version>3.6.1</minimum.maven.version>
-        <minimum.java.version>15</minimum.java.version>
+        <minimum.java.version>21</minimum.java.version>
         <maven-dependency-plugin.ignoreNonCompile>true</maven-dependency-plugin.ignoreNonCompile>
         <maven.compiler.source>${minimum.java.version}</maven.compiler.source>
         <maven.compiler.target>${minimum.java.version}</maven.compiler.target>
