@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * Counts from start to end in increment sized steps, aka `for(i=start;i!=end;i+=increment)'
@@ -8,10 +10,10 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class Counter extends Node {
-    private final DockReceiving<Integer> start = new DockReceiving<>("start",Integer.class,0);
-    private final DockReceiving<Integer> end = new DockReceiving<>("end",Integer.class,1);
-    private final DockReceiving<Integer> increment = new DockReceiving<>("increment",Integer.class,1);
-    private final DockShipping<Integer> output = new DockShipping<>("output",Integer.class,0);
+    private final Input<Integer> start = new Input<>("start",Integer.class,0);
+    private final Input<Integer> end = new Input<>("end",Integer.class,1);
+    private final Input<Integer> increment = new Input<>("increment",Integer.class,1);
+    private final Output<Integer> output = new Output<>("output",Integer.class,0);
     private boolean done=false;
 
     /**

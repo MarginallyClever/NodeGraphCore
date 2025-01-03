@@ -1,5 +1,7 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.dock.Input;
 import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -287,8 +289,8 @@ public abstract class Node {
     public int countReceivingConnections() {
         int count = 0;
         for(Dock<?> v : variables) {
-            if(v instanceof DockReceiving) {
-                if(((DockReceiving<?>)v).hasConnection()) {
+            if(v instanceof Input) {
+                if(((Input<?>)v).hasConnection()) {
                     count++;
                 }
             }

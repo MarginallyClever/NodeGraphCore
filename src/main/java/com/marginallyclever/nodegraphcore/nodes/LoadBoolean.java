@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * {@link SupergraphInput} for a {@link Boolean}.
@@ -8,9 +10,9 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class LoadBoolean extends Node implements SupergraphInput {
-    private final DockReceiving<Boolean> value = new DockReceiving<>("value",Boolean.class,false);
-    private final DockReceiving<Integer> qty = new DockReceiving<>("qty",Integer.class,1);
-    private final DockShipping<Boolean> output = new DockShipping<>("output",Boolean.class,false);
+    private final Input<Boolean> value = new Input<>("value",Boolean.class,false);
+    private final Input<Integer> qty = new Input<>("qty",Integer.class,1);
+    private final Output<Boolean> output = new Output<>("output",Boolean.class,false);
     private boolean done=false;
 
     /**

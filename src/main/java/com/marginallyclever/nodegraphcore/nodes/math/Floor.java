@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * whole number = floor(decimal number)
@@ -8,8 +10,8 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class Floor extends Node {
-    private final DockReceiving<Number> a = new DockReceiving<>("decimal",Number.class,0);
-    private final DockShipping<Number> c = new DockShipping<>("whole number",Number.class,0);
+    private final Input<Number> a = new Input<>("decimal",Number.class,0);
+    private final Output<Number> c = new Output<>("whole number",Number.class,0);
 
     /**
      * Constructor for subclasses to call.

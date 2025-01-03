@@ -1,5 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -176,13 +179,13 @@ public class Graph {
         for(Node n : nodes) {
             for(int i = 0; i < n.getNumVariables(); ++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v instanceof DockReceiving) {
+                if(v instanceof Input) {
                     double r2 = v.getInPosition().distanceSq(point);
                     if (r2 < rr) {
                         rr = r2;
                         info = new ConnectionPointInfo(n, i, ConnectionPointInfo.IN);
                     }
-                } else if(v instanceof DockShipping) {
+                } else if(v instanceof Output) {
                     double r2 = v.getOutPosition().distanceSq(point);
                     if (r2 < rr) {
                         rr = r2;

@@ -7,7 +7,7 @@ public class Packet<T> {
         this.data=data;
     }
 
-    T getData() {
+    public T getData() {
         return data;
     }
 }

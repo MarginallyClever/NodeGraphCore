@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * C=atan2(y,x)
@@ -8,9 +10,9 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class ATan2 extends Node {
-    private final DockReceiving<Number> a = new DockReceiving<>("X",Number.class,0);
-    private final DockReceiving<Number> b = new DockReceiving<>("Y",Number.class,0);
-    private final DockShipping<Number> c = new DockShipping<>("output",Number.class,0);
+    private final Input<Number> a = new Input<>("X",Number.class,0);
+    private final Input<Number> b = new Input<>("Y",Number.class,0);
+    private final Output<Number> c = new Output<>("output",Number.class,0);
 
     /**
      * Constructor for subclasses to call.

@@ -1,6 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
-import com.marginallyclever.nodegraphcore.DockShipping;
+import com.marginallyclever.nodegraphcore.dock.Output;
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.Packet;
 
@@ -10,7 +10,7 @@ import com.marginallyclever.nodegraphcore.Packet;
  * @since 2023-09-27
  */
 public class TickCount extends Node {
-    private final DockShipping<Integer> output = new DockShipping<>("output",Integer.class,0);
+    private final Output<Integer> output = new Output<>("output",Integer.class,0);
     private long tickCount=0;
 
     /**

@@ -1,5 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,8 +48,8 @@ public class Connection {
         setInput(inNode,inVariableIndex);
         setOutput(outNode,outVariableIndex);
 
-        ((DockShipping<?>)inNode.getVariable(inVariableIndex)).addTo(this);
-        ((DockReceiving<?>)outNode.getVariable(outVariableIndex)).setFrom(this);
+        ((Output<?>)inNode.getVariable(inVariableIndex)).addTo(this);
+        ((Input<?>)outNode.getVariable(outVariableIndex)).setFrom(this);
     }
 
     /**
@@ -103,7 +106,7 @@ public class Connection {
         if(inNode==null) return false;
         if(inVariableIndex==-1) return false;
         if(inNode.getNumVariables() <= inVariableIndex) return false;
-        if(!(inNode.getVariable(inVariableIndex) instanceof DockShipping)) return false;
+        if(!(inNode.getVariable(inVariableIndex) instanceof Output)) return false;
         return true;
     }
 
@@ -114,7 +117,7 @@ public class Connection {
         if(outNode==null) return false;
         if(outVariableIndex==-1) return false;
         if(outNode.getNumVariables() <= outVariableIndex) return false;
-        if(!(outNode.getVariable(outVariableIndex) instanceof DockReceiving)) return false;
+        if(!(outNode.getVariable(outVariableIndex) instanceof Input)) return false;
         return true;
     }
 
@@ -127,7 +130,7 @@ public class Connection {
         inNode = n;
         inVariableIndex = variableIndex;
         if(n!=null) {
-            ((DockShipping<?>) n.getVariable(variableIndex)).addTo(this);
+            ((Output<?>) n.getVariable(variableIndex)).addTo(this);
         }
     }
 
@@ -140,7 +143,7 @@ public class Connection {
         outNode = n;
         outVariableIndex = variableIndex;
         if(n!=null) {
-            ((DockReceiving<?>) n.getVariable(variableIndex)).setFrom(this);
+            ((Input<?>) n.getVariable(variableIndex)).setFrom(this);
         }
     }
 
@@ -181,8 +184,8 @@ public class Connection {
      * Disconnects from all {@link Node}s.
      */
     public void disconnectAll() {
-        if(getInVariable()!=null) ((DockShipping<?>)getInVariable()).removeTo(this);
-        if(getOutVariable()!=null) ((DockReceiving<?>)getOutVariable()).removeFrom(this);
+        if(getInVariable()!=null) ((Output<?>)getInVariable()).removeTo(this);
+        if(getOutVariable()!=null) ((Input<?>)getOutVariable()).removeFrom(this);
         setInput(null,0);
         setOutput(null,0);
         queue.clear();

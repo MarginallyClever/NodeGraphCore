@@ -1,14 +1,16 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * Generate a new random number in the range max-min when updated.
  */
 public class Random extends Node {
-    private final DockReceiving<Number> vMax = new DockReceiving<>("max",Number.class,0);
-    private final DockReceiving<Number> vMin = new DockReceiving<>("min",Number.class,0);
-    private final DockShipping<Number> v = new DockShipping<>("value",Number.class,0);
+    private final Input<Number> vMax = new Input<>("max",Number.class,0);
+    private final Input<Number> vMin = new Input<>("min",Number.class,0);
+    private final Output<Number> v = new Output<>("value",Number.class,0);
 
     /**
      * Constructor for subclasses to call.

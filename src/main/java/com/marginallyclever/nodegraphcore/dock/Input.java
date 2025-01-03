@@ -1,10 +1,13 @@
-package com.marginallyclever.nodegraphcore;
+package com.marginallyclever.nodegraphcore.dock;
 
-public class DockReceiving<T> extends Dock<T> {
+import com.marginallyclever.nodegraphcore.Connection;
+import com.marginallyclever.nodegraphcore.Packet;
+
+public class Input<T> extends Dock<T> {
     private Connection from;
 
-    public DockReceiving(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
-        super(_name,type,startingValue);
+    public Input(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
+        super(name,type,startingValue);
     }
 
     public void receive() {
@@ -39,6 +42,6 @@ public class DockReceiving<T> extends Dock<T> {
      */
     @Override
     public Dock<T> createInverse() {
-        return new DockShipping<T>(name,type,value);
+        return new Output<T>(name,type,value);
     }
 }

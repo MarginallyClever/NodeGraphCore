@@ -1,5 +1,7 @@
-package com.marginallyclever.nodegraphcore;
+package com.marginallyclever.nodegraphcore.dock;
 
+import com.marginallyclever.nodegraphcore.Connection;
+import com.marginallyclever.nodegraphcore.DAO4JSONFactory;
 import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +9,7 @@ import org.json.JSONObject;
 import java.awt.*;
 
 /**
- * Describes an input or output connection with for a {@link Node} and stores the value at that connection.
+ * Nodes connect to each other through {@link Dock}s linked by {@link Connection}s.
  * @author Dan Royer
  * @since 2022-02-01
  */
@@ -44,15 +46,15 @@ public abstract class Dock<T> {
 
     /**
      * Constructor for subclasses to call.
-     * @param _name the variable name
+     * @param name the variable name
      * @param type the variable type
      * @param startingValue the starting value
      * @throws IllegalArgumentException if input and output are true at the same time.
      */
-    protected Dock(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
+    protected Dock(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super();
         this.type = type;
-        this.name = _name;
+        this.name = name;
         this.value = startingValue;
         this.rectangle.setBounds(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT);
     }

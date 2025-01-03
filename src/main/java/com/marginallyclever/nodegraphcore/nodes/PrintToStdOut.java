@@ -1,7 +1,7 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.dock.Input;
 
 /**
  * sends A as a string to <pre>System.out.println()</pre>.
@@ -9,7 +9,7 @@ import com.marginallyclever.nodegraphcore.DockReceiving;
  * @since 2022-02-01
  */
 public class PrintToStdOut extends Node {
-    private final DockReceiving<Object> a = new DockReceiving("A",Object.class,null);
+    private final Input<Object> a = new Input("A",Object.class,null);
 
     /**
      * Constructor for subclasses to call.

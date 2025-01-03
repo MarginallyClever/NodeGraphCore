@@ -1,5 +1,7 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+
 import java.awt.*;
 
 /**

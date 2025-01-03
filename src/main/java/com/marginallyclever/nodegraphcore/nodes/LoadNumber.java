@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.*;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 
 /**
  * {@link SupergraphInput} for a {@link Number}.
@@ -8,9 +10,9 @@ import com.marginallyclever.nodegraphcore.*;
  * @since 2022-02-01
  */
 public class LoadNumber extends Node implements SupergraphInput {
-    private final DockReceiving<Number> value = new DockReceiving<>("value",Number.class,0);
-    private final DockReceiving<Integer> qty = new DockReceiving<>("qty",Integer.class,1);
-    private final DockShipping<Number> output = new DockShipping<>("output",Number.class,0);
+    private final Input<Number> value = new Input<>("value",Number.class,0);
+    private final Input<Integer> qty = new Input<>("qty",Integer.class,1);
+    private final Output<Number> output = new Output<>("output",Number.class,0);
     private boolean done=false;
 
     /**

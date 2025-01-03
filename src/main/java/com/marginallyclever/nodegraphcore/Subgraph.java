@@ -1,5 +1,9 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -75,7 +79,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
             System.out.println("SupergraphOutput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v instanceof DockReceiving) {
+                if(v instanceof Input) {
                     System.out.println("found output "+v.getName());
                     addToPairs(v);
                 }
@@ -92,7 +96,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
             System.out.println("SupergraphInput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
                 Dock<?> v = n.getVariable(i);
-                if(v instanceof DockShipping) {
+                if(v instanceof Output) {
                     System.out.println("found input "+v.getName());
                     addToPairs(v);
                 }
@@ -108,8 +112,8 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
      */
     private int sortVariables(VariablePair a, VariablePair b) {
         // all input first
-        int aIn = (a.subVariable  instanceof DockReceiving)?1:0;
-        int bIn = (b.subVariable  instanceof DockReceiving)?1:0;
+        int aIn = (a.subVariable  instanceof Input)?1:0;
+        int bIn = (b.subVariable  instanceof Input)?1:0;
         if(aIn != bIn) return aIn-bIn;
         // then sort by name alphabetically
         return a.subVariable.getName().compareTo(b.subVariable.getName());
@@ -135,10 +139,10 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     @Override
     public void update() {
         for(VariablePair p : pairs) {
-            if(p.superVariable instanceof DockReceiving) {
+            if(p.superVariable instanceof Input) {
                 p.subVariable.setValue(p.superVariable.getValue());
             }
-            if(p.superVariable instanceof DockShipping) {
+            if(p.superVariable instanceof Output) {
                 p.superVariable.setValue(p.subVariable.getValue());
             }
         }

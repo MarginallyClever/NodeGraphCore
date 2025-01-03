@@ -1,12 +1,15 @@
-package com.marginallyclever.nodegraphcore;
+package com.marginallyclever.nodegraphcore.dock;
+
+import com.marginallyclever.nodegraphcore.Connection;
+import com.marginallyclever.nodegraphcore.Packet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DockShipping<T> extends Dock<T> {
+public class Output<T> extends Dock<T> {
     private List<Connection> to = new ArrayList<>();
 
-    public DockShipping(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
+    public Output(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super(_name,type,startingValue);
     }
 
@@ -38,6 +41,6 @@ public class DockShipping<T> extends Dock<T> {
      */
     @Override
     public Dock<T> createInverse() {
-        return new DockReceiving<>(name,type,value);
+        return new Input<>(name,type,value);
     }
 }

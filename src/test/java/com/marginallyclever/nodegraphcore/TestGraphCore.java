@@ -1,5 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.dock.Output;
 import com.marginallyclever.nodegraphcore.nodes.LoadNumber;
 import com.marginallyclever.nodegraphcore.nodes.PrintToStdOut;
 import com.marginallyclever.nodegraphcore.nodes.math.Add;
@@ -183,16 +186,16 @@ public class TestGraphCore {
      * @throws Exception
      */
     private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws Exception {
-        Dock<?> a = new DockReceiving<>(myClass.getSimpleName(),myClass,instA);
-        Dock<?> b = new DockReceiving<>(myClass.getSimpleName(),myClass,instB);
+        Dock<?> a = new Input<>(myClass.getSimpleName(),myClass,instA);
+        Dock<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
 
         JSONObject obj = a.toJSON();
         b.parseJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
 
-        a = new DockShipping<>(myClass.getSimpleName(),myClass,instA);
-        b = new DockShipping<>(myClass.getSimpleName(),myClass,instB);
+        a = new Output<>(myClass.getSimpleName(),myClass,instA);
+        b = new Output<>(myClass.getSimpleName(),myClass,instB);
         obj = a.toJSON();
         b.parseJSON(obj);
         assertEquals(a.toString(),b.toString());
