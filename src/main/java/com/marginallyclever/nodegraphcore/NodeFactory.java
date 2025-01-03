@@ -1,6 +1,10 @@
 package com.marginallyclever.nodegraphcore;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,11 +28,14 @@ public class NodeFactory {
     private static final Map<String,Class<? extends Node>> nodeRegistry = new HashMap<>();
 
     public static void registerAllNodesInPackage(String packageName) throws GraphException {
-        ServiceLoaderHelper helper = new ServiceLoaderHelper();
-        Reflections reflections = new Reflections(packageName);
-        Set<Class<?>> subTypes = reflections.get(SubTypes.of(Node.class).asClass(helper.getExtensionClassLoader()));
-        for(Class<?> typeFound : subTypes) {
-            registerNode((Class<? extends Node>)typeFound);
+        // Use Reflections to find all subtypes of Node in the package
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forPackage(packageName))
+                .setScanners(Scanners.SubTypes)
+                .filterInputsBy(new FilterBuilder().includePackage(packageName)));
+        Set<Class<? extends Node>> subTypes = reflections.getSubTypesOf(Node.class);
+        for(var typeFound : subTypes) {
+            registerNode(typeFound);
         }
     }
 
@@ -37,7 +44,7 @@ public class NodeFactory {
         System.out.println("Registering node "+typeFound.getName());
         verifyTypeNotRegistered(typeFound);
         verifyTypeConstructor(typeFound);
-        nodeRegistry.put(typeFound.getSimpleName(),(Class<? extends Node>) typeFound);
+        nodeRegistry.put(typeFound.getSimpleName(),typeFound);
     }
 
     private static void verifyTypeNotRegistered(Class<?> typeFound) throws GraphException {

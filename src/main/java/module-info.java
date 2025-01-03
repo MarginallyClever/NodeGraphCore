@@ -11,6 +11,7 @@ module com.marginallyclever.nodegraphcore {
     requires org.reflections;
     requires io.github.classgraph;
     requires java.prefs;
+    requires java.compiler;
 
     uses com.marginallyclever.nodegraphcore.NodeRegistry;
     provides com.marginallyclever.nodegraphcore.NodeRegistry with
