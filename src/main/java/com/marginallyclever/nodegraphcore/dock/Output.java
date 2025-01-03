@@ -40,7 +40,6 @@ public class Output<T> extends Dock<T> {
     }
 
     /**
-     * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
      * @return an inverted copy of this {@link Dock}.
      */
     @Override
