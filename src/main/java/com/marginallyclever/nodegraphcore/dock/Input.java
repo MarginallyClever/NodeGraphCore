@@ -3,6 +3,10 @@ package com.marginallyclever.nodegraphcore.dock;
 import com.marginallyclever.nodegraphcore.Connection;
 import com.marginallyclever.nodegraphcore.Packet;
 
+/**
+ * An {@link Input} is a {@link Dock} that can receive a {@link Packet} from a {@link Connection}.
+ * @param <T> the type of data this {@link Input} receives.
+ */
 public class Input<T> extends Dock<T> {
     private Connection from;
 

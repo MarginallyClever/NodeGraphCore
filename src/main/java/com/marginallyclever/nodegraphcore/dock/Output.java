@@ -6,6 +6,10 @@ import com.marginallyclever.nodegraphcore.Packet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An {@link Output} is a {@link Dock} that can send a {@link Packet} to a {@link Connection}.
+ * @param <T> the type of data this {@link Output} sends.
+ */
 public class Output<T> extends Dock<T> {
     private List<Connection> to = new ArrayList<>();
 

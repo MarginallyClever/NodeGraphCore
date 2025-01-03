@@ -10,6 +10,7 @@ import java.awt.*;
 
 /**
  * Nodes connect to each other through {@link Dock}s linked by {@link Connection}s.
+ * @param <T> the type of data that passes through this {@link Dock}.
  * @author Dan Royer
  * @since 2022-02-01
  */
