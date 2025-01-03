@@ -94,7 +94,7 @@ public abstract class Dock<T> {
      * Returns the class of this value type.
      * @return the class of this value type.
      */
-    public Class<T> getTypeClass() {
+    public Class<T> getType() {
         return type;
     }
 

@@ -27,8 +27,10 @@ public class FileHelper {
     public static List<String> listFilesInDirectory(String dir) {
         File[] found = new File(dir).listFiles();
         List<String> absoluteNames = new ArrayList<>();
-        for( File f : found ) {
-            absoluteNames.add(f.getAbsolutePath());
+        if(!Objects.isNull(found)) {
+            for( File f : found ) {
+                absoluteNames.add(f.getAbsolutePath());
+            }
         }
         return absoluteNames;
     }

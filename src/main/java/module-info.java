@@ -9,6 +9,8 @@ module com.marginallyclever.nodegraphcore {
     requires org.json;
     requires org.slf4j;
     requires org.reflections;
+    requires io.github.classgraph;
+    requires java.prefs;
 
     uses com.marginallyclever.nodegraphcore.NodeRegistry;
     provides com.marginallyclever.nodegraphcore.NodeRegistry with

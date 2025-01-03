@@ -1,6 +1,6 @@
 # Donatello Flow-based Programming Editor
 
-A pure Java implementation of [Flow-based Programming](https://en.wikipedia.org/wiki/Dataflow_programming) (FBP) and a GUI editor.
+A pure Java implementation of [Flow-based Programming](https://en.wikipedia.org/wiki/Dataflow_programming) (FBP).
 
 ![img](docs/preview-for-github.png)
 
