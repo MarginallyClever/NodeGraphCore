@@ -22,7 +22,7 @@ import java.util.List;
 public class ServiceLoaderHelper {
     private static final Logger logger = LoggerFactory.getLogger(ServiceLoaderHelper.class);
     private static ClassLoader myLoader=null;
-    private static List<URL> sourcesList = new ArrayList<>();
+    private static final List<URL> sourcesList = new ArrayList<>();
 
     public ServiceLoaderHelper() {
         super();
