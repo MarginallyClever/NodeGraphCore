@@ -24,10 +24,7 @@ public class LogicalNot extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
         boolean av = a.getValue();
-        c.send(new Packet<>(!av));
+        c.send(!av);
     }
 }

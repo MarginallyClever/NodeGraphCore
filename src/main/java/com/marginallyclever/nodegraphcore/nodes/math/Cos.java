@@ -24,9 +24,7 @@ public class Cos extends Node {
 
     @Override
     public void update() {
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
         double av = a.getValue().doubleValue();
-        c.send(new Packet<>(Math.cos(av)));
+        c.send(Math.cos(av));
     }
 }

@@ -24,12 +24,8 @@ public class Subtract extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
-        a.receive();
-        b.receive();
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send(new Packet<>(av - bv));
+        c.send(av - bv);
     }
 }

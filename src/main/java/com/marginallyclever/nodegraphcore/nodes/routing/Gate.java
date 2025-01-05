@@ -23,10 +23,6 @@ public class Gate extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
-        a.receive();
-        b.receive();
-        c.send(new Packet<>(a.getValue()));
+        c.send(a.getValue());
     }
 }

@@ -1,15 +1,12 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.Packet;
 import com.marginallyclever.nodegraphcore.dock.Input;
 import com.marginallyclever.nodegraphcore.dock.Output;
 
 import javax.tools.*;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +44,10 @@ public class InterpretJava extends Node {
             // Instantiate and execute the code
             Object instance = dynamicClass.getDeclaredConstructor().newInstance();
             Method method = dynamicClass.getDeclaredMethod("execute");
-            result.send(new Packet<>((String) method.invoke(instance)));
+            result.send((String) method.invoke(instance));
         }
         catch (Exception e) {
-            result.send(new Packet<>(e.getMessage()));
+            result.send(e.getMessage());
         }
 
         done=true;

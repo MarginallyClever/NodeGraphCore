@@ -34,12 +34,10 @@ public class Counter extends Node {
         int s = start.getValue();
         int e = end.getValue();
         int add = increment.getValue();
-        if(output.outputHasRoom()) {
-            for(int i=s;i!=e;i+=add) {
-                output.send(new Packet<>(i));
-            }
-            done=true;
+        for(int i=s;i!=e;i+=add) {
+            output.send(i);
         }
+        done=true;
     }
 
     @Override

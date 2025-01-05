@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 2022-02-21
  */
 public class TestGraphCore {
-    private static Graph graph = new Graph();
+    private static final Graph graph = new Graph();
 
     @BeforeAll
     public static void beforeAll() throws Exception {

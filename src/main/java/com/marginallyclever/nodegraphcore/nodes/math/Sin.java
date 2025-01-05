@@ -24,9 +24,7 @@ public class Sin extends Node {
 
     @Override
     public void update() {
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
         double av = a.getValue().doubleValue();
-        c.send(new Packet<>(Math.sin(av)));
+        c.send(Math.sin(av));
     }
 }

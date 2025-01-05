@@ -30,11 +30,11 @@ public class LoadString extends Node implements SupergraphInput {
         if(done) return;
 
         int q = qty.getValue();
-        if(q!=0 && output.outputHasRoom()) {
-            for(int i=0;i<q;++i) {
-                output.send(new Packet<>(value.getValue()));
-            }
-            done=true;
+        if(q>0) {
+            output.send(value.getValue());
+            q--;
+            qty.setValue(q);
+            if(q<=0) done=true;
         }
     }
 

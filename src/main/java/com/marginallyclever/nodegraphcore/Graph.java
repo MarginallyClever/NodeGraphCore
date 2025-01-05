@@ -130,12 +130,16 @@ public class Graph {
      * @param n the subject from which all connections should be removed.
      */
     public void removeConnectionsToNode(Node n) {
-        ArrayList<Connection> toKeep = new ArrayList<>();
+        ArrayList<Connection> toRemove = new ArrayList<>();
         for(Connection c : connections) {
-            if(!c.isConnectedTo(n)) toKeep.add(c);
+            for(int i=0;i<n.getNumVariables();++i) {
+                Dock<?> v = n.getVariable(i);
+                if(c.getInput()==v || c.getOutput()==v) {
+                    toRemove.add(c);
+                }
+            }
         }
-        connections.clear();
-        connections.addAll(toKeep);
+        connections.removeAll(toRemove);
     }
 
     /**
@@ -222,7 +226,7 @@ public class Graph {
         ArrayList<Connection> list = new ArrayList<>();
 
         for(Connection c : connections) {
-            if(c.getOutVariable() == outVariable) list.add(c);
+            if(c.getInput() == outVariable) list.add(c);
         }
 
         return list;
@@ -366,15 +370,25 @@ public class Graph {
      * @param jo the JSON to parse.
      */
     private void parseOneConnectionFromJSON(Connection c, JSONObject jo) {
+        if(jo.has("from")) {
+            Node n = findNodeWithUniqueName(jo.getString("from"));
+            int i = jo.getInt("fromIndex");
+            c.setFrom(n,i);
+        }
+        if(jo.has("to")) {
+            Node n = findNodeWithUniqueName(jo.getString("to"));
+            int i = jo.getInt("toIndex");
+            c.setTo(n,i);
+        }
         if(jo.has("inNode")) {
             Node n = findNodeWithUniqueName(jo.getString("inNode"));
             int i = jo.getInt("inVariableIndex");
-            c.setInput(n,i);
+            c.setFrom(n,i);
         }
         if(jo.has("outNode")) {
             Node n = findNodeWithUniqueName(jo.getString("outNode"));
             int i = jo.getInt("outVariableIndex");
-            c.setOutput(n,i);
+            c.setTo(n,i);
         }
     }
 
@@ -389,6 +403,8 @@ public class Graph {
     private JSONArray getAllNodeConnectionsAsJSON() {
         JSONArray a = new JSONArray();
         for (Connection c : connections) {
+            var from = c.getOutput();
+            var to = c.getInput();
             a.put(c.toJSON());
         }
         return a;
@@ -456,10 +472,6 @@ public class Graph {
     public void reset() {
         for(Node node : getNodes()) {
             node.reset();
-        }
-
-        for(Connection c : getConnections()) {
-            c.clear();
         }
     }
 }

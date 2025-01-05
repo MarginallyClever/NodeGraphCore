@@ -2,7 +2,6 @@ package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.dock.Output;
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.Packet;
 
 /**
  * Counts the number of ticks since the program started.
@@ -10,7 +9,7 @@ import com.marginallyclever.nodegraphcore.Packet;
  * @since 2023-09-27
  */
 public class TickCount extends Node {
-    private final Output<Integer> output = new Output<>("output",Integer.class,0);
+    private final Output<Number> output = new Output<>("output",Number.class,0);
     private long tickCount=0;
 
     /**
@@ -24,9 +23,7 @@ public class TickCount extends Node {
     @Override
     public void update() {
         tickCount++;
-        if(output.outputHasRoom()) {
-            output.send(new Packet<>(tickCount));
-        }
+        output.send(tickCount);
     }
 
     @Override

@@ -24,12 +24,8 @@ public class Random extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!vMax.hasPacketWaiting() && !vMin.hasPacketWaiting()) return;
-        vMin.receive();
-        vMax.receive();
         double a = vMin.getValue().doubleValue();
         double b = vMax.getValue().doubleValue();
-        v.send(new Packet<>(Math.random()*(b-a) + a));
+        v.send(Math.random()*(b-a) + a);
     }
 }

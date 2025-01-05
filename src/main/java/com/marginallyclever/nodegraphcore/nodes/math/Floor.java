@@ -24,8 +24,6 @@ public class Floor extends Node {
 
     @Override
     public void update() {
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
-        c.send(new Packet<>(Math.floor(a.getValue().doubleValue())));
+        c.send(Math.floor(a.getValue().doubleValue()));
     }
 }

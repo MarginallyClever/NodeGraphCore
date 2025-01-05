@@ -26,12 +26,8 @@ public class ATan2 extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
-        a.receive();
-        b.receive();
         double y = a.getValue().doubleValue();
         double x = b.getValue().doubleValue();
-        c.send(new Packet<>(Math.atan2(y,x)));
+        c.send(Math.atan2(y,x));
     }
 }

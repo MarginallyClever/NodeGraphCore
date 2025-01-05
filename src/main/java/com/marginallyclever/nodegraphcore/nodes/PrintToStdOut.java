@@ -9,7 +9,7 @@ import com.marginallyclever.nodegraphcore.dock.Input;
  * @since 2022-02-01
  */
 public class PrintToStdOut extends Node {
-    private final Input<Object> a = new Input("A",Object.class,null);
+    private final Input<Object> a = new Input<>("A",Object.class,null);
 
     /**
      * Constructor for subclasses to call.
@@ -21,8 +21,6 @@ public class PrintToStdOut extends Node {
 
     @Override
     public void update() {
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
         Object var = a.getValue();
         String output = (var!=null) ? var.toString() : "null";
         System.out.println(getUniqueID()+": "+output);

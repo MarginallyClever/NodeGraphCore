@@ -24,8 +24,6 @@ public class Ceil extends Node {
 
     @Override
     public void update() {
-        if(!a.hasPacketWaiting()) return;
-        a.receive();
-        c.send(new Packet<>(Math.ceil(a.getValue().doubleValue())));
+        c.send(Math.ceil(a.getValue().doubleValue()));
     }
 }

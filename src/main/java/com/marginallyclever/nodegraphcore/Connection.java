@@ -7,9 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.util.Deque;
 import java.util.Objects;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Describes the connection between two {@link Dock}s in different {@link Node}s.
@@ -22,12 +20,10 @@ public class Connection {
      */
     public static final double DEFAULT_RADIUS = 5;
 
-    private final Deque<Packet<?>> queue = new LinkedBlockingDeque<>();
-
-    private Node inNode;
-    private int inVariableIndex=-1;
-    private Node outNode;
-    private int outVariableIndex=-1;
+    private Node from;
+    private int fromIndex = -1;
+    private Node to;
+    private int toIndex = -1;
 
     /**
      * public Constructor for subclasses to call.
@@ -38,18 +34,18 @@ public class Connection {
 
     /**
      * Construct this {@link Connection} with the given parameters.
-     * @param inNode the input {@link Node}
-     * @param inVariableIndex the {@link Dock} index
-     * @param outNode the output {@link Node}
-     * @param outVariableIndex the output {@link Dock} index
+     * @param from the input {@link Node}
+     * @param fromIndex the {@link Dock} index
+     * @param to the output {@link Node}
+     * @param toIndex the output {@link Dock} index
      */
-    public Connection(Node inNode, int inVariableIndex, Node outNode, int outVariableIndex) {
+    public Connection(Node from, int fromIndex, Node to, int toIndex) {
         this();
-        setInput(inNode,inVariableIndex);
-        setOutput(outNode,outVariableIndex);
+        setFrom(from,fromIndex);
+        setTo(to,toIndex);
 
-        ((Output<?>)inNode.getVariable(inVariableIndex)).addTo(this);
-        ((Input<?>)outNode.getVariable(outVariableIndex)).setFrom(this);
+        ((Output<?>)from.getVariable(fromIndex)).addTo(this);
+        ((Input<?>)to.getVariable(toIndex)).setFrom(this);
     }
 
     /**
@@ -57,7 +53,7 @@ public class Connection {
      * @param another the source to match.
      */
     public Connection(Connection another) {
-        this(another.inNode,another.inVariableIndex,another.outNode,another.outVariableIndex);
+        this(another.from,another.fromIndex,another.to,another.toIndex);
     }
 
     /**
@@ -65,23 +61,9 @@ public class Connection {
      */
     public boolean isValidDataType() {
         if (!isInputValid() || !isOutputValid()) return false;
-        Dock<?> in = getInputVariable();
-        Dock<?> out = getOutputVariable();
+        Output<?> in = getOutput();
+        Input<?> out = getInput();
         return out.isValidType(in.getValue());
-    }
-
-    /**
-     * @return the {@link Node} connected on the input side.  May be null.
-     */
-    public Node getInNode() {
-        return inNode;
-    }
-
-    /**
-     * @return the {@link Node} connected on the output side.  May be null.
-     */
-    public Node getOutNode() {
-        return outNode;
     }
 
     /**
@@ -89,71 +71,71 @@ public class Connection {
      * @throws IndexOutOfBoundsException if the requested index is invalid.
      * @throws NullPointerException if the output does not exist.
      */
-    private Dock<?> getOutputVariable() throws NullPointerException, IndexOutOfBoundsException {
-        if(outNode==null) throw new NullPointerException("output does not exist");
-        return outNode.getVariable(outVariableIndex);
+    public Input<?> getInput() throws NullPointerException, IndexOutOfBoundsException {
+        if(to == null) throw new NullPointerException("output does not exist");
+        return (Input<?>)to.getVariable(toIndex);
     }
 
-    private Dock<?> getInputVariable() throws NullPointerException, IndexOutOfBoundsException {
-        if(inNode==null) throw new NullPointerException("output does not exist");
-        return inNode.getVariable(inVariableIndex);
+    public Output<?> getOutput() throws NullPointerException, IndexOutOfBoundsException {
+        if(from ==null) throw new NullPointerException("output does not exist");
+        return (Output<?>)from.getVariable(fromIndex);
+    }
+
+    public Node getFrom() {
+        return from;
+    }
+
+    public Node getTo() {
+        return to;
     }
 
     /**
      * @return true if the input side of this connection is sane.
      */
     public boolean isInputValid() {
-        if(inNode==null) return false;
-        if(inVariableIndex==-1) return false;
-        if(inNode.getNumVariables() <= inVariableIndex) return false;
-        if(!(inNode.getVariable(inVariableIndex) instanceof Output)) return false;
-        return true;
+        return from != null;
     }
 
     /**
      * @return true if the output side of this connection is sane.
      */
     public boolean isOutputValid() {
-        if(outNode==null) return false;
-        if(outVariableIndex==-1) return false;
-        if(outNode.getNumVariables() <= outVariableIndex) return false;
-        if(!(outNode.getVariable(outVariableIndex) instanceof Input)) return false;
-        return true;
+        if(to == null) return false;
+        if(from == null) return false;
+        return to.getVariable(toIndex).getTypeName().equals(from.getVariable(fromIndex).getTypeName());
     }
 
     /**
      * Sets the input of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
-     * @param variableIndex the connecting node index.
      */
-    public void setInput(Node n, int variableIndex) {
-        inNode = n;
-        inVariableIndex = variableIndex;
+    public void setFrom(Node n,int index) {
+        from = n;
+        fromIndex = index;
         if(n!=null) {
-            ((Output<?>) n.getVariable(variableIndex)).addTo(this);
+            ((Output<?>)n.getVariable(index)).addTo(this);
         }
     }
 
     /**
      * Sets the output of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
-     * @param variableIndex the connecting node index.
      */
-    public void setOutput(Node n, int variableIndex) {
-        outNode = n;
-        outVariableIndex = variableIndex;
+    public void setTo(Node n,int index) {
+        to = n;
+        toIndex = index;
         if(n!=null) {
-            ((Input<?>) n.getVariable(variableIndex)).setFrom(this);
+            ((Input<?>)n.getVariable(index)).setFrom(this);
         }
     }
 
     @Override
     public String toString() {
-        return "NodeConnection{" +
-                "inNode=" + (inNode==null ? "null" : inNode.getUniqueName()) +
-                ", inVariableIndex=" + inVariableIndex +
-                ", outNode=" + (outNode==null ? "null" : outNode.getUniqueName()) +
-                ", outVariableIndex=" + outVariableIndex +
+        return "Connection{" +
+                "from=" + (from==null ? "null" : from.getUniqueName()) +
+                ", fromIndex=" + fromIndex +
+                ", to=" + (to==null ? "null" : to.getUniqueName()) +
+                ", toIndex=" + toIndex +
                 '}';
     }
 
@@ -161,34 +143,32 @@ public class Connection {
      * @return The position of this {@link Connection}'s input connection point.
      */
     public Point getInPosition() {
-        return inNode.getOutPosition(inVariableIndex);
+        return from.getOutPosition(fromIndex);
     }
 
     /**
      * @return The position of this {@link Connection}'s output connection point.
      */
     public Point getOutPosition() {
-        return outNode.getInPosition(outVariableIndex);
+        return to.getInPosition(toIndex);
     }
 
     /**
-     * Returns true if this {@link Connection} is attached at either end to a given {@link Node}.
-     * @param node the subject being tested.
+     * @param n the subject being tested.
      * @return true if this {@link Connection} is attached at either end to a given {@link Node}.
      */
-    public boolean isConnectedTo(Node node) {
-        return node==inNode || node==outNode;
+    public boolean isConnectedTo(Node n) {
+        return n == from || n == to;
     }
 
     /**
      * Disconnects from all {@link Node}s.
      */
     public void disconnectAll() {
-        if(getInVariable()!=null) ((Output<?>)getInVariable()).removeTo(this);
-        if(getOutVariable()!=null) ((Input<?>)getOutVariable()).removeFrom(this);
-        setInput(null,0);
-        setOutput(null,0);
-        queue.clear();
+        if(getOutput()!=null) getOutput().removeTo(this);
+        if(getInput()!=null) getInput().removeFrom(this);
+        setFrom(null,-1);
+        setTo(null,-1);
     }
 
     /**
@@ -196,110 +176,53 @@ public class Connection {
      * @param connection the {@link Connection} to match.
      */
     public void set(Connection connection) {
-        setInput(connection.inNode, connection.inVariableIndex);
-        setOutput(connection.outNode, connection.outVariableIndex);
+        setFrom(connection.from,connection.fromIndex);
+        setTo(connection.to,connection.toIndex);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Connection that = (Connection) o;
-        return inVariableIndex == that.inVariableIndex &&
-                outVariableIndex == that.outVariableIndex &&
-                inNode.equals(that.inNode) &&
-                outNode.equals(that.outNode);
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        if(!(other instanceof Connection c2)) return false;
+        return Objects.equals(from, c2.from) &&
+                Objects.equals(to, c2.to) &&
+                from.getClass().equals(c2.from.getClass()) &&
+                to.getClass().equals(c2.to.getClass());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(inNode, inVariableIndex, outNode, outVariableIndex);
-    }
-
-    /**
-     * @return the index of the input {@link Node} variable to which this {@link Connection} is attached.  Assumes
-     * there is a valid connection.
-     */
-    public int getInVariableIndex() {
-        return inVariableIndex;
-    }
-
-    /**
-     * @return the index of the output {@link Node} variable to which this {@link Connection} is attached.  Assumes
-     * there is a valid connection.
-     */
-    public int getOutVariableIndex() {
-        return outVariableIndex;
-    }
-
-    /**
-     * @return the {@link Dock} at this input, or null.
-     */
-    public Dock<?> getInVariable() {
-        return (inNode==null) ? null : inNode.getVariable(inVariableIndex);
-    }
-
-    /**
-     * @return the {@link Dock} at this output, or null.
-     */
-    public Dock<?> getOutVariable() {
-        return (outNode==null) ? null : outNode.getVariable(outVariableIndex);
+        return Objects.hash(from, to);
     }
 
     public JSONObject toJSON() throws JSONException {
         JSONObject jo = new JSONObject();
-        if(inNode!=null) {
-            jo.put("inNode",inNode.getUniqueName());
-            jo.put("inVariableIndex",inVariableIndex);
+        if(from != null) {
+            jo.put("from", from.getUniqueName());
+            jo.put("fromIndex", fromIndex);
         }
-        if(outNode!=null) {
-            jo.put("outNode", outNode.getUniqueName());
-            jo.put("outVariableIndex", outVariableIndex);
+        if(to != null) {
+            jo.put("to", to.getUniqueName());
+            jo.put("toIndex", toIndex);
         }
         return jo;
     }
 
     public Rectangle getBounds() {
         Rectangle r = new Rectangle();
-        if(inNode!=null) {
-            r.setLocation(getInPosition());
-            if(outNode!=null) {
-                r.add(getOutPosition());
-            }
-        } else if(outNode!=null) {
-            r.setLocation(getOutPosition());
-        }
+        if(from !=null) r.add(getInPosition());
+        if(to !=null) r.add(getOutPosition());
         return r;
     }
 
     /**
-     * Returns the node from the other end of the connection
      * @param node the node to check
      * @return the node from the other end of the connection
      */
     public Node getOtherNode(Node node) {
-        if(node==inNode) return outNode;
-        else if(node==outNode) return inNode;
-        else throw new GraphException("NodeConnection does not connect to given node.");
-    }
-
-    public void send(Packet<?> packet) {
-        queue.offer(packet);
-    }
-
-    public Packet<?> get() {
-        return queue.poll();
-    }
-
-    public boolean isEmpty() {
-        return queue.isEmpty();
-    }
-
-    public int size() {
-        return queue.size();
-    }
-
-    public void clear() {
-        queue.clear();
+        if(node == from) return to;
+        if(node == to) return from;
+        return null;
     }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * {@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
- * The operator is defined by extending the {@link Node} class and defining the {@code update()} method.
+ * <p>{@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
+ * The operator is defined by extending the {@link Node} class and defining the {@code update()} method.</p>
  * @author Dan Royer
  * @since 2022-02-01
  */
@@ -286,6 +286,7 @@ public abstract class Node {
         }
     }
 
+    @Deprecated
     public int countReceivingConnections() {
         int count = 0;
         for(Dock<?> v : variables) {

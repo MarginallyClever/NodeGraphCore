@@ -24,13 +24,9 @@ public class Divide extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
-        a.receive();
-        b.receive();
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        if(bv==0) c.send(new Packet<>(Float.NaN));
-        else c.send(new Packet<>(av / bv));
+        if(bv==0) c.send(Float.NaN);
+        else c.send(av / bv);
     }
 }

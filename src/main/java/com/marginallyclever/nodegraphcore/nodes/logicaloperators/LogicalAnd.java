@@ -26,12 +26,8 @@ public class LogicalAnd extends Node {
 
     @Override
     public void update() {
-        if(0==countReceivingConnections()) return;
-        if(!a.hasPacketWaiting() && !b.hasPacketWaiting()) return;
-        a.receive();
-        b.receive();
         boolean av = a.getValue();
         boolean bv = b.getValue();
-        c.send(new Packet<>(av && bv));
+        c.send(av && bv);
     }
 }

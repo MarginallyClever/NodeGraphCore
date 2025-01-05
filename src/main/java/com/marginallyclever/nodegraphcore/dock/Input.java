@@ -1,10 +1,9 @@
 package com.marginallyclever.nodegraphcore.dock;
 
 import com.marginallyclever.nodegraphcore.Connection;
-import com.marginallyclever.nodegraphcore.Packet;
 
 /**
- * An {@link Input} is a {@link Dock} that can receive a {@link Packet} from a {@link Connection}.
+ * An {@link Input} is a {@link Dock} that can receive data from a {@link Connection}.
  * @param <T> the type of data this {@link Input} receives.
  */
 public class Input<T> extends Dock<T> {
@@ -14,16 +13,11 @@ public class Input<T> extends Dock<T> {
         super(name,type,startingValue);
     }
 
+    @Deprecated
     public void receive() {
         if(from==null) return;
-
-        Packet<?> packet = from.get();
-        if(packet==null) return;
-        super.setValue(packet.getData());
-    }
-
-    public boolean hasPacketWaiting() {
-        return from!=null && !from.isEmpty();
+        if(from.getOutput()==null) return;
+        super.setValue(from.getOutput().getValue());
     }
 
     public void setFrom(Connection connection) {
