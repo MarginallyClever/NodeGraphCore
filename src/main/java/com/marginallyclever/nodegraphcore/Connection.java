@@ -60,24 +60,27 @@ public class Connection {
      * @return true if the data type at both ends is a valid match.
      */
     public boolean isValidDataType() {
-        if (!isInputValid() || !isOutputValid()) return false;
+        if (!isFromValid() || !isToValid()) return false;
         Output<?> in = getOutput();
         Input<?> out = getInput();
         return out.isValidType(in.getValue());
     }
 
     /**
-     * @return the {@link Dock} connected on the input side.
-     * @throws IndexOutOfBoundsException if the requested index is invalid.
+     * @return the {@link Input} connected on the input side.
      * @throws NullPointerException if the output does not exist.
      */
     public Input<?> getInput() throws NullPointerException, IndexOutOfBoundsException {
-        if(to == null) throw new NullPointerException("output does not exist");
+        if(!isToValid()) throw new NullPointerException("invalid to");
         return (Input<?>)to.getVariable(toIndex);
     }
 
+    /**
+     * @return the {@link Output} connected on the output side.
+     * @throws NullPointerException if the output does not exist.
+     */
     public Output<?> getOutput() throws NullPointerException, IndexOutOfBoundsException {
-        if(from ==null) throw new NullPointerException("output does not exist");
+        if(!isFromValid()) throw new NullPointerException("invalid from");
         return (Output<?>)from.getVariable(fromIndex);
     }
 
@@ -90,19 +93,23 @@ public class Connection {
     }
 
     /**
-     * @return true if the input side of this connection is sane.
+     * @return true if the from side of this connection is sane.
      */
-    public boolean isInputValid() {
-        return from != null;
+    public boolean isFromValid() {
+        if(from == null) return false;
+        if(fromIndex < 0) return false;
+        if(fromIndex >= from.getNumVariables()) return false;
+        return from.getVariable(fromIndex) instanceof Output<?>;
     }
 
     /**
      * @return true if the output side of this connection is sane.
      */
-    public boolean isOutputValid() {
+    public boolean isToValid() {
         if(to == null) return false;
-        if(from == null) return false;
-        return to.getVariable(toIndex).getTypeName().equals(from.getVariable(fromIndex).getTypeName());
+        if(toIndex < 0) return false;
+        if(toIndex >= to.getNumVariables()) return false;
+        return to.getVariable(toIndex) instanceof Input<?>;
     }
 
     /**
