@@ -19,8 +19,8 @@ public class Output<T> extends Dock<T> {
     public void send(T packet) {
         super.setValue(packet);
         for(Connection c : to) {
-            var to = c.getInput();
-            if(to!=null) to.setValue(packet);
+            var recipient = c.getInput();
+            if(recipient!=null) recipient.setValue(packet);
         }
     }
 
