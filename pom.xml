@@ -5,6 +5,7 @@
     <groupId>com.marginallyclever</groupId>
     <artifactId>nodegraphcore</artifactId>
     <version>1.0.21</version>
+
     <name>NodeGraphCore</name>
     <description>Java node graph system for data flow programming.</description>
     <url>https://github.com/MarginallyClever/NodeGraphCore</url>
