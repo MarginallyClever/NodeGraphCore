@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Nodes connect to each other through {@link Dock}s linked by {@link Connection}s.
@@ -71,6 +72,14 @@ public abstract class Dock<T> {
      * @return the bounding rectangle.
      */
     public Rectangle getRectangle() {
+        if(value instanceof BufferedImage v) {
+            var w = v.getWidth();
+            var h = v.getHeight();
+            if(w<rectangle.width && h<DEFAULT_HEIGHT) return rectangle;
+            double ratio = h/w;
+            var newh = (double)rectangle.width * ratio;
+            rectangle.setSize(rectangle.width,(int)Math.max(newh,DEFAULT_HEIGHT));
+        }
         return rectangle;
     }
 
