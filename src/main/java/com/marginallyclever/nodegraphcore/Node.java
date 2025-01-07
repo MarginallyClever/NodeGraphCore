@@ -114,8 +114,9 @@ public abstract class Node {
     public void updateBounds() {
         int w=(int)rectangle.getWidth();
         int h=Node.TITLE_HEIGHT;
-        int y=getRectangle().y;
-        int x=getRectangle().x;
+        var rect = getRectangle();
+        int x=rect.x;
+        int y=rect.y;
         for(Dock<?> v : variables) {
             Rectangle r = v.getRectangle();
             r.y=h+y;
