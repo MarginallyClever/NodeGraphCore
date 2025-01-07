@@ -43,9 +43,6 @@ public class Connection {
         this();
         setFrom(from,fromIndex);
         setTo(to,toIndex);
-
-        ((Output<?>)from.getVariable(fromIndex)).addTo(this);
-        ((Input<?>)to.getVariable(toIndex)).setFrom(this);
     }
 
     /**
