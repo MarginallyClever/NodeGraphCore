@@ -73,8 +73,8 @@ public abstract class Dock<T> {
      */
     public Rectangle getRectangle() {
         if(value instanceof BufferedImage v) {
-            var w = v.getWidth();
-            var h = v.getHeight();
+            double w = v.getWidth();
+            double h = v.getHeight();
             if(w<rectangle.width && h<DEFAULT_HEIGHT) return rectangle;
             double ratio = h/w;
             var newh = (double)rectangle.width * ratio;
