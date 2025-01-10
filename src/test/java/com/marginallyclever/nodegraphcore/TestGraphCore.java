@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.nodes.LoadNumber;
 import com.marginallyclever.nodegraphcore.nodes.PrintToStdOut;
 import com.marginallyclever.nodegraphcore.nodes.math.Add;
@@ -178,7 +178,7 @@ public class TestGraphCore {
     }
 
     /**
-     * Test {@link Dock} serialization
+     * Test {@link Port} serialization
      * @param myClass
      * @param instA
      * @param instB
@@ -186,8 +186,8 @@ public class TestGraphCore {
      * @throws Exception
      */
     private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws Exception {
-        Dock<?> a = new Input<>(myClass.getSimpleName(),myClass,instA);
-        Dock<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
+        Port<?> a = new Input<>(myClass.getSimpleName(),myClass,instA);
+        Port<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
 
         JSONObject obj = a.toJSON();
         b.parseJSON(obj);
@@ -203,7 +203,7 @@ public class TestGraphCore {
     }
 
     /**
-     * Test {@link Dock} serialization
+     * Test {@link Port} serialization
      * @throws Exception if serialization fails.
      */
     @Test
@@ -223,7 +223,7 @@ public class TestGraphCore {
      * <ul>
      *     <li>without loss of {@link Node}s</li>
      *     <li>without loss of {@link Connection}</li>
-     *     <li>while preserving values in the {@link Dock}s</li>
+     *     <li>while preserving values in the {@link Port}s</li>
      * </ul>
      */
     @Test

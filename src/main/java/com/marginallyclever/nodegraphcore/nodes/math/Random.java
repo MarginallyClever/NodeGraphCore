@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.*;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
  * Generate a new random number in the range max-min when updated.

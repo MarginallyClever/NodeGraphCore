@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     private final Graph graph = new Graph();
 
     static class VariablePair {
-        public Dock<?> superVariable;
-        public Dock<?> subVariable;
+        public Port<?> superVariable;
+        public Port<?> subVariable;
 
-        public VariablePair(Dock<?> subVariable) {
+        public VariablePair(Port<?> subVariable) {
             this.superVariable = subVariable.createInverse();
             this.subVariable = subVariable;
         }
@@ -78,7 +78,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphOutput) {
             System.out.println("SupergraphOutput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                Dock<?> v = n.getVariable(i);
+                Port<?> v = n.getVariable(i);
                 if(v instanceof Input) {
                     System.out.println("found output "+v.getName());
                     addToPairs(v);
@@ -95,7 +95,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphInput) {
             System.out.println("SupergraphInput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                Dock<?> v = n.getVariable(i);
+                Port<?> v = n.getVariable(i);
                 if(v instanceof Output) {
                     System.out.println("found input "+v.getName());
                     addToPairs(v);
@@ -123,7 +123,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
      * Create and store a supergraph/subgraph variable pair.
      * @param v subgraph variable.
      */
-    private void addToPairs(Dock<?> v) {
+    private void addToPairs(Port<?> v) {
         VariablePair p = new VariablePair(v);
         pairs.add(p);
     }

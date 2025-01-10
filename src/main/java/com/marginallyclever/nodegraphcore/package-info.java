@@ -1,7 +1,7 @@
 /**
  * NodeGraphCore contains essential elements for describing a graph that contains nodes for flow-based programming.
  * The {@link com.marginallyclever.nodegraphcore.Graph} contains {@link com.marginallyclever.nodegraphcore.Node}s.
- * Nodes have {@link com.marginallyclever.nodegraphcore.dock.Dock}s.  NodeVariables are connected with {@link
+ * Nodes have {@link com.marginallyclever.nodegraphcore.port.Port}s.  NodeVariables are connected with {@link
  * com.marginallyclever.nodegraphcore.Connection}s.  A graph may be contained within a {@link
  * com.marginallyclever.nodegraphcore.Subgraph}.
  *

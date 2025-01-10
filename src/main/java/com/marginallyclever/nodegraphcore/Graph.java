@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,7 +133,7 @@ public class Graph {
         ArrayList<Connection> toRemove = new ArrayList<>();
         for(Connection c : connections) {
             for(int i=0;i<n.getNumVariables();++i) {
-                Dock<?> v = n.getVariable(i);
+                Port<?> v = n.getVariable(i);
                 if(c.getInput()==v || c.getOutput()==v) {
                     toRemove.add(c);
                 }
@@ -182,7 +182,7 @@ public class Graph {
 
         for(Node n : nodes) {
             for(int i = 0; i < n.getNumVariables(); ++i) {
-                Dock<?> v = n.getVariable(i);
+                Port<?> v = n.getVariable(i);
                 if(v instanceof Input) {
                     double r2 = v.getInPosition().distanceSq(point);
                     if (r2 < rr) {
@@ -215,14 +215,14 @@ public class Graph {
     }
 
     /**
-     * Find and remove any {@link Connection} that connects to the input side of a given {@link Dock}.
-     * @param outVariable the {@link Dock} with an input to be isolated.
+     * Find and remove any {@link Connection} that connects to the input side of a given {@link Port}.
+     * @param outVariable the {@link Port} with an input to be isolated.
      */
-    public void removeAllConnectionsInto(Dock<?> outVariable) {
+    public void removeAllConnectionsInto(Port<?> outVariable) {
         connections.removeAll(getAllConnectionsInto(outVariable));
     }
 
-    public List<Connection> getAllConnectionsInto(Dock<?> outVariable) {
+    public List<Connection> getAllConnectionsInto(Port<?> outVariable) {
         ArrayList<Connection> list = new ArrayList<>();
 
         for(Connection c : connections) {

@@ -1,4 +1,4 @@
-package com.marginallyclever.nodegraphcore.dock;
+package com.marginallyclever.nodegraphcore.port;
 
 import com.marginallyclever.nodegraphcore.Connection;
 
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An {@link Output} is a {@link Dock} that can send data to a {@link Connection}.
+ * An {@link Output} is a {@link Port} that can send data to a {@link Connection}.
  * @param <T> the type of data this {@link Output} sends.
  */
-public class Output<T> extends Dock<T> {
+public class Output<T> extends Port<T> {
     private final List<Connection> to = new ArrayList<>();
 
     public Output(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
@@ -33,10 +33,10 @@ public class Output<T> extends Dock<T> {
     }
 
     /**
-     * @return an inverted copy of this {@link Dock}.
+     * @return an inverted copy of this {@link Port}.
      */
     @Override
-    public Dock<T> createInverse() {
+    public Port<T> createInverse() {
         return new Input<>(name,type,value);
     }
 }

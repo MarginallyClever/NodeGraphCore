@@ -1,4 +1,4 @@
-package com.marginallyclever.nodegraphcore.dock;
+package com.marginallyclever.nodegraphcore.port;
 
 import com.marginallyclever.nodegraphcore.Connection;
 import com.marginallyclever.nodegraphcore.DAO4JSONFactory;
@@ -10,12 +10,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Nodes connect to each other through {@link Dock}s linked by {@link Connection}s.
- * @param <T> the type of data that passes through this {@link Dock}.
+ * Nodes connect to each other through {@link Port}s linked by {@link Connection}s.
+ * @param <T> the type of data that passes through this {@link Port}.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public abstract class Dock<T> {
+public abstract class Port<T> {
     /**
      * Dimensions used for bounds calculations and intersection tests.
      */
@@ -53,7 +53,7 @@ public abstract class Dock<T> {
      * @param startingValue the starting value
      * @throws IllegalArgumentException if input and output are true at the same time.
      */
-    protected Dock(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
+    protected Port(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super();
         this.type = type;
         this.name = name;
@@ -62,10 +62,10 @@ public abstract class Dock<T> {
     }
 
     /**
-     * Creates a copy of this {@link Dock}, while flipping hasInput and hasOutput
-     * @return an inverted copy of this {@link Dock}.
+     * Creates a copy of this {@link Port}, while flipping hasInput and hasOutput
+     * @return an inverted copy of this {@link Port}.
      */
-    abstract public Dock<T> createInverse();
+    abstract public Port<T> createInverse();
 
     /**
      * Returns the bounding rectangle.
@@ -123,6 +123,7 @@ public abstract class Dock<T> {
      * @return true if the given item is an instance of this value's type.
      */
     public boolean isValidType(Object arg0) {
+        if(arg0==null) return false;
         return type.isAssignableFrom(arg0.getClass());
     }
 

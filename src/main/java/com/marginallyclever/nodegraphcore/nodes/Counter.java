@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.*;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
  * Counts from start to end in increment sized steps, aka `for(i=start;i!=end;i+=increment)'

@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * Describes the connection between two {@link Dock}s in different {@link Node}s.
+ * Describes the connection between two {@link Port}s in different {@link Node}s.
  * @author Dan Royer
  * @since 2022-02-01
  */
@@ -35,9 +35,9 @@ public class Connection {
     /**
      * Construct this {@link Connection} with the given parameters.
      * @param from the input {@link Node}
-     * @param fromIndex the {@link Dock} index
+     * @param fromIndex the {@link Port} index
      * @param to the output {@link Node}
-     * @param toIndex the output {@link Dock} index
+     * @param toIndex the output {@link Port} index
      */
     public Connection(Node from, int fromIndex, Node to, int toIndex) {
         this();

@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes.routing;
 
 import com.marginallyclever.nodegraphcore.*;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
  * Blocks in from going to output until the key is triggered.

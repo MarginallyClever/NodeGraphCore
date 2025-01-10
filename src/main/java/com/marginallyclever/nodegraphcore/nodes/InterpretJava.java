@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 import javax.tools.*;
 import java.io.*;

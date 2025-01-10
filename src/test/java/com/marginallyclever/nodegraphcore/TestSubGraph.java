@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.nodes.math.Add;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -54,9 +54,9 @@ public class TestSubGraph {
 
     @Test
     public void testVariablePair() {
-        Dock<?> dock = new Output("a",Integer.class,0);
-        Subgraph.VariablePair pair = new Subgraph.VariablePair(dock);
-        Assertions.assertEquals(dock,pair.subVariable);
+        Port<?> port = new Output("a",Integer.class,0);
+        Subgraph.VariablePair pair = new Subgraph.VariablePair(port);
+        Assertions.assertEquals(port,pair.subVariable);
         Assertions.assertInstanceOf(Input.class,pair.superVariable);
     }
 }

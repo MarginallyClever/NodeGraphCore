@@ -1,12 +1,12 @@
-package com.marginallyclever.nodegraphcore.dock;
+package com.marginallyclever.nodegraphcore.port;
 
 import com.marginallyclever.nodegraphcore.Connection;
 
 /**
- * An {@link Input} is a {@link Dock} that can receive data from a {@link Connection}.
+ * An {@link Input} is a {@link Port} that can receive data from a {@link Connection}.
  * @param <T> the type of data this {@link Input} receives.
  */
-public class Input<T> extends Dock<T> {
+public class Input<T> extends Port<T> {
     private Connection from;
 
     public Input(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
@@ -35,10 +35,10 @@ public class Input<T> extends Dock<T> {
     }
 
     /**
-     * @return an inverted copy of this {@link Dock}.
+     * @return an inverted copy of this {@link Port}.
      */
     @Override
-    public Dock<T> createInverse() {
+    public Port<T> createInverse() {
         return new Output<T>(name,type,value);
     }
 }

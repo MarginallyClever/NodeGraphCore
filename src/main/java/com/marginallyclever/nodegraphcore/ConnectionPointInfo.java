@@ -1,11 +1,11 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
+import com.marginallyclever.nodegraphcore.port.Port;
 
 import java.awt.*;
 
 /**
- * {@link ConnectionPointInfo} makes it easier to query connection points of a {@link Dock} within a
+ * {@link ConnectionPointInfo} makes it easier to query connection points of a {@link Port} within a
  * {@link Node}.  A use case is for remembering a new {@link Connection}'s starting point as it is being created.
  * @author Dan Royer
  * @since 2022-02-11
@@ -55,24 +55,24 @@ public class ConnectionPointInfo {
      * Returns the variable
      * @return the variable
      */
-    public Dock<?> getVariable() {
+    public Port<?> getVariable() {
         return getNode().getVariable(getDockIndex());
     }
 
     public Point getPoint() {
-        Dock<?> v = getVariable();
+        Port<?> v = getVariable();
         return (getFlags() == IN) ? v.getInPosition() : v.getOutPosition();
     }
 
     /**
-     * The index of the {@link Dock} within this node with the connection point.
+     * The index of the {@link Port} within this node with the connection point.
      */
     public int getDockIndex() {
         return dockIndex;
     }
 
     /**
-     * The {@link Node} containing the {@link Dock} with a connection point.
+     * The {@link Node} containing the {@link Port} with a connection point.
      */
     public Node getNode() {
         return node;

@@ -1,6 +1,6 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.Node;
 
 /**

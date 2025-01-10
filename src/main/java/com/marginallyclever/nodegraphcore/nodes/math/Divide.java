@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore.nodes.math;
 
 import com.marginallyclever.nodegraphcore.*;
-import com.marginallyclever.nodegraphcore.dock.Input;
-import com.marginallyclever.nodegraphcore.dock.Output;
+import com.marginallyclever.nodegraphcore.port.Input;
+import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
  * C=A/B

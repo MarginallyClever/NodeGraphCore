@@ -1,7 +1,7 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.dock.Dock;
-import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.port.Port;
+import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +32,7 @@ public abstract class Node {
 
     private final Rectangle rectangle = new Rectangle(0,0,150,50);
 
-    private final List<Dock<?>> variables = new ArrayList<>();
+    private final List<Port<?>> variables = new ArrayList<>();
 
     /**
      * Default constructor
@@ -65,7 +65,7 @@ public abstract class Node {
      * Returns the list of variables in this node.
      * @return the list of variables in this node.
      */
-    public List<Dock<?>> getVariables() {
+    public List<Port<?>> getVariables() {
         return variables;
     }
 
@@ -117,7 +117,7 @@ public abstract class Node {
         var rect = getRectangle();
         int x=rect.x;
         int y=rect.y;
-        for(Dock<?> v : variables) {
+        for(Port<?> v : variables) {
             Rectangle r = v.getRectangle();
             r.y=h+y;
             r.x=x;
@@ -129,18 +129,18 @@ public abstract class Node {
     }
 
     /**
-     * Add a {@link Dock} to this node.
-     * @param v the new {@link Dock}
+     * Add a {@link Port} to this node.
+     * @param v the new {@link Port}
      */
-    protected void addVariable(Dock<?> v) {
+    protected void addVariable(Port<?> v) {
         variables.add(v);
     }
 
     /**
-     * Remove a {@link Dock} from this node.
-     * @param v the old {@link Dock}
+     * Remove a {@link Port} from this node.
+     * @param v the old {@link Port}
      */
-    protected void removeVariable(Dock<?> v) {
+    protected void removeVariable(Port<?> v) {
         variables.remove(v);
     }
 
@@ -153,12 +153,12 @@ public abstract class Node {
     }
 
     /**
-     * Get the i-th {@link Dock} in this node.
+     * Get the i-th {@link Port} in this node.
      * @param index the index.
-     * @return the i-th {@link Dock} in this node.
+     * @return the i-th {@link Port} in this node.
      * @throws IndexOutOfBoundsException when an invalid index is requested.
      */
-    public Dock<?> getVariable(int index) throws IndexOutOfBoundsException {
+    public Port<?> getVariable(int index) throws IndexOutOfBoundsException {
         return variables.get(index);
     }
 
@@ -174,9 +174,9 @@ public abstract class Node {
     }
 
     /**
-     * Returns the center of the input connection point of the requested {@link Dock}.
+     * Returns the center of the input connection point of the requested {@link Port}.
      * @param index the requested index
-     * @return the center of the input connection point of the requested {@link Dock}.
+     * @return the center of the input connection point of the requested {@link Port}.
      */
     public Point getInPosition(int index) {
         Rectangle r = getRectangle();
@@ -184,9 +184,9 @@ public abstract class Node {
     }
 
     /**
-     * Returns the center of the output connection point of the requested {@link Dock}.
+     * Returns the center of the output connection point of the requested {@link Port}.
      * @param index the requested index
-     * @return the center of the output connection point of the requested {@link Dock}.
+     * @return the center of the output connection point of the requested {@link Port}.
      */
     public Point getOutPosition(int index) {
         Rectangle r = getRectangle();
@@ -250,7 +250,7 @@ public abstract class Node {
 
     private JSONArray getAllVariablesAsJSON() {
         JSONArray vars = new JSONArray();
-        for(Dock<?> v : variables) {
+        for(Port<?> v : variables) {
             vars.put(v.toJSON());
         }
         return vars;
@@ -290,7 +290,7 @@ public abstract class Node {
     @Deprecated
     public int countReceivingConnections() {
         int count = 0;
-        for(Dock<?> v : variables) {
+        for(Port<?> v : variables) {
             if(v instanceof Input<?> k && k.hasConnection()) {
                 count++;
             }

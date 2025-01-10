@@ -1,7 +1,7 @@
 package com.marginallyclever.nodegraphcore.nodes;
 
 import com.marginallyclever.nodegraphcore.Node;
-import com.marginallyclever.nodegraphcore.dock.Input;
+import com.marginallyclever.nodegraphcore.port.Input;
 
 /**
  * sends A as a string to <pre>System.out.println()</pre>.
