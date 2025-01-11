@@ -18,6 +18,14 @@ that are not fluent in the archaic syntax of text-only languages.
 - A ~/Donatello/ folder contains the application log file.
 - A ~/Donatello/extensions/ folder contains 3rd party plugins.  Add new Nodes or write your own.
 
+### Getting started
+
+1. Download the latest source code from https://github.com/MarginallyClever/NodeGraphCore/
+2. Use your favorite IDE to import the Maven project.
+3. Use Maven to "install" the project.  It will now be available as a local dependency in your other projects.
+
+./src/test/java/com/marginallyclever/nodegraphcore has unit tests, which are also examples of how to use the API.
+
 ### Use it, Discuss it, Love it.
 
 - Please see the [Javadoc with the full API for Core and Swing](https://marginallyclever.github.io/NodeGraphCore/javadoc).
@@ -27,6 +35,7 @@ that are not fluent in the archaic syntax of text-only languages.
 
 ### Based on work by
 
+- https://github.com/otto-link/GNode/
 - https://nodes.io/story/
 - https://github.com/janbijster/cobble
 - https://github.com/kenk42292/shoyu
