@@ -1,9 +1,3 @@
-import com.marginallyclever.nodegraphcore.Graph;
-
-/**
- * nodegraphcore contains essential elements for describing a {@link Graph} for
- * flow-based programming.<br>
- */
 module com.marginallyclever.nodegraphcore {
     requires java.desktop;
     requires org.json;
