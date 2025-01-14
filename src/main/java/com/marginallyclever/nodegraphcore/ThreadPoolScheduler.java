@@ -1,6 +1,5 @@
-package com.marginallyclever.nodegraphcore.scheduler;
+package com.marginallyclever.nodegraphcore;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +15,7 @@ public class ThreadPoolScheduler {
     private final AtomicInteger activeTasks = new AtomicInteger(0);
 
     public ThreadPoolScheduler(int maxThreads) {
-        this.threadPool = Executors.newFixedThreadPool(maxThreads);
+        this.threadPool = Executors.newVirtualThreadPerTaskExecutor();
     }
 
     /**
@@ -46,9 +45,9 @@ public class ThreadPoolScheduler {
 
         threadPool.submit(() -> {
             try {
-                node.execute();
-                for (Node downstreamNode : node.getDownstreamNodes()) {
-                    if (!downstreamNode.getInputQueue().isEmpty()) {
+                node.update();
+                for(Node downstreamNode : node.getDownstreamNodes()) {
+                    if(downstreamNode.isDirty()) {
                         submit(downstreamNode); // Submit downstream nodes
                     }
                 }
