@@ -14,7 +14,7 @@ public class ThreadPoolScheduler {
     private final BlockingQueue<Node> readyNodes = new LinkedBlockingQueue<>();
     private final AtomicInteger activeTasks = new AtomicInteger(0);
 
-    public ThreadPoolScheduler(int maxThreads) {
+    public ThreadPoolScheduler() {
         this.threadPool = Executors.newVirtualThreadPerTaskExecutor();
     }
 

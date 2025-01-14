@@ -9,7 +9,7 @@ public class ThreadPoolSchedulerTest {
     @Test
     public void test() {
         // Create a thread pool scheduler with 4 threads
-        ThreadPoolScheduler scheduler = new ThreadPoolScheduler(4);
+        ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
 
         // Create nodes
         LoadNumber nodeA = new LoadNumber(5);
