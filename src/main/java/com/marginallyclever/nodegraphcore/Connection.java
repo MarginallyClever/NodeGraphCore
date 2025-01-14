@@ -50,7 +50,9 @@ public class Connection {
      * @param another the source to match.
      */
     public Connection(Connection another) {
-        this(another.from,another.fromIndex,another.to,another.toIndex);
+        this();
+        setFrom(another.from,another.fromIndex);
+        setTo(another.to,another.toIndex);
     }
 
     /**
