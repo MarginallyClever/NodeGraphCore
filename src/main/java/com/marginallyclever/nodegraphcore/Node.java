@@ -275,7 +275,7 @@ public abstract class Node {
     private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {
         guaranteeSameNumberOfVariables(vars);
         for(int i=0;i<vars.length();++i) {
-            variables.get(i).parseJSON(vars.getJSONObject(i));
+            variables.get(i).fromJSON(vars.getJSONObject(i));
         }
     }
 

@@ -190,14 +190,14 @@ public class TestGraphCore {
         Port<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
 
         JSONObject obj = a.toJSON();
-        b.parseJSON(obj);
+        b.fromJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
 
         a = new Output<>(myClass.getSimpleName(),myClass,instA);
         b = new Output<>(myClass.getSimpleName(),myClass,instB);
         obj = a.toJSON();
-        b.parseJSON(obj);
+        b.fromJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
     }
