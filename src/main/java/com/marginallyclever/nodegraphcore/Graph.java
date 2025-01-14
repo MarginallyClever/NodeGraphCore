@@ -47,9 +47,8 @@ public class Graph {
      * </ul>
      * The method does not analyze the directed graph to run nodes in an "intelligent" way.
      */
-    public void update() {
-        for(Node n : nodes) n.update();
-    }
+    @Deprecated
+    public void update() {}
 
     /**
      * @return a {@link List} of all the {@link Node}s within this {@link Graph}.
