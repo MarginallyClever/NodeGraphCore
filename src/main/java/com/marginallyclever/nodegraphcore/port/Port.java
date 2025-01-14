@@ -46,6 +46,8 @@ public abstract class Port<T> {
      */
     protected final Rectangle rectangle = new Rectangle();
 
+    protected boolean isDirty = false;
+
     /**
      * Constructor for subclasses to call.
      * @param name the variable name
@@ -123,6 +125,11 @@ public abstract class Port<T> {
     @SuppressWarnings("unchecked")
     public void setValue(Object arg0) {
         if(isValidType(arg0)) {
+            if(value!=null && !value.equals(arg0)) {
+                isDirty = true;
+            } else if(arg0 != null) {
+                isDirty = true;
+            }
             value = (T)arg0;
         }
     }
@@ -174,5 +181,13 @@ public abstract class Port<T> {
         name = jo.getString("name");
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    public void setDirty(boolean state) {
+        isDirty = state;
     }
 }
