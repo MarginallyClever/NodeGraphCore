@@ -11,7 +11,7 @@ public interface DAO4JSON<T> {
      * Returns a value converted to JSON.
      * @param value the thing of type T.
      * @return a value converted to JSON.
-     * @throws JSONException
+     * @throws JSONException if the value cannot be converted to JSON.
      */
     Object toJSON(Object value) throws JSONException;
 
@@ -19,7 +19,7 @@ public interface DAO4JSON<T> {
      * Returns a value converted from JSON.
      * @param object the {@link JSONObject}
      * @return a value converted from JSON.
-     * @throws JSONException
+     * @throws JSONException if the object cannot be converted to the desired type.
      */
     T fromJSON(Object object) throws JSONException;
 }
