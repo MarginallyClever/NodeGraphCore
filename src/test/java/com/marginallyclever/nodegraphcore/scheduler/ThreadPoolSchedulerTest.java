@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 public class ThreadPoolSchedulerTest {
     @Test
     public void test() {
-        // Create a thread pool scheduler with 4 threads and 10-second timeout
+        // Create a thread pool scheduler with 4 threads
         ThreadPoolScheduler scheduler = new ThreadPoolScheduler(4);
 
         // Create nodes
@@ -26,7 +26,7 @@ public class ThreadPoolSchedulerTest {
         scheduler.run();
 
         // Shutdown the scheduler after execution
-        scheduler.shutdown();
+        scheduler.shutdown(10);
     }
 }
 

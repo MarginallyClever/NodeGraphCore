@@ -61,10 +61,10 @@ public class ThreadPoolScheduler {
         });
     }
 
-    public void shutdown() {
+    public void shutdown(long timeoutSeconds) {
         threadPool.shutdown();
         try {
-            if (!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
+            if (!threadPool.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
                 threadPool.shutdownNow();
             }
         } catch (InterruptedException e) {
