@@ -1,5 +1,6 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.port.Port;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>{@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
@@ -33,6 +35,11 @@ public abstract class Node {
     private final Rectangle rectangle = new Rectangle(0,0,150,50);
 
     private final List<Port<?>> variables = new ArrayList<>();
+
+    /**
+     * The percentage of completion of this node.
+     */
+    private AtomicInteger complete = new AtomicInteger(0);
 
     /**
      * Default constructor
@@ -303,4 +310,46 @@ public abstract class Node {
      * com.marginallyclever.nodegraphcore.nodes.LoadNumber} which only fires once when the program begins.
      */
     public void reset() {}
+
+    /**
+     * @return a list of all the nodes that are downstream from this node.
+     */
+    public List<Node> getDownstreamNodes() {
+        List<Node> downstreamNodes = new ArrayList<>();
+        for(var v : variables) {
+            if(v instanceof Output<?> k) {
+                for( var to : k.getTo()) {
+                    downstreamNodes.add(to.getOtherNode(this));
+                }
+            }
+        }
+        return downstreamNodes;
+    }
+
+    /**
+     * @return true if any of the Input<> Ports are dirty.
+     */
+    public boolean isDirty() {
+        for(var v : variables) {
+            if(v instanceof Input<?> k && k.isDirty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return the percentage of completion of this node.
+     */
+    public int getComplete() {
+        return complete.get();
+    }
+
+    /**
+     * Sets the percentage of completion of this node.
+     * @param percent the new percentage of completion.
+     */
+    public void setComplete(int percent) {
+        this.complete.set(percent);
+    }
 }
