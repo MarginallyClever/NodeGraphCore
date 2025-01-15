@@ -280,9 +280,17 @@ public abstract class Node {
     }
 
     private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {
-        guaranteeSameNumberOfVariables(vars);
+        //guaranteeSameNumberOfVariables(vars);
         for(int i=0;i<vars.length();++i) {
-            variables.get(i).fromJSON(vars.getJSONObject(i));
+            var obj = vars.getJSONObject(i);
+            var variable = variables.get(i);
+            // if a Node is changed later the JSON and the Node might not match.
+            // if the variable is null, it's a new variable that wasn't in the JSON.
+            // if the obj is null, it's a variable that was in the JSON but isn't in the Node.
+            if(obj != null && variable != null) {
+                // both exist, so parse the JSON into the variable.
+                variable.fromJSON(obj);
+            }
         }
     }
 
