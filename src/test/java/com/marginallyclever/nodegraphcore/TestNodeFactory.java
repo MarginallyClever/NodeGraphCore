@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.util.Arrays;
 import java.util.ServiceLoader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +31,7 @@ public class TestNodeFactory {
     @Test
     public void listAllNodesRegistered() throws Exception {
         NodeFactory.loadRegistries();
-        for(String name : NodeFactory.getNames()) {
-            System.out.println(name);
-        }
+        System.out.println("All registered nodegraphcore nodes: "+ Arrays.toString(NodeFactory.getNames()));
         NodeFactory.clear();
     }
 
