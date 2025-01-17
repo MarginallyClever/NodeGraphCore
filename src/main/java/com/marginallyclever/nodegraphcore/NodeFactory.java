@@ -38,6 +38,7 @@ public class NodeFactory {
         }
         var after = new ArrayList<>(nodeRegistry.keySet());
         after.removeAll(before);
+        after.sort(String::compareTo);
         // after now contains only newly registered nodes.
         logger.debug("Registering node(s) {} ",after);
         System.out.println("Registering node(s): "+after);
