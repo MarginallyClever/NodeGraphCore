@@ -1,0 +1,3 @@
+install:
+  - mvn wrapper:wrapper -Dmaven=3.6.3
+  - ./mvnw install -DskipTests
