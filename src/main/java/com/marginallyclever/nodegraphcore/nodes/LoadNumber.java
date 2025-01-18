@@ -25,6 +25,11 @@ public class LoadNumber extends Node implements SupergraphInput {
         addVariable(output);
     }
 
+    public LoadNumber(Number number) {
+        this();
+        value.setValue(number);
+    }
+
     @Override
     public void update() {
         if(done) return;

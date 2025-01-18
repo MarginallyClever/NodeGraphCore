@@ -46,6 +46,8 @@ public abstract class Port<T> {
      */
     protected final Rectangle rectangle = new Rectangle();
 
+    protected boolean isDirty = false;
+
     /**
      * Constructor for subclasses to call.
      * @param name the variable name
@@ -92,17 +94,6 @@ public abstract class Port<T> {
     }
 
     /**
-     * Sets the value.  Casts to this variable's type.
-     * @param arg0 the new value to set.
-     */
-    @SuppressWarnings("unchecked")
-    public void setValue(Object arg0) {
-        if(isValidType(arg0)) {
-            value = (T)arg0;
-        }
-    }
-
-    /**
      * Returns the class of this value type.
      * @return the class of this value type.
      */
@@ -125,6 +116,22 @@ public abstract class Port<T> {
     public boolean isValidType(Object arg0) {
         if(arg0==null) return false;
         return type.isAssignableFrom(arg0.getClass());
+    }
+
+    /**
+     * Sets the value.  Casts to this variable's type.
+     * @param arg0 the new value to set.
+     */
+    @SuppressWarnings("unchecked")
+    public void setValue(Object arg0) {
+        if(isValidType(arg0)) {
+            if(value!=null && !value.equals(arg0)) {
+                isDirty = true;
+            } else if(arg0 != null) {
+                isDirty = true;
+            }
+            value = (T)arg0;
+        }
     }
 
     /**
@@ -169,10 +176,18 @@ public abstract class Port<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public void parseJSON(JSONObject jo) throws JSONException, ClassCastException {
+    public void fromJSON(JSONObject jo) throws JSONException, ClassCastException {
         value = (jo.has("value") ? (T) DAO4JSONFactory.fromJSON(this.type,jo.get("value")) : null);
         name = jo.getString("name");
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    public void setDirty(boolean state) {
+        isDirty = state;
     }
 }

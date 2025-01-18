@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.util.*;
 
 import static org.reflections.scanners.Scanners.SubTypes;
 
@@ -34,14 +31,20 @@ public class NodeFactory {
                 .setScanners(Scanners.SubTypes)
                 .filterInputsBy(new FilterBuilder().includePackage(packageName)));
         Set<Class<? extends Node>> subTypes = reflections.getSubTypesOf(Node.class);
+
+        var before = new ArrayList<>(nodeRegistry.keySet());
         for(var typeFound : subTypes) {
             registerNode(typeFound);
         }
+        var after = new ArrayList<>(nodeRegistry.keySet());
+        after.removeAll(before);
+        after.sort(String::compareTo);
+        // after now contains only newly registered nodes.
+        logger.debug("Registering node(s) {} ",after);
+        System.out.println("Registering node(s): "+after);
     }
 
     public static void registerNode(Class<? extends Node> typeFound) {
-        logger.debug("Registering node {} ",typeFound.getName());
-        System.out.println("Registering node "+typeFound.getName());
         verifyTypeNotRegistered(typeFound);
         verifyTypeConstructor(typeFound);
         nodeRegistry.put(typeFound.getSimpleName(),typeFound);

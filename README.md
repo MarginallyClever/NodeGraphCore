@@ -1,8 +1,11 @@
-# Donatello Flow-based Programming Editor
+# Flow-based Programming
 
 A pure Java implementation of [Flow-based Programming](https://en.wikipedia.org/wiki/Dataflow_programming) (FBP).
 
-![img](docs/preview-for-github.png)
+Flow-based programming is best known in no-code/low-code systems like Scratch, Node-RED, and Unreal
+Engine's Blueprints.  It is a way to visually represent a program's data flow.  Each node is a
+function that takes input and produces output.  The connections between nodes are the data that
+flows between them.
 
 Data-flow programming is aesthetically pleasing, greatly reduces the chance of syntax error, and empowering for people
 that are not fluent in the archaic syntax of text-only languages.

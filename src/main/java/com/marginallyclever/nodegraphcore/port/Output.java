@@ -32,6 +32,10 @@ public class Output<T> extends Port<T> {
         to.remove(connection);
     }
 
+    public List<Connection> getTo() {
+        return to;
+    }
+
     /**
      * @return an inverted copy of this {@link Port}.
      */
