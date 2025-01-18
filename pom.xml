@@ -4,7 +4,7 @@
 
     <groupId>com.marginallyclever</groupId>
     <artifactId>nodegraphcore</artifactId>
-    <version>1.0.25</version>
+    <version>1.0.26</version>
 
     <name>NodeGraphCore</name>
     <description>Flow based programming in Java.</description>
