@@ -1,8 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.port.Port;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
+import com.marginallyclever.nodegraphcore.port.Port;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,14 +172,20 @@ public class Graph {
     /**
      * Return the first connection point found within radius of a point
      * @param point center of search area
-     * @param r radius limit
+     * @param radius radius limit
      * @return a {@link ConnectionPointInfo} describing the point found or null.
      */
-    public ConnectionPointInfo getNearestConnectionPoint(Point point, double r) {
-        double rr=r*r;
+    public ConnectionPointInfo getNearestConnectionPoint(Point point, double radius) {
+        double rr=radius*radius;
         ConnectionPointInfo info=null;
 
         for(Node n : nodes) {
+            // early reject if the Node is not in the search area.
+            Rectangle rect = n.getRectangle();
+            if(point.x<rect.x-radius || point.x>rect.x+rect.width+radius) continue;
+            if(point.y<rect.y-radius || point.y>rect.y+rect.height+radius) continue;
+
+            // now check each Port in the Node.
             for(int i = 0; i < n.getNumVariables(); ++i) {
                 Port<?> v = n.getVariable(i);
                 if(v instanceof Input) {
@@ -215,17 +221,17 @@ public class Graph {
 
     /**
      * Find and remove any {@link Connection} that connects to the input side of a given {@link Port}.
-     * @param outVariable the {@link Port} with an input to be isolated.
+     * @param input the {@link Port} with an input to be isolated.
      */
-    public void removeAllConnectionsInto(Port<?> outVariable) {
-        connections.removeAll(getAllConnectionsInto(outVariable));
+    public void removeAllConnectionsInto(Input<?> input) {
+        connections.removeAll(getAllConnectionsInto(input));
     }
 
-    public List<Connection> getAllConnectionsInto(Port<?> outVariable) {
+    public List<Connection> getAllConnectionsInto(Input<?> input) {
         ArrayList<Connection> list = new ArrayList<>();
 
         for(Connection c : connections) {
-            if(c.getInput() == outVariable) list.add(c);
+            if(c.getInput() == input) list.add(c);
         }
 
         return list;
