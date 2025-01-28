@@ -193,8 +193,8 @@ public class Connection {
         if(!(other instanceof Connection c2)) return false;
         return Objects.equals(from, c2.from) &&
                 Objects.equals(to, c2.to) &&
-                from.getClass().equals(c2.from.getClass()) &&
-                to.getClass().equals(c2.to.getClass());
+                fromIndex == c2.fromIndex &&
+                toIndex == c2.toIndex;
     }
 
     @Override
