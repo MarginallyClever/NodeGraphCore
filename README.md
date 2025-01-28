@@ -1,5 +1,8 @@
 # Flow-based Programming
 
+[![Release](https://jitpack.io/v/MarginallyClever/NodeGraphCore.svg)](https://jitpack.io/#MarginallyClever/NodeGraphCore)
+![workflow](https://github.com/MarginallyClever/NodeGraphCore/actions/workflows/main.yml/badge.svg)
+
 A pure Java implementation of [Flow-based Programming](https://en.wikipedia.org/wiki/Dataflow_programming) (FBP).
 
 Flow-based programming is best known in no-code/low-code systems like Scratch, Node-RED, and Unreal
