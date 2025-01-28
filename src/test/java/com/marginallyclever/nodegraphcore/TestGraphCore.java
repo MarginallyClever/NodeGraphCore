@@ -72,7 +72,10 @@ public class TestGraphCore {
     @Test
     public void testAddTwoConstants() {
         buildAddTwoConstants();
-        graph.update();
+        ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
+        scheduler.submit(graph.getNodes().get(0));
+        scheduler.submit(graph.getNodes().get(1));
+        scheduler.run();
         assertEquals( 3.0, graph.getNodes().get(2).getVariable(2).getValue() );
     }
 
@@ -83,11 +86,13 @@ public class TestGraphCore {
     @Test
     public void testAddTwoConstantsAndReport() {
         buildAddTwoConstants();
+        ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
         Node report = graph.add(new PrintToStdOut());
         graph.add(new Connection(graph.getNodes().get(2),2,report,0));
 
-        graph.update();
-        graph.update();
+        scheduler.submit(graph.getNodes().get(0));
+        scheduler.submit(graph.getNodes().get(1));
+        scheduler.run();
 
         assertEquals( 3.0, report.getVariable(0).getValue() );
     }
@@ -190,14 +195,14 @@ public class TestGraphCore {
         Port<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
 
         JSONObject obj = a.toJSON();
-        b.parseJSON(obj);
+        b.fromJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
 
         a = new Output<>(myClass.getSimpleName(),myClass,instA);
         b = new Output<>(myClass.getSimpleName(),myClass,instB);
         obj = a.toJSON();
-        b.parseJSON(obj);
+        b.fromJSON(obj);
         assertEquals(a.toString(),b.toString());
         assertEquals(a.getValue(),b.getValue());
     }
@@ -230,6 +235,8 @@ public class TestGraphCore {
     public void testAddTwoModelsTogether() {
         buildAddTwoConstants();
 
+        ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
+
         Graph modelB = new Graph();
         modelB.add(graph);
         modelB.add(graph.deepCopy());
@@ -250,7 +257,19 @@ public class TestGraphCore {
         Node m = modelB.add(new Multiply());
         modelB.add(new Connection(a0,2,m,0));
         modelB.add(new Connection(a1,2,m,1));
-        modelB.update();
+
+        // submit all the Adds to the scheduler
+        int count = 0;
+        for(Node n : modelB.getNodes()) {
+            if(n instanceof LoadNumber) {
+                scheduler.submit(n);
+                count++;
+            }
+        }
+        assertEquals(4,count);
+
+        scheduler.run();
+
         assertEquals(9.0,m.getVariable(2).getValue());
     }
 }

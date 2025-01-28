@@ -50,7 +50,9 @@ public class Connection {
      * @param another the source to match.
      */
     public Connection(Connection another) {
-        this(another.from,another.fromIndex,another.to,another.toIndex);
+        this();
+        setFrom(another.from,another.fromIndex);
+        setTo(another.to,another.toIndex);
     }
 
     /**
@@ -191,8 +193,8 @@ public class Connection {
         if(!(other instanceof Connection c2)) return false;
         return Objects.equals(from, c2.from) &&
                 Objects.equals(to, c2.to) &&
-                from.getClass().equals(c2.from.getClass()) &&
-                to.getClass().equals(c2.to.getClass());
+                fromIndex == c2.fromIndex &&
+                toIndex == c2.toIndex;
     }
 
     @Override

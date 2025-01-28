@@ -24,6 +24,10 @@ public class Input<T> extends Port<T> {
         from = connection;
     }
 
+    public Connection getFrom() {
+        return from;
+    }
+
     public void removeFrom(Connection connection) {
         if (from == connection) {
             from = null;

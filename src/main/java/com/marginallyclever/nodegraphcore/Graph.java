@@ -47,9 +47,8 @@ public class Graph {
      * </ul>
      * The method does not analyze the directed graph to run nodes in an "intelligent" way.
      */
-    public void update() {
-        for(Node n : nodes) n.update();
-    }
+    @Deprecated
+    public void update() {}
 
     /**
      * @return a {@link List} of all the {@link Node}s within this {@link Graph}.
@@ -156,7 +155,7 @@ public class Graph {
 
     @Override
     public String toString() {
-        return "NodeBasedEditorModel{" +
+        return "Graph{" +
                 "nodes=" + nodes +
                 ", connections=" + connections +
                 '}';
@@ -313,7 +312,7 @@ public class Graph {
      * @return the smallest {@link Rectangle} that contains all {@link Node}s, or null.
      */
     public Rectangle getBounds() {
-        if(nodes.size()==0) return null;
+        if(nodes.isEmpty()) return null;
 
         Rectangle r=new Rectangle(nodes.get(0).getRectangle());
         for(Node n : nodes) {
@@ -403,8 +402,6 @@ public class Graph {
     private JSONArray getAllNodeConnectionsAsJSON() {
         JSONArray a = new JSONArray();
         for (Connection c : connections) {
-            var from = c.getOutput();
-            var to = c.getInput();
             a.put(c.toJSON());
         }
         return a;
