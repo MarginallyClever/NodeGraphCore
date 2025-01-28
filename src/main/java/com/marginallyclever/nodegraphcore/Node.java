@@ -39,7 +39,7 @@ public abstract class Node {
     /**
      * The percentage of completion of this node.
      */
-    private AtomicInteger complete = new AtomicInteger(0);
+    private final AtomicInteger complete = new AtomicInteger(0);
 
     /**
      * Default constructor
