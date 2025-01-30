@@ -232,6 +232,7 @@ public abstract class Node {
     public void setPosition(Point point) {
         rectangle.x=point.x;
         rectangle.y=point.y;
+        updateBounds();
     }
 
     /**
@@ -242,6 +243,7 @@ public abstract class Node {
     public void moveRelative(int dx, int dy) {
         rectangle.x += dx;
         rectangle.y += dy;
+        updateBounds();
     }
 
     public JSONObject toJSON() throws JSONException {
