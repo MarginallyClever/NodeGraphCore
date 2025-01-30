@@ -12,8 +12,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static org.reflections.scanners.Scanners.SubTypes;
-
 /**
  * Maintains a map of {@link Node}s and their names.  Can create nodes on request, by name.
  * Can deliver a list of names.
@@ -109,12 +107,12 @@ public class NodeFactory {
      * Be sure to call {@link ServiceLoaderHelper#addFile(String)} before calling this method.
      * @throws Exception
      */
-    public static void loadRegistries() throws Exception {
+    public static void loadRegistries() {
         ServiceLoaderHelper helper = new ServiceLoaderHelper();
         loadRegistries(helper.getExtensionClassLoader());
     }
 
-    public static void loadRegistries(ClassLoader classLoader) throws Exception {
+    public static void loadRegistries(ClassLoader classLoader) {
         ServiceLoader<NodeRegistry> serviceLoader = ServiceLoader.load(NodeRegistry.class, classLoader);
         for (NodeRegistry registry : serviceLoader) {
             try {
