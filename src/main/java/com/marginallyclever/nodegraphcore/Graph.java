@@ -227,6 +227,12 @@ public class Graph {
         connections.removeAll(getAllConnectionsInto(input));
     }
 
+    /**
+     * There should be only one Connection per Input but it is possible to build many Connections that all connect to
+     * the same Input.  This method returns all Connections that claim to connect to the given Input.
+     * @param input the {@link Input} to search for.
+     * @return a {@link List} of all {@link Connection}s that connect to the given {@link Input}.
+     */
     public List<Connection> getAllConnectionsInto(Input<?> input) {
         ArrayList<Connection> list = new ArrayList<>();
 
