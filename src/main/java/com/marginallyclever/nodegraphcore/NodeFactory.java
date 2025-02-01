@@ -20,6 +20,7 @@ import java.util.*;
  */
 public class NodeFactory {
     private static final Logger logger = LoggerFactory.getLogger(NodeFactory.class);
+
     private static final Map<String,Class<? extends Node>> nodeRegistry = new HashMap<>();
 
     public static void registerAllNodesInPackage(String packageName) throws GraphException {

@@ -14,11 +14,12 @@ import java.util.Map;
 /**
  * Interpret a Java source file.  The source file must contain a single public class called <code>InterpretJava</code>
  * with a single method called <code>execute</code> that returns a {@link String}.
- * <pre>
+ * <pre>{@code
  * public class InterpretJava {
  *     public String execute() {
  *         return "Hello, World!";
  *     }
+ * }
  * }</pre>
  */
 public class InterpretJava extends Node {
