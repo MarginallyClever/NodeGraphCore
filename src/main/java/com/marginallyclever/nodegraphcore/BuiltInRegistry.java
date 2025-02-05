@@ -4,8 +4,6 @@ import com.marginallyclever.nodegraphcore.json.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-
 /**
  * Registers built-in {@link Node}s to the {@link NodeFactory}.
  * Registers built-in types with the JSON DAO factory.
@@ -33,12 +31,12 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     @Override
     public void registerDAO() {
         logger.info("Registering core DAOs");
-        DAO4JSONFactory.registerDAO(Rectangle.class, new RectangleDAO4JSON());
-        DAO4JSONFactory.registerDAO(String.class, new StringDAO4JSON());
-        DAO4JSONFactory.registerDAO(Double.class, new DoubleDAO4JSON());
-        DAO4JSONFactory.registerDAO(Integer.class, new IntegerDAO4JSON());
-        DAO4JSONFactory.registerDAO(Number.class, new NumberDAO4JSON());
-        DAO4JSONFactory.registerDAO(Boolean.class, new BooleanDAO4JSON());
-        DAO4JSONFactory.registerDAO(Object.class, new ObjectDAO4JSON());
+        DAO4JSONFactory.registerDAO(new RectangleDAO4JSON());
+        DAO4JSONFactory.registerDAO(new StringDAO4JSON());
+        DAO4JSONFactory.registerDAO(new DoubleDAO4JSON());
+        DAO4JSONFactory.registerDAO(new IntegerDAO4JSON());
+        DAO4JSONFactory.registerDAO(new NumberDAO4JSON());
+        DAO4JSONFactory.registerDAO(new BooleanDAO4JSON());
+        DAO4JSONFactory.registerDAO(new ObjectDAO4JSON());
     }
 }

@@ -8,6 +8,11 @@ import org.json.JSONObject;
  */
 public interface DAO4JSON<T> {
     /**
+     * @return the class which this DAO services.
+     */
+    Class<?> getClassType();
+
+    /**
      * Returns a value converted to JSON.
      * @param value the thing of type T.
      * @return a value converted to JSON.

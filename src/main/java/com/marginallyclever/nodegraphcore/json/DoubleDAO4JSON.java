@@ -1,6 +1,6 @@
 package com.marginallyclever.nodegraphcore.json;
 
-import com.marginallyclever.nodegraphcore.DAO4JSON;
+import com.marginallyclever.nodegraphcore.AbstractDAO4JSON;
 import org.json.JSONException;
 
 /**
@@ -8,7 +8,11 @@ import org.json.JSONException;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class DoubleDAO4JSON implements DAO4JSON<Number> {
+public class DoubleDAO4JSON extends AbstractDAO4JSON<Double> {
+    public DoubleDAO4JSON() {
+        super(Double.class);
+    }
+
     @Override
     public Object toJSON(Object value) throws JSONException {
         return value;

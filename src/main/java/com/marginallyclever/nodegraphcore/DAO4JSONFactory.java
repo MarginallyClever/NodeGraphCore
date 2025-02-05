@@ -21,9 +21,9 @@ public class DAO4JSONFactory {
      * Does not allow {@link DAO4JSON} to be registered more than once.
      * @param aClass one instance of the class.
      */
-    public static void registerDAO(Class<?> aClass, DAO4JSON<?> dao) {
-        if(!daoRegistry.containsKey(aClass)) {
-            daoRegistry.put(aClass,dao);
+    public static void registerDAO(DAO4JSON<?> dao) {
+        if(!daoRegistry.containsKey(dao.getClassType())) {
+            daoRegistry.put(dao.getClassType(),dao);
         }
     }
 
