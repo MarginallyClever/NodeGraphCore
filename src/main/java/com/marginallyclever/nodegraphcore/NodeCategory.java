@@ -10,6 +10,10 @@ public class NodeCategory {
     private final List<NodeCategory> children = new ArrayList<>();
     private NodeCategory parent=null;
 
+    public NodeCategory(String name) {
+        this(name,null);
+    }
+
     public NodeCategory(String name,Supplier<Node> supplier) {
         this.name = name;
         this.supplier = supplier;
@@ -40,5 +44,18 @@ public class NodeCategory {
 
     public Supplier<Node> getSupplier() {
         return supplier;
+    }
+
+    /**
+     *
+     * @param name the name to match.
+     * @return first child with matching name, or null.
+     */
+    public NodeCategory getChildByName(String name) {
+        if(name==null) throw new IllegalArgumentException("Name cannot be null");
+        for(var child : children) {
+            if(name.equals(child.getName())) return child;
+        }
+        return null;
     }
 }
