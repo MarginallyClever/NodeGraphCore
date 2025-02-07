@@ -12,4 +12,10 @@ public interface PrintWithGraphics {
      * @param g the {@link java.awt.Graphics} context.
      */
     void print(java.awt.Graphics g);
+
+    /**
+     * The lowest layer is drawn first.
+     * @return the layer number.
+     */
+    int getLayer();
 }

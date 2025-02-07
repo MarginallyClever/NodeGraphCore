@@ -158,4 +158,9 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
             }
         }
     }
+
+    @Override
+    public int getLayer() {
+        return 0;
+    }
 }
