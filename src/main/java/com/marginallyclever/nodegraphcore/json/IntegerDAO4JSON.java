@@ -20,6 +20,8 @@ public class IntegerDAO4JSON extends AbstractDAO4JSON<Integer> {
 
     @Override
     public Integer fromJSON(Object object) throws JSONException {
-        return (Integer)object;
+        if(object instanceof Integer) return (Integer)object;
+        if(object instanceof Number) return Integer.valueOf(object.toString());
+        throw new JSONException("Invalid object type "+object.getClass());
     }
 }

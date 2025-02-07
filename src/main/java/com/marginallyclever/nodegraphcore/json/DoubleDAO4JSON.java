@@ -20,6 +20,8 @@ public class DoubleDAO4JSON extends AbstractDAO4JSON<Double> {
 
     @Override
     public Double fromJSON(Object object) throws JSONException {
-        return (Double)object;
+        if(object instanceof Double) return (Double)object;
+        if(object instanceof Number) return Double.valueOf(object.toString());
+        throw new JSONException("Invalid object type "+object.getClass());
     }
 }
