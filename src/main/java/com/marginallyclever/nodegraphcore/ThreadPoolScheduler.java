@@ -46,6 +46,7 @@ public class ThreadPoolScheduler {
         threadPool.submit(() -> {
             try {
                 node.update();
+                node.updateBounds();
                 for(Node downstreamNode : node.getDownstreamNodes()) {
                     if(downstreamNode.isDirty()) {
                         submit(downstreamNode); // Submit downstream nodes
