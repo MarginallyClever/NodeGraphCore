@@ -11,9 +11,7 @@ import com.marginallyclever.nodegraphcore.port.Output;
  */
 public class LoadNumber extends Node implements SupergraphInput {
     private final Input<Number> value = new Input<>("value",Number.class,0);
-    private final Input<Integer> qty = new Input<>("qty",Integer.class,1);
     private final Output<Number> output = new Output<>("output",Number.class,0);
-    private boolean done=false;
 
     /**
      * Constructor for subclasses to call.
@@ -21,7 +19,6 @@ public class LoadNumber extends Node implements SupergraphInput {
     public LoadNumber() {
         super("LoadNumber");
         addVariable(value);
-        addVariable(qty);
         addVariable(output);
     }
 
@@ -32,20 +29,6 @@ public class LoadNumber extends Node implements SupergraphInput {
 
     @Override
     public void update() {
-        if(done) return;
-
-        int q = qty.getValue();
-        if(q>0) {
-            output.send(value.getValue());
-            q--;
-            qty.setValue(q);
-            if(q<=0) done=true;
-        }
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        done=false;
+        output.send(value.getValue());
     }
 }

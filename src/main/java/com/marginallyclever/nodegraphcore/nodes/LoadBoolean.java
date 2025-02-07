@@ -11,9 +11,7 @@ import com.marginallyclever.nodegraphcore.port.Output;
  */
 public class LoadBoolean extends Node implements SupergraphInput {
     private final Input<Boolean> value = new Input<>("value",Boolean.class,false);
-    private final Input<Integer> qty = new Input<>("qty",Integer.class,1);
     private final Output<Boolean> output = new Output<>("output",Boolean.class,false);
-    private boolean done=false;
 
     /**
      * Constructor for subclasses to call.
@@ -21,26 +19,11 @@ public class LoadBoolean extends Node implements SupergraphInput {
     public LoadBoolean() {
         super("LoadBoolean");
         addVariable(value);
-        addVariable(qty);
         addVariable(output);
     }
 
     @Override
     public void update() {
-        if(done) return;
-
-        int q = qty.getValue();
-        if(q!=0) {
-            output.send(value.getValue());
-            q--;
-            qty.setValue(q);
-            if(q==0) done=true;
-        }
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        done=false;
+        output.send(value.getValue());
     }
 }
