@@ -66,12 +66,18 @@ public class Graph {
         return connections;
     }
 
+    public boolean contains(Node node) {
+        return nodes.contains(node);
+    }
+
     /**
      * Adds a node to this graph.
      * @param node the subject
      * @return the same node for convenient method chaining.
+     * @throws IllegalStateException if the node is already in the graph.
      */
     public Node add(Node node) {
+        if(nodes.contains(node)) throw new IllegalStateException("Node added twice");
         nodes.add(node);
         return node;
     }
@@ -307,6 +313,7 @@ public class Graph {
         for(Node n : nodes) {
             if(searchArea.intersects(n.getRectangle())) found.add(n);
         }
+
         return found;
     }
 

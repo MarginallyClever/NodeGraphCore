@@ -1,6 +1,8 @@
 package com.marginallyclever.nodegraphcore;
 
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,8 @@ import java.util.Set;
  * @since 2022-03-07
  */
 public class DAO4JSONFactory {
+    private static final Logger logger = LoggerFactory.getLogger(DAO4JSONFactory.class);
+
     private static final Map<Class<?>, DAO4JSON<?>> daoRegistry = new HashMap<>();
 
     /**

@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A panel that can be used to search for a class and invoke a method dynamically at runtime. The method can be static
- * or non-static.
+ * A panel that can be used to search for a class and invoke a method dynamically at runtime.
  */
 public class ClassSearchPanel extends JPanel {
     private final JTextField searchBar;
