@@ -115,13 +115,16 @@ public abstract class Port<T> {
      */
     @SuppressWarnings("unchecked")
     public void setValue(Object arg0) {
-        if(isValidType(arg0)) {
-            if(value!=null && !value.equals(arg0)) {
-                isDirty = true;
-            } else if(arg0 != null) {
-                isDirty = true;
-            }
-            value = (T)arg0;
+        if(!isValidType(arg0)) return;
+        setDirtyOnValueChange(arg0);
+        value = (T)arg0;
+    }
+
+    protected void setDirtyOnValueChange(Object arg0) {
+        if(value!=null) {
+            if(!value.equals(arg0)) isDirty = true;
+        } else if(arg0 != null) {
+            isDirty = true;
         }
     }
 
