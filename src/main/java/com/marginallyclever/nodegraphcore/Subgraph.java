@@ -64,7 +64,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         // sort and add the pairs.
         pairs.sort(this::sortVariables);
         for(VariablePair p : pairs) {
-            this.addVariable(p.superVariable);
+            this.addPort(p.superVariable);
         }
 
         this.updateBounds();
@@ -77,7 +77,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     private void extractSupergraphOutputs(Node n) {
         if(n instanceof SupergraphOutput) {
             System.out.println("SupergraphOutput "+n.getUniqueName());
-            for(int i=0;i<n.getNumVariables();++i) {
+            for(int i = 0; i<n.getNumPorts(); ++i) {
                 Port<?> v = n.getPort(i);
                 if(v instanceof Input) {
                     System.out.println("found output "+v.getName());
@@ -94,7 +94,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
     private void extractSupergraphInputs(Node n) {
         if(n instanceof SupergraphInput) {
             System.out.println("SupergraphInput "+n.getUniqueName());
-            for(int i=0;i<n.getNumVariables();++i) {
+            for(int i = 0; i<n.getNumPorts(); ++i) {
                 Port<?> v = n.getPort(i);
                 if(v instanceof Output) {
                     System.out.println("found input "+v.getName());

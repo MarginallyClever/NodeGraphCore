@@ -19,9 +19,9 @@ public class LogicalAnd extends Node {
      */
     public LogicalAnd() {
         super("LogicalAnd");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

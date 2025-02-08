@@ -18,8 +18,8 @@ public class Cos extends Node {
      */
     public Cos() {
         super("Cos");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

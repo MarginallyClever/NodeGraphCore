@@ -18,8 +18,8 @@ public class LoadString extends Node implements SupergraphInput {
      */
     public LoadString() {
         super("LoadString");
-        addVariable(value);
-        addVariable(output);
+        addPort(value);
+        addPort(output);
     }
 
     @Override

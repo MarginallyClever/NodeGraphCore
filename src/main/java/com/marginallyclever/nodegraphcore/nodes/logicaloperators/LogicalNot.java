@@ -18,8 +18,8 @@ public class LogicalNot extends Node {
      */
     public LogicalNot() {
         super("LogicalNot");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

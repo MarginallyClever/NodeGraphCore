@@ -19,9 +19,9 @@ public class LogicalOr extends Node {
      */
     public LogicalOr() {
         super("LogicalOr");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
 

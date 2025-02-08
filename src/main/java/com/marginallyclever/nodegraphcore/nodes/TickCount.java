@@ -17,7 +17,7 @@ public class TickCount extends Node {
      */
     public TickCount() {
         super("TickCount");
-        addVariable(output);
+        addPort(output);
     }
 
     @Override

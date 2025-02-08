@@ -137,7 +137,7 @@ public class Graph {
     public void removeConnectionsToNode(Node n) {
         ArrayList<Connection> toRemove = new ArrayList<>();
         for(Connection c : connections) {
-            for(int i=0;i<n.getNumVariables();++i) {
+            for(int i = 0; i<n.getNumPorts(); ++i) {
                 Port<?> v = n.getPort(i);
                 if(c.getInput()==v || c.getOutput()==v) {
                     toRemove.add(c);
@@ -192,7 +192,7 @@ public class Graph {
             if(point.y<rect.y-radius || point.y>rect.y+rect.height+radius) continue;
 
             // now check each Port in the Node.
-            for(int i = 0; i < n.getNumVariables(); ++i) {
+            for(int i = 0; i < n.getNumPorts(); ++i) {
                 Port<?> v = n.getPort(i);
                 if(v instanceof Input) {
                     double r2 = v.getInPosition().distanceSq(point);

@@ -17,9 +17,9 @@ public class Random extends Node {
      */
     public Random() {
         super("Random");
-        addVariable(vMax);
-        addVariable(vMin);
-        addVariable(v);
+        addPort(vMax);
+        addPort(vMin);
+        addPort(v);
     }
 
     @Override

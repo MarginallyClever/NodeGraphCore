@@ -18,8 +18,8 @@ public class Ceil extends Node {
      */
     public Ceil() {
         super("Ceil");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

@@ -21,10 +21,10 @@ public class Counter extends Node {
      */
     public Counter() {
         super("Counter");
-        addVariable(start);
-        addVariable(end);
-        addVariable(increment);
-        addVariable(output);
+        addPort(start);
+        addPort(end);
+        addPort(increment);
+        addPort(output);
     }
 
     @Override

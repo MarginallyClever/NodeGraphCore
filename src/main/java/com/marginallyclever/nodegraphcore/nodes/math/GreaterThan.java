@@ -19,9 +19,9 @@ public class GreaterThan extends Node {
      */
     public GreaterThan() {
         super("GreaterThan");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

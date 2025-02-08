@@ -18,8 +18,8 @@ public class Floor extends Node {
      */
     public Floor() {
         super("Floor");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

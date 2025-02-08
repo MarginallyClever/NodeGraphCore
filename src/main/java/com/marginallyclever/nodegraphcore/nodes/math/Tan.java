@@ -18,8 +18,8 @@ public class Tan extends Node {
      */
     public Tan() {
         super("Tan");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

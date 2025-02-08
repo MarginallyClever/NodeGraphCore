@@ -16,9 +16,9 @@ public class Gate extends Node {
 
     public Gate() {
         super("Gate");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

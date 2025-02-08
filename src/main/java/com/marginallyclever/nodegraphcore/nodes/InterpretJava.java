@@ -32,8 +32,8 @@ public class InterpretJava extends Node {
      */
     public InterpretJava() {
         super("InterpretJava");
-        addVariable(value);
-        addVariable(result);
+        addPort(value);
+        addPort(result);
     }
 
     @Override

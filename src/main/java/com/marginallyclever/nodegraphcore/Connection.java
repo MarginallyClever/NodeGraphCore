@@ -97,7 +97,7 @@ public class Connection {
     public boolean isFromValid() {
         if(from == null) return false;
         if(fromIndex < 0) return false;
-        if(fromIndex >= from.getNumVariables()) return false;
+        if(fromIndex >= from.getNumPorts()) return false;
         return from.getPort(fromIndex) instanceof Output<?>;
     }
 
@@ -107,7 +107,7 @@ public class Connection {
     public boolean isToValid() {
         if(to == null) return false;
         if(toIndex < 0) return false;
-        if(toIndex >= to.getNumVariables()) return false;
+        if(toIndex >= to.getNumPorts()) return false;
         return to.getPort(toIndex) instanceof Input<?>;
     }
 

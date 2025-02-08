@@ -19,9 +19,9 @@ public class Min extends Node {
      */
     public Min() {
         super("Min");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

@@ -19,9 +19,9 @@ public class ATan2 extends Node {
      */
     public ATan2() {
         super("ATan2");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

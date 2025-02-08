@@ -19,9 +19,9 @@ public class Equals extends Node {
      */
     public Equals() {
         super("Equals");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

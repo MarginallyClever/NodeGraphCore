@@ -19,9 +19,9 @@ public class Mod extends Node {
      */
     public Mod() {
         super("Mod");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

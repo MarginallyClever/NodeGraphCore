@@ -69,8 +69,7 @@ public abstract class Node {
     }
 
     /**
-     * Returns the list of variables in this node.
-     * @return the list of variables in this node.
+     * @return the list of ports in this node.
      */
     public List<Port<?>> getPorts() {
         return ports;
@@ -139,7 +138,7 @@ public abstract class Node {
      * Add a {@link Port} to this node.
      * @param v the new {@link Port}
      */
-    protected void addVariable(Port<?> v) {
+    protected void addPort(Port<?> v) {
         ports.add(v);
     }
 
@@ -147,15 +146,14 @@ public abstract class Node {
      * Remove a {@link Port} from this node.
      * @param v the old {@link Port}
      */
-    protected void removeVariable(Port<?> v) {
+    protected void removePort(Port<?> v) {
         ports.remove(v);
     }
 
     /**
-     * Returns the number of variables in this node.
-     * @return the number of variables in this node.
+     * @return the number of ports in this node.
      */
-    public int getNumVariables() {
+    public int getNumPorts() {
         return ports.size();
     }
 
@@ -264,11 +262,11 @@ public abstract class Node {
         jo.put("label", label);
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
-        jo.put("variables", getAllVariablesAsJSON());
+        jo.put("variables", getAllPortsAsJSON());
         return jo;
     }
 
-    private JSONArray getAllVariablesAsJSON() {
+    private JSONArray getAllPortsAsJSON() {
         JSONArray vars = new JSONArray();
         for(Port<?> v : ports) {
             vars.put(v.toJSON());
@@ -289,29 +287,29 @@ public abstract class Node {
         }
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
-        parseAllVariablesFromJSON(jo.getJSONArray("variables"));
+        parseAllPortsFromJSON(jo.getJSONArray("variables"));
     }
 
-    private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {
-        //guaranteeSameNumberOfVariables(vars);
+    private void parseAllPortsFromJSON(JSONArray vars) throws JSONException {
+        //guaranteeSameNumberOfPorts(vars);
         for(int i=0;i<vars.length();++i) {
             var obj = vars.getJSONObject(i);
-            var variable = ports.get(i);
+            var port = ports.get(i);
             // if a Node is changed later the JSON and the Node might not match.
-            // if the variable is null, it's a new variable that wasn't in the JSON.
-            // if the obj is null, it's a variable that was in the JSON but isn't in the Node.
-            if(obj != null && variable != null) {
-                // both exist, so parse the JSON into the variable.
-                variable.fromJSON(obj);
+            // if the port is null, it's a new port that wasn't in the JSON.
+            // if the obj is null, it's a port that was in the JSON but isn't in the Node.
+            if(obj != null && port != null) {
+                // both exist, so parse the JSON into the port.
+                port.fromJSON(obj);
             }
         }
     }
 
-    private void guaranteeSameNumberOfVariables(JSONArray vars) throws JSONException {
+    private void guaranteeSameNumberOfPorts(JSONArray vars) throws JSONException {
         if(vars.length() != ports.size()) {
             int a = ports.size();
             int b = vars.length();
-            throw new JSONException("JSON bad number of node variables.  Expected "+a+" found "+b);
+            throw new JSONException("JSON bad number of node ports.  Expected "+a+" found "+b);
         }
     }
 

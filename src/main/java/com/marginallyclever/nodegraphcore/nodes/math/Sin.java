@@ -18,8 +18,8 @@ public class Sin extends Node {
      */
     public Sin() {
         super("Sin");
-        addVariable(a);
-        addVariable(c);
+        addPort(a);
+        addPort(c);
     }
 
     @Override

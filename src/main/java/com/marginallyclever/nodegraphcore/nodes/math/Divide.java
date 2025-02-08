@@ -17,9 +17,9 @@ public class Divide extends Node {
      */
     public Divide() {
         super("Divide");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

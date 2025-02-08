@@ -17,9 +17,9 @@ public class Multiply extends Node {
      */
     public Multiply() {
         super("Multiply");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

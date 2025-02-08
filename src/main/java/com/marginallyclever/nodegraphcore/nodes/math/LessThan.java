@@ -19,9 +19,9 @@ public class LessThan extends Node {
      */
     public LessThan() {
         super("LessThan");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

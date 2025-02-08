@@ -16,7 +16,7 @@ public class PrintToStdOut extends Node {
      */
     public PrintToStdOut() {
         super("PrintToStdOut");
-        addVariable(a);
+        addPort(a);
     }
 
     @Override

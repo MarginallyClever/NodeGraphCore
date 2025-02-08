@@ -19,9 +19,9 @@ public class Max extends Node {
      */
     public Max() {
         super("Max");
-        addVariable(a);
-        addVariable(b);
-        addVariable(c);
+        addPort(a);
+        addPort(b);
+        addPort(c);
     }
 
     @Override

@@ -18,8 +18,8 @@ public class LoadNumber extends Node implements SupergraphInput {
      */
     public LoadNumber() {
         super("LoadNumber");
-        addVariable(value);
-        addVariable(output);
+        addPort(value);
+        addPort(output);
     }
 
     public LoadNumber(Number number) {

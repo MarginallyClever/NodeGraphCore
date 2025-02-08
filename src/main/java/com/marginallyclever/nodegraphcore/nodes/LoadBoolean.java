@@ -18,8 +18,8 @@ public class LoadBoolean extends Node implements SupergraphInput {
      */
     public LoadBoolean() {
         super("LoadBoolean");
-        addVariable(value);
-        addVariable(output);
+        addPort(value);
+        addPort(output);
     }
 
     @Override
