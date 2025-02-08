@@ -71,7 +71,7 @@ public class Connection {
      */
     public Input<?> getInput() throws NullPointerException, IndexOutOfBoundsException {
         if(!isToValid()) throw new NullPointerException("invalid to");
-        return (Input<?>)to.getVariable(toIndex);
+        return (Input<?>)to.getPort(toIndex);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Connection {
      */
     public Output<?> getOutput() throws NullPointerException, IndexOutOfBoundsException {
         if(!isFromValid()) throw new NullPointerException("invalid from");
-        return (Output<?>)from.getVariable(fromIndex);
+        return (Output<?>)from.getPort(fromIndex);
     }
 
     public Node getFrom() {
@@ -98,7 +98,7 @@ public class Connection {
         if(from == null) return false;
         if(fromIndex < 0) return false;
         if(fromIndex >= from.getNumVariables()) return false;
-        return from.getVariable(fromIndex) instanceof Output<?>;
+        return from.getPort(fromIndex) instanceof Output<?>;
     }
 
     /**
@@ -108,7 +108,7 @@ public class Connection {
         if(to == null) return false;
         if(toIndex < 0) return false;
         if(toIndex >= to.getNumVariables()) return false;
-        return to.getVariable(toIndex) instanceof Input<?>;
+        return to.getPort(toIndex) instanceof Input<?>;
     }
 
     /**
@@ -119,7 +119,7 @@ public class Connection {
         from = n;
         fromIndex = index;
         if(n!=null) {
-            ((Output<?>)n.getVariable(index)).addTo(this);
+            ((Output<?>)n.getPort(index)).addTo(this);
         }
     }
 
@@ -131,7 +131,7 @@ public class Connection {
         to = n;
         toIndex = index;
         if(n!=null) {
-            ((Input<?>)n.getVariable(index)).setFrom(this);
+            ((Input<?>)n.getPort(index)).setFrom(this);
         }
     }
 

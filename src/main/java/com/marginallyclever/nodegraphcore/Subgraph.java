@@ -78,7 +78,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphOutput) {
             System.out.println("SupergraphOutput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                Port<?> v = n.getVariable(i);
+                Port<?> v = n.getPort(i);
                 if(v instanceof Input) {
                     System.out.println("found output "+v.getName());
                     addToPairs(v);
@@ -95,7 +95,7 @@ public class Subgraph extends Node implements SupergraphInput, SupergraphOutput,
         if(n instanceof SupergraphInput) {
             System.out.println("SupergraphInput "+n.getUniqueName());
             for(int i=0;i<n.getNumVariables();++i) {
-                Port<?> v = n.getVariable(i);
+                Port<?> v = n.getPort(i);
                 if(v instanceof Output) {
                     System.out.println("found input "+v.getName());
                     addToPairs(v);

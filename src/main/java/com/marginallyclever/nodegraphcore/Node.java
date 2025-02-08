@@ -34,7 +34,7 @@ public abstract class Node {
 
     private final Rectangle rectangle = new Rectangle(0,0,150,50);
 
-    private final List<Port<?>> variables = new ArrayList<>();
+    private final List<Port<?>> ports = new ArrayList<>();
 
     /**
      * The percentage of completion of this node.
@@ -72,8 +72,8 @@ public abstract class Node {
      * Returns the list of variables in this node.
      * @return the list of variables in this node.
      */
-    public List<Port<?>> getVariables() {
-        return variables;
+    public List<Port<?>> getPorts() {
+        return ports;
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class Node {
         var rect = getRectangle();
         int x=rect.x;
         int y=rect.y;
-        for(Port<?> v : variables) {
+        for(Port<?> v : ports) {
             Rectangle r = v.getRectangle();
             r.y=h+y;
             r.x=x;
@@ -140,7 +140,7 @@ public abstract class Node {
      * @param v the new {@link Port}
      */
     protected void addVariable(Port<?> v) {
-        variables.add(v);
+        ports.add(v);
     }
 
     /**
@@ -148,7 +148,7 @@ public abstract class Node {
      * @param v the old {@link Port}
      */
     protected void removeVariable(Port<?> v) {
-        variables.remove(v);
+        ports.remove(v);
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class Node {
      * @return the number of variables in this node.
      */
     public int getNumVariables() {
-        return variables.size();
+        return ports.size();
     }
 
     /**
@@ -165,8 +165,19 @@ public abstract class Node {
      * @return the i-th {@link Port} in this node.
      * @throws IndexOutOfBoundsException when an invalid index is requested.
      */
-    public Port<?> getVariable(int index) throws IndexOutOfBoundsException {
-        return variables.get(index);
+    public Port<?> getPort(int index) throws IndexOutOfBoundsException {
+        return ports.get(index);
+    }
+
+    /**
+     * @param name the name to match.
+     * @return the {@link Port} found or null
+     */
+    public Port<?> getPort(String name) {
+        for(Port<?> v : ports) {
+            if(v.getName().equals(name)) return v;
+        }
+        return null;
     }
 
     @Override
@@ -175,8 +186,8 @@ public abstract class Node {
                 "name=" + getName() +
                 ", uniqueID=" + getUniqueID() +
                 ", label=" + label +
-                ", variables=" + variables +
                 ", rectangle=" + rectangle +
+                ", ports=" + ports +
                 '}';
     }
 
@@ -203,9 +214,9 @@ public abstract class Node {
     private double getPointHeight(int index) {
         double y = TITLE_HEIGHT;
         for(int i=0;i<index;++i) {
-            y += getVariable(i).getRectangle().height;
+            y += getPort(i).getRectangle().height;
         }
-        y += getVariable(index).getRectangle().height/2.0;
+        y += getPort(index).getRectangle().height/2.0;
         return y;
     }
 
@@ -259,7 +270,7 @@ public abstract class Node {
 
     private JSONArray getAllVariablesAsJSON() {
         JSONArray vars = new JSONArray();
-        for(Port<?> v : variables) {
+        for(Port<?> v : ports) {
             vars.put(v.toJSON());
         }
         return vars;
@@ -285,7 +296,7 @@ public abstract class Node {
         //guaranteeSameNumberOfVariables(vars);
         for(int i=0;i<vars.length();++i) {
             var obj = vars.getJSONObject(i);
-            var variable = variables.get(i);
+            var variable = ports.get(i);
             // if a Node is changed later the JSON and the Node might not match.
             // if the variable is null, it's a new variable that wasn't in the JSON.
             // if the obj is null, it's a variable that was in the JSON but isn't in the Node.
@@ -297,8 +308,8 @@ public abstract class Node {
     }
 
     private void guaranteeSameNumberOfVariables(JSONArray vars) throws JSONException {
-        if(vars.length() != variables.size()) {
-            int a = variables.size();
+        if(vars.length() != ports.size()) {
+            int a = ports.size();
             int b = vars.length();
             throw new JSONException("JSON bad number of node variables.  Expected "+a+" found "+b);
         }
@@ -307,7 +318,7 @@ public abstract class Node {
     @Deprecated
     public int countReceivingConnections() {
         int count = 0;
-        for(Port<?> v : variables) {
+        for(Port<?> v : ports) {
             if(v instanceof Input<?> k && k.hasConnection()) {
                 count++;
             }
@@ -326,7 +337,7 @@ public abstract class Node {
      */
     public List<Node> getDownstreamNodes() {
         List<Node> downstreamNodes = new ArrayList<>();
-        for(var v : variables) {
+        for(var v : ports) {
             if(v instanceof Output<?> k) {
                 for( var to : k.getTo()) {
                     downstreamNodes.add(to.getOtherNode(this));
@@ -340,7 +351,7 @@ public abstract class Node {
      * @return true if any of the Input<> Ports are dirty.
      */
     public boolean isDirty() {
-        for(var v : variables) {
+        for(var v : ports) {
             if(v instanceof Input<?> k && k.isDirty()) {
                 return true;
             }

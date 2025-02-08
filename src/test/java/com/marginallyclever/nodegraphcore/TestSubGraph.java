@@ -35,14 +35,14 @@ public class TestSubGraph {
         subgraph.setGraph(graph);
         // cannot check because deep copy changes unique IDs
         //Assertions.assertEquals(graph.toString(), subgraph.getGraph().toString());
-        Assertions.assertEquals(0,subgraph.getVariables().size());
+        Assertions.assertEquals(0,subgraph.getPorts().size());
 
         subgraph.update();
 
         subgraph.setGraph(null);
         // cannot check because deep copy changes unique IDs
         //Assertions.assertEquals(new Graph(),subgraph.getGraph());
-        Assertions.assertEquals(0,subgraph.getVariables().size());
+        Assertions.assertEquals(0,subgraph.getPorts().size());
     }
 
     @Test

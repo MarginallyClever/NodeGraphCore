@@ -59,8 +59,8 @@ public class TestGraphCore {
     private void buildAddTwoConstants() {
         LoadNumber constant0 = (LoadNumber) graph.add(new LoadNumber());
         LoadNumber constant1 = (LoadNumber) graph.add(new LoadNumber());
-        constant0.getVariable(0).setValue(1);
-        constant1.getVariable(0).setValue(2);
+        constant0.getPort(0).setValue(1);
+        constant1.getPort(0).setValue(2);
         Add add = (Add) graph.add(new Add());
         graph.add(new Connection(constant0,2,add,0));
         graph.add(new Connection(constant1,2,add,1));
@@ -76,7 +76,7 @@ public class TestGraphCore {
         scheduler.submit(graph.getNodes().get(0));
         scheduler.submit(graph.getNodes().get(1));
         scheduler.run();
-        assertEquals( 3.0, graph.getNodes().get(2).getVariable(2).getValue() );
+        assertEquals( 3.0, graph.getNodes().get(2).getPort(2).getValue() );
     }
 
     /**
@@ -94,7 +94,7 @@ public class TestGraphCore {
         scheduler.submit(graph.getNodes().get(1));
         scheduler.run();
 
-        assertEquals( 3.0, report.getVariable(0).getValue() );
+        assertEquals( 3.0, report.getPort(0).getValue() );
     }
 
     /**
@@ -270,6 +270,6 @@ public class TestGraphCore {
 
         scheduler.run();
 
-        assertEquals(9.0,m.getVariable(2).getValue());
+        assertEquals(9.0,m.getPort(2).getValue());
     }
 }
