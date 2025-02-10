@@ -26,6 +26,6 @@ public class Hypot extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send(Math.hypot(av,bv));
+        c.setValue(Math.hypot(av,bv));
     }
 }

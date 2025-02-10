@@ -35,7 +35,7 @@ public class Counter extends Node {
         int e = end.getValue();
         int add = increment.getValue();
         for(int i=s;i!=e;i+=add) {
-            output.send(i);
+            output.setValue(i);
         }
         done=true;
     }

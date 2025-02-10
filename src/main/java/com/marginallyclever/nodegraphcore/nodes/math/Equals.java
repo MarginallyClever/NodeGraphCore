@@ -28,6 +28,6 @@ public class Equals extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send((av == bv) ? 1 : 0);
+        c.setValue((av == bv) ? 1 : 0);
     }
 }

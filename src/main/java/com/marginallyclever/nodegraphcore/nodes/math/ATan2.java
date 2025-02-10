@@ -28,6 +28,6 @@ public class ATan2 extends Node {
     public void update() {
         double y = a.getValue().doubleValue();
         double x = b.getValue().doubleValue();
-        c.send(Math.atan2(y,x));
+        c.setValue(Math.atan2(y,x));
     }
 }

@@ -26,7 +26,7 @@ public class Divide extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        if(bv==0) c.send(Float.NaN);
-        else c.send(av / bv);
+        if(bv==0) c.setValue(Float.NaN);
+        else c.setValue(av / bv);
     }
 }

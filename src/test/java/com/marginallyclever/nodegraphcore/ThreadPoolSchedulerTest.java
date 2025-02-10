@@ -18,8 +18,8 @@ public class ThreadPoolSchedulerTest {
         PrintToStdOut printNode = new PrintToStdOut();
 
         // Connect nodes
-        new Connection(nodeA, 2, multiply, 0);
-        new Connection(nodeB, 2, multiply, 1);
+        new Connection(nodeA, 1, multiply, 0);
+        new Connection(nodeB, 1, multiply, 1);
         new Connection(multiply, 2, printNode, 0);
 
         // Submit nodes to the scheduler

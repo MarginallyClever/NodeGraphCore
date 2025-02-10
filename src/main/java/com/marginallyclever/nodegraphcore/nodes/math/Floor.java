@@ -24,6 +24,6 @@ public class Floor extends Node {
 
     @Override
     public void update() {
-        c.send(a.getValue().intValue());
+        c.setValue(a.getValue().intValue());
     }
 }

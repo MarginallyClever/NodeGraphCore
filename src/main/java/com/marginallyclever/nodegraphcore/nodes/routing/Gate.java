@@ -23,6 +23,6 @@ public class Gate extends Node {
 
     @Override
     public void update() {
-        c.send(a.getValue());
+        c.setValue(a.getValue());
     }
 }

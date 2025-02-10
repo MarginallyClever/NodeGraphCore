@@ -62,8 +62,8 @@ public class TestGraphCore {
         constant0.getPort(0).setValue(1);
         constant1.getPort(0).setValue(2);
         Add add = (Add) graph.add(new Add());
-        graph.add(new Connection(constant0,2,add,0));
-        graph.add(new Connection(constant1,2,add,1));
+        graph.add(new Connection(constant0,1,add,0));
+        graph.add(new Connection(constant1,1,add,1));
     }
 
     /**

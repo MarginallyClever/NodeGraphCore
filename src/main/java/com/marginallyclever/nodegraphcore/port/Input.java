@@ -13,13 +13,6 @@ public class Input<T> extends Port<T> {
         super(name,type,startingValue);
     }
 
-    @Deprecated
-    public void receive() {
-        if(from==null) return;
-        if(from.getOutput()==null) return;
-        super.setValue(from.getOutput().getValue());
-    }
-
     public void setFrom(Connection connection) {
         from = connection;
     }

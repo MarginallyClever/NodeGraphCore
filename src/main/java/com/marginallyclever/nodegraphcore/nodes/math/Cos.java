@@ -25,6 +25,6 @@ public class Cos extends Node {
     @Override
     public void update() {
         double av = a.getValue().doubleValue();
-        c.send(Math.cos(av));
+        c.setValue(Math.cos(av));
     }
 }

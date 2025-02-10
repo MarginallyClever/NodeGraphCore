@@ -25,6 +25,6 @@ public class Tan extends Node {
     @Override
     public void update() {
         double av = a.getValue().doubleValue();
-        c.send(Math.tan(av));
+        c.setValue(Math.tan(av));
     }
 }

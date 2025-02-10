@@ -28,6 +28,6 @@ public class Min extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send(Math.min(av,bv));
+        c.setValue(Math.min(av,bv));
     }
 }

@@ -26,6 +26,6 @@ public class Random extends Node {
     public void update() {
         double a = vMin.getValue().doubleValue();
         double b = vMax.getValue().doubleValue();
-        v.send(Math.random()*(b-a) + a);
+        v.setValue(Math.random()*(b-a) + a);
     }
 }

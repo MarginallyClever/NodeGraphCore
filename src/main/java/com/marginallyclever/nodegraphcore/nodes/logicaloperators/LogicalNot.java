@@ -25,6 +25,6 @@ public class LogicalNot extends Node {
     @Override
     public void update() {
         boolean av = a.getValue();
-        c.send(!av);
+        c.setValue(!av);
     }
 }

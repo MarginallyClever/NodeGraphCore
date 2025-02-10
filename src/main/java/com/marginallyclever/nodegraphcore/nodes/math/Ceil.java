@@ -24,6 +24,6 @@ public class Ceil extends Node {
 
     @Override
     public void update() {
-        c.send((int)Math.ceil(a.getValue().doubleValue()));
+        c.setValue((int)Math.ceil(a.getValue().doubleValue()));
     }
 }

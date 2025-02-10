@@ -16,11 +16,14 @@ public class Output<T> extends Port<T> {
         super(_name,type,startingValue);
     }
 
-    public void send(T packet) {
-        super.setValue(packet);
+    public void setValue(Object value) {
+        if(!isValidType(value)) return;
+
+        super.setValue(value);
+
         for(Connection c : to) {
             var recipient = c.getInput();
-            if(recipient!=null) recipient.setValue(packet);
+            if(recipient!=null) recipient.setValue(value);
         }
     }
 

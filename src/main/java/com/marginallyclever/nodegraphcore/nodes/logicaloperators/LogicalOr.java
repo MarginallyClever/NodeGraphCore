@@ -29,6 +29,6 @@ public class LogicalOr extends Node {
     public void update() {
         boolean av = a.getValue();
         boolean bv = b.getValue();
-        c.send(av || bv);
+        c.setValue(av || bv);
     }
 }

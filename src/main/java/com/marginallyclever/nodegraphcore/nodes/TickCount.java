@@ -23,7 +23,7 @@ public class TickCount extends Node {
     @Override
     public void update() {
         tickCount++;
-        output.send(tickCount);
+        output.setValue(tickCount);
     }
 
     @Override

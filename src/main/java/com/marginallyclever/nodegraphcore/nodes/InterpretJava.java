@@ -45,10 +45,10 @@ public class InterpretJava extends Node {
             // Instantiate and execute the code
             Object instance = dynamicClass.getDeclaredConstructor().newInstance();
             Method method = dynamicClass.getDeclaredMethod("execute");
-            result.send((String) method.invoke(instance));
+            result.setValue(method.invoke(instance));
         }
         catch (Exception e) {
-            result.send(e.getMessage());
+            result.setValue(e.getMessage());
         }
 
         done=true;

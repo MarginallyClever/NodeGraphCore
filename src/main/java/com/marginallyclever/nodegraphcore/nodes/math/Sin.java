@@ -25,6 +25,6 @@ public class Sin extends Node {
     @Override
     public void update() {
         double av = a.getValue().doubleValue();
-        c.send(Math.sin(av));
+        c.setValue(Math.sin(av));
     }
 }

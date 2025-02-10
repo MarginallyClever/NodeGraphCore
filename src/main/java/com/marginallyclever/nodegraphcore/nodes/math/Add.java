@@ -28,6 +28,6 @@ public class Add extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send(av + bv);
+        c.setValue(av + bv);
     }
 }

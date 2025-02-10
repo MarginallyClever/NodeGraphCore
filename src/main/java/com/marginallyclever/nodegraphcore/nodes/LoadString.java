@@ -24,6 +24,6 @@ public class LoadString extends Node implements SupergraphInput {
 
     @Override
     public void update() {
-        output.send(value.getValue());
+        output.setValue(value.getValue());
     }
 }

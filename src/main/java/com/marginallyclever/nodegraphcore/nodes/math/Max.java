@@ -28,6 +28,6 @@ public class Max extends Node {
     public void update() {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
-        c.send(Math.max(av,bv));
+        c.setValue(Math.max(av,bv));
     }
 }
