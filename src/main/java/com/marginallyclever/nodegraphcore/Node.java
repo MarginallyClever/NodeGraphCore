@@ -294,14 +294,11 @@ public abstract class Node {
         //guaranteeSameNumberOfPorts(vars);
         for(int i=0;i<vars.length();++i) {
             var obj = vars.getJSONObject(i);
-            var port = ports.get(i);
-            // if a Node is changed later the JSON and the Node might not match.
-            // if the port is null, it's a new port that wasn't in the JSON.
-            // if the obj is null, it's a port that was in the JSON but isn't in the Node.
-            if(obj != null && port != null) {
-                // both exist, so parse the JSON into the port.
-                port.fromJSON(obj);
-            }
+            if(obj == null) continue;
+            // get port by name
+            var port = getPort(obj.optString("name"));
+            if(port == null) continue;
+            port.fromJSON(obj);
         }
     }
 
