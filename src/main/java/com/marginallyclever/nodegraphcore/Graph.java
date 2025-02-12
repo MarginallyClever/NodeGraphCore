@@ -361,7 +361,7 @@ public class Graph {
     public void parseJSON(JSONObject jo) throws JSONException {
         clear();
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));
-        parseAllNodeConnectionsFromJSON(jo.getJSONArray("connections"));
+        parseAllConnectionsFromJSON(jo.getJSONArray("connections"));
     }
 
     private void parseAllNodesFromJSON(JSONArray arr) throws JSONException {
@@ -373,11 +373,15 @@ public class Graph {
         }
     }
 
-    private void parseAllNodeConnectionsFromJSON(JSONArray arr) throws JSONException {
+    private void parseAllConnectionsFromJSON(JSONArray arr) throws JSONException {
         for (Object o : arr) {
-            Connection c = new Connection();
-            parseOneConnectionFromJSON(c, (JSONObject)o);
-            add(c);
+            try {
+                Connection c = new Connection();
+                parseOneConnectionFromJSON(c, (JSONObject) o);
+                add(c);
+            } catch(Exception e) {
+                logger.error("Error parsing connection",e);
+            }
         }
     }
 
