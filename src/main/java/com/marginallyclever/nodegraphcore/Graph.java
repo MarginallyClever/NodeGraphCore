@@ -494,4 +494,15 @@ public class Graph {
             node.reset();
         }
     }
+
+    /**
+     * @param port the port to check
+     * @return true if the {@link Port} is attached to a {@link Connection}.
+     */
+    public boolean isPortConnected(Port<?> port) {
+        for(Connection c : getConnections()) {
+            if(c.getInput()==port || c.getOutput()==port) return true;
+        }
+        return false;
+    }
 }
