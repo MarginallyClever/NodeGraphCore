@@ -30,8 +30,6 @@ public abstract class Port<T> {
      */
     protected T value;
 
-    protected final T defaultValue;
-
     /**
      * The type of the value stored in this variable.
      */
@@ -61,7 +59,6 @@ public abstract class Port<T> {
         this.type = type;
         this.name = name;
         this.value = startingValue;
-        this.defaultValue = startingValue;
         this.rectangle.setBounds(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT);
     }
 
