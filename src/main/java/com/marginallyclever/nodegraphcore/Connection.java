@@ -59,7 +59,7 @@ public class Connection {
      * @return true if the data type at both ends is a valid match.
      */
     public boolean isValidDataType() {
-        if (!isFromValid() || !isToValid()) return false;
+        if (!isFromASaneOutput() || !isToASaneInput()) return false;
         Output<?> in = getOutput();
         Input<?> out = getInput();
         return out.isValidType(in.getValue());
@@ -70,7 +70,7 @@ public class Connection {
      * @throws NullPointerException if the output does not exist.
      */
     public Input<?> getInput() throws NullPointerException, IndexOutOfBoundsException {
-        if(!isToValid()) throw new NullPointerException("invalid to");
+        if(to == null) return null;
         return (Input<?>)to.getPort(toIndex);
     }
 
@@ -79,7 +79,7 @@ public class Connection {
      * @throws NullPointerException if the output does not exist.
      */
     public Output<?> getOutput() throws NullPointerException, IndexOutOfBoundsException {
-        if(!isFromValid()) throw new NullPointerException("invalid from");
+        if(from == null) return null;
         return (Output<?>)from.getPort(fromIndex);
     }
 
@@ -94,7 +94,7 @@ public class Connection {
     /**
      * @return true if the from side of this connection is sane.
      */
-    public boolean isFromValid() {
+    public boolean isFromASaneOutput() {
         if(from == null) return false;
         if(fromIndex < 0) return false;
         if(fromIndex >= from.getNumPorts()) return false;
@@ -104,7 +104,7 @@ public class Connection {
     /**
      * @return true if the output side of this connection is sane.
      */
-    public boolean isToValid() {
+    public boolean isToASaneInput() {
         if(to == null) return false;
         if(toIndex < 0) return false;
         if(toIndex >= to.getNumPorts()) return false;
@@ -172,9 +172,9 @@ public class Connection {
      */
     public void disconnectAll() {
         if(getOutput()!=null) getOutput().removeTo(this);
-        if(getInput()!=null) getInput().removeFrom(this);
-        setFrom(null,-1);
-        setTo(null,-1);
+        if(getInput()!=null) getInput().setFrom(null);
+        // this connection may have been stored in an undo stack.
+        // do not modify it so that it can be reconnected later.
     }
 
     /**
@@ -230,5 +230,15 @@ public class Connection {
         if(node == from) return to;
         if(node == to) return from;
         return null;
+    }
+
+    public void apply() {
+        // if the input and output are valid, set the input value to the output value.
+        getInput().setValue(getOutput().getValue());
+    }
+
+    public void reset() {
+        // if the input and output are valid, set the input value to the output value.
+        getInput().setValueToDefault();
     }
 }
