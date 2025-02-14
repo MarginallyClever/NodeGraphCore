@@ -9,8 +9,11 @@ import com.marginallyclever.nodegraphcore.Connection;
 public class Input<T> extends Port<T> {
     private Connection from;
 
+    protected final T defaultValue;
+
     public Input(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super(name,type,startingValue);
+        defaultValue = startingValue;
     }
 
     public void setFrom(Connection connection) {
@@ -19,12 +22,6 @@ public class Input<T> extends Port<T> {
 
     public Connection getFrom() {
         return from;
-    }
-
-    public void removeFrom(Connection connection) {
-        if (from == connection) {
-            from = null;
-        }
     }
 
     public boolean hasConnection() {
@@ -37,5 +34,9 @@ public class Input<T> extends Port<T> {
     @Override
     public Port<T> createInverse() {
         return new Output<T>(name,type,value);
+    }
+
+    public void setValueToDefault() {
+        setValue(defaultValue);
     }
 }
