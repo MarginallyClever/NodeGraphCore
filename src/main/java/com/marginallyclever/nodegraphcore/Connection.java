@@ -60,9 +60,9 @@ public class Connection {
      */
     public boolean isValidDataType() {
         if (!isFromASaneOutput() || !isToASaneInput()) return false;
-        Output<?> in = getOutput();
-        Input<?> out = getInput();
-        return out.isValidType(in.getValue());
+        Output<?> out = getOutput();
+        Input<?> in = getInput();
+        return in.isValidType(out.getValue());
     }
 
     /**
