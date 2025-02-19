@@ -15,11 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link Graph} contains the {@link Node}s, and {@link Connection}s
+ * {@link Graph} is a Node which contains {@link Node}s and {@link Connection}s.
+ * It also maintains a list of {@link Port}s exposed to owner of this {@link Graph}.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class Graph {
+public class Graph extends Node {
     private static final Logger logger = LoggerFactory.getLogger(Graph.class);
 
     /**
@@ -36,19 +37,14 @@ public class Graph {
      * Constructor for subclasses to call.  Creates an empty {@link Graph}.
      */
     public Graph() {
-        super();
+        super("Graph");
     }
 
     /**
-     * <ul>
-     * <li>Updates only dirty nodes.</li>
-     * <li>Transmits dirty node outputs to connected inputs.</li>
-     * <li>Sets all outputs to clean.</li>
-     * </ul>
-     * The method does not analyze the directed graph to run nodes in an "intelligent" way.
+     * Queue the update of all dirty {@link Node}s in this {@link Graph}.
      */
-    @Deprecated
-    public void update() {}
+    public void update() {
+    }
 
     /**
      * @return a {@link List} of all the {@link Node}s within this {@link Graph}.
