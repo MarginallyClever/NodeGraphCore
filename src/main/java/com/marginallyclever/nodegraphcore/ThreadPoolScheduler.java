@@ -23,8 +23,14 @@ public class ThreadPoolScheduler {
      * @param node The node to submit
      */
     public void submit(Node node) {
-        readyNodes.add(node); // Add the node to the ready queue
-        activeTasks.incrementAndGet(); // Increment task count
+        if(readyNodes.contains(node)) {
+            // move node to the end of the queue
+            readyNodes.remove(node);
+            readyNodes.add(node);
+        } else {
+            readyNodes.add(node); // Add the node to the ready queue
+            activeTasks.incrementAndGet(); // Increment task count
+        }
     }
 
     /**
