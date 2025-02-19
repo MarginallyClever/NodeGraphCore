@@ -335,7 +335,7 @@ public class Graph {
 
         Rectangle r=new Rectangle(nodes.get(0).getRectangle());
         for(Node n : nodes) {
-            r.union(n.getRectangle());
+            r.add(n.getRectangle());
             // for very small graphs this is a redundant union with self.
             // For very large graphs this avoids any 'if' in the loop and saves time.
         }
