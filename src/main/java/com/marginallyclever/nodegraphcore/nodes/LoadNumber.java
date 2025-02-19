@@ -5,11 +5,11 @@ import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
- * {@link SupergraphInput} for a {@link Number}.
+ * {@link Node} for a {@link Number}.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class LoadNumber extends Node implements SupergraphInput {
+public class LoadNumber extends Node {
     private final Input<Number> value = new Input<>("value",Number.class,0);
     private final Output<Number> output = new Output<>("output",Number.class,0);
 

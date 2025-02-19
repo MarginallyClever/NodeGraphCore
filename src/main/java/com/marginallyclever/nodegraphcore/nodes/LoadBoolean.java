@@ -5,11 +5,11 @@ import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
 /**
- * {@link SupergraphInput} for a {@link Boolean}.
+ * Node for a {@link Boolean}.
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class LoadBoolean extends Node implements SupergraphInput {
+public class LoadBoolean extends Node  {
     private final Input<Boolean> value = new Input<>("value",Boolean.class,false);
     private final Output<Boolean> output = new Output<>("output",Boolean.class,false);
 
