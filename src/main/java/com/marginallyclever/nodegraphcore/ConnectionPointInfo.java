@@ -56,7 +56,7 @@ public class ConnectionPointInfo {
      * @return the variable
      */
     public Port<?> getVariable() {
-        return getNode().getPort(getDockIndex());
+        return getNode().getPort(getPortIndex());
     }
 
     public Point getPoint() {
@@ -67,7 +67,7 @@ public class ConnectionPointInfo {
     /**
      * The index of the {@link Port} within this node with the connection point.
      */
-    public int getDockIndex() {
+    public int getPortIndex() {
         return dockIndex;
     }
 

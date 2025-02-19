@@ -114,6 +114,7 @@ public class Connection {
     /**
      * Sets the input of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
+     * @param index the connecting {@link Port} index
      */
     public void setFrom(Node n,int index) {
         from = n;
@@ -126,6 +127,7 @@ public class Connection {
     /**
      * Sets the output of this {@link Connection}.  Does not perform a validity check.
      * @param n the connecting {@link Node}
+     * @param index the connecting {@link Port} index
      */
     public void setTo(Node n,int index) {
         to = n;
