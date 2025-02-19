@@ -44,6 +44,13 @@ public class Graph extends Node {
      * Queue the update of all dirty {@link Node}s in this {@link Graph}.
      */
     public void update() {
+        // TODO somehow dirty nodes have to be submitted to the ThreadPoolScheduler here.
+
+        for(Node n : nodes) {
+            if(n.isDirty()) {
+                n.update();
+            }
+        }
     }
 
     /**
