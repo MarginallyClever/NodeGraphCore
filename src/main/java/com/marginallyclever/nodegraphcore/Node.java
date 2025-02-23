@@ -290,7 +290,7 @@ public abstract class Node {
         parseAllPortsFromJSON(jo.getJSONArray("variables"));
     }
 
-    private void parseAllPortsFromJSON(JSONArray vars) throws JSONException {
+    protected void parseAllPortsFromJSON(JSONArray vars) throws JSONException {
         //guaranteeSameNumberOfPorts(vars);
         for(int i=0;i<vars.length();++i) {
             var obj = vars.getJSONObject(i);

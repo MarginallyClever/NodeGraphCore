@@ -23,7 +23,7 @@ public class ConnectionPointInfo {
 
     private Node node;
 
-    private int dockIndex;
+    private int portIndex;
 
     private int flags;
 
@@ -35,19 +35,19 @@ public class ConnectionPointInfo {
     /**
      * Constructor for subclasses to call.
      * @param node a {@link Node}.
-     * @param dockIndex the index to a variable inside the node.
+     * @param portIndex the index to a variable inside the node.
      * @param flags {@link ConnectionPointInfo#IN} or {@link ConnectionPointInfo#OUT}
      * @throws IllegalArgumentException if the given node is null.
-     * @throws IllegalArgumentException if the given dockIndex is less than 0.
+     * @throws IllegalArgumentException if the given portIndex is less than 0.
      * @throws IllegalArgumentException if the given flags is not {@link ConnectionPointInfo#IN} or {@link ConnectionPointInfo#OUT}
      */
-    public ConnectionPointInfo(Node node, int dockIndex, int flags) {
+    public ConnectionPointInfo(Node node, int portIndex, int flags) {
         if(node==null) throw new IllegalArgumentException("node cannot be null");
-        if(dockIndex<0) throw new IllegalArgumentException("dockIndex cannot be negative");
+        if(portIndex <0) throw new IllegalArgumentException("port index cannot be negative");
         if(flags!=IN && flags!=OUT) throw new IllegalArgumentException("flags must be IN or OUT");
 
         this.node=node;
-        this.dockIndex = dockIndex;
+        this.portIndex = portIndex;
         this.flags=flags;
     }
 
@@ -68,7 +68,7 @@ public class ConnectionPointInfo {
      * The index of the {@link Port} within this node with the connection point.
      */
     public int getPortIndex() {
-        return dockIndex;
+        return portIndex;
     }
 
     /**
