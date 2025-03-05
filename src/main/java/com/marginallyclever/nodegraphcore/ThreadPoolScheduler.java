@@ -10,13 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A scheduler that runs a graph of nodes using a thread pool.
  */
 public class ThreadPoolScheduler {
-    private final ExecutorService threadPool;
+    private final ExecutorService threadPool = Executors.newVirtualThreadPerTaskExecutor();
     private final BlockingQueue<Node> readyNodes = new LinkedBlockingQueue<>();
     private final AtomicInteger activeTasks = new AtomicInteger(0);
 
-    public ThreadPoolScheduler() {
-        this.threadPool = Executors.newVirtualThreadPerTaskExecutor();
-    }
+    public ThreadPoolScheduler() {}
 
     /**
      * Submits a node to the scheduler for execution.
@@ -34,10 +32,17 @@ public class ThreadPoolScheduler {
     }
 
     /**
+     * @return true if there are no nodes in the ready queue and no active tasks
+     */
+    public boolean isIdle() {
+        return readyNodes.isEmpty() && activeTasks.get() == 0;
+    }
+
+    /**
      * Starts the scheduler and processes nodes until all are completed.
      */
     public void run() {
-        while (!readyNodes.isEmpty() || activeTasks.get() > 0) { // Process nodes until all are completed
+        while (!isIdle()) { // Process nodes until all are completed
             update();
         }
     }
