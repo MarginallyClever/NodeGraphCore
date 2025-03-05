@@ -5,8 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Registers built-in {@link Node}s to the {@link NodeFactory}.
- * Registers built-in types with the JSON DAO factory.
+ * <p>Registers built-in {@link Node}s to the {@link NodeFactory}.
+ * Registers built-in types with the JSON DAO factory.</p>
+ * <p>Do not instantiate this class or call these directly.  Instead call <code>NodeFactory.loadRegistries()</code> and <code>DAO4JSONFactory.loadRegistries()</code></p>
  * @author Dan Royer
  * @since 2022-02-01
  */
@@ -20,7 +21,8 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     /**
      * Register nodes
      */
-    public void registerNodes() throws GraphException {
+    @Override
+    public void registerNodes() {
         logger.info("Registering core nodes");
         NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
     }
