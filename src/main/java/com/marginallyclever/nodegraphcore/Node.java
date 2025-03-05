@@ -355,6 +355,15 @@ public abstract class Node {
     }
 
     /**
+     * Sets all the Input<> Ports to not dirty.
+     */
+    public void setInputsClean() {
+        for(var v : ports) {
+            v.setDirty(false);
+        }
+    }
+
+    /**
      * @return the percentage of completion of this node.
      */
     public int getComplete() {
