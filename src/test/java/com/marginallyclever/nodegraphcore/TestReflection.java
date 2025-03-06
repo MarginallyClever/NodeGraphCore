@@ -1,7 +1,6 @@
 package com.marginallyclever.nodegraphcore;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runners.Parameterized;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -9,14 +8,22 @@ import java.lang.reflect.Parameter;
 public class TestReflection {
     @Test
     public void test() {
-        System.out.println("Hello World!");
+        System.out.println("TestReflection:");
         Method [] methods = Math.class.getDeclaredMethods();
         for (Method method : methods) {
-            System.out.println("\t"+method.getName());
+            StringBuilder sb = new StringBuilder();
+            sb.append("\t").append(method.getName()).append("(");
             Parameter [] parameters = method.getParameters();
+            String add="";
             for (Parameter parameter : parameters) {
-                System.out.println("\t\t"+parameter.getName()+" ("+parameter.getType().getName()+")");
+                sb.append(add)
+                    .append(parameter.getType().getName())
+                    .append(" ")
+                    .append(parameter.getName());
+                add=", ";
             }
+            sb.append(")");
+            System.out.println(sb);
         }
     }
 }
