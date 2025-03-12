@@ -112,4 +112,8 @@ public class DAO4JSONFactory {
             }
         }
     }
+
+    static int size() {
+        return daoRegistry.size();
+    }
 }
