@@ -1,6 +1,5 @@
 package com.marginallyclever.nodegraphcore;
 
-import com.marginallyclever.nodegraphcore.json.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,12 +32,6 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     @Override
     public void registerDAO() {
         logger.info("Registering core DAOs");
-        DAO4JSONFactory.registerDAO(new RectangleDAO4JSON());
-        DAO4JSONFactory.registerDAO(new StringDAO4JSON());
-        DAO4JSONFactory.registerDAO(new DoubleDAO4JSON());
-        DAO4JSONFactory.registerDAO(new IntegerDAO4JSON());
-        DAO4JSONFactory.registerDAO(new NumberDAO4JSON());
-        DAO4JSONFactory.registerDAO(new BooleanDAO4JSON());
-        DAO4JSONFactory.registerDAO(new ObjectDAO4JSON());
+        DAO4JSONFactory.registerAllDAOInPackage("com.marginallyclever.nodegraphcore.json");
     }
 }

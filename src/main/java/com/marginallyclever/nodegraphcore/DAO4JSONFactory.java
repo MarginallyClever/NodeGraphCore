@@ -1,13 +1,12 @@
 package com.marginallyclever.nodegraphcore;
 
 import org.json.JSONException;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * Maintains a map of Classes and their {@link DAO4JSON}.
@@ -40,7 +39,9 @@ public class DAO4JSONFactory {
      */
     public static Object toJSON(Class<?> aClass,Object object) throws JSONException {
         DAO4JSON<?> dao = daoRegistry.get(aClass);
-        if(dao==null) throw new JSONException("no DAO for "+aClass.getName());
+        if(dao==null) {
+            throw new JSONException("no DAO for "+aClass.getName());
+        }
         return dao.toJSON(object);
     }
 
@@ -71,7 +72,6 @@ public class DAO4JSONFactory {
         loadRegistries(helper.getExtensionClassLoader());
     }
 
-
     public static void loadRegistries(ClassLoader classLoader) {
         ServiceLoader<DAORegistry> serviceLoader = ServiceLoader.load(DAORegistry.class, classLoader);
         for (DAORegistry registry : serviceLoader) {
@@ -87,5 +87,29 @@ public class DAO4JSONFactory {
             names[i++] = c.getName();
         }
         return names;
+    }
+
+    public static void registerAllDAOInPackage(String packageName) throws GraphException {
+        // Use Reflections to find all subtypes of Node in the package
+        Reflections reflections = new Reflections(packageName);
+        Set<Class<? extends DAO4JSON>> subTypes = reflections.getSubTypesOf(DAO4JSON.class);
+        var list = new ArrayList<>();
+        subTypes.stream().sorted(Comparator.comparing(Class::getName)).forEach(typeFound ->{
+            if(!typeFound.getName().startsWith(packageName)) return;
+            list.add(typeFound.getName().substring(packageName.length() + 1));
+        });
+        String str = packageName + " contains DAO " + Arrays.toString(list.toArray());
+        logger.info(str);
+
+        for (var typeFound : subTypes) {
+            if(!typeFound.getName().startsWith(packageName)) continue;
+
+            try {
+                DAO4JSON<?> daoInstance = typeFound.getDeclaredConstructor().newInstance();
+                registerDAO(daoInstance);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new GraphException("Failed to register DAO: " + typeFound.getName(), e);
+            }
+        }
     }
 }
