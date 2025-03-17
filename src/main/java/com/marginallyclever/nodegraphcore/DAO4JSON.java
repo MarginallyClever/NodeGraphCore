@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /**
  * This interface describes a Data Access Object which converts an instance of a given class to and from JSON.
  */
-public interface DAO4JSON<T> {
+public interface DAO4JSON<T> extends DataAccessObject {
     /**
      * @return the class which this DAO services.
      */
