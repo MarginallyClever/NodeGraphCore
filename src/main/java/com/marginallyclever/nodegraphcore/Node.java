@@ -335,7 +335,10 @@ public abstract class Node {
         for(var v : ports) {
             if(v instanceof Output<?> k) {
                 for( var to : k.getTo()) {
-                    downstreamNodes.add(to.getOtherNode(this));
+                    var destination = to.getOtherNode(this);
+                    if(destination!=null && !downstreamNodes.contains(destination)) {
+                        downstreamNodes.add(destination);
+                    }
                 }
             }
         }
