@@ -2,6 +2,7 @@ package com.marginallyclever.nodegraphcore;
 
 import org.json.JSONException;
 import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +23,13 @@ public class DAO4JSONFactory {
 
     /**
      * Does not allow {@link DAO4JSON} to be registered more than once.
-     * @param aClass one instance of the class.
+     * @param dao one instance of the class.
      */
-    public static void registerDAO(DAO4JSON<?> dao) {
-        if(!daoRegistry.containsKey(dao.getClassType())) {
-            daoRegistry.put(dao.getClassType(),dao);
+    public static void registerDAO(DataAccessObject dao) {
+        if(dao instanceof DAO4JSON<?> json) {
+            if (!daoRegistry.containsKey(json.getClassType())) {
+                daoRegistry.put(json.getClassType(), json);
+            }
         }
     }
 
@@ -35,7 +38,7 @@ public class DAO4JSONFactory {
      * @param aClass the class of the value
      * @param object the value
      * @return a value converted to JSON
-     * @throws JSONException
+     * @throws JSONException if there is no DAO for the class
      */
     public static Object toJSON(Class<?> aClass,Object object) throws JSONException {
         DAO4JSON<?> dao = daoRegistry.get(aClass);
@@ -50,7 +53,7 @@ public class DAO4JSONFactory {
      * @param aClass the class of the value
      * @param object the JSON
      * @return a value converted from JSON
-     * @throws JSONException
+     * @throws JSONException if there is no DAO for the class
      */
     public static Object fromJSON(Class<?> aClass,Object object) throws JSONException {
         DAO4JSON<?> dao = daoRegistry.get(aClass);
@@ -90,13 +93,12 @@ public class DAO4JSONFactory {
     }
 
     public static void registerAllDAOInPackage(String packageName) throws GraphException {
-        logger.info("Registering all DAO in package: " + packageName);
         // Use Reflections to find all subtypes of Node in the package
-        Reflections reflections = new Reflections(packageName);
-        Set<Class<? extends DAO4JSON>> subTypes = reflections.getSubTypesOf(DAO4JSON.class);
+        Reflections reflections = new Reflections(packageName, Scanners.SubTypes);
+        Set<Class<? extends DataAccessObject>> subTypes = reflections.getSubTypesOf(DataAccessObject.class);
         var list = new ArrayList<>();
         subTypes.stream().sorted(Comparator.comparing(Class::getName)).forEach(typeFound ->{
-            //if(!typeFound.getName().startsWith(packageName)) return;
+            if(!typeFound.getName().startsWith(packageName)) return;
             list.add(typeFound.getName().substring(packageName.length() + 1));
         });
         String str = packageName + " contains DAO " + Arrays.toString(list.toArray());
@@ -106,7 +108,7 @@ public class DAO4JSONFactory {
             if(!typeFound.getName().startsWith(packageName)) continue;
 
             try {
-                DAO4JSON<?> daoInstance = typeFound.getDeclaredConstructor().newInstance();
+                DataAccessObject daoInstance = typeFound.getDeclaredConstructor().newInstance();
                 registerDAO(daoInstance);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 throw new GraphException("Failed to register DAO: " + typeFound.getName(), e);
@@ -116,5 +118,13 @@ public class DAO4JSONFactory {
 
     static int size() {
         return daoRegistry.size();
+    }
+
+    /**
+     * @param toFind the class to search for
+     * @return true if the class is registered
+     */
+    public static boolean isRegistered(Class<?> toFind) {
+        return daoRegistry.containsKey(toFind);
     }
 }
