@@ -23,6 +23,7 @@ public class NodeFactory {
     private static final NodeCategory root = new NodeCategory("root");
 
     public static void registerAllNodesInPackage(String packageName) throws GraphException {
+        logger.info("Registering all nodes in package: " + packageName);
         // Use Reflections to find all subtypes of Node in the package
         Reflections reflections = new Reflections(packageName);
         Set<Class<? extends Node>> subTypes = reflections.getSubTypesOf(Node.class);

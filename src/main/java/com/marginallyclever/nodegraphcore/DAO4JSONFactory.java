@@ -90,12 +90,13 @@ public class DAO4JSONFactory {
     }
 
     public static void registerAllDAOInPackage(String packageName) throws GraphException {
+        logger.info("Registering all DAO in package: " + packageName);
         // Use Reflections to find all subtypes of Node in the package
         Reflections reflections = new Reflections(packageName);
         Set<Class<? extends DAO4JSON>> subTypes = reflections.getSubTypesOf(DAO4JSON.class);
         var list = new ArrayList<>();
         subTypes.stream().sorted(Comparator.comparing(Class::getName)).forEach(typeFound ->{
-            if(!typeFound.getName().startsWith(packageName)) return;
+            //if(!typeFound.getName().startsWith(packageName)) return;
             list.add(typeFound.getName().substring(packageName.length() + 1));
         });
         String str = packageName + " contains DAO " + Arrays.toString(list.toArray());
