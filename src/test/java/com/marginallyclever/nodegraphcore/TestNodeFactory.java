@@ -29,14 +29,14 @@ public class TestNodeFactory {
     }
 
     @Test
-    public void listAllNodesRegistered() throws Exception {
+    public void listAllNodesRegistered() {
         NodeFactory.loadRegistries();
         System.out.println("All registered nodegraphcore nodes: "+ Arrays.toString(NodeFactory.getNames()));
         NodeFactory.clear();
     }
 
     @Test
-    public void testLoadingDonatelloExtensionsIfAvailable() throws Exception {
+    public void testLoadingDonatelloExtensionsIfAvailable() {
         String sep = FileSystems.getDefault().getSeparator();
         String path = System.getProperty("user.home") + sep + "Donatello" + sep + "extensions" + sep;
 

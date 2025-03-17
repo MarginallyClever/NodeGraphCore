@@ -49,11 +49,11 @@ public class NodeFactory {
         String fullName = typeFound.getName();
         if(!fullName.startsWith(packageName)) throw new RuntimeException("class "+fullName+" not part of package "+packageName);
         // get the novel part of the package name
-        fullName = fullName.substring(packageName.length()+1);
+        String subName = fullName.substring(packageName.length()+1);
         // split into each sub-package.
-        var parts = fullName.split("\\.");
+        var parts = subName.split("\\.");
         // search the category tree for the nodes and add them as you go.
-        System.out.println("Adding "+fullName);
+        logger.info("Adding {}",subName);
         NodeCategory category = root;
         for(int i = 0 ; i < parts.length-1; i++) {
             String part = parts[i];
