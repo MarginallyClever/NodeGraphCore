@@ -203,7 +203,7 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <configuration>
-                    <ignoreNonCompile>${maven-dependency-plugin.ignoreNonCompile}</ignoreNonCompile>
+                    <ignoreNonCompile>true</ignoreNonCompile>
                 </configuration>
             </plugin>
             <plugin>
@@ -308,7 +308,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <minimum.maven.version>3.8.1</minimum.maven.version>
         <minimum.java.version>21</minimum.java.version>
-        <maven-dependency-plugin.ignoreNonCompile>true</maven-dependency-plugin.ignoreNonCompile>
         <maven.compiler.source>${minimum.java.version}</maven.compiler.source>
         <maven.compiler.target>${minimum.java.version}</maven.compiler.target>
         <maven.compiler.release>${minimum.java.version}</maven.compiler.release>
