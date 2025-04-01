@@ -6,6 +6,7 @@ import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 
 /**
@@ -41,6 +42,11 @@ public abstract class Port<T> {
     protected String name;
 
     /**
+     * The display name of this variable.  This is the name that will be shown in the GUI.
+     */
+    protected String displayName;
+
+    /**
      * bounding rectangle of this variable.
      */
     protected final Rectangle rectangle = new Rectangle();
@@ -54,19 +60,21 @@ public abstract class Port<T> {
      * @param startingValue the starting value
      * @throws IllegalArgumentException if input and output are true at the same time.
      */
-    protected Port(String name, Class<T> type, T startingValue) throws IllegalArgumentException {
+    protected Port(@Nonnull String name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super();
         this.type = type;
         this.name = name;
+        this.displayName = name;
         this.value = startingValue;
         this.rectangle.setBounds(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT);
     }
 
     /**
      * Creates a copy of this {@link Port}, while flipping hasInput and hasOutput
+     *
      * @return an inverted copy of this {@link Port}.
      */
-    abstract public Port<T> createInverse();
+    abstract public @Nonnull Port<T> createInverse();
 
     /**
      * Returns the bounding rectangle.
@@ -82,6 +90,18 @@ public abstract class Port<T> {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Sets the display name
+     * @param displayName the display name
+     */
+    public void setDisplayName(@Nonnull String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**
@@ -104,9 +124,9 @@ public abstract class Port<T> {
      * @param arg0 the given item
      * @return true if the given item is an instance of this value's type.
      */
-    public boolean isValidType(Object arg0) {
+    public boolean isValidType(Class<?> arg0) {
         if(arg0==null) return false;
-        return type.isAssignableFrom(arg0.getClass());
+        return type.isAssignableFrom(arg0);
     }
 
     /**
@@ -115,7 +135,7 @@ public abstract class Port<T> {
      */
     @SuppressWarnings("unchecked")
     public void setValue(Object arg0) {
-        if(!isValidType(arg0)) return;
+        if(!isValidType(arg0.getClass())) return;
         setDirtyOnValueChange(arg0);
         value = (T)arg0;
     }
