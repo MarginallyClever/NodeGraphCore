@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,9 @@ public abstract class Node {
 
     private String uniqueID = UUID.randomUUID().toString();
 
+    /**
+     * The name of this node.  This is the name of the class of this type of Node, for serialization and user selection.
+     */
     private final String name;
 
     private String label;
@@ -69,13 +73,6 @@ public abstract class Node {
     }
 
     /**
-     * @return the list of ports in this node.
-     */
-    public List<Port<?>> getPorts() {
-        return ports;
-    }
-
-    /**
      * Sets the bounding rectangle for this node.
      * @param rectangle the new bounds.
      */
@@ -87,7 +84,7 @@ public abstract class Node {
      * Returns the bounding rectangle for this node.
      * @return the bounding rectangle for this node.
      */
-    public Rectangle getRectangle() {
+    public @Nonnull Rectangle getRectangle() {
         return rectangle;
     }
 
@@ -97,14 +94,6 @@ public abstract class Node {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Returns the unique name of this node, a combination of unique ID and name.
-     * @return the unique name of this node, a combination of unique ID and name.
-     */
-    public String getUniqueName() {
-        return uniqueID+"-"+name;
     }
 
     /**
@@ -118,20 +107,27 @@ public abstract class Node {
      * Recalculate the bounds of this node.
      */
     public void updateBounds() {
-        int w=(int)rectangle.getWidth();
-        int h=Node.TITLE_HEIGHT;
+        int w = (int) rectangle.getWidth();
+        int h = Node.TITLE_HEIGHT;
         var rect = getRectangle();
-        int x=rect.x;
-        int y=rect.y;
-        for(Port<?> v : ports) {
+        int x = rect.x;
+        int y = rect.y;
+        for (Port<?> v : ports) {
             Rectangle r = v.getRectangle();
-            r.y=h+y;
-            r.x=x;
-            if(w < r.width) w = r.width;
+            r.y = h + y;
+            r.x = x;
+            if (w < r.width) w = r.width;
             h += r.height;
         }
-        rectangle.width=w;
-        rectangle.height=h;
+        rectangle.width = w;
+        rectangle.height = h;
+    }
+
+    /**
+     * @return the list of ports in this node.
+     */
+    public @Nonnull List<Port<?>> getPorts() {
+        return ports;
     }
 
     /**
@@ -178,6 +174,17 @@ public abstract class Node {
         return null;
     }
 
+    /**
+     * @param name the {@link Port} name to match.
+     * @return the index of the {@link Port} with the given name or -1 if not found.
+     */
+    public int getPortIndex(String name) {
+        for(int i=0;i<ports.size();++i) {
+            if(ports.get(i).getName().equals(name)) return i;
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         return "Node{" +
@@ -194,7 +201,7 @@ public abstract class Node {
      * @param index the requested index
      * @return the center of the input connection point of the requested {@link Port}.
      */
-    public Point getInPosition(int index) {
+    public @Nonnull Point getInPosition(int index) {
         Rectangle r = getRectangle();
         return new Point(r.x,r.y+(int)getPointHeight(index));
     }
@@ -204,17 +211,21 @@ public abstract class Node {
      * @param index the requested index
      * @return the center of the output connection point of the requested {@link Port}.
      */
-    public Point getOutPosition(int index) {
+    public @Nonnull Point getOutPosition(int index) {
         Rectangle r = getRectangle();
         return new Point(r.x+r.width,r.y+(int)getPointHeight(index));
     }
 
+    /**
+     * @param index the index of the {@link Port} in this node.
+     * @return the height of the index-th {@link Port} in this node.
+     */
     private double getPointHeight(int index) {
         double y = TITLE_HEIGHT;
         for(int i=0;i<index;++i) {
             y += getPort(i).getRectangle().height;
         }
-        y += getPort(index).getRectangle().height/2.0;
+        y += Port.DEFAULT_HEIGHT / 2.0;//getPort(index).getRectangle().height/2.0;
         return y;
     }
 
@@ -255,18 +266,20 @@ public abstract class Node {
         updateBounds();
     }
 
-    public JSONObject toJSON() throws JSONException {
+    public @Nonnull JSONObject toJSON() throws JSONException {
         JSONObject jo = new JSONObject();
         jo.put("name",name);
         jo.put("uniqueID",uniqueID);
         jo.put("label", label);
+        // bounds
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
+        // ports
         jo.put("variables", getAllPortsAsJSON());
         return jo;
     }
 
-    private JSONArray getAllPortsAsJSON() {
+    private @Nonnull JSONArray getAllPortsAsJSON() {
         JSONArray vars = new JSONArray();
         for(Port<?> v : ports) {
             vars.put(v.toJSON());
@@ -274,7 +287,7 @@ public abstract class Node {
         return vars;
     }
 
-    public void parseJSON(JSONObject jo) throws JSONException {
+    public void fromJSON(JSONObject jo) throws JSONException {
         String joName = jo.getString("name");
         if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
 
@@ -285,8 +298,10 @@ public abstract class Node {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
         }
+        // bounds
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
+        // all ports
         parseAllPortsFromJSON(jo.getJSONArray("variables"));
     }
 
@@ -322,15 +337,15 @@ public abstract class Node {
     }
 
     /**
-     * Classes which extend can use this method to reset their internal state as needed.  A good example is {@link
-     * com.marginallyclever.nodegraphcore.nodes.LoadNumber} which only fires once when the program begins.
+     * Classes which extend can use this method to reset their internal state as needed.  Used by Nodes which only
+     * fire once when the program begins.
      */
     public void reset() {}
 
     /**
      * @return a list of all the nodes that are downstream from this node.
      */
-    public List<Node> getDownstreamNodes() {
+    public @Nonnull List<Node> getDownstreamNodes() {
         List<Node> downstreamNodes = new ArrayList<>();
         for(var v : ports) {
             if(v instanceof Output<?> k) {
