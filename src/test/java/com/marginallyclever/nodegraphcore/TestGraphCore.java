@@ -53,7 +53,10 @@ public class TestGraphCore {
      */
     @Test
     public void testSaveEmptyGraph() {
-        assertEquals("{\"nodes\":[],\"connections\":[]}", graph.toJSON().toString().replaceAll("\\s+",""));
+        var json = graph.toJSON();
+        json.put("uniqueID","19781eb0-4009-4f5e-bc68-4e70de1b5181");
+        assertEquals("{\"variables\":[],\"nodes\":[],\"name\":\"Graph\",\"rectangle\":{\"x\":0,\"width\":150,\"y\":0,\"height\":50},\"label\":\"\",\"uniqueID\":\"19781eb0-4009-4f5e-bc68-4e70de1b5181\",\"connections\":[]}",
+                json.toString());
     }
 
     private void buildAddTwoConstants() {
@@ -128,7 +131,7 @@ public class TestGraphCore {
         Node nodeA = graph.add(new Add());
         Node nodeB = new Subtract();
 
-        assertThrows(JSONException.class,()->nodeB.parseJSON(nodeA.toJSON()));
+        assertThrows(JSONException.class,()->nodeB.fromJSON(nodeA.toJSON()));
         assertNotEquals(nodeA.toString(), nodeB.toString());
         Node nodeC = graph.add(new Add());
         assertNotEquals(nodeA.toString(), nodeC.toString());
@@ -147,7 +150,7 @@ public class TestGraphCore {
             assertNotNull(a);
             Node b = NodeFactory.createNode(s);
             assertNotNull(b);
-            b.parseJSON(a.toJSON());
+            b.fromJSON(a.toJSON());
             assertEquals(a.toString(),b.toString());
         }
     }
@@ -160,7 +163,7 @@ public class TestGraphCore {
         buildAddTwoConstants();
         JSONObject a = graph.toJSON();
         Graph modelB = new Graph();
-        modelB.parseJSON(a);
+        modelB.fromJSON(a);
         assertEquals(graph.toString(),modelB.toString());
     }
 
