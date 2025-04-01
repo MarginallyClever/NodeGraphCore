@@ -6,6 +6,7 @@ module com.marginallyclever.nodegraphcore {
     requires io.github.classgraph;
     requires java.prefs;
     requires java.compiler;
+    requires jsr305;
 
     uses com.marginallyclever.nodegraphcore.NodeRegistry;
     provides com.marginallyclever.nodegraphcore.NodeRegistry with
