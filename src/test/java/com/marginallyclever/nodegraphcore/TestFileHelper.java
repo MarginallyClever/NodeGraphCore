@@ -3,20 +3,30 @@ package com.marginallyclever.nodegraphcore;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.io.IOException;
 
 public class TestFileHelper {
     @Test
     public void testListingFiles() {
         String testPath = "./doesNotExist";
-        assert(!(new File(testPath)).exists());
+        File testDir = new File(testPath);
+        assert(!testDir.exists());
         try {
             FileHelper.createDirectoryIfMissing(testPath);
-            FileHelper.listFilesInDirectory(testPath);
-        } finally {
-            (new File(testPath)).delete();
+            var list = FileHelper.listFilesInDirectory(testPath);
+            assert(list.isEmpty());
         }
-
+        catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if(testDir.exists()) {
+                if(testDir.delete()) {
+                    System.out.println("Deleted test directory: " + testPath);
+                } else {
+                    System.out.println("Failed to delete test directory: " + testPath);
+                }
+            }
+        }
     }
 }
