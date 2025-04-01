@@ -4,6 +4,7 @@ import com.marginallyclever.nodegraphcore.AbstractDAO4JSON;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 
 /**
@@ -16,6 +17,7 @@ public class RectangleDAO4JSON extends AbstractDAO4JSON<Rectangle> {
         super(Rectangle.class);
     }
 
+    @Nonnull
     @Override
     public Object toJSON(Object value) throws JSONException {
         Rectangle rectangle = (Rectangle)value;
@@ -27,6 +29,7 @@ public class RectangleDAO4JSON extends AbstractDAO4JSON<Rectangle> {
         return r;
     }
 
+    @Nonnull
     @Override
     public Rectangle fromJSON(Object object) throws JSONException {
         Rectangle rect = new Rectangle();

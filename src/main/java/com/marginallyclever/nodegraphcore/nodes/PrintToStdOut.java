@@ -9,7 +9,7 @@ import com.marginallyclever.nodegraphcore.port.Input;
  * @since 2022-02-01
  */
 public class PrintToStdOut extends Node {
-    private final Input<Object> a = new Input<>("A",Object.class,null);
+    private final Input<Object> a = new Input<>("A", Object.class, new Object());
 
     /**
      * Constructor for subclasses to call.

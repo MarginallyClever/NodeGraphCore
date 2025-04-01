@@ -2,6 +2,7 @@ package com.marginallyclever.nodegraphcore;
 
 import com.marginallyclever.nodegraphcore.port.Port;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 
 /**
@@ -37,12 +38,10 @@ public class ConnectionPointInfo {
      * @param node a {@link Node}.
      * @param portIndex the index to a variable inside the node.
      * @param flags {@link ConnectionPointInfo#IN} or {@link ConnectionPointInfo#OUT}
-     * @throws IllegalArgumentException if the given node is null.
      * @throws IllegalArgumentException if the given portIndex is less than 0.
      * @throws IllegalArgumentException if the given flags is not {@link ConnectionPointInfo#IN} or {@link ConnectionPointInfo#OUT}
      */
-    public ConnectionPointInfo(Node node, int portIndex, int flags) {
-        if(node==null) throw new IllegalArgumentException("node cannot be null");
+    public ConnectionPointInfo(@Nonnull Node node, int portIndex, int flags) {
         if(portIndex <0) throw new IllegalArgumentException("port index cannot be negative");
         if(flags!=IN && flags!=OUT) throw new IllegalArgumentException("flags must be IN or OUT");
 
@@ -74,7 +73,7 @@ public class ConnectionPointInfo {
     /**
      * The {@link Node} containing the {@link Port} with a connection point.
      */
-    public Node getNode() {
+    public @Nonnull Node getNode() {
         return node;
     }
 

@@ -2,6 +2,8 @@ package com.marginallyclever.nodegraphcore.port;
 
 import com.marginallyclever.nodegraphcore.Connection;
 
+import javax.annotation.Nonnull;
+
 /**
  * An {@link Input} is a {@link Port} that can receive data from a {@link Connection}.
  * @param <T> the type of data this {@link Input} receives.
@@ -32,7 +34,7 @@ public class Input<T> extends Port<T> {
      * @return an inverted copy of this {@link Port}.
      */
     @Override
-    public Port<T> createInverse() {
+    public @Nonnull Port<T> createInverse() {
         return new Output<T>(name,type,value);
     }
 

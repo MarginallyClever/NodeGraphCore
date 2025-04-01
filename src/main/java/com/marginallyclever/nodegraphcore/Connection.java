@@ -6,6 +6,7 @@ import com.marginallyclever.nodegraphcore.port.Output;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.Objects;
 
@@ -56,29 +57,29 @@ public class Connection {
     }
 
     /**
-     * @return true if the data type at both ends is a valid match.
+     * @return true if the data type of the {@link Port} at the input is accepted by for the {@link Port} at the output.
      */
     public boolean isValidDataType() {
         if (!isFromASaneOutput() || !isToASaneInput()) return false;
         Output<?> out = getOutput();
         Input<?> in = getInput();
-        return in.isValidType(out.getValue());
+        return in.isValidType(out.getType());
     }
 
     /**
-     * @return the {@link Input} connected on the input side.
+     * @return the {@link Input} connected on the input side, or null if not connected.
      * @throws NullPointerException if the output does not exist.
      */
-    public Input<?> getInput() throws NullPointerException, IndexOutOfBoundsException {
+    public Input<?> getInput() throws IndexOutOfBoundsException {
         if(to == null) return null;
         return (Input<?>)to.getPort(toIndex);
     }
 
     /**
-     * @return the {@link Output} connected on the output side.
+     * @return the {@link Output} connected on the output side, or null if not connected.
      * @throws NullPointerException if the output does not exist.
      */
-    public Output<?> getOutput() throws NullPointerException, IndexOutOfBoundsException {
+    public Output<?> getOutput() throws IndexOutOfBoundsException {
         if(from == null) return null;
         return (Output<?>)from.getPort(fromIndex);
     }
@@ -140,9 +141,9 @@ public class Connection {
     @Override
     public String toString() {
         return "Connection{" +
-                "from=" + (from==null ? "null" : from.getUniqueName()) +
+                "from=" + (from==null ? "null" : from.getUniqueID()) +
                 ", fromIndex=" + fromIndex +
-                ", to=" + (to==null ? "null" : to.getUniqueName()) +
+                ", to=" + (to==null ? "null" : to.getUniqueID()) +
                 ", toIndex=" + toIndex +
                 '}';
     }
@@ -150,14 +151,14 @@ public class Connection {
     /**
      * @return The position of this {@link Connection}'s input connection point.
      */
-    public Point getInPosition() {
+    public @Nonnull Point getInPosition() {
         return from.getOutPosition(fromIndex);
     }
 
     /**
      * @return The position of this {@link Connection}'s output connection point.
      */
-    public Point getOutPosition() {
+    public @Nonnull Point getOutPosition() {
         return to.getInPosition(toIndex);
     }
 
@@ -207,17 +208,19 @@ public class Connection {
     public JSONObject toJSON() throws JSONException {
         JSONObject jo = new JSONObject();
         if(from != null) {
-            jo.put("from", from.getUniqueName());
-            jo.put("fromIndex", fromIndex);
+            jo.put("from", from.getUniqueID());
+            jo.put("fromName", from.getPort(fromIndex).getName());
+            //jo.put("fromIndex", fromIndex);
         }
         if(to != null) {
-            jo.put("to", to.getUniqueName());
-            jo.put("toIndex", toIndex);
+            jo.put("to", to.getUniqueID());
+            jo.put("toName", to.getPort(toIndex).getName());
+            //jo.put("toIndex", toIndex);
         }
         return jo;
     }
 
-    public Rectangle getBounds() {
+    public @Nonnull Rectangle getBounds() {
         Rectangle r = new Rectangle();
         if(from !=null) r.add(getInPosition());
         if(to !=null) r.add(getOutPosition());

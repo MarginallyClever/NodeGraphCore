@@ -10,9 +10,9 @@ import com.marginallyclever.nodegraphcore.port.Output;
  * @since 2022-03-25
  */
 public class Gate extends Node {
-    private final Input<Object> a = new Input<>("in",Object.class,null);
-    private final Input<Object> b = new Input<>("key",Object.class,null);
-    private final Output<Object> c = new Output<>("output",Object.class,null);
+    private final Input<Object> a = new Input<>("in", Object.class, new Object());
+    private final Input<Object> b = new Input<>("key", Object.class, new Object());
+    private final Output<Object> c = new Output<>("output", Object.class, new Object());
 
     public Gate() {
         super("Gate");

@@ -6,6 +6,7 @@ import org.reflections.scanners.Scanners;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class DAO4JSONFactory {
      * @return a value converted to JSON
      * @throws JSONException if there is no DAO for the class
      */
-    public static Object toJSON(Class<?> aClass,Object object) throws JSONException {
+    public static @Nonnull Object toJSON(Class<?> aClass, Object object) throws JSONException {
         DAO4JSON<?> dao = daoRegistry.get(aClass);
         if(dao==null) {
             throw new JSONException("no DAO for "+aClass.getName());
@@ -55,7 +56,7 @@ public class DAO4JSONFactory {
      * @return a value converted from JSON
      * @throws JSONException if there is no DAO for the class
      */
-    public static Object fromJSON(Class<?> aClass,Object object) throws JSONException {
+    public static @Nonnull Object fromJSON(Class<?> aClass,Object object) throws JSONException {
         DAO4JSON<?> dao = daoRegistry.get(aClass);
         if(dao==null) {
             throw new JSONException("no DAO for "+aClass.getName());
@@ -82,7 +83,7 @@ public class DAO4JSONFactory {
         }
     }
 
-    public static String[] getNames() {
+    public static @Nonnull String[] getNames() {
         Set<Class<?>> list = daoRegistry.keySet();
         String [] names = new String [list.size()];
         int i=0;

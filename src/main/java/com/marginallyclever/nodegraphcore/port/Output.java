@@ -2,6 +2,7 @@ package com.marginallyclever.nodegraphcore.port;
 
 import com.marginallyclever.nodegraphcore.Connection;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Output<T> extends Port<T> {
     }
 
     public void setValue(Object value) {
-        if(!isValidType(value)) return;
+        if(!isValidType(value.getClass())) return;
 
         super.setValue(value);
 
@@ -35,7 +36,7 @@ public class Output<T> extends Port<T> {
         to.remove(connection);
     }
 
-    public List<Connection> getTo() {
+    public @Nonnull List<Connection> getTo() {
         return to;
     }
 
@@ -43,7 +44,7 @@ public class Output<T> extends Port<T> {
      * @return an inverted copy of this {@link Port}.
      */
     @Override
-    public Port<T> createInverse() {
+    public @Nonnull Port<T> createInverse() {
         return new Input<>(name,type,value);
     }
 }
