@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 <configuration>
-
-    <if condition='property("DEV").equals("true")'>
-        <then>
-            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-                <encoder>
-                    <pattern>%d %boldCyan(%-5level) %boldGreen(%-15.-15logger{0}) - %msg %n</pattern>
-                    <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>-->
-                </encoder>
-            </appender>
-
-            <root>
-                <appender-ref ref="STDOUT" />
-            </root>
-        </then>
-    </if>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d %boldCyan(%-5level) %boldGreen(%-15.-15logger{0}) - %msg %n</pattern>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+        </encoder>
+    </appender>
 
     <logger name="com.marginallyclever" level="info" />
 
-    <root level="info">
-        <appender-ref ref="FILE" />
+    <root name="com.marginallyclever" level="info">
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
