@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -218,12 +219,15 @@ public class Graph extends Node {
 
     /**
      * Returns the Node that matches the unique name, or null.
-     * @param uniqueName the string to match.
+     * @param uniqueID the string to match.
      * @return the Node that matches the unique name, or null.
      */
-    public Node findNodeWithUniqueName(String uniqueName) {
+    public Node findNodeWithUniqueName(String uniqueID) {
         for(Node n : nodes) {
-            if(n.getUniqueName().equals(uniqueName)) return n;
+            // for a while uniqueID was uniqueName, a combination of uniqueID and class name.
+            // it was unnecessary but some save files now have the old format.  using startsWith() allows
+            // us to read the old files and still use the new format.
+            if(uniqueID.startsWith(n.getUniqueID())) return n;
         }
         return null;
     }
@@ -262,7 +266,7 @@ public class Graph extends Node {
      */
     public Graph deepCopy() {
         Graph copy = new Graph();
-        copy.parseJSON(toJSON());
+        copy.fromJSON(toJSON());
         return copy;
     }
 
@@ -354,15 +358,16 @@ public class Graph extends Node {
         }
     }
 
-    public JSONObject toJSON() {
-        JSONObject jo = new JSONObject();
+    public @Nonnull JSONObject toJSON() {
+        JSONObject jo = super.toJSON();
         jo.put("nodes",getAllNodesAsJSON());
         jo.put("connections",getAllNodeConnectionsAsJSON());
         return jo;
     }
 
-    public void parseJSON(JSONObject jo) throws JSONException {
+    public void fromJSON(JSONObject jo) throws JSONException {
         clear();
+        super.fromJSON(jo);
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));
         parseAllConnectionsFromJSON(jo.getJSONArray("connections"));
     }
@@ -371,7 +376,7 @@ public class Graph extends Node {
         for (Object element : arr) {
             JSONObject o = (JSONObject)element;
             Node n = NodeFactory.createNode(o.getString("name"));
-            n.parseJSON(o);
+            n.fromJSON(o);
             add(n);
         }
     }
@@ -397,19 +402,31 @@ public class Graph extends Node {
     private void parseOneConnectionFromJSON(Connection c, JSONObject jo) {
         if(jo.has("from")) {
             Node n = findNodeWithUniqueName(jo.getString("from"));
-            int i = jo.getInt("fromIndex");
-            c.setFrom(n,i);
+            if(jo.has("fromName")) {  // version 2
+                c.setFrom(n,n.getPortIndex(jo.getString("fromName")));
+            } else if(jo.has("fromIndex")) {  // version 1
+                c.setFrom(n, jo.getInt("fromIndex"));
+            } else {
+                throw new IllegalArgumentException("Connection JSON must have fromIndex or fromName");
+            }
         }
         if(jo.has("to")) {
             Node n = findNodeWithUniqueName(jo.getString("to"));
-            int i = jo.getInt("toIndex");
-            c.setTo(n,i);
+            if(jo.has("toName")) {  // version 2
+                c.setTo(n,n.getPortIndex(jo.getString("toName")));
+            } else if(jo.has("toIndex")) {  // version 1
+                c.setTo(n,jo.getInt("toIndex"));
+            } else {
+                throw new IllegalArgumentException("Connection JSON must have toIndex or toName");
+            }
         }
+        // version 0
         if(jo.has("inNode")) {
             Node n = findNodeWithUniqueName(jo.getString("inNode"));
             int i = jo.getInt("inVariableIndex");
             c.setFrom(n,i);
         }
+        // version 0
         if(jo.has("outNode")) {
             Node n = findNodeWithUniqueName(jo.getString("outNode"));
             int i = jo.getInt("outVariableIndex");
