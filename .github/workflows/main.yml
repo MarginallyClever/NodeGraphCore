@@ -16,9 +16,9 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.2.2
 
-    - uses: actions/setup-java@v2
+    - uses: actions/setup-java@v4.7.0
       with:
         distribution: 'temurin'
         java-version: '22'
@@ -40,7 +40,7 @@ jobs:
         mv NodeGraphCore.zip ../..
 
     - name: Deploy nightly release
-      if: github.repository == 'MarginallyClever/NodeGraphCore' && github.ref == 'refs/heads/main'
+      if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
       uses: WebFreak001/deploy-nightly@v1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
