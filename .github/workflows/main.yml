@@ -41,7 +41,7 @@ jobs:
 
     - name: Deploy nightly release
       if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
-      uses: WebFreak001/deploy-nightly@v1.1.0
+      uses: WebFreak001/deploy-nightly@v3.2.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
       with:
