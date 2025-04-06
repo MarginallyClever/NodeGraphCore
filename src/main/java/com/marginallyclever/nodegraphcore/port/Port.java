@@ -169,7 +169,7 @@ public abstract class Port<T> {
      * @return the center of the input connection point of this variable
      */
     public Point getInPosition() {
-        return new Point((int)rectangle.getMinX(), rectangle.y+rectangle.height/2);
+        return new Point((int)rectangle.getMinX(), rectangle.y+DEFAULT_HEIGHT/2);
     }
 
     /**
@@ -177,7 +177,7 @@ public abstract class Port<T> {
      * @return the center of the output connection point of this variable
      */
     public Point getOutPosition() {
-        return new Point((int)rectangle.getMaxX(), rectangle.y+rectangle.height/2);
+        return new Point((int)rectangle.getMaxX(), rectangle.y+DEFAULT_HEIGHT/2);
     }
 
     public JSONObject toJSON() throws JSONException {
