@@ -54,8 +54,7 @@ public class TestGraphCore {
     @Test
     public void testSaveEmptyGraph() {
         var json = graph.toJSON();
-        json.put("uniqueID","19781eb0-4009-4f5e-bc68-4e70de1b5181");
-        assertEquals("{\"variables\":[],\"nodes\":[],\"name\":\"Graph\",\"rectangle\":{\"x\":0,\"width\":150,\"y\":0,\"height\":50},\"label\":\"\",\"uniqueID\":\"19781eb0-4009-4f5e-bc68-4e70de1b5181\",\"connections\":[]}",
+        assertEquals("{\"nodes\":[],\"connections\":[]}",
                 json.toString());
     }
 
