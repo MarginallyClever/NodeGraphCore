@@ -21,7 +21,7 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class Graph extends Node {
+public class Graph {
     private static final Logger logger = LoggerFactory.getLogger(Graph.class);
 
     /**
@@ -35,10 +35,20 @@ public class Graph extends Node {
     private final List<Connection> connections = new ArrayList<>();
 
     /**
+     * the {@link Input} ports of this graph.  The ports are owned by nodes in this graph.
+     */
+    private final List<Input<?>> inputs = new ArrayList<>();
+
+    /**
+     * the {@link Output} ports of this graph.  The ports are owned by nodes in this graph.
+     */
+    private final List<Output<?>> outputs = new ArrayList<>();
+
+    /**
      * Constructor for subclasses to call.  Creates an empty {@link Graph}.
      */
     public Graph() {
-        super("Graph");
+        super();
     }
 
     /**
@@ -340,11 +350,10 @@ public class Graph extends Node {
     public Rectangle getBounds() {
         if(nodes.isEmpty()) return null;
 
-        Rectangle r=new Rectangle(nodes.get(0).getRectangle());
-        for(Node n : nodes) {
-            r.add(n.getRectangle());
-            // for very small graphs this is a redundant union with self.
-            // For very large graphs this avoids any 'if' in the loop and saves time.
+        var i = nodes.iterator();
+        Rectangle r = new Rectangle(i.next().getRectangle());
+        while(i.hasNext()) {
+            r.add(i.next().getRectangle());
         }
         return r;
     }
@@ -359,7 +368,7 @@ public class Graph extends Node {
     }
 
     public @Nonnull JSONObject toJSON() {
-        JSONObject jo = super.toJSON();
+        JSONObject jo = new JSONObject();
         jo.put("nodes",getAllNodesAsJSON());
         jo.put("connections",getAllNodeConnectionsAsJSON());
         return jo;
@@ -367,7 +376,6 @@ public class Graph extends Node {
 
     public void fromJSON(JSONObject jo) throws JSONException {
         clear();
-        super.fromJSON(jo);
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));
         parseAllConnectionsFromJSON(jo.getJSONArray("connections"));
     }
@@ -494,7 +502,7 @@ public class Graph extends Node {
     private List<Connection> getConnectionsCounted(List<Node> selectedNodes, int count) {
         ArrayList<Connection> found = new ArrayList<>();
 
-        for(Connection c : getConnections()) {
+        for(Connection c : connections) {
             int hits=0;
             for(Node n : selectedNodes) {
                 if(c.isConnectedTo(n)) {
@@ -520,9 +528,61 @@ public class Graph extends Node {
      * @return true if the {@link Port} is attached to a {@link Connection}.
      */
     public boolean isPortConnected(Port<?> port) {
-        for(Connection c : getConnections()) {
+        for(Connection c : connections) {
             if(c.getInput()==port || c.getOutput()==port) return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * @param selectedNodes the set of {@link Node}s.
+     * @return a list of all {@link Port} in the input and output list that are owned by the selected {@link Node}s.
+     */
+    public List<Port<?>> getGraphPorts(List<Node> selectedNodes) {
+        List<Port<?>> list = new ArrayList<>();
+        for(Node n : selectedNodes) {
+            for (Port<?> p : n.getPorts()) {
+                if(p instanceof Output<?> out && !outputs.contains(out)) list.add(out);
+                else if(p instanceof Input<?> in && !inputs.contains(in)) list.add(in);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Remove some externally visible {@link Port}s from the graph.
+     * @param graphPorts the list of {@link Port}s to remove.
+     */
+    public void removePorts(List<Port<?>> graphPorts) {
+        for(Port<?> p : graphPorts) {
+            if(p instanceof Output<?> out) outputs.remove(out);
+            else if(p instanceof Input<?> in) inputs.remove(in);
+        }
+    }
+
+    /**
+     * Add some externally visible {@link Port}s to the graph.
+     * @param graphPorts the list of {@link Port}s to add.
+     */
+    public void addPorts(List<Port<?>> graphPorts) {
+        for(Port<?> p : graphPorts) {
+            if(p instanceof Output<?> out) outputs.add(out);
+            else if(p instanceof Input<?> in) inputs.add(in);
+        }
+    }
+
+    /**
+     * @return a copy of the list of externally visible {@link Input}s.
+     */
+    public List<Input<?>> getInputs() {
+        return new ArrayList<>(inputs);
+    }
+
+    /**
+     * @return a copy of the list of externally visible {@link Output}s.
+     */
+    public List<Output<?>> getOutputs() {
+        return new ArrayList<>(outputs);
     }
 }
