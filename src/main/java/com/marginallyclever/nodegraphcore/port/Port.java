@@ -193,8 +193,8 @@ public abstract class Port<T> {
     public void fromJSON(JSONObject jo) throws JSONException, ClassCastException {
         name = jo.getString("name");
         setValue(jo.has("value")
-                ? (T) DAO4JSONFactory.fromJSON(this.type,jo.get("value"))
-                : null);
+                ? DAO4JSONFactory.fromJSON(this.type,jo.get("value"))
+                : getValue());
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
     }

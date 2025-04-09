@@ -152,6 +152,19 @@ public class Graph extends Node {
     }
 
     /**
+     * @param node the subject to check
+     * @return true if the given {@link Node} has any {@link Connection}s to the {@link Input} ports.
+     */
+    public boolean nodeHasInputConnections(Node node) {
+        for(Connection c : connections) {
+            for(int i = 0; i<node.getNumPorts(); ++i) {
+                if(c.getInput() == node.getPort(i)) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Searches this {@link Graph} for an equivalent {@link Connection}.
      * @param connection the item to match.
      * @return returns the matching {@link Connection} or null.
