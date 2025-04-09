@@ -381,7 +381,6 @@ public class Graph extends Node {
         // older files might be missing these values.
         if(!jo.has("name")) jo.put("name",getName());
         if(!jo.has("uniqueID")) jo.put("uniqueID",getUniqueID());
-        if(!jo.has("label")) jo.put("label", getLabel());
         // proceed now that missing values are added.
         super.fromJSON(jo);
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));

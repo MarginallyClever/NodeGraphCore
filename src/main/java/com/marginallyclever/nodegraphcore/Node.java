@@ -288,8 +288,10 @@ public abstract class Node {
     }
 
     public void fromJSON(JSONObject jo) throws JSONException {
-        String joName = jo.getString("name");
-        if(!name.equals(joName)) throw new JSONException("Node types do not match: "+name+", "+joName);
+        if(jo.has("name")) {
+            String joName = jo.getString("name");
+            if (!name.equals(joName)) throw new JSONException("Node types do not match: " + name + ", " + joName);
+        }
 
         Object uid = jo.get("uniqueID");
         uniqueID = (uid instanceof String) ? (String)uid : uid.toString();
@@ -298,11 +300,15 @@ public abstract class Node {
             String s = jo.getString("label");
             if(!s.equals("null")) label = s;
         }
-        // bounds
-        RectangleDAO4JSON dao = new RectangleDAO4JSON();
-        rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
-        // all ports
-        parseAllPortsFromJSON(jo.getJSONArray("variables"));
+        if(jo.has("rectangle")) {
+            // get the rectangle
+            RectangleDAO4JSON dao = new RectangleDAO4JSON();
+            rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
+        }
+        if(jo.has("ports")) {
+            // all ports
+            parseAllPortsFromJSON(jo.getJSONArray("variables"));
+        }
     }
 
     protected void parseAllPortsFromJSON(JSONArray vars) throws JSONException {
