@@ -305,7 +305,7 @@ public abstract class Node {
             RectangleDAO4JSON dao = new RectangleDAO4JSON();
             rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         }
-        if(jo.has("ports")) {
+        if(jo.has("variables")) {
             // all ports
             parseAllPortsFromJSON(jo.getJSONArray("variables"));
         }
