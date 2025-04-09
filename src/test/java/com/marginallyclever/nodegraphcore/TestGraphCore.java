@@ -54,7 +54,10 @@ public class TestGraphCore {
     @Test
     public void testSaveEmptyGraph() {
         var json = graph.toJSON();
-        assertEquals("{\"nodes\":[],\"connections\":[]}",
+        json.put("uniqueID","19781eb0-4009-4f5e-bc68-4e70de1b5181");
+        assertEquals("{\"variables\":[],\"nodes\":[],\"name\":\"Graph\","
+                +"\"rectangle\":{\"x\":0,\"width\":150,\"y\":0,\"height\":50},"
+                +"\"label\":\"\",\"uniqueID\":\"19781eb0-4009-4f5e-bc68-4e70de1b5181\",\"connections\":[]}",
                 json.toString());
     }
 
@@ -158,7 +161,7 @@ public class TestGraphCore {
      * confirm a {@link Graph} can be serialized and de-serialized.
      */
     @Test
-    public void testModelToJSONAndBack() {
+    public void testGraphToJSONAndBack() {
         buildAddTwoConstants();
         JSONObject a = graph.toJSON();
         Graph modelB = new Graph();
@@ -170,7 +173,7 @@ public class TestGraphCore {
      * confirm clearing a {@link Graph} really does set it back to nothing.
      */
     @Test
-    public void testModelClears() {
+    public void testGraphClears() {
         buildAddTwoConstants();
         graph.clear();
         assertEquals((new Graph()).toString(), graph.toString());
@@ -180,8 +183,8 @@ public class TestGraphCore {
      * confirm registering an already registered node does not throw an exception and does not double-register.
      */
     @Test
-    public void testFactoryWontRegisterTwoNodesWithSameName() throws Exception {
-        assertThrows(GraphException.class,()-> NodeFactory.loadRegistries());
+    public void testFactoryWontRegisterTwoNodesWithSameName() {
+        assertThrows(GraphException.class, NodeFactory::loadRegistries);
     }
 
     /**
@@ -192,7 +195,7 @@ public class TestGraphCore {
      * @param <T>
      * @throws Exception
      */
-    private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) throws Exception {
+    private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) {
         Port<?> a = new Input<>(myClass.getSimpleName(),myClass,instA);
         Port<?> b = new Input<>(myClass.getSimpleName(),myClass,instB);
 
@@ -214,7 +217,7 @@ public class TestGraphCore {
      * @throws Exception if serialization fails.
      */
     @Test
-    public void testNodeVariablesToJSONAndBack() throws Exception {
+    public void testNodeVariablesToJSONAndBack() {
         /* removed: it's not possible to serialize back to abstract classes
         testNodeVariableToJSONAndBack(Object.class, new Object(),new Object());
         testNodeVariableToJSONAndBack(Number.class, 1.2,0.0);
@@ -234,7 +237,7 @@ public class TestGraphCore {
      * </ul>
      */
     @Test
-    public void testAddTwoModelsTogether() {
+    public void testAddTwoGraphsTogether() {
         buildAddTwoConstants();
 
         ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
@@ -259,6 +262,8 @@ public class TestGraphCore {
         Node m = modelB.add(new Multiply());
         modelB.add(new Connection(a0,2,m,0));
         modelB.add(new Connection(a1,2,m,1));
+
+        // TODO and input and output ports.
 
         // submit all the Adds to the scheduler
         int count = 0;

@@ -21,7 +21,7 @@ import java.util.List;
  * @author Dan Royer
  * @since 2022-02-01
  */
-public class Graph {
+public class Graph extends Node {
     private static final Logger logger = LoggerFactory.getLogger(Graph.class);
 
     /**
@@ -48,7 +48,7 @@ public class Graph {
      * Constructor for subclasses to call.  Creates an empty {@link Graph}.
      */
     public Graph() {
-        super();
+        super("Graph");
     }
 
     /**
@@ -149,7 +149,7 @@ public class Graph {
      * @param n the subject from which all connections should be removed.
      */
     public void removeConnectionsToNode(Node n) {
-        ArrayList<Connection> toRemove = new ArrayList<>();
+        var toRemove = new ArrayList<Connection>();
         for(Connection c : connections) {
             for(int i = 0; i<n.getNumPorts(); ++i) {
                 Port<?> v = n.getPort(i);
@@ -368,16 +368,20 @@ public class Graph {
     }
 
     public @Nonnull JSONObject toJSON() {
-        JSONObject jo = new JSONObject();
+        JSONObject jo = super.toJSON();
         jo.put("nodes",getAllNodesAsJSON());
         jo.put("connections",getAllNodeConnectionsAsJSON());
+        // TODO save input and output ports.
         return jo;
     }
 
+
     public void fromJSON(JSONObject jo) throws JSONException {
         clear();
+        super.fromJSON(jo);
         parseAllNodesFromJSON(jo.getJSONArray("nodes"));
         parseAllConnectionsFromJSON(jo.getJSONArray("connections"));
+        // TODO load input and output ports.
     }
 
     private void parseAllNodesFromJSON(JSONArray arr) throws JSONException {
