@@ -157,9 +157,7 @@ public class Graph extends Node {
      */
     public boolean nodeHasInputConnections(Node node) {
         for(Connection c : connections) {
-            for(int i = 0; i<node.getNumPorts(); ++i) {
-                if(c.getInput() == node.getPort(i)) return true;
-            }
+            if(c.getTo() == node) return true;
         }
         return false;
     }
