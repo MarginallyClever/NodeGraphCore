@@ -262,7 +262,6 @@
                 <configuration>
                     <verbose>true</verbose>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
-
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
                     <includeOnlyProperties>
@@ -275,7 +274,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
 
         <pluginManagement>
             <plugins>
