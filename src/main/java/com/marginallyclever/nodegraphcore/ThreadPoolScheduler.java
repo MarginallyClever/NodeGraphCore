@@ -14,6 +14,7 @@ public class ThreadPoolScheduler {
     private final ExecutorService threadPool = Executors.newVirtualThreadPerTaskExecutor();
     private final BlockingQueue<Node> readyNodes = new LinkedBlockingQueue<>();
     private final AtomicInteger activeTasks = new AtomicInteger(0);
+    private boolean queueDownstreamNodes = false;
 
     public ThreadPoolScheduler() {}
 
@@ -23,12 +24,12 @@ public class ThreadPoolScheduler {
      */
     public void submit(Node node) {
         if(readyNodes.contains(node)) {
-            logger.debug("defer {}", node.getName());
+            logger.debug("defer {} {}", node.getName(), node.getLabel());
             // move node to the tail of the queue
             readyNodes.remove(node);
             readyNodes.add(node);
         } else {
-            logger.debug("add {}", node.getName());
+            logger.debug("add {} {}", node.getName(), node.getLabel());
             readyNodes.add(node); // Add the node to the ready queue
             activeTasks.incrementAndGet(); // Increment task count
         }
@@ -58,21 +59,24 @@ public class ThreadPoolScheduler {
         if (node == null) return;
 
         threadPool.submit(() -> {
-            logger.debug("start {}", node.getName());
+            logger.debug("start {} {}", node.getName(), node.getLabel());
             try {
                 node.update();
                 node.updateBounds();
                 node.setInputsClean();
-                for(Node downstreamNode : node.getDownstreamNodes()) {
-                    if(downstreamNode.isDirty() && !hasQueued(downstreamNode)) {
-                        submit(downstreamNode);  // Submit downstream nodes
+                if(queueDownstreamNodes) {
+                    for (Node downstreamNode : node.getDownstreamNodes()) {
+                        if (!downstreamNode.isDirty()) continue;
+                        if (!hasQueued(downstreamNode)) {
+                            submit(downstreamNode);  // Submit downstream nodes
+                        }
                     }
                 }
             } catch (Exception e) {
                 System.err.println("Error in node execution: " + e.getMessage());
                 e.printStackTrace();
             } finally {
-                logger.debug("end {}", node.getName());
+                logger.debug("end {} {}", node.getName(), node.getLabel());
                 activeTasks.decrementAndGet(); // Mark this task as completed
             }
         });
@@ -96,5 +100,13 @@ public class ThreadPoolScheduler {
      */
     public boolean hasQueued(Node n) {
         return readyNodes.contains(n);
+    }
+
+    public void setQueueDownstreamNodes(boolean queueDownstreamNodes) {
+        this.queueDownstreamNodes = queueDownstreamNodes;
+    }
+
+    public boolean getQueueDownstreamNodes() {
+        return queueDownstreamNodes;
     }
 }
