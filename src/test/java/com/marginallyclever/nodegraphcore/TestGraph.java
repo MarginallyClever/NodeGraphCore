@@ -78,10 +78,25 @@ public class TestGraph {
     public void testAddTwoConstants() {
         buildAddTwoConstants();
         ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
+        scheduler.setQueueDownstreamNodes(true);
         scheduler.submit(graph.getNodes().get(0));
         scheduler.submit(graph.getNodes().get(1));
         scheduler.run();
         assertEquals( 3.0, graph.getNodes().get(2).getPort(2).getValue() );
+    }
+
+    /**
+     * confirm adding two constants together via {@link Connection}s works as expected
+     */
+    @Test
+    public void testAddTwoConstantsFailsWithoutScheduler() {
+        buildAddTwoConstants();
+        ThreadPoolScheduler scheduler = new ThreadPoolScheduler();
+        scheduler.setQueueDownstreamNodes(false);
+        scheduler.submit(graph.getNodes().get(0));
+        scheduler.submit(graph.getNodes().get(1));
+        scheduler.run();
+        assertNotEquals( 3.0, graph.getNodes().get(2).getPort(2).getValue() );
     }
 
     /**
@@ -95,6 +110,7 @@ public class TestGraph {
         Node report = graph.add(new PrintToStdOut());
         graph.add(new Connection(graph.getNodes().get(2),2,report,0));
 
+        scheduler.setQueueDownstreamNodes(true);
         scheduler.submit(graph.getNodes().get(0));
         scheduler.submit(graph.getNodes().get(1));
         scheduler.run();
@@ -275,8 +291,9 @@ public class TestGraph {
         }
         assertEquals(4,count);
 
+        scheduler.setQueueDownstreamNodes(true);
         scheduler.run();
-
+        // check the values of the Adds
         assertEquals(9.0,m.getPort(2).getValue());
     }
 }
