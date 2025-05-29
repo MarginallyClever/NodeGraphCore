@@ -9,9 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -167,11 +169,23 @@ public abstract class Node {
      * @param name the name to match.
      * @return the {@link Port} found or null
      */
-    public Port<?> getPort(String name) {
+    public Port<?> getPort(@Nonnull String name) {
         for(Port<?> v : ports) {
             if(v.getName().equals(name)) return v;
         }
         return null;
+    }
+
+    /**
+     * Get the {@link Port} with the given name and set its value.
+     * @param name the {@link Port} name to match.
+     * @param value the new value to set.
+     * @throws IllegalArgumentException when the {@link Port} is not found.
+     */
+    public void setPort(@Nonnull String name, Object value) {
+        var port = getPort(name);
+        if(port == null) throw new IllegalArgumentException("Port "+name+" not found");
+        port.setValue(value);
     }
 
     /**
@@ -400,5 +414,13 @@ public abstract class Node {
      */
     public void setComplete(int percent) {
         this.complete.set(percent);
+    }
+
+    /**
+     * Returns an icon for this node.
+     * @return an icon for this node or null if no icon is defined.
+     */
+    abstract public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-question-mark-16.png")));
     }
 }

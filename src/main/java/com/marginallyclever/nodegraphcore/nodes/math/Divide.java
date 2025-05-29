@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * C=A/B
  */
@@ -28,5 +31,10 @@ public class Divide extends Node {
         double bv = b.getValue().doubleValue();
         if(bv==0) c.setValue(Float.NaN);
         else c.setValue(av / bv);
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-divide-16.png")));
     }
 }
