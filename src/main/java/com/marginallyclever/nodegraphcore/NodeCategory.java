@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * A category of {@link Node} that can be used to organize nodes into a tree structure.
+ * Each category can have a parent and children, allowing for hierarchical organization.
+ * Categories can also provide a supplier to create instances of the node type they represent.
+ */
 public class NodeCategory {
     private final String name;
     private final Supplier<Node> supplier;
