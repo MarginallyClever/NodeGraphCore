@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * C = (A&gt;B) ? 1 : 0
  * @author Dan Royer
@@ -29,5 +32,10 @@ public class GreaterThan extends Node {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
         c.setValue((av > bv) ? 1 : 0);
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-more-than-16.png")));
     }
 }

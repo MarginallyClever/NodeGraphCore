@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * A-B {@link Node}
  */
@@ -27,5 +30,10 @@ public class Subtract extends Node {
         double av = a.getValue().doubleValue();
         double bv = b.getValue().doubleValue();
         c.setValue(av - bv);
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-subtract-16.png")));
     }
 }

@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * C=atan2(y,x)
  * @author Dan Royer
@@ -29,5 +32,10 @@ public class ATan2 extends Node {
         double y = a.getValue().doubleValue();
         double x = b.getValue().doubleValue();
         c.setValue(Math.atan2(y,x));
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("tan-curve-16.png")));
     }
 }
