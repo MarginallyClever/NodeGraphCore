@@ -420,7 +420,7 @@ public abstract class Node {
      * Returns an icon for this node.
      * @return an icon for this node or null if no icon is defined.
      */
-    abstract public Icon getIcon() {
+    public Icon getIcon() {
         return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-question-mark-16.png")));
     }
 }
