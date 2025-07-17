@@ -1,9 +1,9 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
+import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.port.Port;
-import com.marginallyclever.nodegraphcore.port.Input;
-import com.marginallyclever.nodegraphcore.json.RectangleDAO4JSON;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -421,6 +420,6 @@ public abstract class Node {
      * @return an icon for this node or null if no icon is defined.
      */
     public Icon getIcon() {
-        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-question-mark-16.png")));
+        return new ImageIcon("com/marginallyclever/nodegraphcore/icons8-question-mark-16.png");
     }
 }
