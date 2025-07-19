@@ -9,6 +9,7 @@ import com.marginallyclever.nodegraphcore.port.Output;
  * @author Dan Royer
  * @since 2022-02-01
  */
+@Deprecated
 public class Counter extends Node {
     private final Input<Integer> start = new Input<>("start",Integer.class,0);
     private final Input<Integer> end = new Input<>("end",Integer.class,1);
