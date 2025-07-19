@@ -3,6 +3,9 @@ package com.marginallyclever.nodegraphcore.nodes;
 import com.marginallyclever.nodegraphcore.port.Output;
 import com.marginallyclever.nodegraphcore.Node;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * Counts the number of ticks since the program started.
  * @author Dan Royer
@@ -29,5 +32,12 @@ public class TickCount extends Node {
     @Override
     public void reset() {
         super.reset();
+    }
+
+
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(TickCount.class.getResource("icons8-stopwatch-48.png")));
     }
 }

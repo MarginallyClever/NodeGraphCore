@@ -34,6 +34,6 @@ public class Subtract extends Node {
 
     @Override
     public Icon getIcon() {
-        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-subtract-16.png")));
+        return new ImageIcon(Objects.requireNonNull(Subtract.class.getResource("icons8-subtract-16.png")));
     }
 }

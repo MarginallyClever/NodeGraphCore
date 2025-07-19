@@ -34,6 +34,6 @@ public class Multiply extends Node {
 
     @Override
     public Icon getIcon() {
-        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-multiply-16.png")));
+        return new ImageIcon(Objects.requireNonNull(Multiply.class.getResource("icons8-multiply-16.png")));
     }
 }

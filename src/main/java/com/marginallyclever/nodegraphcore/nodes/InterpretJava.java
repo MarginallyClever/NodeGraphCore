@@ -4,12 +4,14 @@ import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
 import javax.tools.*;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Interpret a Java source file.  The source file must contain a single public class called <code>InterpretJava</code>
@@ -143,5 +145,10 @@ public class InterpretJava extends Node {
         public byte[] getBytes() {
             return outputStream.toByteArray();
         }
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(InterpretJava.class.getResource("icons8-java-48.png")));
     }
 }

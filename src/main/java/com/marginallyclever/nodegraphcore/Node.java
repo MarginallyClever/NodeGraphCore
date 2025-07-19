@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -420,6 +421,6 @@ public abstract class Node {
      * @return an icon for this node or null if no icon is defined.
      */
     public Icon getIcon() {
-        return new ImageIcon("com/marginallyclever/nodegraphcore/icons8-question-mark-16.png");
+        return new ImageIcon(Objects.requireNonNull(Node.class.getResource("icons8-question-mark-16.png")));
     }
 }

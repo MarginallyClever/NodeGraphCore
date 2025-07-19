@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * {@link Node} for a {@link Number}.
  * @author Dan Royer
@@ -30,5 +33,10 @@ public class LoadNumber extends Node {
     @Override
     public void update() {
         output.setValue(value.getValue());
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(LoadNumber.class.getResource("icons8-number-48.png")));
     }
 }

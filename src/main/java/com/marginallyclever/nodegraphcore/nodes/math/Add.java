@@ -36,6 +36,6 @@ public class Add extends Node {
 
     @Override
     public Icon getIcon() {
-        return new ImageIcon(Objects.requireNonNull(getClass().getResource("icons8-add-16.png")));
+        return new ImageIcon(Objects.requireNonNull(Add.class.getResource("icons8-add-16.png")));
     }
 }

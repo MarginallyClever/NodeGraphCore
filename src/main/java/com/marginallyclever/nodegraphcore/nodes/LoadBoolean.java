@@ -4,6 +4,9 @@ import com.marginallyclever.nodegraphcore.*;
 import com.marginallyclever.nodegraphcore.port.Input;
 import com.marginallyclever.nodegraphcore.port.Output;
 
+import javax.swing.*;
+import java.util.Objects;
+
 /**
  * Node for a {@link Boolean}.
  * @author Dan Royer
@@ -25,5 +28,10 @@ public class LoadBoolean extends Node  {
     @Override
     public void update() {
         output.setValue(value.getValue());
+    }
+
+    @Override
+    public Icon getIcon() {
+        return new ImageIcon(Objects.requireNonNull(LoadBoolean.class.getResource("icons8-boolean-48.png")));
     }
 }
