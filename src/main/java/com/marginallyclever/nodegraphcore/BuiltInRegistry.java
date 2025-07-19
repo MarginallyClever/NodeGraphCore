@@ -1,5 +1,6 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.nodes.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,14 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
     @Override
     public void registerNodes() {
         logger.info("Registering core nodes");
-        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
+        //NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
+        // manually register nodes to avoid loading the test nodes.
+        NodeFactory.registerNode(InterpretJava.class, "com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerNode(LoadBoolean.class, "com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerNode(LoadNumber.class, "com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerNode(LoadString.class, "com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerNode(PrintToStdOut.class, "com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerNode(TickCount.class, "com.marginallyclever.nodegraphcore.nodes");
     }
 
     /**
