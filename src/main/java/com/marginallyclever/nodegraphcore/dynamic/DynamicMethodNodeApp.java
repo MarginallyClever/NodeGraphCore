@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The main application class.
+ * The main application class.  Uses Java Swing to create a GUI for querying Java classes and methods dynamically.
+ * Could be useful for exposing all Java classes and methods to a node graph system like Donatello.
  */
 public class DynamicMethodNodeApp {
     public static void main(String[] args) {
