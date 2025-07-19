@@ -19,4 +19,5 @@ module com.marginallyclever.nodegraphcore {
     exports com.marginallyclever.nodegraphcore;
     exports com.marginallyclever.nodegraphcore.json;
     exports com.marginallyclever.nodegraphcore.port;
+    exports com.marginallyclever.nodegraphcore.nodes;
 }
