@@ -66,7 +66,7 @@ public class TestGraph {
         LoadNumber constant1 = (LoadNumber) graph.add(new LoadNumber());
         constant0.getPort(0).setValue(1);
         constant1.getPort(0).setValue(2);
-        Add add = (Add) graph.add(new Add());
+        var add = graph.add(new Add());
         graph.add(new Connection(constant0,1,add,0));
         graph.add(new Connection(constant1,1,add,1));
     }
@@ -205,11 +205,10 @@ public class TestGraph {
 
     /**
      * Test {@link Port} serialization
-     * @param myClass
-     * @param instA
-     * @param instB
-     * @param <T>
-     * @throws Exception
+     * @param myClass the class of the variable to test
+     * @param instA the first instance of the variable to test
+     * @param instB the second instance of the variable to test
+     * @param <T> the type of the variable to test
      */
     private <T> void testNodeVariableToJSONAndBack(Class<T> myClass,T instA,T instB) {
         Port<?> a = new Input<>(myClass.getSimpleName(),myClass,instA);
@@ -230,7 +229,6 @@ public class TestGraph {
 
     /**
      * Test {@link Port} serialization
-     * @throws Exception if serialization fails.
      */
     @Test
     public void testNodeVariablesToJSONAndBack() {
@@ -239,7 +237,7 @@ public class TestGraph {
         testNodeVariableToJSONAndBack(Number.class, 1.2,0.0);
          */
         testNodeVariableToJSONAndBack(Rectangle.class, new Rectangle(),new Rectangle());
-        testNodeVariableToJSONAndBack(String.class, "hello",new String());
+        testNodeVariableToJSONAndBack(String.class, "hello", "");
         testNodeVariableToJSONAndBack(Number.class, 1.2D,0.0D);
         testNodeVariableToJSONAndBack(Number.class, 1,0);
     }
