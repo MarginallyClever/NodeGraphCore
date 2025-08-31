@@ -32,6 +32,7 @@ public class TestGraph {
         NodeFactory.loadRegistries();
         BuiltInRegistry r = new BuiltInRegistry();
         r.registerDAO();
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes.math");
     }
 
     @AfterAll
